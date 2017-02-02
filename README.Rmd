@@ -1,0 +1,80 @@
+---
+output:
+  github_document: default
+  html_document: default
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>",
+  fig.path = "README-"  
+)
+```
+
+comtradr
+=======
+
+R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of 
+specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found 
+[here](https://comtrade.un.org/data/doc/api/).
+
+This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/api/ex/r) posted by Comtrade, and is built using
+[httr](https://cran.r-project.org/web/packages/httr/index.html) and [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html).
+
+## Installation
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("ChrisMuir/comtradr")
+```
+
+## Example Usage
+
+**_Example 1_: Return all exports from China to South Korea, United States and Mexico, for all years**
+
+```{r}
+library(comtradr)
+
+# First, read in the country code lookup table as a dataframe from Comtrade. 
+# This will be used as a parameter in the API calls.
+countrydf <- ct_countries_table()
+
+# This object can can also be used to look up the exact spellings of countries 
+# prior to making API calls.
+country_lookup("korea", "reporter", countrydf)
+
+# Since we want South Korea, we'll use "Rep. of Korea" within the API query.
+comtrade <- ct_search(reporters = "China", 
+                      partners = c("Rep. of Korea", "USA", "Mexico"), 
+                      countrytable = countrydf, 
+                      tradedirection = "exports")
+
+# Inspect the return data
+str(comtrade$data)
+```
+
+**_Example 2_: All shipments related to halibut between Canada and all other countries, for years 2011 thru 2015**
+
+```{r}
+# First, read in the commodity code lookup table as a dataframe from Comtrade.
+commoditydf <- ct_commodities_table("HS")
+
+# Then search for halibut.
+commodity_lookup("halibut", commoditydf)
+
+# Notice that two of the results are explicitly NOT related to halibut, so 
+# we'll exclude those in the API query.
+comtrade <- ct_search(reporters = "Canada", 
+                      partners = "All", 
+                      countrytable = countrydf, 
+                      tradedirection = "all", 
+                      startdate = "2011-01-01", 
+                      enddate = "2015-01-01", 
+                      commodcodes = c("030221", "030331"))
+
+# Inspect the output
+str(comtrade$data)
+```
