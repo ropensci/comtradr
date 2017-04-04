@@ -3,6 +3,8 @@
 comtradr
 ========
 
+[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr)
+
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found [here](https://comtrade.un.org/data/doc/api/).
 
 This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/api/ex/r) posted by Comtrade, and is built using [httr](https://cran.r-project.org/web/packages/httr/index.html) and [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html).
@@ -152,7 +154,7 @@ Visualize
 
 Once the data is collected, we can use it to create some basic visualizations.
 
-**Plot 1**: Using the data collected in example 1 above to plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
+**Plot 1**: Using the data collected above in example 1, plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
 
 ``` r
 # install.packages("ggplot2")
@@ -177,7 +179,7 @@ ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner),
 
 ![](plots/README-plot1-1.png)
 
-**Plot 2**: Using the data collected in example 2 above to plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
+**Plot 2**: Using the data collected above in example 2, plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
 
 ``` r
 # install.packages("ggplot2")
