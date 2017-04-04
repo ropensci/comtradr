@@ -88,7 +88,7 @@ str(example2$data)
 
 Once the data is collected, we can use it to create some basic visualizations.
 
-**Plot 1**: Using the data collected in example 1 above to plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
+**Plot 1**: Using the data collected above in example 1, plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
 
 ```{r plot1, warning = FALSE, message = FALSE}
 # install.packages("ggplot2")
@@ -111,7 +111,7 @@ ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner),
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
-**Plot 2**: Using the data collected in example 2 above to plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
+**Plot 2**: Using the data collected above in example 2, plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
 
 ```{r plot2, warning = FALSE, message = FALSE}
 # install.packages("ggplot2")
