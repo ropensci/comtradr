@@ -7,25 +7,27 @@
 ct_countries_table(reporters = NULL, partners = NULL)
 }
 \arguments{
-\item{reporters}{Default value NULL, otherwise this should be a url as a 
-char string that points to the reporter areas JSON dataset on the Comtrade 
-website. Only necessary if the Comtrade site changes from 
+\item{reporters}{Default value NULL, otherwise this should be a url as a
+char string that points to the reporter areas JSON dataset on the Comtrade
+website. Only necessary if the Comtrade site changes from
 \url{https://comtrade.un.org/data/cache/reporterAreas.json}}
 
-\item{partners}{Default value NULL, otherwise this should be a url as a 
-char string that points to the reporter areas JSON dataset on the Comtrade 
-website. Only necessary if the Comtrade site changes from 
+\item{partners}{Default value NULL, otherwise this should be a url as a
+char string that points to the reporter areas JSON dataset on the Comtrade
+website. Only necessary if the Comtrade site changes from
 \url{https://comtrade.un.org/data/cache/partnerAreas.json}}
 }
 \value{
-A dataframe of countries and country codes, downloaded from UN 
+A dataframe of countries and country codes, downloaded from UN
  Comtrade.
 }
 \description{
-Returns a dataframe of countries and country codes, 
-downloaded from UN Comtrade. For use with the UN Comtrade API, full API 
+Returns a dataframe of countries and country codes,
+downloaded from UN Comtrade. For use with the UN Comtrade API, full API
 docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
-ct_countries_table()
+\dontrun{
+countrydf <- ct_countries_table()
+}
 }

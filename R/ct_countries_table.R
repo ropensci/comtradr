@@ -17,6 +17,10 @@
 #'  Comtrade.
 #' @importFrom dplyr "%>%"
 #' @export
+#'
+#' @examples \dontrun{
+#' countrydf <- ct_countries_table()
+#' }
 ct_countries_table <- function(reporters = NULL, partners = NULL) {
 
   if (!is.null(reporters)) {
