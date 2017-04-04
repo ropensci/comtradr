@@ -38,4 +38,3 @@ country_lookup(c("korea", "vietnam"), "reporter", countrydf)
 [3] "Fmr Rep. of Vietnam"           "Rep. of Korea"
 }
 }
-

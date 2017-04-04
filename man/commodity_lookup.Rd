@@ -39,4 +39,3 @@ commodity_lookup("halibut", commoditydf)
 [4] "030339 - Flatfish except halibut, plaice or sole, frozen, whol"
 }
 }
-

@@ -29,4 +29,3 @@ docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 \examples{
 ct_countries_table()
 }
-

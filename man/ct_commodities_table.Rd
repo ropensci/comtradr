@@ -60,4 +60,3 @@ ct_commodities_table("HS")
 ct_commodities_table("SITCrev2")
 }
 }
-
