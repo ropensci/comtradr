@@ -1,7 +1,7 @@
 ---
 output:
-  github_document: default
   html_document: default
+  github_document: default
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 
 comtradr
 =======
+
+[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr)
 
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of 
 specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found 
