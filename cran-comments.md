@@ -1,10 +1,15 @@
 ## Resubmission
-This is a resubmission. At the requests in an email from Kurt Hornik, I have:
+This is a resubmission. At the requests in emails from Kurt Hornik and Uwe Ligges, I have:
 
-* Enclosed the API url inside <...>, within the DESCRIPTION file.
+* Enclosed the API url inside <...> within the DESCRIPTION file.
 
-* Spelled out the abbreviation "UN" (it is now "United Nations"), within the 
+* Spelled out the abbreviation "UN" (it is now "United Nations") within the 
   DESCRIPTION file.
+
+* Removed the phrases "functions for" and "R package" from title field and 
+  description field within the DESCRIPTION file.
+
+* Removed all double spaces within the DESCRIPTION file.
 
 ## Test environments
 * local Windows 7 install, R 3.3.3
