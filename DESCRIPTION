@@ -1,9 +1,9 @@
 Package: comtradr
-Title: Functions for Interacting with the UN Comtrade API
+Title: Functions for Interacting with the United Nations Comtrade API
 Version: 0.0.1
 Authors@R: person("Chris", "Muir", email = "chrismuirRVA@gmail.com", role = c("aut", "cre"))
-Description: R package for interacting with and extracting data from the UN 
-  Comtrade API (https://comtrade.un.org/data/). UN Comtrade provides country 
+Description: R package for interacting with and extracting data from the United Nations 
+  Comtrade API <https://comtrade.un.org/data/>. Comtrade provides country 
   level shipping data for a variety of commodities, these functions allow for 
   easy API query and data returned as a tidy dataframe.
 Depends: R (>= 3.0.0)
