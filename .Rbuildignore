@@ -2,5 +2,6 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^cran-comments\.md$
-^cran-comments.md$
+^plots$
 ^\.travis\.yml$
+^README\.Rmd$
