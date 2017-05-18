@@ -11,10 +11,12 @@ This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/a
 
 Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or features requests.
 
+I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
+
 Installation
 ------------
 
-Install the release version from CRAN:
+Install the current released version from CRAN:
 
 ``` r
 install.packages("comtradr")
