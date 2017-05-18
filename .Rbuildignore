@@ -5,3 +5,4 @@
 ^plots$
 ^\.travis\.yml$
 ^README\.Rmd$
+^TODO\.md$

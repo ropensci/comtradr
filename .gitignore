@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 ^cran-comments\.md$
+^TODO\.md$

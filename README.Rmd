@@ -1,7 +1,7 @@
 ---
 output:
-  github_document: default
   html_document: default
+  github_document: default
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -28,6 +28,8 @@ This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/a
 [httr](https://CRAN.R-project.org/package=httr) and [jsonlite](https://CRAN.R-project.org/package=jsonlite).
 
 Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or features requests.
+
+I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
 
 ## Installation
 
