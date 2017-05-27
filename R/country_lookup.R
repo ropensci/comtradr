@@ -5,8 +5,8 @@
 #' code lookup table that's created by function
 #' \code{\link{ct_countries_table}}. It takes as input a vector of
 #' country names, output is any country names that contain any of the input
-#' strings, using \code{\link{grepl}} (search is case insensitive). For use
-#' with the UN Comtrade API, full API docs can be found at
+#' strings, using regex via the base function grepl (search is case insensitive).
+#' For use with the UN Comtrade API, full API docs can be found at
 #' \url{https://comtrade.un.org/data/doc/api/}
 #'
 #' @param loc Char vector of country names.
