@@ -185,7 +185,7 @@ ct_search <- function(reporters, partners, countrytable,
     ed <- tryCatch(as.Date(enddate, format = "%Y-%m-%d"), error=function(e) e)
     if (any(methods::is(sd, "error"), methods::is(ed, "error"),
             is.na(sd), is.na(ed))) {
-      stop("params 'startdate' & 'enddate' must either be 'all' or be dates",
+      stop("params 'startdate' & 'enddate' must either be 'all' or be dates ",
            "that have format 'yyyy-mm-dd'", call. = FALSE)
     }
 
@@ -222,7 +222,7 @@ ct_search <- function(reporters, partners, countrytable,
   } else if (is.list(ids)) {
     err <- paste(
       reporters[!reporters %in% names(unlist(ids))], collapse = ", ")
-    stop(paste("From param reporters, these values were not found in the",
+    stop(paste("From param reporters, these values were not found in the ",
                "country code lookup table:", err))
   }
 
@@ -242,7 +242,7 @@ ct_search <- function(reporters, partners, countrytable,
   } else if (is.list(ids)) {
     err <- paste(
       partners[!partners %in% names(unlist(ids))], collapse = ", ")
-    stop(paste("From param reporters, these values were not found in the",
+    stop(paste("From param partners, these values were not found in the ",
                "country code lookup table:", err))
   }
 
