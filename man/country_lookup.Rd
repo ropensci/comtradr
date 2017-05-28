@@ -9,24 +9,24 @@ country_lookup(loc, type = c("reporter", "partner"), lookuptable)
 \arguments{
 \item{loc}{Char vector of country names.}
 
-\item{type}{The country list to use for the search, valid inputs are 
+\item{type}{The country list to use for the search, valid inputs are
 "reporter" and "partnere".}
 
-\item{lookuptable}{Dataframe of country names and codes (intended input is 
+\item{lookuptable}{Dataframe of country names and codes (intended input is
 the dataframe created by function \code{\link{ct_countries_table}}).}
 }
 \value{
-A character vector of country names that are complete or partial 
+A character vector of country names that are complete or partial
  matches with any of the input country names.
 }
 \description{
-Country names passed to the Comtrade API must have precise 
-spelling/capitalization. This is a helper function for querying the country 
-code lookup table that's created by function 
-\code{\link{ct_countries_table}}. It takes as input a vector of 
-country names, output is any country names that contain any of the input 
-strings, using \code{\link{grepl}} (search is case insensitive). For use 
-with the UN Comtrade API, full API docs can be found at 
+Country names passed to the Comtrade API must have precise
+spelling/capitalization. This is a helper function for querying the country
+code lookup table that's created by function
+\code{\link{ct_countries_table}}. It takes as input a vector of
+country names, output is any country names that contain any of the input
+strings, using regex via the base function grepl (search is case insensitive).
+For use with the UN Comtrade API, full API docs can be found at
 \url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
@@ -34,7 +34,7 @@ with the UN Comtrade API, full API docs can be found at
 # Look up all reporters that contain the terms "korea" and "vietnam"
 countrydf <- ct_countries_table()
 country_lookup(c("korea", "vietnam"), "reporter", countrydf)
-[1] "Dem. People's Rep. of Korea"   "Fmr Dem. Rep. of Vietnam" 
+[1] "Dem. People's Rep. of Korea"   "Fmr Dem. Rep. of Vietnam"
 [3] "Fmr Rep. of Vietnam"           "Rep. of Korea"
 }
 }

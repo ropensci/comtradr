@@ -9,23 +9,23 @@ commodity_lookup(value, lookuptable)
 \arguments{
 \item{value}{Commodity name or commodity code, as a char or numeric vector.}
 
-\item{lookuptable}{Dataframe of commodity descriptions and codes (intended 
-input is the dataframe created by function 
+\item{lookuptable}{Dataframe of commodity descriptions and codes (intended
+input is the dataframe created by function
 \code{\link{ct_commodities_table}}).}
 }
 \value{
-A character vector of commodity descriptions that are matches with 
+A character vector of commodity descriptions that are matches with
  the input.
 }
 \description{
-The Comtrade API requires that searches for specific commodities be done 
-using commodity codes. This is a helper function for querying the 
-commodity code lookup table that's created by function 
-\code{\link{ct_commodities_table}}. It takes as input a commodity or 
-commodity code as a vector. If input is a commodity, then output is all 
-commodity codes and descriptions that are associated with the input value. 
-If input is a commodity code, then output is the commodity description 
-associated with that input code. For use with the UN Comtrade API, full API 
+The Comtrade API requires that searches for specific commodities be done
+using commodity codes. This is a helper function for querying the
+commodity code lookup table that's created by function
+\code{\link{ct_commodities_table}}. It takes as input a commodity or
+commodity code as a vector. If input is a commodity, then output is all
+commodity codes and descriptions that are associated with the input value.
+If input is a commodity code, then output is the commodity description
+associated with that input code. For use with the UN Comtrade API, full API
 docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
