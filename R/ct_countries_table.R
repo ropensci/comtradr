@@ -12,6 +12,11 @@
 #'  char string that points to the reporter areas JSON dataset on the Comtrade
 #'  website. Only necessary if the Comtrade site changes from
 #'  \url{https://comtrade.un.org/data/cache/partnerAreas.json}
+#' @param ssl_verify_peer logical, to be passed to param 'ssl_verifypeer'
+#'  within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+#'  must be done with care, this should only be done if you trust the API site
+#'  (https://comtrade.un.org/), and if you fully understand the security
+#'  risks/implications of this decision.
 #'
 #' @return A dataframe of countries and country codes, downloaded from UN
 #'  Comtrade.
@@ -21,7 +26,8 @@
 #' @examples \dontrun{
 #' countrydf <- ct_countries_table()
 #' }
-ct_countries_table <- function(reporters = NULL, partners = NULL) {
+ct_countries_table <- function(reporters = NULL, partners = NULL,
+                               ssl_verify_peer = TRUE) {
 
   if (!is.null(reporters)) {
     reporters <- reporters
@@ -36,8 +42,25 @@ ct_countries_table <- function(reporters = NULL, partners = NULL) {
   }
 
   # pull reporters dataset from Comtrade
-  reporters <- httr::GET(reporters,
-                         config = httr::config(ssl_verifypeer = FALSE))
+  reporters <- tryCatch(
+    httr::GET(reporters,
+              config = httr::config(ssl_verifypeer = ssl_verify_peer)),
+    error = function(e) e
+  )
+
+  if (methods::is(reporters, "error")) {
+    if (grepl("peer certificate cannot be authenticated", reporters$message,
+              ignore.case = TRUE)) {
+      msg <- paste0("Returned NULL. The SSL certificate of the API site can't ",
+                    "be authenticated. You can try setting param ",
+                    "'ssl_verify_peer' to FALSE, however this should only be ",
+                    "done if you trust the API site ",
+                    "(https://comtrade.un.org/), and if you fully understand",
+                    " the security risks/implications of this decision.")
+      warning(msg, call. = FALSE)
+      return(NULL)
+    }
+  }
 
   if (httr::http_type(reporters) != "application/json") {
     stop("API did not return json for reporters", call. = FALSE)
@@ -51,8 +74,25 @@ ct_countries_table <- function(reporters = NULL, partners = NULL) {
   reporters$type <- "reporter"
 
   # Pull partners dataset from Comtrade
-  partners <- httr::GET(partners,
-                        config = httr::config(ssl_verifypeer = FALSE))
+  partners <- tryCatch(
+    httr::GET(partners,
+              config = httr::config(ssl_verifypeer = ssl_verify_peer)),
+    error = function(e) e
+  )
+
+  if (methods::is(partners, "error")) {
+    if (grepl("peer certificate cannot be authenticated", partners$message,
+              ignore.case = TRUE)) {
+      msg <- paste0("Returned NULL. The SSL certificate of the API site can't ",
+                    "be authenticated. You can try setting param ",
+                    "'ssl_verify_peer' to FALSE, however this should only be ",
+                    "done if you trust the API site ",
+                    "(https://comtrade.un.org/), and if you fully understand",
+                    " the security risks/implications of this decision.")
+      warning(msg, call. = FALSE)
+      return(NULL)
+    }
+  }
 
   if (httr::http_type(partners) != "application/json") {
     stop("API did not return json for partners", call. = FALSE)

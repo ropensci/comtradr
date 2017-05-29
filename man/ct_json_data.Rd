@@ -4,13 +4,19 @@
 \alias{ct_json_data}
 \title{UN Comtrade data extraction via JSON}
 \usage{
-ct_json_data(url, colname)
+ct_json_data(url, colname, ssl_verify_peer = TRUE)
 }
 \arguments{
 \item{url}{Complete url string of the call to the API.}
 
 \item{colname}{Indication as to whether to use "human friendly" col names or
 "machine friendly" col names. Value will be either "H" or "M".}
+
+\item{ssl_verify_peer}{logical, to be passed to param 'ssl_verifypeer'
+within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+must be done with care, this should only be done if you trust the API site
+(https://comtrade.un.org/), and if you fully understand the security
+risks/implications of this decision.}
 }
 \value{
 List of length three, elements are:

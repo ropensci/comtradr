@@ -4,7 +4,7 @@ context("commodity_lookup")
 test_that("lookup return values are correct, and fail when expected", {
   skip_on_cran()
 
-  df <- ct_commodities_table(type = "HS")
+  df <- ct_commodities_table(type = "HS", ssl_verify_peer = FALSE)
   ex_char <- commodity_lookup(value = "halibut", lookuptable = df)
   ex_num <- commodity_lookup(value = 1602, lookuptable = df)
 

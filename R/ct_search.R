@@ -48,6 +48,11 @@
 #'  NULL.
 #' @param codetype Trade data classification scheme to use, as a character
 #'  string. See "Details" for a list of a valid inputs.
+#' @param ssl_verify_peer logical, to be passed to param 'ssl_verifypeer'
+#'  within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+#'  must be done with care, this should only be done if you trust the API site
+#'  (https://comtrade.un.org/), and if you fully understand the security
+#'  risks/implications of this decision.
 #'
 #' @details Basic rate limit restrictions. For full details see
 #'  \url{https://comtrade.un.org/data/doc/api/#Limits}
@@ -149,7 +154,7 @@
 #' [1] 219
 #' }
 ct_search <- function(reporters, partners, countrytable,
-                      url = "http://comtrade.un.org/api/get?", maxrec = 50000,
+                      url = "https://comtrade.un.org/api/get?", maxrec = 50000,
                       type = c("goods", "services"),
                       freq = c("annual", "monthly"),
                       startdate = "all", enddate = "all",
@@ -159,7 +164,8 @@ ct_search <- function(reporters, partners, countrytable,
                       colname = c("human", "machine"), token = NULL,
                       codetype = c("HS", "H0", "H1", "H2", "H3", "H4",
                                    "ST", "S1", "S2", "S3", "S4",
-                                   "BEC", "EB02")) {
+                                   "BEC", "EB02"),
+                      ssl_verify_peer = TRUE) {
 
   # Transformations to type:
   type <- match.arg(type)
@@ -331,7 +337,21 @@ ct_search <- function(reporters, partners, countrytable,
   if (fmt == "csv") {
     apires <- tryCatch(ct_csv_data(url, colname), error = function(e) e)
   } else if (fmt == "json") {
-    apires <- tryCatch(ct_json_data(url, colname), error = function(e) e)
+    apires <- tryCatch(ct_json_data(url, colname, ssl_verify_peer),
+                       error = function(e) e)
+  }
+
+  if (methods::is(apires, "error")) {
+    if (apires$message == "ssl cert error") {
+      msg <- paste0("Returned NULL. The SSL certificate of the API site can't ",
+                    "be authenticated. You can try setting param ",
+                    "'ssl_verify_peer' to FALSE, however this should only be ",
+                    "done if you trust the API site ",
+                    "(https://comtrade.un.org/), and if you fully understand",
+                    " the security risks/implications of this decision.")
+      warning(msg, call. = FALSE)
+      return(NULL)
+    }
   }
 
   return(apires)

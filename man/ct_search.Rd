@@ -5,13 +5,13 @@
 \title{Get UN Comtrade data via API}
 \usage{
 ct_search(reporters, partners, countrytable,
-  url = "http://comtrade.un.org/api/get?", maxrec = 50000,
+  url = "https://comtrade.un.org/api/get?", maxrec = 50000,
   type = c("goods", "services"), freq = c("annual", "monthly"),
   startdate = "all", enddate = "all", tradedirection = c("all", "imports",
   "exports", "re-imports", "re-exports"), commodcodes = "TOTAL",
   fmt = c("json", "csv"), colname = c("human", "machine"), token = NULL,
   codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1", "S2", "S3",
-  "S4", "BEC", "EB02"))
+  "S4", "BEC", "EB02"), ssl_verify_peer = TRUE)
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -71,6 +71,12 @@ NULL.}
 
 \item{codetype}{Trade data classification scheme to use, as a character
 string. See "Details" for a list of a valid inputs.}
+
+\item{ssl_verify_peer}{logical, to be passed to param 'ssl_verifypeer'
+within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+must be done with care, this should only be done if you trust the API site
+(https://comtrade.un.org/), and if you fully understand the security
+risks/implications of this decision.}
 }
 \value{
 List of length three, elements are:

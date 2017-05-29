@@ -8,6 +8,11 @@
 #'  list of the valid inputs.
 #' @param baseurl The base url of the UN Comtrade website.
 #' @param path The path url string that points to the correct directory.
+#' @param ssl_verify_peer logical, to be passed to param 'ssl_verifypeer'
+#'  within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+#'  must be done with care, this should only be done if you trust the API site
+#'  (https://comtrade.un.org/), and if you fully understand the security
+#'  risks/implications of this decision.
 #' @details The default for param \code{type} is \code{HS}. Below is a list of
 #'  all valid inputs with a very brief description for each, for more
 #'  information on each of these types, see
@@ -45,12 +50,13 @@
 #' ct_commodities_table("SITCrev2")
 #' }
 ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996",
-                                               "HS2002", "HS2007", "HS2012",
-                                               "SITC", "SITCrev1", "SITCrev2",
-                                               "SITCrev3", "SITCrev4", "BEC",
-                                               "EB02"),
-                                      baseurl = "https://comtrade.un.org/",
-                                      path = "data/cache/") {
+                                          "HS2002", "HS2007", "HS2012",
+                                          "SITC", "SITCrev1", "SITCrev2",
+                                          "SITCrev3", "SITCrev4", "BEC",
+                                          "EB02"),
+                                 baseurl = "https://comtrade.un.org/",
+                                 path = "data/cache/",
+                                 ssl_verify_peer = TRUE) {
 
   type <- match.arg(type)
 
@@ -82,7 +88,25 @@ ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996",
     url <- paste0(baseurl, path, "classificationEB02.json")
   }
 
-  rawdata <- httr::GET(url, config = httr::config(ssl_verifypeer = FALSE))
+  rawdata <- tryCatch(
+    httr::GET(url,
+              config = httr::config(ssl_verifypeer = ssl_verify_peer)),
+    error = function(e) e
+  )
+
+  if (methods::is(rawdata, "error")) {
+    if (grepl("peer certificate cannot be authenticated", rawdata$message,
+              ignore.case = TRUE)) {
+      msg <- paste0("Returned NULL. The SSL certificate of the API site can't ",
+                    "be authenticated. You can try setting param ",
+                    "'ssl_verify_peer' to FALSE, however this should only be ",
+                    "done if you trust the API site ",
+                    "(https://comtrade.un.org/), and if you fully understand",
+                    " the security risks/implications of this decision.")
+      warning(msg, call. = FALSE)
+      return(NULL)
+    }
+  }
 
   if (httr::http_type(rawdata) != "application/json") {
     stop("API did not return json", call. = FALSE)

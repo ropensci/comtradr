@@ -4,7 +4,7 @@ context("ct_countries_table")
 test_that("return has correct attributes, and fails when expected", {
   skip_on_cran()
 
-  df <- ct_countries_table()
+  df <- ct_countries_table(ssl_verify_peer = FALSE)
 
   # Data type.
   expect_is(df, "data.frame")

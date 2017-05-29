@@ -10,6 +10,11 @@
 #' @param url Complete url string of the call to the API.
 #' @param colname Indication as to whether to use "human friendly" col names or
 #'  "machine friendly" col names. Value will be either "H" or "M".
+#' @param ssl_verify_peer logical, to be passed to param 'ssl_verifypeer'
+#'  within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
+#'  must be done with care, this should only be done if you trust the API site
+#'  (https://comtrade.un.org/), and if you fully understand the security
+#'  risks/implications of this decision.
 #'
 #' @return List of length three, elements are:
 #'  \itemize{
@@ -19,16 +24,22 @@
 #'  \item \code{data}: Dataframe object of return data.
 #'  }
 #' @importFrom dplyr "%>%"
-ct_json_data <- function(url, colname) {
+ct_json_data <- function(url, colname, ssl_verify_peer = TRUE) {
 
-  rawdata <- tryCatch(httr::GET(url,
-                                config = httr::config(ssl_verifypeer = FALSE)),
-                      error = function(e) e)
+  rawdata <- tryCatch(
+    httr::GET(url, config = httr::config(ssl_verifypeer = ssl_verify_peer)),
+    error = function(e) e
+  )
 
   if (methods::is(rawdata, "error")) {
-    msg <- "Could not complete connection to API"
-    details <- NULL
-    return(list(msg = msg, details = details, data = NULL))
+    if (grepl("peer certificate cannot be authenticated", rawdata$message,
+              ignore.case = TRUE)) {
+      stop("ssl cert error")
+    } else {
+      msg <- "Could not complete connection to API"
+      details <- NULL
+      return(list(msg = msg, details = details, data = NULL))
+    }
   }
 
   if (httr::http_error(rawdata)) {
