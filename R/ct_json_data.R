@@ -21,7 +21,9 @@
 #' @importFrom dplyr "%>%"
 ct_json_data <- function(url, colname) {
 
-  rawdata <- tryCatch(httr::GET(url), error = function(e) e)
+  rawdata <- tryCatch(httr::GET(url,
+                                config = httr::config(ssl_verifypeer = FALSE)),
+                      error = function(e) e)
 
   if (methods::is(rawdata, "error")) {
     msg <- "Could not complete connection to API"

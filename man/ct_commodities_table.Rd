@@ -9,7 +9,7 @@ ct_commodities_table(type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007",
   "EB02"), baseurl = "https://comtrade.un.org/", path = "data/cache/")
 }
 \arguments{
-\item{type}{Trade data classification scheme to use, see "Details" for a 
+\item{type}{Trade data classification scheme to use, see "Details" for a
 list of the valid inputs.}
 
 \item{baseurl}{The base url of the UN Comtrade website.}
@@ -17,18 +17,18 @@ list of the valid inputs.}
 \item{path}{The path url string that points to the correct directory.}
 }
 \value{
-A dataframe of commodities, commodity codes and parent codes, 
+A dataframe of commodities, commodity codes and parent codes,
  downloaded from UN Comtrade.
 }
 \description{
-Returns a dataframe of commodities, commodity codes and parent codes, 
-downloaded from UN Comtrade. For use with the UN Comtrade API, full API 
+Returns a dataframe of commodities, commodity codes and parent codes,
+downloaded from UN Comtrade. For use with the UN Comtrade API, full API
 docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 }
 \details{
-The default for param \code{type} is \code{HS}. Below is a list of 
- all valid inputs with a very brief description for each, for more 
- information on each of these types, see 
+The default for param \code{type} is \code{HS}. Below is a list of
+ all valid inputs with a very brief description for each, for more
+ information on each of these types, see
  \url{https://comtrade.un.org/data/doc/api/#DataAvailabilityRequests}
  \itemize{
  \item \code{HS}: Harmonized System (HS), as reported
@@ -37,7 +37,7 @@ The default for param \code{type} is \code{HS}. Below is a list of
  \item \code{HS2002}: HS 2002
  \item \code{HS2007}: HS 2007
  \item \code{HS2012}: HS 2012
- \item \code{SITC}: Standard International Trade Classification (SITC), as 
+ \item \code{SITC}: Standard International Trade Classification (SITC), as
    reported
  \item \code{SITCrev1}: SITC Revision 1
  \item \code{SITCrev2}: SITC Revision 2
@@ -46,12 +46,12 @@ The default for param \code{type} is \code{HS}. Below is a list of
  \item \code{BEC}: Broad Economic Categories
  \item \code{EB02}: Extended Balance of Payments Services Classification
  }
- 
- The default for param \code{baseurl} is \code{"https://comtrade.un.org/"}, 
+
+ The default for param \code{baseurl} is \code{"https://comtrade.un.org/"},
  and should only be changed if the Comtrade website url changes.
- 
- The default for param \code{path} is \code{"data/cache/"}, and should only 
- be changed if the Comtrade website changes or if Comtrade changes the url 
+
+ The default for param \code{path} is \code{"data/cache/"}, and should only
+ be changed if the Comtrade website changes or if Comtrade changes the url
  path that points to the JSON commodity tables.
 }
 \examples{

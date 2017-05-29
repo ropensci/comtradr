@@ -36,7 +36,8 @@ ct_countries_table <- function(reporters = NULL, partners = NULL) {
   }
 
   # pull reporters dataset from Comtrade
-  reporters <- httr::GET(reporters)
+  reporters <- httr::GET(reporters,
+                         config = httr::config(ssl_verifypeer = FALSE))
 
   if (httr::http_type(reporters) != "application/json") {
     stop("API did not return json for reporters", call. = FALSE)
@@ -50,7 +51,8 @@ ct_countries_table <- function(reporters = NULL, partners = NULL) {
   reporters$type <- "reporter"
 
   # Pull partners dataset from Comtrade
-  partners <- httr::GET(partners)
+  partners <- httr::GET(partners,
+                        config = httr::config(ssl_verifypeer = FALSE))
 
   if (httr::http_type(partners) != "application/json") {
     stop("API did not return json for partners", call. = FALSE)

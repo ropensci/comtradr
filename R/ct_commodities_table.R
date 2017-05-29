@@ -1,16 +1,16 @@
 #' Extract commodity code look up table from UN Comtrade
-#' 
-#' Returns a dataframe of commodities, commodity codes and parent codes, 
-#' downloaded from UN Comtrade. For use with the UN Comtrade API, full API 
+#'
+#' Returns a dataframe of commodities, commodity codes and parent codes,
+#' downloaded from UN Comtrade. For use with the UN Comtrade API, full API
 #' docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 #'
-#' @param type Trade data classification scheme to use, see "Details" for a 
+#' @param type Trade data classification scheme to use, see "Details" for a
 #'  list of the valid inputs.
 #' @param baseurl The base url of the UN Comtrade website.
 #' @param path The path url string that points to the correct directory.
-#' @details The default for param \code{type} is \code{HS}. Below is a list of 
-#'  all valid inputs with a very brief description for each, for more 
-#'  information on each of these types, see 
+#' @details The default for param \code{type} is \code{HS}. Below is a list of
+#'  all valid inputs with a very brief description for each, for more
+#'  information on each of these types, see
 #'  \url{https://comtrade.un.org/data/doc/api/#DataAvailabilityRequests}
 #'  \itemize{
 #'  \item \code{HS}: Harmonized System (HS), as reported
@@ -19,7 +19,7 @@
 #'  \item \code{HS2002}: HS 2002
 #'  \item \code{HS2007}: HS 2007
 #'  \item \code{HS2012}: HS 2012
-#'  \item \code{SITC}: Standard International Trade Classification (SITC), as 
+#'  \item \code{SITC}: Standard International Trade Classification (SITC), as
 #'    reported
 #'  \item \code{SITCrev1}: SITC Revision 1
 #'  \item \code{SITCrev2}: SITC Revision 2
@@ -28,32 +28,32 @@
 #'  \item \code{BEC}: Broad Economic Categories
 #'  \item \code{EB02}: Extended Balance of Payments Services Classification
 #'  }
-#'  
-#'  The default for param \code{baseurl} is \code{"https://comtrade.un.org/"}, 
+#'
+#'  The default for param \code{baseurl} is \code{"https://comtrade.un.org/"},
 #'  and should only be changed if the Comtrade website url changes.
-#'  
-#'  The default for param \code{path} is \code{"data/cache/"}, and should only 
-#'  be changed if the Comtrade website changes or if Comtrade changes the url 
+#'
+#'  The default for param \code{path} is \code{"data/cache/"}, and should only
+#'  be changed if the Comtrade website changes or if Comtrade changes the url
 #'  path that points to the JSON commodity tables.
-#' @return A dataframe of commodities, commodity codes and parent codes, 
+#' @return A dataframe of commodities, commodity codes and parent codes,
 #'  downloaded from UN Comtrade.
 #' @importFrom dplyr "%>%"
 #' @export
-#' 
+#'
 #' @examples \dontrun{
 #' ct_commodities_table("HS")
 #' ct_commodities_table("SITCrev2")
 #' }
-ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996", 
-                                               "HS2002", "HS2007", "HS2012", 
-                                               "SITC", "SITCrev1", "SITCrev2", 
-                                               "SITCrev3", "SITCrev4", "BEC", 
-                                               "EB02"), 
-                                      baseurl = "https://comtrade.un.org/", 
+ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996",
+                                               "HS2002", "HS2007", "HS2012",
+                                               "SITC", "SITCrev1", "SITCrev2",
+                                               "SITCrev3", "SITCrev4", "BEC",
+                                               "EB02"),
+                                      baseurl = "https://comtrade.un.org/",
                                       path = "data/cache/") {
-  
+
   type <- match.arg(type)
-  
+
   if (type == "HS") {
     url <- paste0(baseurl, path, "classificationHS.json")
   } else if (type == "HS1992") {
@@ -81,19 +81,19 @@ ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996",
   } else if (type == "EB02") {
     url <- paste0(baseurl, path, "classificationEB02.json")
   }
-  
-  rawdata <- httr::GET(url)
-  
+
+  rawdata <- httr::GET(url, config = httr::config(ssl_verifypeer = FALSE))
+
   if (httr::http_type(rawdata) != "application/json") {
     stop("API did not return json", call. = FALSE)
   }
-  
-  rawdata <- rawdata %>% 
-    httr::content("text", encoding = "UTF-8") %>% 
+
+  rawdata <- rawdata %>%
+    httr::content("text", encoding = "UTF-8") %>%
     jsonlite::fromJSON(simplifyDataFrame = TRUE)
-  
-  output <- rawdata$results %>% 
+
+  output <- rawdata$results %>%
     `colnames<-`(c("code", "commodity", "parent"))
-  
+
   return(output)
 }
