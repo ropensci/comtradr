@@ -42,16 +42,13 @@ Which essentially means there's a CA certificate issue preventing curl from comp
 
 As a workaround, I've included a new parameter to these functions, `ssl_verify_peer`, which is simply passed directly to the param `ssl_verifypeer` within the function call to `httr::GET()`. The default to this new param is `TRUE` (the more secure option), but the user may set this to `FALSE` if they choose, which tells curl to skip the SSL certificate verification step. This should only be done if you trust the API site ([https://comtrade.un.org/](https://comtrade.un.org/)), and if you fully understand the security risks/implications of this decision.
 
-These edits are currently available in the dev version available from this repo, and I plan to submit them to CRAN very soon.
+These edits are currently available in the dev version available from this repo.
+
+I have voluntarily archived this package on CRAN until these issues can be resolved.
 
 ## Installation
 
-Install the current released version from CRAN:
-```{r eval=FALSE}
-install.packages("comtradr")
-```
-
-Alteratively, install from this repo:
+Install from this repo:
 ```{r eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("ChrisMuir/comtradr")
