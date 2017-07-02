@@ -3,6 +3,7 @@ context("ct_search")
 # All tests on the expected return data.
 test_that("search return values are correct, and fail when expected", {
   skip_on_cran()
+  skip_on_travis()
 
   countrydf <- ct_countries_table()
 
