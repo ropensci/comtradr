@@ -3,7 +3,3 @@
 language: R
 sudo: false
 cache: packages
-addons:
-  apt:
-    packages:
-      - libssl1.0.0
