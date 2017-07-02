@@ -4,7 +4,7 @@ context("country_lookup")
 test_that("lookup return values are correct, and fail when expected", {
   skip_on_cran()
 
-  df <- ct_countries_table(ssl_verify_peer = FALSE)
+  df <- ct_countries_table()
 
   # Correct return values for reporter countries lookup.
   expect_equal(country_lookup(loc = c("Korea", "EU"),

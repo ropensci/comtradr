@@ -4,8 +4,7 @@
 \alias{ct_countries_table}
 \title{Extract country code look up table from UN Comtrade}
 \usage{
-ct_countries_table(reporters = NULL, partners = NULL,
-  ssl_verify_peer = TRUE)
+ct_countries_table(reporters = NULL, partners = NULL)
 }
 \arguments{
 \item{reporters}{Default value NULL, otherwise this should be a url as a
@@ -17,12 +16,6 @@ website. Only necessary if the Comtrade site changes from
 char string that points to the reporter areas JSON dataset on the Comtrade
 website. Only necessary if the Comtrade site changes from
 \url{https://comtrade.un.org/data/cache/partnerAreas.json}}
-
-\item{ssl_verify_peer}{logical, to be passed to param 'ssl_verifypeer'
-within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
-must be done with care, this should only be done if you trust the API site
-(https://comtrade.un.org/), and if you fully understand the security
-risks/implications of this decision.}
 }
 \value{
 A dataframe of countries and country codes, downloaded from UN

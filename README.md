@@ -13,18 +13,7 @@ Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, 
 
 I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
 
-**NOTE**: As of 2017-05-28, the core functions of this package are no longer working properly on Windows machines, they fail with error message:
-
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Peer certificate cannot be authenticated with given CA certificates
-
-Which essentially means there's a CA certificate issue preventing curl from completing the connection. I believe the UN site hosting the DB is the issue, as there are issues with its SSL certificate per [ssldecoder](https://ssldecoder.org/?host=comtrade.un.org&port=&csr=&s=).
-
-As a workaround, I've included a new parameter to these functions, `ssl_verify_peer`, which is simply passed directly to the param `ssl_verifypeer` within the function call to `httr::GET()`. The default to this new param is `TRUE` (the more secure option), but the user may set this to `FALSE` if they choose, which tells curl to skip the SSL certificate verification step. This should only be done if you trust the API site (<https://comtrade.un.org/>), and if you fully understand the security risks/implications of this decision.
-
-These edits are currently available in the dev version available from this repo.
-
-I have voluntarily archived this package on CRAN until these issues can be resolved.
+**NOTE**: As of 2017-06-27, the curl errors due to an inadility to validate the SSL certificate of the API site are no longer appearing, I believe that UN Comtrade fixed their SSL cert issue.
 
 Installation
 ------------
@@ -46,7 +35,7 @@ library(comtradr)
 
 # First, read in the country code lookup table as a dataframe from Comtrade. 
 # This will be used as a parameter in the API calls.
-countrydf <- ct_countries_table(ssl_verify_peer = FALSE)
+countrydf <- ct_countries_table()
 
 # This object can can also be used to look up the exact spellings of countries 
 # prior to making API calls.
@@ -57,8 +46,7 @@ country_lookup("korea", "reporter", countrydf)
 example1 <- ct_search(reporters = "China", 
                       partners = c("Rep. of Korea", "USA", "Mexico"), 
                       countrytable = countrydf, 
-                      tradedirection = "exports", 
-                      ssl_verify_peer = FALSE)
+                      tradedirection = "exports")
 
 # Inspect the return data
 str(example1$data)
@@ -106,15 +94,10 @@ str(example1$data)
 library(comtradr)
 
 # First, read in the commodity code lookup table as a dataframe from Comtrade.
-commoditydf <- ct_commodities_table("HS", ssl_verify_peer = FALSE)
+commoditydf <- ct_commodities_table("HS")
 
 # Then search for shrimp.
-commodity_lookup("shrimp", commoditydf)
-#> [1] "030613 - Shrimps and prawns, frozen"                                                                                                                                                                                                         
-#> [2] "030623 - Shrimps and prawns, not frozen"                                                                                                                                                                                                     
-#> [3] "160520 - Shrimps and prawns, prepared or preserved"                                                                                                                                                                                          
-#> [4] "160521 - Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates // Crustaceans, molluscs and other aquatic invertebrates, prepared or preserved. // - Shrimps and prawns : // -- Not in airtight container"
-#> [5] "160529 - Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates // Crustaceans, molluscs and other aquatic invertebrates, prepared or preserved. // - Shrimps and prawns : // -- Other"
+shrimp_codes <- commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
 
 # API query.
 example2 <- ct_search(reporters = "Thailand", 
@@ -123,16 +106,11 @@ example2 <- ct_search(reporters = "Thailand",
                       tradedirection = "exports", 
                       startdate = "2007-01-01", 
                       enddate = "2011-01-01", 
-                      commodcodes = c("030613", 
-                                      "030623", 
-                                      "160520", 
-                                      "160521", 
-                                      "160529"), 
-                      ssl_verify_peer = FALSE)
+                      commodcodes = shrimp_codes)
 
 # Inspect the output
 str(example2$data)
-#> 'data.frame':    1056 obs. of  35 variables:
+#> 'data.frame':    1203 obs. of  35 variables:
 #>  $ Classification        : chr  "H3" "H3" "H3" "H3" ...
 #>  $ Year                  : int  2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
 #>  $ Period                : int  2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...

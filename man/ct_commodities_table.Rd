@@ -6,8 +6,7 @@
 \usage{
 ct_commodities_table(type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007",
   "HS2012", "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4", "BEC",
-  "EB02"), baseurl = "https://comtrade.un.org/", path = "data/cache/",
-  ssl_verify_peer = TRUE)
+  "EB02"), baseurl = "https://comtrade.un.org/", path = "data/cache/")
 }
 \arguments{
 \item{type}{Trade data classification scheme to use, see "Details" for a
@@ -16,12 +15,6 @@ list of the valid inputs.}
 \item{baseurl}{The base url of the UN Comtrade website.}
 
 \item{path}{The path url string that points to the correct directory.}
-
-\item{ssl_verify_peer}{logical, to be passed to param 'ssl_verifypeer'
-within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
-must be done with care, this should only be done if you trust the API site
-(https://comtrade.un.org/), and if you fully understand the security
-risks/implications of this decision.}
 }
 \value{
 A dataframe of commodities, commodity codes and parent codes,

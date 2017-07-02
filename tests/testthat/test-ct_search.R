@@ -4,7 +4,7 @@ context("ct_search")
 test_that("search return values are correct, and fail when expected", {
   skip_on_cran()
 
-  countrydf <- ct_countries_table(ssl_verify_peer = FALSE)
+  countrydf <- ct_countries_table()
 
   # Get monhtly data on all German imports into Canada,
   # 2011-01-01 thru 2011-05-01.
@@ -14,8 +14,7 @@ test_that("search return values are correct, and fail when expected", {
                    tradedirection = "imports",
                    freq = "monthly",
                    startdate = "2011-01-01",
-                   enddate = "2011-05-01",
-                   ssl_verify_peer = FALSE)
+                   enddate = "2011-05-01")
 
   # Get yearly data on Canadian shrimp exports into Germany and Thailand,
   # for all years on record.
@@ -31,8 +30,7 @@ test_that("search return values are correct, and fail when expected", {
                    freq = "annual",
                    startdate = "all",
                    enddate = "all",
-                   commodcodes = shrimp_codes,
-                   ssl_verify_peer = FALSE)
+                   commodcodes = shrimp_codes)
 
   ## ex1 tests
   # Data type.
@@ -88,45 +86,39 @@ test_that("search return values are correct, and fail when expected", {
   expect_error(ct_search(reporters = "invalid_reporter",
                          partners = "Germany",
                          countrytable = countrydf,
-                         tradedirection = "imports",
-                         ssl_verify_peer = FALSE))
+                         tradedirection = "imports"))
 
   # Throw error with invalid input for param "partners".
   expect_error(ct_search(reporters = "Canada",
                          partners = "invalid_partner",
                          countrytable = countrydf,
-                         tradedirection = "imports",
-                         ssl_verify_peer = FALSE))
+                         tradedirection = "imports"))
 
   # Throw error with invalid input for param "countrytable".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = data.frame(),
-                         tradedirection = "imports",
-                         ssl_verify_peer = FALSE))
+                         tradedirection = "imports"))
 
   # Throw error with invalid input for param "tradedirection".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
-                         tradedirection = "invalid_td",
-                         ssl_verify_peer = FALSE))
+                         tradedirection = "invalid_td"))
 
   # Throw error with invalid input for param "type".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
-                         type = "invalid_type",
-                         ssl_verify_peer = FALSE))
+                         type = "invalid_type"))
 
   # Throw error with invalid input for param "freq".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
-                         freq = "invalid_freq",
-                         ssl_verify_peer = FALSE))
+                         freq = "invalid_freq"))
 
   # Throw error with invalid input for params "startdate" and "endate".
   expect_error(ct_search(reporters = "Canada",
@@ -135,16 +127,14 @@ test_that("search return values are correct, and fail when expected", {
                          tradedirection = "imports",
                          freq = "monthly",
                          startdate = "1/1/2011",
-                         enddate = "5/1/2011",
-                         ssl_verify_peer = FALSE))
+                         enddate = "5/1/2011"))
 
   # Returned error msg from the API with invalid input for param "commodcodes".
   ex1 <- ct_search(reporters = "Canada",
                    partners = "Germany",
                    countrytable = countrydf,
                    tradedirection = "imports",
-                   commodcodes = "invalid_codes",
-                   ssl_verify_peer = FALSE)
+                   commodcodes = "invalid_codes")
   expect_equal(ex1$details, "invalid_codes is an invalid commodity code.")
 
   # Throw error with invalid input for param "fmt".
@@ -152,22 +142,19 @@ test_that("search return values are correct, and fail when expected", {
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
-                         fmt = "invalid_fmt",
-                         ssl_verify_peer = FALSE))
+                         fmt = "invalid_fmt"))
 
   # Throw error with invalid input for param "colname".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
-                         colname = "invalid_fmt",
-                         ssl_verify_peer = FALSE))
+                         colname = "invalid_fmt"))
 
   # Throw error with invalid input for param "codetype".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
-                         codetype = "invalid_codetype",
-                         ssl_verify_peer = FALSE))
+                         codetype = "invalid_codetype"))
 })

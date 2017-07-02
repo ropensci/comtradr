@@ -11,7 +11,7 @@ ct_search(reporters, partners, countrytable,
   "exports", "re-imports", "re-exports"), commodcodes = "TOTAL",
   fmt = c("json", "csv"), colname = c("human", "machine"), token = NULL,
   codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1", "S2", "S3",
-  "S4", "BEC", "EB02"), ssl_verify_peer = TRUE)
+  "S4", "BEC", "EB02"))
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -71,12 +71,6 @@ NULL.}
 
 \item{codetype}{Trade data classification scheme to use, as a character
 string. See "Details" for a list of a valid inputs.}
-
-\item{ssl_verify_peer}{logical, to be passed to param 'ssl_verifypeer'
-within the call to \code{httr::GET()}. Default is TRUE. Setting this to FALSE
-must be done with care, this should only be done if you trust the API site
-(https://comtrade.un.org/), and if you fully understand the security
-risks/implications of this decision.}
 }
 \value{
 List of length three, elements are:
@@ -155,7 +149,7 @@ comtrade$msg
 comtrade$details
 [1] "Connection successful"
 nrow(comtrade$data)
-[1] 72
+[1] 75
 
 ## Example API call number 2:
 # All shipments related to halibut between Canada and all other countries,
@@ -163,26 +157,31 @@ nrow(comtrade$data)
 # Create the commodities lookup table
 commoditydf <- ct_commodities_table("HS")
 
-# Perform "halibut" query
-commodity_lookup("halibut", commoditydf)
-[1] "030221 - Halibut, fresh or chilled, whole"
-[2] "030229 - Flatfish, fresh/chilled not halibut/plaice/sole, whol"
-[3] "030331 - Halibut, frozen, whole"
-[4] "030339 - Flatfish except halibut, plaice or sole, frozen, whol"
+# Perform "shrimp" query
+shrimp_codes <- commodity_lookup("shrimp",
+                                 commoditydf,
+                                 return_code = TRUE,
+                                 return_char = TRUE,
+                                 verbose = TRUE)
 
 # Make API call
+shrimp_codes <- commodity_lookup("shrimp",
+                                 commoditydf,
+                                 return_code = TRUE,
+                                 return_char = TRUE,
+                                 verbose = TRUE)
 comtrade <- ct_search(reporters = "Canada",
                       partners = "All",
                       countrytable = countrydf,
                       tradedirection = "all",
                       startdate = "2011-01-01",
                       enddate = "2015-01-01",
-                      commodcodes = c("030221", "030331"))
+                      commodcodes = shrimp_codes)
 comtrade$msg
 [1] "Data returned"
 comtrade$details
 [1] "Connection successful"
 nrow(comtrade$data)
-[1] 219
+[1] 1321
 }
 }
