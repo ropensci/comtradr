@@ -4,30 +4,34 @@ context("commodity_lookup")
 test_that("lookup return values are correct, and fail when expected", {
   skip_on_cran()
 
-  df <- ct_commodities_table(type = "HS", ssl_verify_peer = FALSE)
-  ex_char <- commodity_lookup(value = "halibut", lookuptable = df)
-  ex_num <- commodity_lookup(value = 1602, lookuptable = df)
+  df <- ct_commodities_table(type = "HS")
+  ex_1 <- commodity_lookup(value = "halibut",
+                           lookuptable = df,
+                           return_code = FALSE,
+                           return_char = TRUE,
+                           verbose = TRUE)
+  ex_2 <- commodity_lookup(value = 1602,
+                           lookuptable = df,
+                           return_code = TRUE,
+                           return_char = FALSE,
+                           verbose = TRUE)
 
-  # Correct return data type for ex_char.
-  expect_is(ex_char, "character")
+  # Correct return data type.
+  expect_is(ex_1, "character")
+  expect_is(ex_2, "list")
 
-  # Number of return values for ex_char.
-  expect_equal(length(ex_char), 4)
-
-  # Correct return data type for ex_num.
-  expect_is(ex_num, "character")
-
-  # Number of return values for ex_num.
-  expect_equal(length(ex_num), 11)
+  # Number of return values.
+  expect_equal(length(ex_1), 2)
+  expect_equal(length(ex_2), 1)
 
   # Correct return values when input for "value" not found in lookup table.
-  expect_equal(commodity_lookup(value = "not_a_trade_item",
-                                lookuptable = df),
-               "No matching results found")
+  expect_warning(ex_3 <- commodity_lookup(value = "not_a_trade_item",
+                                          lookuptable = df,
+                                          return_char = TRUE))
+  expect_equal(length(ex_3), 0)
 
   # Throw error with invalid input for param "value".
-  expect_error(commodity_lookup(value = c("shrimp", "halibut"),
-                                lookuptable = df))
+  expect_error(commodity_lookup(value = list(), lookuptable = df))
 
   # Throw error with invalid input for param "lookuptable".
   expect_error(commodity_lookup(value = "halibut",
