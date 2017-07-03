@@ -186,8 +186,12 @@ ct_search <- function(reporters, partners, countrytable,
   if (any(c(startdate, enddate) %in% c("all", "All", "ALL"))) {
     daterange <- "all"
   } else {
-    sd <- tryCatch(as.Date(startdate, format = "%Y-%m-%d"), error=function(e) e)
-    ed <- tryCatch(as.Date(enddate, format = "%Y-%m-%d"), error=function(e) e)
+    sd <- tryCatch(
+      as.Date(startdate, format = "%Y-%m-%d"), error = function(e) e
+    )
+    ed <- tryCatch(
+      as.Date(enddate, format = "%Y-%m-%d"), error = function(e) e
+    )
     if (any(methods::is(sd, "error"), methods::is(ed, "error"),
             is.na(sd), is.na(ed))) {
       stop("params 'startdate' & 'enddate' must either be 'all' or be dates ",
