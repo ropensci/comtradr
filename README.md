@@ -3,7 +3,7 @@
 comtradr
 ========
 
-[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/comtradr)](http://cran.r-project.org/package=comtradr)
+[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr)
 
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found [here](https://comtrade.un.org/data/doc/api/).
 
@@ -11,14 +11,8 @@ This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/a
 
 Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or features requests.
 
-I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
-
-**NOTE**: As of 2017-06-27, the curl errors due to an inadility to validate the SSL certificate of the API site are no longer appearing, I believe that UN Comtrade fixed their SSL cert issue.
-
 Installation
 ------------
-
-Install from this repo:
 
 ``` r
 # install.packages("devtools")
@@ -33,19 +27,19 @@ Example Usage
 ``` r
 library(comtradr)
 
-# First, read in the country code lookup table as a dataframe from Comtrade. 
+# First, read in the country code lookup table as a dataframe from Comtrade.
 # This will be used as a parameter in the API calls.
 countrydf <- ct_countries_table()
 
-# This object can can also be used to look up the exact spellings of countries 
+# This object can can also be used to look up the exact spellings of countries
 # prior to making API calls.
 country_lookup("korea", "reporter", countrydf)
 #> [1] "Dem. People's Rep. of Korea" "Rep. of Korea"
 
 # Since we want South Korea, we'll use "Rep. of Korea" within the API query.
-example1 <- ct_search(reporters = "China", 
-                      partners = c("Rep. of Korea", "USA", "Mexico"), 
-                      countrytable = countrydf, 
+example1 <- ct_search(reporters = "China",
+                      partners = c("Rep. of Korea", "USA", "Mexico"),
+                      countrytable = countrydf,
                       tradedirection = "exports")
 
 # Inspect the return data
@@ -100,12 +94,12 @@ commoditydf <- ct_commodities_table("HS")
 shrimp_codes <- commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
 
 # API query.
-example2 <- ct_search(reporters = "Thailand", 
-                      partners = "All", 
-                      countrytable = countrydf, 
-                      tradedirection = "exports", 
-                      startdate = "2007-01-01", 
-                      enddate = "2011-01-01", 
+example2 <- ct_search(reporters = "Thailand",
+                      partners = "All",
+                      countrytable = countrydf,
+                      tradedirection = "exports",
+                      startdate = "2007-01-01",
+                      enddate = "2011-01-01",
                       commodcodes = shrimp_codes)
 
 # Inspect the output
@@ -147,91 +141,3 @@ str(example2$data)
 #>  $ FOB Trade Value (US$) : logi  NA NA NA NA NA NA ...
 #>  $ Flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 ```
-
-Visualize
----------
-
-Once the data is collected, we can use it to create some basic visualizations.
-
-**Plot 1**: Using the data collected above in example 1, plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
-
-``` r
-# install.packages("ggplot2")
-library(ggplot2)
-
-df <- example1$data
-
-# Create plot.
-ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner), 
-               shape = factor(Partner))) +
-  geom_point(size = 2) +
-  geom_line(size = 1) +
-  scale_x_continuous(limits = c(min(df$Year), max(df$Year)), 
-                     breaks = seq.int(min(df$Year), max(df$Year), 2)) +
-  scale_color_manual(values = c("orange", "blue", "red"), 
-                     name = "Destination\nCountry") +
-  scale_shape_discrete(name = "Destination\nCountry") +
-  labs(title = "Total Value (USD) of Chinese Exports, by Year",
-       x = "year", y = "total value of shipments in USD") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-```
-
-![](plots/README-plot1-1.png)
-
-**Plot 2**: Using the data collected above in example 2, plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
-
-``` r
-# install.packages("ggplot2")
-# install.packages("dplyr")
-# install.packages("magrittr")
-library(ggplot2)
-library(dplyr)
-
-df <- example2$data
-
-# Create country specific "total weight per year" dataframe for plotting.
-plotdf <- df %>% 
-  group_by_(.dots = c("Partner", "Year")) %>% 
-  summarise(kg = as.numeric(sum(`Netweight (kg)`, na.rm = TRUE))) %>% 
-  as_data_frame()
-
-# Get vector of the top 8 destination countries/areas by total weight shipped 
-# across all years, then subset plotdf to only include observations related 
-# to those countries/areas.
-top8 <- plotdf %>% 
-  group_by(Partner) %>% 
-  summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) %>% 
-  arrange(desc(kg)) %>% 
-  magrittr::extract2("Partner") %>% 
-  magrittr::extract(1:8)
-plotdf <- plotdf %>% filter(Partner %in% top8)
-
-# Create plots (y-axis is NOT fixed across panels, this will allow us to ID 
-# trends over time within each country/area individually).
-qplot(Year, kg, data = plotdf) + 
-  geom_line(data = plotdf[plotdf$Partner %in% names(which(table(plotdf$Partner) > 1)), ]) + 
-  xlim(min(plotdf$Year), max(plotdf$Year)) + 
-  labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011", 
-       x = "year", y = "sum of weight of all shipments in KG") + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), 
-        axis.text = element_text(size = 7)) + 
-  facet_wrap(~factor(Partner, levels = top8), scales = "free", nrow = 2, ncol = 4)
-```
-
-![](plots/README-plot2-1.png)
-
-``` r
-
-# This is the same data as above but plotted with a fixed y-axis across all 
-# panels.
-qplot(Year, kg, data = plotdf) + 
-  geom_line(data = plotdf[plotdf$Partner %in% names(which(table(plotdf$Partner) > 1)), ]) + 
-  xlim(min(plotdf$Year), max(plotdf$Year)) + 
-  labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011", 
-       x = "year", y = "sum of weight of all shipments in KG") + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), 
-        axis.text = element_text(size = 7)) + 
-  facet_wrap(~factor(Partner, levels = top8), nrow = 2, ncol = 4)
-```
-
-![](plots/README-plot2-2.png)

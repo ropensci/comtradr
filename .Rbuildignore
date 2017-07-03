@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^cran-comments\.md$
-^plots$
+^cran-comments.md$
 ^\.travis\.yml$
 ^TODO\.md$
 ^NEWS\.md$
