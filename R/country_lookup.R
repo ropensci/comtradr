@@ -11,7 +11,7 @@
 #'
 #' @param loc Char vector of country names.
 #' @param type The country list to use for the search, valid inputs are
-#'  "reporter" and "partnere".
+#'  "reporter" and "partner".
 #' @param lookuptable Dataframe of country names and codes (intended input is
 #'  the dataframe created by function \code{\link{ct_countries_table}}).
 #'

@@ -58,7 +58,7 @@
 #'    requests per hour (each per IP address or authenticated user).
 #'  }
 #'
-#'  In addition to these rate limits, the API imposses some limits on
+#'  In addition to these rate limits, the API imposes some limits on
 #'  parameter combinations, they are listed below:
 #'  \itemize{
 #'  \item Between params "reporters", "partners", and the query date range (as
