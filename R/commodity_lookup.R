@@ -55,7 +55,7 @@
 #' $shrimp
 #' [1] "030613" "030616" "030617" "030623" "030626" "030627" "030635" "030636"
 #'  "030695" "160520" "160521" "160529" "160540"
-#'
+#' }
 
 commodity_lookup <- function(values, lookuptable, return_code = FALSE,
                              return_char = FALSE, verbose = TRUE) {

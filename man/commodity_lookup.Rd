@@ -43,3 +43,31 @@ If input is a commodity code, then output is the commodity description
 associated with that input code. For use with the UN Comtrade API, full API
 docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 }
+\examples{
+\dontrun{
+# Look up commodity descriptions related to "halibut"
+commoditydf <- ct_commodities_table("HS")
+commodity_lookup("halibut",
+                 commoditydf,
+                 return_code = FALSE,
+                 return_char = FALSE,
+                 verbose = TRUE)
+$halibut
+[1] "030221 - Fish; halibut (reinhardtius hippoglossoides, hippoglossus
+ hippoglossus, hippoglossus stenolepis), fresh or chilled (excluding
+ fillets, livers, roes and other fish meat of heading no. 0304)"
+[2] "030331 - Fish; halibut (reinhardtius hippoglossoides, hippoglossus
+ hippoglossus, hippoglossus stenolepis), frozen (excluding fillets, livers,
+ roes and other fish meat of heading no. 0304)"
+
+# Look up commodity codes related to "shrimp".
+comtradr::commodity_lookup("shrimp",
+                           commoditydf,
+                           return_code = TRUE,
+                           return_char = FALSE,
+                           verbose = TRUE)
+$shrimp
+[1] "030613" "030616" "030617" "030623" "030626" "030627" "030635" "030636"
+ "030695" "160520" "160521" "160529" "160540"
+}
+}
