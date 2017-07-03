@@ -10,7 +10,7 @@ country_lookup(loc, type = c("reporter", "partner"), lookuptable)
 \item{loc}{Char vector of country names.}
 
 \item{type}{The country list to use for the search, valid inputs are
-"reporter" and "partnere".}
+"reporter" and "partner".}
 
 \item{lookuptable}{Dataframe of country names and codes (intended input is
 the dataframe created by function \code{\link{ct_countries_table}}).}
