@@ -111,7 +111,7 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
   # If ans is a list, check the legnth of each element. If any have length
   # zero, create a warning message that will be printed to console if input
   # param "verbose" is TRUE. If there are no elements with length zero,
-  # convert ans to a char vector is return_char is TRUE.
+  # convert ans to a char vector if return_char is TRUE.
   if (is.list(ans)) {
     if (verbose) {
       check_len <- vapply(ans, length, integer(1), USE.NAMES = FALSE)
@@ -131,7 +131,16 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
     }
   }
 
-  # Return ans. If obj msg exists, print warning message.
+  # If ans is a char vector, convert to a list if return_char is FALSE, otherwise
+  # unname the char vector.
+  if (mode(ans) == "character") {
+    if (return_char) {
+      ans <- unname(ans)
+    } else{
+      ans <- lapply(ans, function(x) x)
+    }
+  }
+
   if (exists("msg")) {
     warning(msg, call. = FALSE)
   }
