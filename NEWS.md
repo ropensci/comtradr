@@ -5,6 +5,12 @@ comtradr 0.0.2.9000
 
 * commodity_lookup() was returning a named vector in specific situations (see [issue #2](https://github.com/ChrisMuir/comtradr/issues/2)). This issue is now fixed. Setting arg `return_char` to TRUE should always return a (non-named) vector, while FALSE should always return a list.
 
+* commodity_lookup() was throwing an error with a specific combination of input values (see [issue #3](https://github.com/ChrisMuir/comtradr/issues/3). This issue is now fixed.
+
+### MINOR IMPROVEMENTS
+
+* Add a vignette directory, with an "Intro to comtradr" vignette.
+
 
 comtradr 0.0.2
 ===================
