@@ -87,8 +87,8 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
         lookuptable[grepl(x, lookuptable$code, ignore.case = TRUE),
                     c("code")]
       } else {
-        # For numeric input (will do HS code lookup), and will return the HS
-        # code for each returned value.
+        # For numeric input (will do HS code lookup), and will return the full
+        # commodity description for each returned value.
         lookuptable[grepl(x, lookuptable$code, ignore.case = TRUE),
                     c("commodity")]
       }
