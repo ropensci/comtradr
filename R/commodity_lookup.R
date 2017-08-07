@@ -102,9 +102,8 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
       ans <- as.vector(ans)
     } else {
       ans <- ans %>%
-        as.vector %>%
-        list %>%
-        `names<-`(values)
+        dplyr::as_data_frame() %>%
+        as.list
     }
   }
 
