@@ -9,9 +9,11 @@ R package for interacting with the [UN Comtrade Database](https://comtrade.un.or
 
 This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/api/ex/r) posted by Comtrade, and is built using [httr](https://CRAN.R-project.org/package=httr) and [jsonlite](https://CRAN.R-project.org/package=jsonlite).
 
-Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or features requests.
-
 I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
+
+Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or feature requests.
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 **NOTE**: As of 2017-06-27, the curl errors due to an inadility to validate the SSL certificate of the API site are no longer appearing, I believe that UN Comtrade fixed their SSL cert issue. As of 2017-07-03, the package is back on CRAN.
 
