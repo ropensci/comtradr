@@ -1,0 +1,135 @@
+---
+title: "Intro to comtradr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to comtradr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+## Package information
+
+API wrapper for the [UN Comtrade Database](https://comtrade.un.org/data/), which features inter-country trade data dating back to the early 1990's. Full API documentation can be found [here](https://comtrade.un.org/data/doc/api/). This package allows users to interact with the API directly from R, and features functions for making queries and importing data.
+
+## Install and load comtradr
+
+Install from CRAN:
+```{r eval = FALSE}
+install.packages("comtradr")
+```
+Or install the development version from this repo:
+```{r eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("ChrisMuir/comtradr")
+```
+Load comtradr
+```{r}
+library(comtradr)
+```
+
+## Get country code lookup table
+Prior to making API queries for shipping data, we must first import the country code lookup table from Comtrade. This is a data frame that contains information on all of the countries in the world, and this object will be passed as a parameter argument in each API call we make.
+```{r}
+countrydf <- ct_countries_table()
+head(countrydf)
+```
+
+## Making API calls
+Now we're ready to start making API calls. Lets say we want to get data on all imports into the United States from Germany, France, Japan, and Mexico, for all years.
+```{r}
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               countrytable = countrydf, 
+               tradedirection = "imports")
+
+# API calls will always return a list of length three.
+q$msg
+q$details
+str(q$data)
+```
+
+Here are a few more examples to show the different parameter options:
+
+Limit the search range to shipments between 2010 and 2014.
+```{r, eval = FALSE}
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               countrytable = countrydf, 
+               tradedirection = "imports", 
+               startdate = "2010-01-01", 
+               enddate = "2014-01-01")
+```
+
+By default, the return data is in yearly amounts. We can specify monthly, however the API limits each "monthly"" query to a five month span.
+```{r, eval = FALSE}
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               countrytable = countrydf, 
+               tradedirection = "imports", 
+               startdate = "2012-03-01", 
+               enddate = "2012-07-01", 
+               freq = "monthly")
+```
+
+Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the country code lookup table. Function `country_lookup` allows us to query the country code look up table.
+```{r}
+country_lookup("korea", "reporter", countrydf)
+country_lookup("bolivia", "partner", countrydf)
+```
+```{r, eval = FALSE}
+q <- ct_search(reporters = "Rep. of Korea", 
+               partners = "Bolivia (Plurinational State of)", 
+               countrytable = countrydf, 
+               tradedirection = "all")
+```
+
+Search trade related to specific commodities (say, tomatos). First, we must import the commodity code lookup table.
+```{r}
+commoditydf <- ct_commodities_table()
+```
+We can query the commodity lookup table to see all of the different commodity descriptions available for tomatos.
+```{r}
+commodity_lookup("tomato", commoditydf)
+```
+If we want to search for shipment data on all of the commodity descriptions listed, then we can simply ajust the params for `commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
+```{r, eval = FALSE}
+tomato_codes <- commodity_lookup("tomato", 
+                                 commoditydf, 
+                                 return_code = TRUE, 
+                                 return_char = TRUE)
+
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               countrytable = countrydf, 
+               tradedirection = "all", 
+               commodcodes = tomato_codes)
+```
+On the other hand, if we wanted to exclude the juice and sauces from our search, we can pass a vector of the relevant codes to the API call.
+```{r, eval = FALSE}
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               countrytable = countrydf, 
+               tradedirection = "all", 
+               commodcodes = c(0702, 070200, 2002, 200210, 200290))
+```
+
+## More on the lookup functions
+
+Functions `country_lookup` and `commodity_lookup` are both able to take as input multiple search terms.
+```{r}
+country_lookup(c("Belgium", "vietnam", "brazil"), "reporter", countrydf)
+
+commodity_lookup(c("tomato", "trout"), commoditydf, return_char = TRUE)
+```
+`commodity_lookup` can return a vector (as seen above) or a named list, using parameter `return_char`
+```{r}
+commodity_lookup(c("tomato", "trout"), commoditydf, return_char = FALSE)
+```
+For `commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
+```{r}
+commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
+```
