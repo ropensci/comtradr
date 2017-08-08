@@ -3,7 +3,7 @@ context("ct_search")
 # All tests on the expected return data.
 test_that("search return values are correct, and fail when expected", {
   skip_on_cran()
-  skip_on_travis()
+  #skip_on_travis()
 
   countrydf <- ct_countries_table()
 
@@ -24,7 +24,7 @@ test_that("search return values are correct, and fail when expected", {
                     "160520",
                     "160521",
                     "160529")
-  ex2 <- ct_search(reporters = "Canada",
+  ex2 <- ct_search(reporters = "USA",
                    partners = c("Germany", "Thailand"),
                    countrytable = countrydf,
                    tradedirection = "exports",
@@ -65,7 +65,7 @@ test_that("search return values are correct, and fail when expected", {
   expect_equal(ncol(ex2$data), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(ex2$data$Reporter), "Canada")
+  expect_equal(unique(ex2$data$Reporter), "USA")
 
   # Variable "Partner".
   expect_equal(sort(unique(ex2$data$Partner)), c("Germany", "Thailand"))
@@ -74,7 +74,7 @@ test_that("search return values are correct, and fail when expected", {
   expect_equal(unique(ex2$data$`Trade Flow`), "Export")
 
   # Variable "Period".
-  expect_equal(sort(unique(ex2$data$Period))[1:3], c(1989, 1990, 1991))
+  expect_equal(sort(unique(ex2$data$Period))[1:3], c(1991, 1992, 1993))
 
   # Variable "Commodity Code".
   expect_equal(sort(unique(ex2$data$`Commodity Code`)), shrimp_codes)

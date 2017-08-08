@@ -3,7 +3,7 @@ context("commodity_lookup")
 # All tests on the expected return data.
 test_that("lookup return values are correct, and fail when expected", {
   skip_on_cran()
-  skip_on_travis()
+  #skip_on_travis()
 
   df <- ct_commodities_table(type = "HS")
   ex_1 <- commodity_lookup(values = "halibut",
