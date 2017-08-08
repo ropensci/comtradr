@@ -220,18 +220,20 @@ ct_search <- function(reporters, partners, countrytable,
     reporters <- "All"
   }
 
-  ids <- sapply(
-    reporters, function(x)
-      countrytable[which(countrytable$`country name` == x &
-                           countrytable$type == "reporter"), ]$code,
-    USE.NAMES = FALSE)
+  ids <- vapply(reporters, function(x) {
+    if (any(countrytable$`country name` == x)) {
+      countrytable[countrytable$`country name` == x &
+                     countrytable$type == "reporter", ]$code
+    } else {
+      "no_match"
+    }
+  }, character(1), USE.NAMES = FALSE)
 
-  if (is.character(ids)) {
+  if (!"no_match" %in% ids) {
     reporters <- paste(ids, collapse = ",")
-  } else if (is.list(ids)) {
-    err <- paste(
-      reporters[!reporters %in% names(unlist(ids))], collapse = ", ")
-    stop(paste("From param reporters, these values were not found in the ",
+  } else {
+    err <- paste(reporters[which(ids == "no_match")], collapse = ", ")
+    stop(paste("From param 'reporters', these values were not found in the",
                "country code lookup table:", err))
   }
 
@@ -240,18 +242,20 @@ ct_search <- function(reporters, partners, countrytable,
     partners <- "All"
   }
 
-  ids <- sapply(
-    partners, function(x)
-      countrytable[which(countrytable$`country name` == x &
-                           countrytable$type == "partner"), ]$code,
-    USE.NAMES = FALSE)
+  ids <- vapply(partners, function(x) {
+    if (any(countrytable$`country name` == x)) {
+      countrytable[countrytable$`country name` == x &
+                     countrytable$type == "partner", ]$code
+    } else {
+      "no_match"
+    }
+  }, character(1), USE.NAMES = FALSE)
 
-  if (is.character(ids)) {
+  if (!"no_match" %in% ids) {
     partners <- paste(ids, collapse = ",")
-  } else if (is.list(ids)) {
-    err <- paste(
-      partners[!partners %in% names(unlist(ids))], collapse = ", ")
-    stop(paste("From param partners, these values were not found in the ",
+  } else {
+    err <- paste(partners[which(ids == "no_match")], collapse = ", ")
+    stop(paste("From param 'partners', these values were not found in the",
                "country code lookup table:", err))
   }
 

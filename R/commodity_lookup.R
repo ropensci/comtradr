@@ -130,8 +130,8 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
     }
   }
 
-  # If ans is a char vector, convert to a list if return_char is FALSE, otherwise
-  # unname the char vector.
+  # If ans is a char vector, convert to a list if return_char is FALSE,
+  # otherwise unname the char vector.
   if (mode(ans) == "character") {
     if (return_char) {
       ans <- unname(ans)
