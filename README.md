@@ -45,7 +45,7 @@ library(comtradr)
 # This will be used as a parameter in the API calls.
 countrydf <- ct_countries_table()
 
-# This object can can also be used to look up the exact spellings of countries 
+# This object can also be used to look up the exact spellings of countries 
 # prior to making API calls.
 country_lookup("korea", "reporter", countrydf)
 #> [1] "Dem. People's Rep. of Korea" "Rep. of Korea"
