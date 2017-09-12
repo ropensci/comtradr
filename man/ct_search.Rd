@@ -140,16 +140,11 @@ countrydf <- ct_countries_table()
 ## Example API call number 1:
 # All exports from China to South Korea, United States and Mexico over all
 # years.
-comtrade <- ct_search(reporters = "China",
-                      partners = c("Rep. of Korea", "USA", "Mexico"),
-                      countrytable = countrydf,
-                      tradedirection = "exports")
-comtrade$msg
-[1] "Data returned"
-comtrade$details
-[1] "Connection successful"
-nrow(comtrade$data)
-[1] 75
+ex_1 <- ct_search(reporters = "China",
+                  partners = c("Rep. of Korea", "USA", "Mexico"),
+                  countrytable = countrydf,
+                  tradedirection = "exports")
+nrow(ex_1$data)
 
 ## Example API call number 2:
 # All shipments related to halibut between Canada and all other countries,
@@ -165,23 +160,13 @@ shrimp_codes <- commodity_lookup("shrimp",
                                  verbose = TRUE)
 
 # Make API call
-shrimp_codes <- commodity_lookup("shrimp",
-                                 commoditydf,
-                                 return_code = TRUE,
-                                 return_char = TRUE,
-                                 verbose = TRUE)
-comtrade <- ct_search(reporters = "Canada",
-                      partners = "All",
-                      countrytable = countrydf,
-                      tradedirection = "all",
-                      startdate = "2011-01-01",
-                      enddate = "2015-01-01",
-                      commodcodes = shrimp_codes)
-comtrade$msg
-[1] "Data returned"
-comtrade$details
-[1] "Connection successful"
-nrow(comtrade$data)
-[1] 1321
+ex_2 <- ct_search(reporters = "Canada",
+                  partners = "All",
+                  countrytable = countrydf,
+                  tradedirection = "all",
+                  startdate = "2011-01-01",
+                  enddate = "2015-01-01",
+                  commodcodes = shrimp_codes)
+nrow(ex_2$data)
 }
 }
