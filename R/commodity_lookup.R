@@ -53,85 +53,48 @@ commodity_lookup <- function(values, lookuptable, return_code = FALSE,
   stopifnot(is.data.frame(lookuptable))
   values <- as.character(values)
 
+  # transform input arg "return_code" to match the col name indicated
+  # (TRUE == "code", FALSE == "commodity").
+  if (return_code) {
+    return_col <- "code"
+  } else {
+    return_col <- "commodity"
+  }
+
   # For each element of input param "values", fetch all commodity descriptions
-  # and/or codes from the lookuptable.
-  ans <- sapply(values, function(x) {
+  # and/or codes from the lookuptable. Output will be a list.
+  ans <- purrr::map(values, function(x) {
     # Determine whether the param 'value' is a commodity or a code, then
     # perform the look up.
     if (grepl("[a-z]", x)) {
-      if (return_code) {
-        # For char input (will do commodity lookup), and will return the HS
-        # code for each returned value.
-        lookuptable[grepl(x, lookuptable$commodity, ignore.case = TRUE),
-                    c("code")]
-      } else {
-        # For char input (will do commodity lookup), and will return the full
-        # commodity description for each returned value.
-        lookuptable[grepl(x, lookuptable$commodity, ignore.case = TRUE),
-                    c("commodity")]
-      }
+      lu_col <- "commodity"
     } else {
-      if (return_code) {
-        # For numeric input (will do HS code lookup), and will return the HS
-        # code for each returned value.
-        lookuptable[grepl(x, lookuptable$code, ignore.case = TRUE),
-                    c("code")]
-      } else {
-        # For numeric input (will do HS code lookup), and will return the full
-        # commodity description for each returned value.
-        lookuptable[grepl(x, lookuptable$code, ignore.case = TRUE),
-                    c("commodity")]
-      }
+      lu_col <- "code"
     }
+    lookuptable[grepl(x, lookuptable[[lu_col]], ignore.case = TRUE), return_col]
   })
 
-  # If ans is a matrix, convert to a char vector if return_char is TRUE,
-  # otherwise convert to a list.
-  if (is.matrix(ans)) {
-    if (return_char) {
-      ans <- as.vector(ans)
-    } else {
-      ans <- ans %>%
-        dplyr::as_data_frame() %>%
-        as.list
-    }
-  }
-
-  # If ans is a list, check the legnth of each element. If any have length
-  # zero, create a warning message that will be printed to console if input
-  # param "verbose" is TRUE. If there are no elements with length zero,
-  # convert ans to a char vector if return_char is TRUE.
-  if (is.list(ans)) {
-    if (verbose) {
-      check_len <- vapply(ans, length, integer(1), USE.NAMES = FALSE)
-      if (any(check_len == 0)) {
-        if (any(check_len > 0)) {
-          msg <- paste0("There were no matching results found for inputs: ",
-                        paste(values[which(check_len == 0)], collapse = ", "))
-        } else {
-          msg <- "There were no matching results found"
-        }
+  # If "verbose" == TRUE, create warning message if any of the elements of input
+  # arg "values" produced no search results.
+  if (verbose) {
+    check_len <- purrr::map_int(ans, length)
+    if (any(check_len == 0)) {
+      if (any(check_len > 0)) {
+        msg <- paste0("There were no matching results found for inputs: ",
+                      paste(values[which(check_len == 0)], collapse = ", "))
+      } else {
+        msg <- "There were no matching results found"
       }
-    }
-    if (return_char) {
-      ans <- ans %>%
-        unname %>%
-        unlist
+      warning(msg, call. = FALSE)
     }
   }
 
-  # If ans is a char vector, convert to a list if return_char is FALSE,
-  # otherwise unname the char vector.
-  if (mode(ans) == "character") {
-    if (return_char) {
-      ans <- unname(ans)
-    } else{
-      ans <- lapply(ans, function(x) x)
-    }
-  }
-
-  if (exists("msg")) {
-    warning(msg, call. = FALSE)
+  # If "return_char" == TRUE, unlist obj "ans". Otherwise, assign names to the
+  # elements of obj "ans" (names will be taken from input arg "values").
+  if (return_char) {
+    ans <- unlist(ans, FALSE, FALSE)
+  } else {
+    names(ans) <- values
   }
   return(ans)
 }
