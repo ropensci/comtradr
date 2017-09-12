@@ -6,3 +6,4 @@
 ^\.travis\.yml$
 ^TODO\.md$
 ^CONDUCT\.md$
+^appveyor\.yml$
