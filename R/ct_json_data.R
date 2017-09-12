@@ -18,7 +18,7 @@
 #'    call.
 #'  \item \code{data}: Dataframe object of return data.
 #'  }
-#' @importFrom dplyr "%>%"
+#' @importFrom magrittr "%>%"
 ct_json_data <- function(url, colname) {
 
   rawdata <- tryCatch(httr::GET(url), error = function(e) e)

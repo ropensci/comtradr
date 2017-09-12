@@ -38,7 +38,7 @@
 #'  path that points to the JSON commodity tables.
 #' @return A dataframe of commodities, commodity codes and parent codes,
 #'  downloaded from UN Comtrade.
-#' @importFrom dplyr "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 #' @examples \dontrun{

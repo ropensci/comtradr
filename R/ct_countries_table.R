@@ -15,7 +15,7 @@
 #'
 #' @return A dataframe of countries and country codes, downloaded from UN
 #'  Comtrade.
-#' @importFrom dplyr "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 #' @examples \dontrun {
