@@ -10,7 +10,8 @@ LazyData: true
 Imports:
         httr, 
         jsonlite, 
-        dplyr, 
+        magrittr (>= 1.5), 
+        purrr, 
         methods, 
         utils
 RoxygenNote: 6.0.1
