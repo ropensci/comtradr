@@ -6,6 +6,7 @@ test_that("search return values are correct, and fail when expected", {
   #skip_on_travis()
 
   countrydf <- ct_countries_table()
+  Sys.sleep(3)
 
   # Get monhtly data on all German imports into Canada,
   # 2011-01-01 thru 2011-05-01.
@@ -16,7 +17,7 @@ test_that("search return values are correct, and fail when expected", {
                    freq = "monthly",
                    startdate = "2011-01-01",
                    enddate = "2011-05-01")
-
+  Sys.sleep(3)
   # Get yearly data on Canadian shrimp exports into Germany and Thailand,
   # for all years on record.
   shrimp_codes <- c("030613",
@@ -32,6 +33,7 @@ test_that("search return values are correct, and fail when expected", {
                    startdate = "all",
                    enddate = "all",
                    commodcodes = shrimp_codes)
+  Sys.sleep(3)
 
   ## ex1 tests
   # Data type.
@@ -88,39 +90,39 @@ test_that("search return values are correct, and fail when expected", {
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "partners".
   expect_error(ct_search(reporters = "Canada",
                          partners = "invalid_partner",
                          countrytable = countrydf,
                          tradedirection = "imports"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "countrytable".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = data.frame(),
                          tradedirection = "imports"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "tradedirection".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "invalid_td"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "type".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
                          type = "invalid_type"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "freq".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
                          freq = "invalid_freq"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for params "startdate" and "endate".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
@@ -129,7 +131,7 @@ test_that("search return values are correct, and fail when expected", {
                          freq = "monthly",
                          startdate = "1/1/2011",
                          enddate = "5/1/2011"))
-
+  Sys.sleep(3)
   # Returned error msg from the API with invalid input for param "commodcodes".
   ex1 <- ct_search(reporters = "Canada",
                    partners = "Germany",
@@ -137,25 +139,26 @@ test_that("search return values are correct, and fail when expected", {
                    tradedirection = "imports",
                    commodcodes = "invalid_codes")
   expect_equal(ex1$details, "invalid_codes is an invalid commodity code.")
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "fmt".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
                          fmt = "invalid_fmt"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "colname".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
                          colname = "invalid_fmt"))
-
+  Sys.sleep(3)
   # Throw error with invalid input for param "codetype".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          countrytable = countrydf,
                          tradedirection = "imports",
                          codetype = "invalid_codetype"))
+  Sys.sleep(3)
 })

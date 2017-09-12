@@ -6,6 +6,7 @@ test_that("lookup return values are correct, and fail when expected", {
   #skip_on_travis()
 
   df <- ct_commodities_table(type = "HS")
+  Sys.sleep(3)
   ex_1 <- commodity_lookup(values = "halibut",
                            lookuptable = df,
                            return_code = FALSE,
