@@ -8,11 +8,6 @@ os:
 - linux
 - osx
 
-r:
-- release
-- oldrelease
-- devel
-
 addons:
   apt:
     packages:
