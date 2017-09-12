@@ -18,8 +18,9 @@
 #' @importFrom dplyr "%>%"
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples \dontrun {
 #' countrydf <- ct_countries_table()
+#' head(countrydf)
 #' }
 ct_countries_table <- function(reporters = NULL, partners = NULL) {
 

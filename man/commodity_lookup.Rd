@@ -52,13 +52,6 @@ commodity_lookup("halibut",
                  return_code = FALSE,
                  return_char = FALSE,
                  verbose = TRUE)
-$halibut
-[1] "030221 - Fish; halibut (reinhardtius hippoglossoides, hippoglossus
- hippoglossus, hippoglossus stenolepis), fresh or chilled (excluding
- fillets, livers, roes and other fish meat of heading no. 0304)"
-[2] "030331 - Fish; halibut (reinhardtius hippoglossoides, hippoglossus
- hippoglossus, hippoglossus stenolepis), frozen (excluding fillets, livers,
- roes and other fish meat of heading no. 0304)"
 
 # Look up commodity codes related to "shrimp".
 comtradr::commodity_lookup("shrimp",
@@ -66,8 +59,5 @@ comtradr::commodity_lookup("shrimp",
                            return_code = TRUE,
                            return_char = FALSE,
                            verbose = TRUE)
-$shrimp
-[1] "030613" "030616" "030617" "030623" "030626" "030627" "030635" "030636"
- "030695" "160520" "160521" "160529" "160540"
 }
 }

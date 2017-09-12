@@ -42,8 +42,8 @@
 #' @export
 #'
 #' @examples \dontrun{
-#' ct_commodities_table("HS")
-#' ct_commodities_table("SITCrev2")
+#' commoditydf <- ct_commodities_table("HS")
+#' head(commoditydf)
 #' }
 ct_commodities_table <- function(type = c("HS", "HS1992", "HS1996",
                                           "HS2002", "HS2007", "HS2012",

@@ -34,7 +34,5 @@ For use with the UN Comtrade API, full API docs can be found at
 # Look up all reporters that contain the terms "korea" and "vietnam"
 countrydf <- ct_countries_table()
 country_lookup(c("korea", "vietnam"), "reporter", countrydf)
-[1] "Dem. People's Rep. of Korea"   "Fmr Dem. Rep. of Vietnam"
-[3] "Fmr Rep. of Vietnam"           "Rep. of Korea"
 }
 }

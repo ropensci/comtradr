@@ -56,7 +56,7 @@ The default for param \code{type} is \code{HS}. Below is a list of
 }
 \examples{
 \dontrun{
-ct_commodities_table("HS")
-ct_commodities_table("SITCrev2")
+commoditydf <- ct_commodities_table("HS")
+head(commoditydf)
 }
 }
