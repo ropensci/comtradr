@@ -3,7 +3,7 @@
 comtradr
 ========
 
-[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/comtradr)](http://cran.r-project.org/package=comtradr)
+[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ChrisMuir/comtradr?branch=master&svg=true)](https://ci.appveyor.com/project/ChrisMuir/comtradr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/comtradr)](http://cran.r-project.org/package=comtradr)
 
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found [here](https://comtrade.un.org/data/doc/api/).
 
