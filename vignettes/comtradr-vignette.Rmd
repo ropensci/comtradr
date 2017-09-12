@@ -87,15 +87,15 @@ q <- ct_search(reporters = "Rep. of Korea",
                tradedirection = "all")
 ```
 
-Search trade related to specific commodities (say, tomatos). First, we must import the commodity code lookup table.
+Search trade related to specific commodities (say, tomatoes). First, we must import the commodity code lookup table.
 ```{r}
 commoditydf <- ct_commodities_table()
 ```
-We can query the commodity lookup table to see all of the different commodity descriptions available for tomatos.
+We can query the commodity lookup table to see all of the different commodity descriptions available for tomatoes.
 ```{r}
 commodity_lookup("tomato", commoditydf)
 ```
-If we want to search for shipment data on all of the commodity descriptions listed, then we can simply ajust the params for `commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
+If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the params for `commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
 ```{r, eval = FALSE}
 tomato_codes <- commodity_lookup("tomato", 
                                  commoditydf, 
