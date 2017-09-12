@@ -27,7 +27,7 @@ downloaded from UN Comtrade. For use with the UN Comtrade API, full API
 docs can be found at \url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
-\dontrun {
+\dontrun{
 countrydf <- ct_countries_table()
 head(countrydf)
 }

@@ -18,7 +18,7 @@
 #' @importFrom magrittr "%>%"
 #' @export
 #'
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' countrydf <- ct_countries_table()
 #' head(countrydf)
 #' }
