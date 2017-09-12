@@ -205,44 +205,42 @@ ct_search <- function(reporters, partners, countrytable,
     reporters <- "All"
   }
 
-  ids <- vapply(reporters, function(x) {
-    if (any(countrytable$`country name` == x)) {
-      countrytable[countrytable$`country name` == x &
-                     countrytable$type == "reporter", ]$code
-    } else {
-      "no_match"
-    }
-  }, character(1), USE.NAMES = FALSE)
-
-  if (!"no_match" %in% ids) {
-    reporters <- paste(ids, collapse = ",")
-  } else {
-    err <- paste(reporters[which(ids == "no_match")], collapse = ", ")
+  if (!all(reporters %in% countrytable$`country name`)) {
+    err <- paste(
+      reporters[!reporters %in% countrytable$`country name`],
+      collapse = ", "
+    )
     stop(paste("From param 'reporters', these values were not found in the",
                "country code lookup table:", err))
   }
+
+  ids <- purrr::map_chr(reporters, function(x) {
+    countrytable[countrytable$`country name` == x &
+                   countrytable$type == "reporter", ]$code
+  })
+
+  reporters <- paste(ids, collapse = ",")
 
   # Transformations to partners:
   if (any(partners %in% c("all", "All", "ALL"))) {
     partners <- "All"
   }
 
-  ids <- vapply(partners, function(x) {
-    if (any(countrytable$`country name` == x)) {
-      countrytable[countrytable$`country name` == x &
-                     countrytable$type == "partner", ]$code
-    } else {
-      "no_match"
-    }
-  }, character(1), USE.NAMES = FALSE)
-
-  if (!"no_match" %in% ids) {
-    partners <- paste(ids, collapse = ",")
-  } else {
-    err <- paste(partners[which(ids == "no_match")], collapse = ", ")
+  if (!all(partners %in% countrytable$`country name`)) {
+    err <- paste(
+      partners[!reporters %in% countrytable$`country name`],
+      collapse = ", "
+    )
     stop(paste("From param 'partners', these values were not found in the",
                "country code lookup table:", err))
   }
+
+  ids <- purrr::map_chr(partners, function(x) {
+    countrytable[countrytable$`country name` == x &
+                   countrytable$type == "partner", ]$code
+  })
+
+  partners <- paste(ids, collapse = ",")
 
   # Transformations to tradedirection:
   rg <- vector()
