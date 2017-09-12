@@ -8,6 +8,14 @@ os:
 - linux
 - osx
 
+<<<<<<< HEAD
+=======
+r:
+- release
+- oldrelease
+- devel
+
+>>>>>>> c9b292761f13b118f9d00cd6e70fdf71bc44412b
 addons:
   apt:
     packages:
