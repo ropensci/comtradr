@@ -27,8 +27,8 @@ Interface with and extract data from the United Nations
   \item \code{\link{ct_search}}
   \item \code{\link{ct_countries_table}}
   \item \code{\link{ct_commodities_table}}
-  \item \code{\link{country_lookup}}
-  \item \code{\link{commodity_lookup}}
+  \item \code{\link{ct_country_lookup}}
+  \item \code{\link{ct_commodity_lookup}}
 }
 }
 
