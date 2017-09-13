@@ -8,7 +8,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE}
-knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE, fig.width = 9, fig.height = 6)
 ```
 
 ## Package information
@@ -132,4 +132,83 @@ ct_commodity_lookup(c("tomato", "trout"), commoditydf, return_char = FALSE)
 For `ct_commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
 ```{r}
 ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
+```
+
+## Visualize
+
+Once the data is collected, we can use it to create some basic visualizations.
+
+**Plot 1**: Plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
+
+```{r, warning = FALSE, message = FALSE}
+library(ggplot2)
+
+# Comtrade api query.
+df <- ct_search(reporters = "China", 
+                partners = c("Rep. of Korea", "USA", "Mexico"), 
+                countrytable = countrydf, 
+                tradedirection = "exports")
+df <- df$data
+
+# Create plot.
+ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner), 
+               shape = factor(Partner))) +
+  geom_point(size = 2) +
+  geom_line(size = 1) +
+  scale_x_continuous(limits = c(min(df$Year), max(df$Year)), 
+                     breaks = seq.int(min(df$Year), max(df$Year), 2)) +
+  scale_color_manual(values = c("orange", "blue", "red"), 
+                     name = "Destination\nCountry") +
+  scale_shape_discrete(name = "Destination\nCountry") +
+  labs(title = "Total Value (USD) of Chinese Exports, by Year",
+       x = "year", y = "total value of shipments in USD") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+**Plot 2**: Plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
+
+```{r, warning = FALSE, message = FALSE}
+# install.packages("magrittr")
+library(ggplot2)
+library(dplyr)
+
+# First, collect commodity codes related to shrimp..
+shrimp_codes <- ct_commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
+
+# Comtrade api query.
+df <- ct_search(reporters = "Thailand", 
+                partners = "All", 
+                countrytable = countrydf, 
+                tradedirection = "exports", 
+                startdate = "2007-01-01", 
+                enddate = "2011-01-01", 
+                commodcodes = shrimp_codes)
+
+# Create country specific "total weight per year" dataframe for plotting.
+plotdf <- df$data %>% 
+  group_by_(.dots = c("Partner", "Year")) %>% 
+  summarise(kg = as.numeric(sum(`Netweight (kg)`, na.rm = TRUE))) %>% 
+  as_data_frame()
+
+# Get vector of the top 8 destination countries/areas by total weight shipped 
+# across all years, then subset plotdf to only include observations related 
+# to those countries/areas.
+top8 <- plotdf %>% 
+  group_by(Partner) %>% 
+  summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) %>% 
+  arrange(desc(kg)) %>% 
+  magrittr::extract2("Partner") %>% 
+  magrittr::extract(1:8)
+plotdf <- plotdf %>% filter(Partner %in% top8)
+
+# Create plots (y-axis is NOT fixed across panels, this will allow us to ID 
+# trends over time within each country/area individually).
+qplot(Year, kg, data = plotdf) + 
+  geom_line(data = plotdf[plotdf$Partner %in% names(which(table(plotdf$Partner) > 1)), ]) + 
+  xlim(min(plotdf$Year), max(plotdf$Year)) + 
+  labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011", 
+       x = "year", y = "sum of weight of all shipments in KG") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), 
+        axis.text = element_text(size = 7)) + 
+  facet_wrap(~factor(Partner, levels = top8), scales = "free", nrow = 2, ncol = 4)
 ```
