@@ -11,8 +11,8 @@ Imports:
         httr, 
         jsonlite, 
         magrittr (>= 1.5), 
-        purrr, 
         methods, 
+        purrr, 
         utils
 RoxygenNote: 6.0.1
 URL: https://github.com/ChrisMuir/comtradr
@@ -22,5 +22,7 @@ Author: Chris Muir [aut, cre]
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    dplyr, 
+    ggplot2
 VignetteBuilder: knitr

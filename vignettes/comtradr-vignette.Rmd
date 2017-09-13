@@ -21,9 +21,8 @@ Install from CRAN:
 ```{r eval = FALSE}
 install.packages("comtradr")
 ```
-Or install the development version from this repo:
+Or install the development version from GitHub:
 ```{r eval = FALSE}
-# install.packages("devtools")
 devtools::install_github("ChrisMuir/comtradr")
 ```
 Load comtradr
@@ -95,7 +94,7 @@ We can query the commodity lookup table to see all of the different commodity de
 ```{r}
 ct_commodity_lookup("tomato", commoditydf)
 ```
-If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the params for `ct_commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
+If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the params for `ct_commodity_lookup` so that it will return only the codes, which can then be passed along to `ct_search`.
 ```{r, eval = FALSE}
 tomato_codes <- ct_commodity_lookup("tomato", 
                                     commoditydf, 
@@ -125,10 +124,12 @@ ct_country_lookup(c("Belgium", "vietnam", "brazil"), "reporter", countrydf)
 
 ct_commodity_lookup(c("tomato", "trout"), commoditydf, return_char = TRUE)
 ```
+
 `ct_commodity_lookup` can return a vector (as seen above) or a named list, using parameter `return_char`
 ```{r}
 ct_commodity_lookup(c("tomato", "trout"), commoditydf, return_char = FALSE)
 ```
+
 For `ct_commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
 ```{r}
 ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
@@ -168,12 +169,14 @@ ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner),
 **Plot 2**: Plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
 
 ```{r, warning = FALSE, message = FALSE}
-# install.packages("magrittr")
 library(ggplot2)
 library(dplyr)
 
 # First, collect commodity codes related to shrimp..
-shrimp_codes <- ct_commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
+shrimp_codes <- ct_commodity_lookup("shrimp", 
+                                    commoditydf, 
+                                    return_code = TRUE, 
+                                    return_char = TRUE)
 
 # Comtrade api query.
 df <- ct_search(reporters = "Thailand", 
