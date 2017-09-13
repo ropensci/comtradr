@@ -47,7 +47,7 @@ countrydf <- ct_countries_table()
 
 # This object can also be used to look up the exact spellings of countries 
 # prior to making API calls.
-country_lookup("korea", "reporter", countrydf)
+ct_country_lookup("korea", "reporter", countrydf)
 #> [1] "Dem. People's Rep. of Korea" "Rep. of Korea"
 
 # Since we want South Korea, we'll use "Rep. of Korea" within the API query.
@@ -105,7 +105,7 @@ library(comtradr)
 commoditydf <- ct_commodities_table("HS")
 
 # Then search for shrimp.
-shrimp_codes <- commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
+shrimp_codes <- ct_commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
 
 # API query.
 example2 <- ct_search(reporters = "Thailand", 
