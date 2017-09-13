@@ -22,9 +22,10 @@
 #' @examples \dontrun{
 #' # Look up all reporters that contain the terms "korea" and "vietnam"
 #' countrydf <- ct_countries_table()
-#' country_lookup(c("korea", "vietnam"), "reporter", countrydf)
+#' ct_country_lookup(c("korea", "vietnam"), "reporter", countrydf)
 #' }
-country_lookup <- function(loc, type = c("reporter", "partner"), lookuptable) {
+ct_country_lookup <- function(loc, type = c("reporter", "partner"),
+                              lookuptable) {
 
   type <- match.arg(type)
 

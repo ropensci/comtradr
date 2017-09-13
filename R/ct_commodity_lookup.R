@@ -33,22 +33,22 @@
 #' @examples \dontrun{
 #' # Look up commodity descriptions related to "halibut"
 #' commoditydf <- ct_commodities_table("HS")
-#' commodity_lookup("halibut",
-#'                  commoditydf,
-#'                  return_code = FALSE,
-#'                  return_char = FALSE,
-#'                  verbose = TRUE)
+#' ct_commodity_lookup("halibut",
+#'                     commoditydf,
+#'                     return_code = FALSE,
+#'                     return_char = FALSE,
+#'                     verbose = TRUE)
 #'
 #' # Look up commodity codes related to "shrimp".
-#' comtradr::commodity_lookup("shrimp",
-#'                            commoditydf,
-#'                            return_code = TRUE,
-#'                            return_char = FALSE,
-#'                            verbose = TRUE)
+#' ct_commodity_lookup("shrimp",
+#'                     commoditydf,
+#'                     return_code = TRUE,
+#'                     return_char = FALSE,
+#'                     verbose = TRUE)
 #' }
 
-commodity_lookup <- function(values, lookuptable, return_code = FALSE,
-                             return_char = FALSE, verbose = TRUE) {
+ct_commodity_lookup <- function(values, lookuptable, return_code = FALSE,
+                                return_char = FALSE, verbose = TRUE) {
   stopifnot(mode(values) %in% c("numeric", "character"))
   stopifnot(is.data.frame(lookuptable))
   values <- as.character(values)

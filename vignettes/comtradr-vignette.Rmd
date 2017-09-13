@@ -64,7 +64,7 @@ q <- ct_search(reporters = "USA",
                enddate = "2014-01-01")
 ```
 
-By default, the return data is in yearly amounts. We can specify monthly, however the API limits each "monthly"" query to a five month span.
+By default, the return data is in yearly amounts. We can specify monthly, however the API limits each "monthly" query to a five month span.
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
@@ -75,10 +75,10 @@ q <- ct_search(reporters = "USA",
                freq = "monthly")
 ```
 
-Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the country code lookup table. Function `country_lookup` allows us to query the country code look up table.
+Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the country code lookup table. Function `ct_country_lookup` allows us to query the country code look up table.
 ```{r}
-country_lookup("korea", "reporter", countrydf)
-country_lookup("bolivia", "partner", countrydf)
+ct_country_lookup("korea", "reporter", countrydf)
+ct_country_lookup("bolivia", "partner", countrydf)
 ```
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "Rep. of Korea", 
@@ -93,14 +93,14 @@ commoditydf <- ct_commodities_table()
 ```
 We can query the commodity lookup table to see all of the different commodity descriptions available for tomatoes.
 ```{r}
-commodity_lookup("tomato", commoditydf)
+ct_commodity_lookup("tomato", commoditydf)
 ```
-If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the params for `commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
+If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the params for `ct_commodity_lookup` so that it will output only the codes, which can then be passed along to the API call.
 ```{r, eval = FALSE}
-tomato_codes <- commodity_lookup("tomato", 
-                                 commoditydf, 
-                                 return_code = TRUE, 
-                                 return_char = TRUE)
+tomato_codes <- ct_commodity_lookup("tomato", 
+                                    commoditydf, 
+                                    return_code = TRUE, 
+                                    return_char = TRUE)
 
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
@@ -119,17 +119,17 @@ q <- ct_search(reporters = "USA",
 
 ## More on the lookup functions
 
-Functions `country_lookup` and `commodity_lookup` are both able to take as input multiple search terms.
+Functions `ct_country_lookup` and `ct_commodity_lookup` are both able to take as input multiple search terms.
 ```{r}
-country_lookup(c("Belgium", "vietnam", "brazil"), "reporter", countrydf)
+ct_country_lookup(c("Belgium", "vietnam", "brazil"), "reporter", countrydf)
 
-commodity_lookup(c("tomato", "trout"), commoditydf, return_char = TRUE)
+ct_commodity_lookup(c("tomato", "trout"), commoditydf, return_char = TRUE)
 ```
-`commodity_lookup` can return a vector (as seen above) or a named list, using parameter `return_char`
+`ct_commodity_lookup` can return a vector (as seen above) or a named list, using parameter `return_char`
 ```{r}
-commodity_lookup(c("tomato", "trout"), commoditydf, return_char = FALSE)
+ct_commodity_lookup(c("tomato", "trout"), commoditydf, return_char = FALSE)
 ```
-For `commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
+For `ct_commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
 ```{r}
-commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
+ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
 ```
