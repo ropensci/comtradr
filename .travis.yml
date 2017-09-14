@@ -18,3 +18,9 @@ addons:
   apt:
     packages:
       - libssl1.0.0
+
+env:
+  global:
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual"
+
+latex: false
