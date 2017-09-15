@@ -15,11 +15,6 @@ cache:
 
 # Adapt as necessary starting from here
 
-latex: false
-
-r_build_args: '--no-build-vignettes'
-r_check_args: '--ignore-vignettes'
-
 build_script:
   - travis-tool.sh install_deps
 
