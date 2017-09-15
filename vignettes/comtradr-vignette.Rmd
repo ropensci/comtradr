@@ -135,6 +135,24 @@ For `ct_commodity_lookup`, if any of the input search terms return zero results,
 ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), commoditydf, verbose = TRUE)
 ```
 
+## API rate limits
+
+The Comtrade API imposes rate limits on both guest users and premium users. Below is a breakdown of those limits, API docs on these details can be found [here](https://comtrade.un.org/data/doc/api/#Authentication).
+
+* Without authentication token: 1 request per second, 100 requests per hour.
+* With valid user token: 1 request per second, 10,000 requests per hour.
+
+In addition to these rate limits, the API imposes some limits on parameter combinations:
+* Between args "reporters", "partners", and the query date range, only one of these three may use the catch-all input "All".
+* For the same group of three ("reporters", "partners", date range), if the input is not "All", then the maximum number of input values for each is five (for date range, if not using "all", then the "startdate" and "enddate" must at most span five months or five years).
+* For arg "commodcodes", if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
+
+`comtradr` features a few functions for working with the API rate limits and tokens.
+* `ct_register_token("some_valid_token_str")` allows a user to set an API token as a global variable. 
+* `ct_get_remaining_hourly_queries()` will return the number of remaining queries for the current hour.
+* `ct_get_reset_time()` will return the date/time in which the hourly time limit will reset, as a `POSIXct` object.
+
+
 ## Visualize
 
 Once the data is collected, we can use it to create some basic visualizations.
