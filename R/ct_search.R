@@ -46,13 +46,11 @@
 #'  Machine-friendly means easy for a machine to parse, and may not contain
 #'  special characters or spaces. Must be either "human" or "machine". Default
 #'  value is "human".
-#' @param token Authorization token, as a character string. Default value is
-#'  NULL.
 #' @param codetype Trade data classification scheme to use, as a character
 #'  string. See "Details" for a list of a valid inputs.
 #'
 #' @details Basic rate limit restrictions. For details on how to register a
-#'  valid token, see \code{\lnk{ct_register_token}}. For API docs on rate
+#'  valid token, see \code{\link{ct_register_token}}. For API docs on rate
 #'  limits, see \url{https://comtrade.un.org/data/doc/api/#Limits}
 #'  \itemize{
 #'  \item Without authentication token: 1 request per second, 100 requests
