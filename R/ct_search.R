@@ -151,6 +151,11 @@ ct_search <- function(reporters, partners, countrytable,
                                    "ST", "S1", "S2", "S3", "S4",
                                    "BEC", "EB02")) {
 
+  # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
+  if (Sys.time() < get("last_query", envir = ct_limit_cache) + 1.2) {
+    Sys.sleep(1.2)
+  }
+
   # Transformations to type:
   type <- match.arg(type)
   if (type == "goods") {
@@ -321,6 +326,9 @@ ct_search <- function(reporters, partners, countrytable,
   if (!is.null(token)) {
     url <- paste0(url, "&token=", token)
   }
+
+  # Time stamp the current api query.
+  assign("last_query", Sys.time(), envir = ct_limit_cache)
 
   # Execute API call using function "ct_csv_data" or "ct_json_data" (depending
   # on param fmt).
