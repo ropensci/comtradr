@@ -151,9 +151,27 @@ ct_search <- function(reporters, partners, countrytable,
                                    "ST", "S1", "S2", "S3", "S4",
                                    "BEC", "EB02")) {
 
+  # Fetch current values within ct_limit_cache (these values help manage
+  # throttling of API queries).
+  cache_vals <- get_cache_values()
+
   # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
-  if (Sys.time() < get("last_query", envir = ct_limit_cache) + 1.2) {
+  if (Sys.time() < cache_vals$last_query + 1.2) {
     Sys.sleep(1.2)
+  }
+
+  # Check to see if the current one hour time limit needs to be reset. If
+  # current value is NULL, initialize the cache value with the current time.
+  if (is.null(cache_vals$next_hour_reset) ||
+      Sys.time() > ct_get_reset_time()) {
+    assign("next_hour_reset", Sys.time(), envir = ct_limit_cache)
+  }
+
+  # Check to make sure the hourly query limit hasn't been reached.
+  if (cache_vals$queries_this_hour == 0) {
+    msg <- paste("over the hourly limit. hour resets at",
+                 ct_get_reset_time())
+    stop(msg)
   }
 
   # Transformations to type:
@@ -337,6 +355,10 @@ ct_search <- function(reporters, partners, countrytable,
   } else if (fmt == "json") {
     apires <- tryCatch(ct_json_data(url, colname), error = function(e) e)
   }
+
+  # Edit cache variable "queries_this_hour" to be one less.
+  assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
+         envir = ct_limit_cache)
 
   return(apires)
 }
