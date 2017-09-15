@@ -13,9 +13,11 @@
 #' @param countrytable Dataframe of country names and associated country codes
 #'  that work within the Comtrade API calls. Includes both reporters & partners.
 #' @param url Base of the Comtrade url string, as a character string.
-#' @param maxrec Max number of records returned from each API call, as an
-#'  integer. API cap without a token is 50000, cap with a valid token is
-#'  250000. Default value is 50000.
+#' @param max_rec Max number of records returned from each API call, as an
+#'  integer. If max_rec is set to NULL, then value is determined by whether or
+#'  not an API token has been rergistered. API cap without a token is 50000,
+#'  cap with a valid token is 250000. Default value is NULL. For details on
+#'  how to register a valid token, see \code{\lnk{ct_register_token}}.
 #' @param type Type of trade, as a character string. Must be either "goods" or
 #'  "services".
 #' @param freq Time frequency of the returned results, as a character string.
@@ -49,8 +51,9 @@
 #' @param codetype Trade data classification scheme to use, as a character
 #'  string. See "Details" for a list of a valid inputs.
 #'
-#' @details Basic rate limit restrictions. For full details see
-#'  \url{https://comtrade.un.org/data/doc/api/#Limits}
+#' @details Basic rate limit restrictions. For details on how to register a
+#'  valid token, see \code{\lnk{ct_register_token}}. For API docs on rate
+#'  limits, see \url{https://comtrade.un.org/data/doc/api/#Limits}
 #'  \itemize{
 #'  \item Without authentication token: 1 request per second, 100 requests
 #'    per hour (each per IP address).
@@ -139,14 +142,14 @@
 #' nrow(ex_2$data)
 #' }
 ct_search <- function(reporters, partners, countrytable,
-                      url = "https://comtrade.un.org/api/get?", maxrec = 50000,
+                      url = "https://comtrade.un.org/api/get?", max_rec = NULL,
                       type = c("goods", "services"),
                       freq = c("annual", "monthly"),
                       startdate = "all", enddate = "all",
                       tradedirection = c("all", "imports", "exports",
                                          "re-imports", "re-exports"),
                       commodcodes = "TOTAL", fmt = c("json", "csv"),
-                      colname = c("human", "machine"), token = NULL,
+                      colname = c("human", "machine"),
                       codetype = c("HS", "H0", "H1", "H2", "H3", "H4",
                                    "ST", "S1", "S2", "S3", "S4",
                                    "BEC", "EB02")) {
@@ -154,6 +157,10 @@ ct_search <- function(reporters, partners, countrytable,
   # Fetch current values within ct_limit_cache (these values help manage
   # throttling of API queries).
   cache_vals <- get_cache_values()
+
+  # Fetch current value of user token, to see if an auth token has been
+  # registered.
+  token <- getOption("comtradr")$comtrade$token
 
   # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
   if (Sys.time() < cache_vals$last_query + 1.2) {
@@ -327,9 +334,22 @@ ct_search <- function(reporters, partners, countrytable,
   # Transformations to codetype:
   codetype <- match.arg(codetype)
 
+  # Get max_rec. If arg value is set to NULL, then max_rec is determined by
+  # whether an API token has been registered. If a token has been registered,
+  # then max_rec will be set to 250000, otherwise it will be set to 50000.
+  if (is.null(max_rec)) {
+    if (is.null(token)) {
+      max_rec <- 50000
+    } else {
+      max_rec <- 250000
+    }
+  } else {
+    max_rec <- as.numeric(max_rec)
+  }
+
   # Stitch together the url of the API call.
   url <- paste0(url,
-                "max=", maxrec,
+                "max=", max_rec,
                 "&type=", type,
                 "&freq=", freq,
                 "&px=", codetype,
@@ -341,6 +361,8 @@ ct_search <- function(reporters, partners, countrytable,
                 "&fmt=", fmt,
                 "&head=", colname)
 
+  # If token within global options is not NULL, append the token str to the
+  # end of the API url.
   if (!is.null(token)) {
     url <- paste0(url, "&token=", token)
   }

@@ -5,11 +5,11 @@
 \title{Get UN Comtrade data via API}
 \usage{
 ct_search(reporters, partners, countrytable,
-  url = "https://comtrade.un.org/api/get?", maxrec = 50000,
+  url = "https://comtrade.un.org/api/get?", max_rec = NULL,
   type = c("goods", "services"), freq = c("annual", "monthly"),
   startdate = "all", enddate = "all", tradedirection = c("all", "imports",
   "exports", "re-imports", "re-exports"), commodcodes = "TOTAL",
-  fmt = c("json", "csv"), colname = c("human", "machine"), token = NULL,
+  fmt = c("json", "csv"), colname = c("human", "machine"),
   codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1", "S2", "S3",
   "S4", "BEC", "EB02"))
 }
@@ -26,9 +26,11 @@ that work within the Comtrade API calls. Includes both reporters & partners.}
 
 \item{url}{Base of the Comtrade url string, as a character string.}
 
-\item{maxrec}{Max number of records returned from each API call, as an
-integer. API cap without a token is 50000, cap with a valid token is
-250000. Default value is 50000.}
+\item{max_rec}{Max number of records returned from each API call, as an
+integer. If max_rec is set to NULL, then value is determined by whether or
+not an API token has been rergistered. API cap without a token is 50000,
+cap with a valid token is 250000. Default value is NULL. For details on
+how to register a valid token, see \code{\lnk{ct_register_token}}.}
 
 \item{type}{Type of trade, as a character string. Must be either "goods" or
 "services".}
@@ -66,11 +68,11 @@ Machine-friendly means easy for a machine to parse, and may not contain
 special characters or spaces. Must be either "human" or "machine". Default
 value is "human".}
 
-\item{token}{Authorization token, as a character string. Default value is
-NULL.}
-
 \item{codetype}{Trade data classification scheme to use, as a character
 string. See "Details" for a list of a valid inputs.}
+
+\item{token}{Authorization token, as a character string. Default value is
+NULL.}
 }
 \value{
 List of length three, elements are:
@@ -88,8 +90,9 @@ shipping data. Full API docs can be found here:
 \url{https://comtrade.un.org/data/doc/api/}
 }
 \details{
-Basic rate limit restrictions. For full details see
- \url{https://comtrade.un.org/data/doc/api/#Limits}
+Basic rate limit restrictions. For details on how to register a
+ valid token, see \code{\lnk{ct_register_token}}. For API docs on rate
+ limits, see \url{https://comtrade.un.org/data/doc/api/#Limits}
  \itemize{
  \item Without authentication token: 1 request per second, 100 requests
    per hour (each per IP address).

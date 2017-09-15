@@ -147,6 +147,8 @@ In addition to these rate limits, the API imposes some limits on parameter combi
 * For the same group of three ("reporters", "partners", date range), if the input is not "All", then the maximum number of input values for each is five (for date range, if not using "all", then the "startdate" and "enddate" must at most span five months or five years).
 * For arg "commodcodes", if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
 
+Additionally, the maximum nunmber of returned records from a single query without a token is 50,000. With a token, that number is 250,000.
+
 `comtradr` features a few functions for working with the API rate limits and tokens.
 * `ct_register_token("some_valid_token_str")` allows a user to set an API token as a global variable. 
 * `ct_get_remaining_hourly_queries()` will return the number of remaining queries for the current hour.

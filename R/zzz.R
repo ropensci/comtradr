@@ -9,7 +9,7 @@ assign("queries_this_hour", 100, envir = ct_limit_cache)
   if (is.null(getOption("comtradr"))) {
     ct_options <- list(
       comtrade = list(
-        token = NA,
+        token = NULL,
         account_type = "standard",
         per_hour_limit = 100,
         per_second_limit = 1
