@@ -17,7 +17,7 @@
 #'  integer. If max_rec is set to NULL, then value is determined by whether or
 #'  not an API token has been rergistered. API cap without a token is 50000,
 #'  cap with a valid token is 250000. Default value is NULL. For details on
-#'  how to register a valid token, see \code{\lnk{ct_register_token}}.
+#'  how to register a valid token, see \code{\link{ct_register_token}}.
 #' @param type Type of trade, as a character string. Must be either "goods" or
 #'  "services".
 #' @param freq Time frequency of the returned results, as a character string.
