@@ -4,14 +4,13 @@
 \alias{ct_search}
 \title{Get UN Comtrade data via API}
 \usage{
-ct_search(reporters, partners, countrytable,
-  url = "https://comtrade.un.org/api/get?", max_rec = NULL,
-  type = c("goods", "services"), freq = c("annual", "monthly"),
-  startdate = "all", enddate = "all", tradedirection = c("all", "imports",
-  "exports", "re-imports", "re-exports"), commodcodes = "TOTAL",
-  fmt = c("json", "csv"), colname = c("human", "machine"),
-  codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1", "S2", "S3",
-  "S4", "BEC", "EB02"))
+ct_search(reporters, partners, url = "https://comtrade.un.org/api/get?",
+  max_rec = NULL, type = c("goods", "services"), freq = c("annual",
+  "monthly"), startdate = "all", enddate = "all",
+  tradedirection = c("all", "imports", "exports", "re-imports", "re-exports"),
+  commodcodes = "TOTAL", fmt = c("json", "csv"), colname = c("human",
+  "machine"), codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1",
+  "S2", "S3", "S4", "BEC", "EB02"))
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -20,9 +19,6 @@ be a vector of country names, or "All" to represent all countries.}
 \item{partners}{Country(s) that have interacted with the reporter
 country(s), as a character vector. Can either be a vector of country names,
 or "All" to represent all countries.}
-
-\item{countrytable}{Dataframe of country names and associated country codes
-that work within the Comtrade API calls. Includes both reporters & partners.}
 
 \item{url}{Base of the Comtrade url string, as a character string.}
 
@@ -134,27 +130,19 @@ Basic rate limit restrictions. For details on how to register a
 }
 \examples{
 \dontrun{
-# Create the country lookup table
-countrydf <- ct_countries_table()
-
 ## Example API call number 1:
 # All exports from China to South Korea, United States and Mexico over all
 # years.
 ex_1 <- ct_search(reporters = "China",
                   partners = c("Rep. of Korea", "USA", "Mexico"),
-                  countrytable = countrydf,
                   tradedirection = "exports")
 nrow(ex_1$data)
 
 ## Example API call number 2:
 # All shipments related to halibut between Canada and all other countries,
 # between 2011 and 2015.
-# Create the commodities lookup table
-commoditydf <- ct_commodities_table("HS")
-
 # Perform "shrimp" query
 shrimp_codes <- commodity_lookup("shrimp",
-                                 commoditydf,
                                  return_code = TRUE,
                                  return_char = TRUE,
                                  verbose = TRUE)
@@ -162,7 +150,6 @@ shrimp_codes <- commodity_lookup("shrimp",
 # Make API call
 ex_2 <- ct_search(reporters = "Canada",
                   partners = "All",
-                  countrytable = countrydf,
                   tradedirection = "all",
                   startdate = "2011-01-01",
                   enddate = "2015-01-01",

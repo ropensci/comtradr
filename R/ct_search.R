@@ -10,8 +10,6 @@
 #' @param partners Country(s) that have interacted with the reporter
 #'  country(s), as a character vector. Can either be a vector of country names,
 #'  or "All" to represent all countries.
-#' @param countrytable Dataframe of country names and associated country codes
-#'  that work within the Comtrade API calls. Includes both reporters & partners.
 #' @param url Base of the Comtrade url string, as a character string.
 #' @param max_rec Max number of records returned from each API call, as an
 #'  integer. If max_rec is set to NULL, then value is determined by whether or
@@ -104,27 +102,19 @@
 #' @export
 #'
 #' @examples \dontrun{
-#' # Create the country lookup table
-#' countrydf <- ct_countries_table()
-#'
 #' ## Example API call number 1:
 #' # All exports from China to South Korea, United States and Mexico over all
 #' # years.
 #' ex_1 <- ct_search(reporters = "China",
 #'                   partners = c("Rep. of Korea", "USA", "Mexico"),
-#'                   countrytable = countrydf,
 #'                   tradedirection = "exports")
 #' nrow(ex_1$data)
 #'
 #' ## Example API call number 2:
 #' # All shipments related to halibut between Canada and all other countries,
 #' # between 2011 and 2015.
-#' # Create the commodities lookup table
-#' commoditydf <- ct_commodities_table("HS")
-#'
 #' # Perform "shrimp" query
 #' shrimp_codes <- commodity_lookup("shrimp",
-#'                                  commoditydf,
 #'                                  return_code = TRUE,
 #'                                  return_char = TRUE,
 #'                                  verbose = TRUE)
@@ -132,14 +122,13 @@
 #' # Make API call
 #' ex_2 <- ct_search(reporters = "Canada",
 #'                   partners = "All",
-#'                   countrytable = countrydf,
 #'                   tradedirection = "all",
 #'                   startdate = "2011-01-01",
 #'                   enddate = "2015-01-01",
 #'                   commodcodes = shrimp_codes)
 #' nrow(ex_2$data)
 #' }
-ct_search <- function(reporters, partners, countrytable,
+ct_search <- function(reporters, partners,
                       url = "https://comtrade.un.org/api/get?", max_rec = NULL,
                       type = c("goods", "services"),
                       freq = c("annual", "monthly"),
@@ -152,24 +141,27 @@ ct_search <- function(reporters, partners, countrytable,
                                    "ST", "S1", "S2", "S3", "S4",
                                    "BEC", "EB02")) {
 
-  # Fetch current values within ct_limit_cache (these values help manage
+  # Fetch current values within ct_env (these values help manage
   # throttling of API queries).
   cache_vals <- get_cache_values()
-
-  # Fetch current value of user token, to see if an auth token has been
-  # registered.
-  token <- getOption("comtradr")$comtrade$token
 
   # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
   if (Sys.time() < cache_vals$last_query + 1.2) {
     Sys.sleep(1.2)
   }
 
+  # Fetch current value of user token, to see if an auth token has been
+  # registered.
+  token <- getOption("comtradr")$comtrade$token
+
+  # Fetch the country database from ct_env.
+  country_df <- get("country_df", envir = ct_env)
+
   # Check to see if the current one hour time limit needs to be reset. If
   # current value is NULL, initialize the cache value with the current time.
   if (is.null(cache_vals$next_hour_reset) ||
       Sys.time() > ct_get_reset_time()) {
-    assign("next_hour_reset", Sys.time(), envir = ct_limit_cache)
+    assign("next_hour_reset", Sys.time(), envir = ct_env)
   }
 
   # Check to make sure the hourly query limit hasn't been reached.
@@ -233,18 +225,18 @@ ct_search <- function(reporters, partners, countrytable,
     reporters <- "All"
   }
 
-  if (!all(reporters %in% countrytable$`country name`)) {
+  if (!all(reporters %in% country_df$`country name`)) {
     err <- paste(
-      reporters[!reporters %in% countrytable$`country name`],
+      reporters[!reporters %in% country_df$`country name`],
       collapse = ", "
     )
     stop(paste("From param 'reporters', these values were not found in the",
-               "country code lookup table:", err))
+               "country database:", err))
   }
 
   ids <- purrr::map_chr(reporters, function(x) {
-    countrytable[countrytable$`country name` == x &
-                   countrytable$type == "reporter", ]$code
+    country_df[country_df$`country name` == x &
+                   country_df$type == "reporter", ]$code
   })
 
   reporters <- paste(ids, collapse = ",")
@@ -254,18 +246,18 @@ ct_search <- function(reporters, partners, countrytable,
     partners <- "All"
   }
 
-  if (!all(partners %in% countrytable$`country name`)) {
+  if (!all(partners %in% country_df$`country name`)) {
     err <- paste(
-      partners[!reporters %in% countrytable$`country name`],
+      partners[!reporters %in% country_df$`country name`],
       collapse = ", "
     )
     stop(paste("From param 'partners', these values were not found in the",
-               "country code lookup table:", err))
+               "country database:", err))
   }
 
   ids <- purrr::map_chr(partners, function(x) {
-    countrytable[countrytable$`country name` == x &
-                   countrytable$type == "partner", ]$code
+    country_df[country_df$`country name` == x &
+                   country_df$type == "partner", ]$code
   })
 
   partners <- paste(ids, collapse = ",")
@@ -366,7 +358,7 @@ ct_search <- function(reporters, partners, countrytable,
   }
 
   # Time stamp the current api query.
-  assign("last_query", Sys.time(), envir = ct_limit_cache)
+  assign("last_query", Sys.time(), envir = ct_env)
 
   # Execute API call using function "ct_csv_data" or "ct_json_data" (depending
   # on param fmt).
@@ -378,7 +370,7 @@ ct_search <- function(reporters, partners, countrytable,
 
   # Edit cache variable "queries_this_hour" to be one less.
   assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
-         envir = ct_limit_cache)
+         envir = ct_env)
 
   return(apires)
 }

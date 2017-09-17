@@ -2,18 +2,14 @@
 % Please edit documentation in R/ct_commodity_lookup.R
 \name{ct_commodity_lookup}
 \alias{ct_commodity_lookup}
-\title{UN Comtrade commodities lookup table query}
+\title{UN Comtrade commodities database query}
 \usage{
-ct_commodity_lookup(values, lookuptable, return_code = FALSE,
-  return_char = FALSE, verbose = TRUE)
+ct_commodity_lookup(values, return_code = FALSE, return_char = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{values}{Commodity names or commodity codes, as a char or numeric
 vector.}
-
-\item{lookuptable}{Dataframe of commodity descriptions and codes (intended
-input is the dataframe created by function
-\code{\link{ct_commodities_table}}).}
 
 \item{return_code}{Logical, if set to FALSE, the function will return a
 set of commodity descriptions along with commodity codes (as a single
@@ -35,18 +31,15 @@ A list or character vector of commodity descriptions and/or
 \description{
 The Comtrade API requires that searches for specific commodities be done
 using commodity codes. This is a helper function for querying the
-commodity code lookup table that's created by function
-\code{\link{ct_commodities_table}}. It takes as input a vector of
-commodities or commodity codes. If input is a commodity, then output is all
-commodity codes and descriptions that are associated with the input value.
-If input is a commodity code, then output is the commodity description
-associated with that input code. For use with the UN Comtrade API, full API
-docs can be found at \url{https://comtrade.un.org/data/doc/api/}
+Comtrade commodity database. It takes as input a vector of
+commodities or commodity codes. Output is a list or vector of commodity
+descriptions or codes associated with the input values. For use with the UN
+Comtrade API, full API docs can be found at
+\url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
 \dontrun{
 # Look up commodity descriptions related to "halibut"
-commoditydf <- ct_commodities_table("HS")
 ct_commodity_lookup("halibut",
                     commoditydf,
                     return_code = FALSE,

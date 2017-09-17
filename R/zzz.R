@@ -1,8 +1,19 @@
-# Set up pkg environment to manage throttling of API queries.
-ct_limit_cache <- new.env()
-assign("last_query", Sys.time(), envir = ct_limit_cache)
-assign("next_hour_reset", NULL, envir = ct_limit_cache)
-assign("queries_this_hour", 100, envir = ct_limit_cache)
+# Set up pkg environment to manage variables related to:
+# 1. throttling of API queries.
+# 2. Comtrade database of countries.
+# 3. Comtrade database of commodity descriptions and codes.
+ct_env <- new.env()
+assign("last_query", Sys.time(), envir = ct_env)
+assign("next_hour_reset", NULL, envir = ct_env)
+assign("queries_this_hour", 100, envir = ct_env)
+load(
+  system.file("extdata", "country_table.rda", package = "comtradr"),
+  envir = ct_env
+)
+load(
+  system.file("extdata", "commodity_table.rda", package = "comtradr"),
+  envir = ct_env
+)
 
 # Establish initial credentials for the Comtrade API.
 .onLoad <- function(libname, pkgname) {

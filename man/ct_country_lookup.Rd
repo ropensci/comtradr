@@ -2,18 +2,15 @@
 % Please edit documentation in R/ct_country_lookup.R
 \name{ct_country_lookup}
 \alias{ct_country_lookup}
-\title{UN Comtrade reporter/partner lookup table query}
+\title{UN Comtrade country database query}
 \usage{
-ct_country_lookup(loc, type = c("reporter", "partner"), lookuptable)
+ct_country_lookup(loc, type = c("reporter", "partner"))
 }
 \arguments{
 \item{loc}{Char vector of country names.}
 
 \item{type}{The country list to use for the search, valid inputs are
 "reporter" and "partner".}
-
-\item{lookuptable}{Dataframe of country names and codes (intended input is
-the dataframe created by function \code{\link{ct_countries_table}}).}
 }
 \value{
 A character vector of country names that are complete or partial
@@ -22,17 +19,13 @@ A character vector of country names that are complete or partial
 \description{
 Country names passed to the Comtrade API must have precise
 spelling/capitalization. This is a helper function for querying the country
-code lookup table that's created by function
-\code{\link{ct_countries_table}}. It takes as input a vector of
+names/spelling used by Comtrade.. It takes as input a vector of
 country names, output is any country names that contain any of the input
 strings, using regex via the base function grepl (search is case insensitive).
 For use with the UN Comtrade API, full API docs can be found at
 \url{https://comtrade.un.org/data/doc/api/}
 }
 \examples{
-\dontrun{
 # Look up all reporters that contain the terms "korea" and "vietnam"
-countrydf <- ct_countries_table()
-ct_country_lookup(c("korea", "vietnam"), "reporter", countrydf)
-}
+ct_country_lookup(c("korea", "vietnam"), "reporter")
 }

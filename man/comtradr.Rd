@@ -24,11 +24,14 @@ Interface with and extract data from the United Nations
 \section{\code{comtradr} features the following functions}{
 
 \itemize{
-  \item \code{\link{ct_search}}
-  \item \code{\link{ct_countries_table}}
-  \item \code{\link{ct_commodities_table}}
-  \item \code{\link{ct_country_lookup}}
+  \item \code{\link{ct_commodity_db_type}}
   \item \code{\link{ct_commodity_lookup}}
+  \item \code{\link{ct_country_lookup}}
+  \item \code{\link{ct_get_remaining_hourly_queries}}
+  \item \code{\link{ct_get_reset_time}}
+  \item \code{\link{ct_register_token}}
+  \item \code{\link{ct_search}}
+  \item \code{\link{ct_update_databases}}
 }
 }
 
