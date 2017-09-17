@@ -290,7 +290,7 @@ ct_search <- function(reporters, partners,
   }
 
   # Get the commodity code scheme type to use.
-  codetype <- get("commodity_df", envir = ct_env)$type[1]
+  codetype <- ct_commodity_db_type()
 
   # Get max_rec. If arg value is set to NULL, then max_rec is determined by
   # whether an API token has been registered. If a token has been registered,
