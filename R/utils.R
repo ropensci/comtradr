@@ -1,4 +1,7 @@
-# Column names to be used for API data.
+#' Column names to be used for API data
+#'
+#' @return char vector of column headers.
+#' @noRd
 api_col_names <- function() {
   return(c(
     "Classification",
@@ -39,7 +42,13 @@ api_col_names <- function() {
   ))
 }
 
-# Return the current values of pkg env ct_env as a list.
+
+#' Get rate limit values
+#'
+#' Return the values of pkg env ct_env related to rate limit as a list.
+#'
+#' @return list containing current rate limit info.
+#' @noRd
 get_cache_values <- function() {
   list(
     last_query = get("last_query", envir = ct_env),
