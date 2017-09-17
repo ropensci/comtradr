@@ -39,11 +39,11 @@ api_col_names <- function() {
   ))
 }
 
-# Return the current values of env ct_limit_cache as a list.
+# Return the current values of pkg env ct_env as a list.
 get_cache_values <- function() {
   list(
-    last_query = get("last_query", envir = ct_limit_cache),
-    next_hour_reset = get("next_hour_reset", envir = ct_limit_cache),
-    queries_this_hour = get("queries_this_hour", envir = ct_limit_cache)
+    last_query = get("last_query", envir = ct_env),
+    next_hour_reset = get("next_hour_reset", envir = ct_env),
+    queries_this_hour = get("queries_this_hour", envir = ct_env)
   )
 }
