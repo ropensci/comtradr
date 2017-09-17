@@ -53,18 +53,12 @@ devtools::install_github("ChrisMuir/comtradr")
 ```{r}
 library(comtradr)
 
-# First, read in the country code lookup table as a dataframe from Comtrade. 
-# This will be used as a parameter in the API calls.
-countrydf <- ct_countries_table()
-
-# This object can also be used to look up the exact spellings of countries 
-# prior to making API calls.
-ct_country_lookup("korea", "reporter", countrydf)
+# Country names passed to the API query function must be spelled as they appear in the Comtrade DB. Use "ct_country_lookup" to query the country DB and return the exact spelling of specific countries.
+ct_country_lookup("korea")
 
 # Since we want South Korea, we'll use "Rep. of Korea" within the API query.
 example1 <- ct_search(reporters = "China", 
                       partners = c("Rep. of Korea", "USA", "Mexico"), 
-                      countrytable = countrydf, 
                       tradedirection = "exports")
 
 # Inspect the return data
@@ -76,16 +70,12 @@ str(example1$data)
 ```{r}
 library(comtradr)
 
-# First, read in the commodity code lookup table as a dataframe from Comtrade.
-commoditydf <- ct_commodities_table("HS")
-
-# Then search for shrimp.
-shrimp_codes <- ct_commodity_lookup("shrimp", commoditydf, return_code = TRUE, return_char = TRUE)
+# Fetch all shrimp related commodity codes from the Comtrade commodities DB. This vector of codes will get passed to the API query.
+shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE)
 
 # API query.
 example2 <- ct_search(reporters = "Thailand", 
                       partners = "All", 
-                      countrytable = countrydf, 
                       tradedirection = "exports", 
                       startdate = "2007-01-01", 
                       enddate = "2011-01-01", 
