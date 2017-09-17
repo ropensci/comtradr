@@ -8,8 +8,8 @@
 #' \url{https://comtrade.un.org/data/doc/api/}
 #'
 #' @param url Complete url string of the call to the API.
-#' @param colname Indication as to whether to use "human friendly" col names or
-#'  "machine friendly" col names. Value will be either "H" or "M".
+#' @param col_name Indication as to whether to use "human friendly" col names
+#'  or "machine friendly" col names. Value will be either "H" or "M".
 #'
 #' @return List of length three, elements are:
 #'  \itemize{
@@ -19,43 +19,43 @@
 #'  \item \code{data}: Dataframe object of return data.
 #'  }
 #' @importFrom magrittr "%>%"
-ct_json_data <- function(url, colname) {
+ct_json_data <- function(url, col_name) {
 
-  rawdata <- tryCatch(httr::GET(url), error = function(e) e)
+  res <- tryCatch(httr::GET(url), error = function(e) e)
 
-  if (methods::is(rawdata, "error")) {
+  if (methods::is(res, "error")) {
     msg <- "Could not complete connection to API"
     details <- NULL
     return(list(msg = msg, details = details, data = NULL))
   }
 
-  if (httr::http_error(rawdata)) {
+  if (httr::http_error(res)) {
     msg <- "Could not complete connection to API"
-    details <- httr::status_code(rawdata)
+    details <- httr::status_code(res)
     return(list(msg = msg, details = details, data = NULL))
   }
 
-  if (httr::http_type(rawdata) != "application/json") {
+  if (httr::http_type(res) != "application/json") {
     msg <- "API did not return a json object"
-    details <- httr::http_type(rawdata)
+    details <- httr::http_type(res)
     return(list(msg = msg, details = details, data = NULL))
   }
 
-  rawdata <- rawdata %>%
+  raw_data <- res %>%
     httr::content("text", encoding = "UTF-8") %>%
     jsonlite::fromJSON(simplifyDataFrame = TRUE)
 
-  if (length(rawdata$dataset) == 0) {
-    msg <- rawdata$validation$status$name
-    details <- rawdata$validation$message
+  if (length(raw_data$dataset) == 0) {
+    msg <- raw_data$validation$status$name
+    details <- raw_data$validation$message
     df <- NULL
   } else {
-    if (colname == "H") {
-      colnames(rawdata$dataset) <- api_col_names()
+    if (col_name == "H") {
+      colnames(raw_data$dataset) <- api_col_names()
     }
-    msg <- "Data returned"
-    details <- "Connection successful"
-    df <- rawdata$dataset
+    msg <- "data_returned"
+    details <- "connection_successful"
+    df <- raw_data$dataset
   }
 
   return(list(msg = msg, details = details, data = df))

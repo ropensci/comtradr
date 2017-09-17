@@ -5,10 +5,10 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
   # 2011-01-01 thru 2011-05-01.
   vals <- ct_search(reporters = "Canada",
                     partners = "Germany",
-                    tradedirection = "imports",
+                    trade_direction = "imports",
                     freq = "monthly",
-                    startdate = "2011-01-01",
-                    enddate = "2011-05-01")
+                    start_date = "2011-01-01",
+                    end_date = "2011-05-01")
 
   # Data type.
   expect_is(vals, "list")
@@ -18,19 +18,19 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
   expect_equal(ncol(vals$data), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$data$Reporter), "Canada")
+  expect_equal(unique(vals$data$reporter), "Canada")
 
   # Variable "Partner".
-  expect_equal(unique(vals$data$Partner), "Germany")
+  expect_equal(unique(vals$data$partner), "Germany")
 
   # Variable "Trade Flow".
-  expect_equal(unique(vals$data$`Trade Flow`), "Imports")
+  expect_equal(unique(vals$data$trade_flow), "Imports")
 
   # Variable "Period".
-  expect_equal(vals$data$Period[1], 201101)
+  expect_equal(vals$data$period[1], 201101)
 
   # Variable "Commodity Code".
-  expect_equal(unique(vals$data$`Commodity Code`), "TOTAL")
+  expect_equal(unique(vals$data$commodity_code), "TOTAL")
 })
 
 
@@ -46,11 +46,11 @@ test_that(msg, {
                     "160529")
   vals <- ct_search(reporters = "USA",
                     partners = c("Germany", "Thailand"),
-                    tradedirection = "exports",
+                    trade_direction = "exports",
                     freq = "annual",
-                    startdate = "all",
-                    enddate = "all",
-                    commodcodes = shrimp_codes)
+                    start_date = "all",
+                    end_date = "all",
+                    commod_codes = shrimp_codes)
 
   # Data type.
   expect_is(vals, "list")
@@ -60,22 +60,22 @@ test_that(msg, {
   expect_equal(ncol(vals$data), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$data$Reporter), "USA")
+  expect_equal(unique(vals$data$reporter), "USA")
 
   # Variable "Partner".
-  expect_equal(sort(unique(vals$data$Partner)), c("Germany", "Thailand"))
+  expect_equal(sort(unique(vals$data$partner)), c("Germany", "Thailand"))
 
   # Variable "Trade Flow".
-  expect_equal(unique(vals$data$`Trade Flow`), "Export")
+  expect_equal(unique(vals$data$trade_flow), "Export")
 
   # Variable "Period".
-  expect_equal(sort(unique(vals$data$Period))[1:3], c(1991, 1992, 1993))
+  expect_equal(sort(unique(vals$data$period))[1:3], c(1991, 1992, 1993))
 
   # Variable "Commodity Code".
-  expect_equal(sort(unique(vals$data$`Commodity Code`)), shrimp_codes)
+  expect_equal(sort(unique(vals$data$commodity_code)), shrimp_codes)
 
   # Variable "Netweight (kg)".
-  expect_is(vals$data$`Netweight (kg)`, "integer")
+  expect_is(vals$data$netweight_kg, "integer")
 })
 
 
@@ -83,60 +83,54 @@ test_that("errors and warnings are thrown as expected", {
   # Throw error with invalid input for param "reporters".
   expect_error(ct_search(reporters = "invalid_reporter",
                          partners = "Germany",
-                         tradedirection = "imports"))
+                         trade_direction = "imports"))
 
   # Throw error with invalid input for param "partners".
   expect_error(ct_search(reporters = "Canada",
                          partners = "invalid_partner",
-                         tradedirection = "imports"))
+                         trade_direction = "imports"))
 
   # Throw error with invalid input for param "tradedirection".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "invalid_td"))
+                         trade_direction = "invalid_td"))
 
   # Throw error with invalid input for param "type".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "imports",
+                         trade_direction = "imports",
                          type = "invalid_type"))
 
   # Throw error with invalid input for param "freq".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "imports",
+                         trade_direction = "imports",
                          freq = "invalid_freq"))
 
   # Throw error with invalid input for params "startdate" and "endate".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "imports",
+                         trade_direction = "imports",
                          freq = "monthly",
-                         startdate = "1/1/2011",
-                         enddate = "5/1/2011"))
+                         start_date = "1/1/2011",
+                         end_date = "5/1/2011"))
 
   # Returned error msg from the API with invalid input for param "commodcodes".
   vals <- ct_search(reporters = "Canada",
                     partners = "Germany",
-                    tradedirection = "imports",
-                    commodcodes = "invalid_codes")
+                    trade_direction = "imports",
+                    commod_codes = "invalid_codes")
   expect_equal(vals$details, "invalid_codes is an invalid commodity code.")
-
-  # Throw error with invalid input for param "fmt".
-  expect_error(ct_search(reporters = "Canada",
-                         partners = "Germany",
-                         tradedirection = "imports",
-                         fmt = "invalid_fmt"))
 
   # Throw error with invalid input for param "colname".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "imports",
-                         colname = "invalid_fmt"))
+                         trade_direction = "imports",
+                         col_name = "invalid_fmt"))
 
   # Throw error with invalid input for param "codetype".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         tradedirection = "imports",
-                         codetype = "invalid_codetype"))
+                         trade_direction = "imports",
+                         code_type = "invalid_codetype"))
 })

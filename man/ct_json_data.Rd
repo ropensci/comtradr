@@ -4,13 +4,13 @@
 \alias{ct_json_data}
 \title{UN Comtrade data extraction via JSON}
 \usage{
-ct_json_data(url, colname)
+ct_json_data(url, col_name)
 }
 \arguments{
 \item{url}{Complete url string of the call to the API.}
 
-\item{colname}{Indication as to whether to use "human friendly" col names or
-"machine friendly" col names. Value will be either "H" or "M".}
+\item{col_name}{Indication as to whether to use "human friendly" col names
+or "machine friendly" col names. Value will be either "H" or "M".}
 }
 \value{
 List of length three, elements are:

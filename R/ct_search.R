@@ -1,6 +1,6 @@
 #' Get UN Comtrade data via API
 #'
-#' Make queries to the UN Comtrade API, data is returned as a tidy dataframe.
+#' Make queries to the UN Comtrade API, data is returned as a tidy data frame.
 #' Comtrade is a DB hosted by the United Nations that houses country-level
 #' shipping data. Full API docs can be found here:
 #' \url{https://comtrade.un.org/data/doc/api/}
@@ -10,17 +10,17 @@
 #' @param partners Country(s) that have interacted with the reporter
 #'  country(s), as a character vector. Can either be a vector of country names,
 #'  or "All" to represent all countries.
-#' @param tradedirection Indication of which trade directions on which to
+#' @param trade_direction Indication of which trade directions on which to
 #'  focus, as a character vector. Must either be "all", or a vector containing
-#'  any combination of the following: "imports", "exports", "re-imports",
-#'  "re-exports".
+#'  any combination of the following: "imports", "exports", "re_imports",
+#'  "re_exports". Default value is "all".
 #' @param freq Time frequency of the returned results, as a character string.
-#'  Must be either "annual" or "monthly".
-#' @param startdate Start date of a time period, or "all". Default value is
+#'  Must be either "annual" or "monthly". Default value is "annual".
+#' @param start_date Start date of a time period, or "all". Default value is
 #'  "all". If inputing a date, must be string w/ structure "yyyy-mm-dd".
-#' @param enddate End date of a time period, or "all". Default value is "all".
+#' @param end_date End date of a time period, or "all". Default value is "all".
 #'  If inputing a date, must be string w/ structure "yyyy-mm-dd".
-#' @param commodcodes Character vector of commodity codes, or "TOTAL". Valid
+#' @param commod_codes Character vector of commodity codes, or "TOTAL". Valid
 #'  commodity codes as input will restrict the query to only look for trade
 #'  related to those commodities, "TOTAL" as input will return all trade
 #'  between the indicated reporter country(s) and partner country(s). Default
@@ -33,14 +33,13 @@
 #' @param type Type of trade, as a character string. Must be either "goods" or
 #'  "services". Default value is "goods".
 #' @param url Base of the Comtrade url string, as a character string. Default
-#'  value is "https://comtrade.un.org/api/get?" and should be changed unless
-#'  the Comtrade changes their endpoint url.
-#' @param colname Should the output dataframe have human-friendly or
+#'  value is "https://comtrade.un.org/api/get?" and should mot be changed
+#'  unless Comtrade changes their endpoint url.
+#' @param col_name Should the output data frame have human-friendly or
 #'  machine-friendly column names. Human-friendly means easy for a human to
-#'  read and understand, and may contain special characters and spaces.
-#'  Machine-friendly means easy for a machine to parse, and may not contain
-#'  special characters or spaces. Must be either "human" or "machine". Default
-#'  value is "human".
+#'  read and understand. Machine-friendly means easy for a machine to parse,
+#'  and may not be intuitive for a human to read and understand. Must be
+#'  either "human" or "machine". Default value is "human".
 #'
 #' @details Basic rate limit restrictions. For details on how to register a
 #'  valid token, see \code{\link{ct_register_token}}. For API docs on rate
@@ -56,13 +55,13 @@
 #'  parameter combinations, they are listed below:
 #'  \itemize{
 #'  \item Between params "reporters", "partners", and the query date range (as
-#'    dictated by the two params "startdate" and "enddate"), only one of these
-#'    three may use the catch-all input "All".
+#'    dictated by the two params "start_date" and "end_date"), only one of
+#'    these three may use the catch-all input "All".
 #'  \item For the same group of three ("reporters", "partners", date range),
 #'    if the input is not "All", then the maximum number of input values
 #'    for each is five (for date range, if not using "all", then the
-#'    "startdate" and "enddate" must at most span five months or five years).
-#'  \item For param "commodcodes", if not using input "All", then the maximum
+#'    "start_date" and "end_date" must at most span five months or five years).
+#'  \item For param "commod_codes", if not using input "All", then the maximum
 #'    number of input values is 20 (although "All" is always a valid input).
 #'  }
 #'
@@ -71,7 +70,7 @@
 #'  \item \code{msg}: Brief message on success/failure of the API call.
 #'  \item \code{details}: More detailed message on success/failure of the API
 #'    call.
-#'  \item \code{data}: Dataframe object of return data.
+#'  \item \code{data}: Data frame object of return data.
 #'  }
 #' @export
 #'
@@ -81,44 +80,43 @@
 #' # years.
 #' ex_1 <- ct_search(reporters = "China",
 #'                   partners = c("Rep. of Korea", "USA", "Mexico"),
-#'                   tradedirection = "exports")
+#'                   trade_direction = "exports")
 #' nrow(ex_1$data)
 #'
 #' ## Example API call number 2:
-#' # All shipments related to halibut between Canada and all other countries,
+#' # All shipments related to shrimp between Canada and all other countries,
 #' # between 2011 and 2015.
 #' # Perform "shrimp" query
 #' shrimp_codes <- commodity_lookup("shrimp",
 #'                                  return_code = TRUE,
-#'                                  return_char = TRUE,
-#'                                  verbose = TRUE)
+#'                                  return_char = TRUE)
 #'
 #' # Make API call
 #' ex_2 <- ct_search(reporters = "Canada",
 #'                   partners = "All",
-#'                   tradedirection = "all",
-#'                   startdate = "2011-01-01",
-#'                   enddate = "2015-01-01",
-#'                   commodcodes = shrimp_codes)
+#'                   trade_direction = "all",
+#'                   start_date = "2011-01-01",
+#'                   end_date = "2015-01-01",
+#'                   commod_codes = shrimp_codes)
 #' nrow(ex_2$data)
 #' }
 ct_search <- function(reporters, partners,
-                      tradedirection = c("all", "imports", "exports",
-                                         "re-imports", "re-exports"),
+                      trade_direction = c("all", "imports", "exports",
+                                          "re-imports", "re-exports"),
                       freq = c("annual", "monthly"),
-                      startdate = "all", enddate = "all",
-                      commodcodes = "TOTAL", max_rec = NULL,
+                      start_date = "all", end_date = "all",
+                      commod_codes = "TOTAL", max_rec = NULL,
                       type = c("goods", "services"),
                       url = "https://comtrade.un.org/api/get?",
-                      colname = c("human", "machine")) {
+                      col_name = c("human", "machine")) {
 
   # Fetch current values within ct_env (these values help manage
   # throttling of API queries).
   cache_vals <- get_cache_values()
 
   # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
-  if (Sys.time() < cache_vals$last_query + 1.2) {
-    Sys.sleep(1.2)
+  if (Sys.time() < cache_vals$last_query + 2) {
+    Sys.sleep(2)
   }
 
   # Fetch current value of user token, to see if an auth token has been
@@ -142,7 +140,7 @@ ct_search <- function(reporters, partners,
     stop(msg)
   }
 
-  # Transformations to type:
+  # Transformations to type.
   type <- match.arg(type)
   if (type == "goods") {
     type <- "C"
@@ -150,7 +148,7 @@ ct_search <- function(reporters, partners,
     type <- "S"
   }
 
-  # Transformations to freq:
+  # Transformations to freq.
   freq <- match.arg(freq)
   if (freq == "annual") {
     freq <- "A"
@@ -158,40 +156,40 @@ ct_search <- function(reporters, partners,
     freq <- "M"
   }
 
-  # Transformations to startdate and enddate:
-  if (any(c(startdate, enddate) %in% c("all", "All", "ALL"))) {
-    daterange <- "all"
+  # Transformations to start_date and end_date.
+  if (any(c(start_date, end_date) %in% c("all", "All", "ALL"))) {
+    date_range <- "all"
   } else {
     sd <- tryCatch(
-      as.Date(startdate, format = "%Y-%m-%d"), error = function(e) e
+      as.Date(start_date, format = "%Y-%m-%d"), error = function(e) e
     )
     ed <- tryCatch(
-      as.Date(enddate, format = "%Y-%m-%d"), error = function(e) e
+      as.Date(end_date, format = "%Y-%m-%d"), error = function(e) e
     )
     if (any(methods::is(sd, "error"), methods::is(ed, "error"),
             is.na(sd), is.na(ed))) {
-      stop("params 'startdate' & 'enddate' must either be 'all' or be dates ",
+      stop("args 'start_date' & 'end_date' must either be 'all' or be dates ",
            "that have format 'yyyy-mm-dd'", call. = FALSE)
     }
 
     if (freq == "A") {
-      daterange <- seq.Date(as.Date(startdate, format = "%Y-%m-%d"),
-                            as.Date(enddate, format = "%Y-%m-%d"),
-                            by = "year") %>%
+      date_range <- seq.Date(as.Date(start_date, format = "%Y-%m-%d"),
+                             as.Date(end_date, format = "%Y-%m-%d"),
+                             by = "year") %>%
         as.Date() %>%
         format(format = "%Y") %>%
         paste(collapse = ",")
     } else if (freq == "M") {
-      daterange <- seq.Date(as.Date(startdate, format = "%Y-%m-%d"),
-                            as.Date(enddate, format = "%Y-%m-%d"),
-                            by = "month") %>%
+      date_range <- seq.Date(as.Date(start_date, format = "%Y-%m-%d"),
+                             as.Date(end_date, format = "%Y-%m-%d"),
+                             by = "month") %>%
         as.Date() %>%
         format(format = "%Y%m") %>%
         paste(collapse = ",")
     }
   }
 
-  # Transformations to reporters:
+  # Transformations to reporters.
   if (any(reporters %in% c("all", "All", "ALL"))) {
     reporters <- "All"
   }
@@ -201,7 +199,7 @@ ct_search <- function(reporters, partners,
       reporters[!reporters %in% country_df$`country name`],
       collapse = ", "
     )
-    stop(paste("From param 'reporters', these values were not found in the",
+    stop(paste("From arg 'reporters', these values were not found in the",
                "country database:", err))
   }
 
@@ -212,7 +210,7 @@ ct_search <- function(reporters, partners,
 
   reporters <- paste(ids, collapse = ",")
 
-  # Transformations to partners:
+  # Transformations to partners.
   if (any(partners %in% c("all", "All", "ALL"))) {
     partners <- "All"
   }
@@ -222,7 +220,7 @@ ct_search <- function(reporters, partners,
       partners[!reporters %in% country_df$`country name`],
       collapse = ", "
     )
-    stop(paste("From param 'partners', these values were not found in the",
+    stop(paste("From arg 'partners', these values were not found in the",
                "country database:", err))
   }
 
@@ -233,19 +231,19 @@ ct_search <- function(reporters, partners,
 
   partners <- paste(ids, collapse = ",")
 
-  # Transformations to tradedirection:
+  # Transformations to trade_direction.
   rg <- vector()
 
-  if (any(tradedirection %in% c("all", "All", "ALL"))) {
+  if (any(trade_direction %in% c("all", "All", "ALL"))) {
     rg <- "all"
   } else {
-    tradedirection <- match.arg(tradedirection, several.ok = TRUE)
+    trade_direction <- match.arg(trade_direction, several.ok = TRUE)
 
-    if (any(tradedirection == "imports")) {
+    if (any(trade_direction == "imports")) {
       rg <- "1"
     }
 
-    if (any(tradedirection == "exports")) {
+    if (any(trade_direction == "exports")) {
       if (length(rg) == 0) {
         rg <- "2"
       } else {
@@ -253,7 +251,7 @@ ct_search <- function(reporters, partners,
       }
     }
 
-    if (any(tradedirection == "re-exports")) {
+    if (any(trade_direction == "re_exports")) {
       if (length(rg) == 0) {
         rg <- "3"
       } else {
@@ -261,7 +259,7 @@ ct_search <- function(reporters, partners,
       }
     }
 
-    if (any(tradedirection == "re-imports")) {
+    if (any(trade_direction == "re_imports")) {
       if (length(rg) == 0) {
         rg <- "4"
       } else {
@@ -269,28 +267,28 @@ ct_search <- function(reporters, partners,
       }
     }
 
-    tradedirection <- rg
+    trade_direction <- rg
   }
 
-  # Transformations to commodcodes:
-  if (any(commodcodes %in% c("TOTAL", "Total", "total"))) {
-    commodcodes <- "TOTAL"
-  } else if (any(commodcodes %in% c("ALL", "All", "all"))) {
-    commodcodes <- "ALL"
-  } else if (length(commodcodes) > 1) {
-    commodcodes <- paste(commodcodes, collapse = ",")
+  # Transformations to commod_codes.
+  if (any(commod_codes %in% c("TOTAL", "Total", "total"))) {
+    commod_codes <- "TOTAL"
+  } else if (any(commod_codes %in% c("ALL", "All", "all"))) {
+    commod_codes <- "ALL"
+  } else if (length(commod_codes) > 1) {
+    commod_codes <- paste(commod_codes, collapse = ",")
   }
 
   # Transformations to colname:
-  colname <- match.arg(colname)
-  if (colname == "human") {
-    colname <- "H"
-  } else if (colname == "machine") {
-    colname <- "M"
+  col_name <- match.arg(col_name)
+  if (col_name == "human") {
+    col_name <- "H"
+  } else if (col_name == "machine") {
+    col_name <- "M"
   }
 
   # Get the commodity code scheme type to use.
-  codetype <- ct_commodity_db_type()
+  code_type <- ct_commodity_db_type()
 
   # Get max_rec. If arg value is set to NULL, then max_rec is determined by
   # whether an API token has been registered. If a token has been registered,
@@ -306,18 +304,20 @@ ct_search <- function(reporters, partners,
   }
 
   # Stitch together the url of the API call.
-  url <- paste0(url,
-                "max=", max_rec,
-                "&type=", type,
-                "&freq=", freq,
-                "&px=", codetype,
-                "&ps=", daterange,
-                "&r=", reporters,
-                "&p=", partners,
-                "&rg=", tradedirection,
-                "&cc=", commodcodes,
-                "&fmt=", "json",
-                "&head=", colname)
+  url <- paste0(
+    url,
+    "max=", max_rec,
+    "&type=", type,
+    "&freq=", freq,
+    "&px=", code_type,
+    "&ps=", date_range,
+    "&r=", reporters,
+    "&p=", partners,
+    "&rg=", trade_direction,
+    "&cc=", commod_codes,
+    "&fmt=", "json",
+    "&head=", col_name
+  )
 
   # If token within global options is not NULL, append the token str to the
   # end of the API url.
@@ -329,11 +329,11 @@ ct_search <- function(reporters, partners,
   assign("last_query", Sys.time(), envir = ct_env)
 
   # Execute API call.
-  apires <- tryCatch(ct_json_data(url, colname), error = function(e) e)
+  res <- tryCatch(ct_json_data(url, col_name), error = function(e) e)
 
   # Edit cache variable "queries_this_hour" to be one less.
   assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
          envir = ct_env)
 
-  return(apires)
+  return(res)
 }

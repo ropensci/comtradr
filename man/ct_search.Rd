@@ -4,11 +4,12 @@
 \alias{ct_search}
 \title{Get UN Comtrade data via API}
 \usage{
-ct_search(reporters, partners, tradedirection = c("all", "imports", "exports",
-  "re-imports", "re-exports"), freq = c("annual", "monthly"),
-  startdate = "all", enddate = "all", commodcodes = "TOTAL",
+ct_search(reporters, partners, trade_direction = c("all", "imports",
+  "exports", "re-imports", "re-exports"), freq = c("annual", "monthly"),
+  start_date = "all", end_date = "all", commod_codes = "TOTAL",
   max_rec = NULL, type = c("goods", "services"),
-  url = "https://comtrade.un.org/api/get?", colname = c("human", "machine"))
+  url = "https://comtrade.un.org/api/get?", col_name = c("human",
+  "machine"))
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -18,21 +19,21 @@ be a vector of country names, or "All" to represent all countries.}
 country(s), as a character vector. Can either be a vector of country names,
 or "All" to represent all countries.}
 
-\item{tradedirection}{Indication of which trade directions on which to
+\item{trade_direction}{Indication of which trade directions on which to
 focus, as a character vector. Must either be "all", or a vector containing
-any combination of the following: "imports", "exports", "re-imports",
-"re-exports".}
+any combination of the following: "imports", "exports", "re_imports",
+"re_exports". Default value is "all".}
 
 \item{freq}{Time frequency of the returned results, as a character string.
-Must be either "annual" or "monthly".}
+Must be either "annual" or "monthly". Default value is "annual".}
 
-\item{startdate}{Start date of a time period, or "all". Default value is
+\item{start_date}{Start date of a time period, or "all". Default value is
 "all". If inputing a date, must be string w/ structure "yyyy-mm-dd".}
 
-\item{enddate}{End date of a time period, or "all". Default value is "all".
+\item{end_date}{End date of a time period, or "all". Default value is "all".
 If inputing a date, must be string w/ structure "yyyy-mm-dd".}
 
-\item{commodcodes}{Character vector of commodity codes, or "TOTAL". Valid
+\item{commod_codes}{Character vector of commodity codes, or "TOTAL". Valid
 commodity codes as input will restrict the query to only look for trade
 related to those commodities, "TOTAL" as input will return all trade
 between the indicated reporter country(s) and partner country(s). Default
@@ -48,15 +49,14 @@ how to register a valid token, see \code{\link{ct_register_token}}.}
 "services". Default value is "goods".}
 
 \item{url}{Base of the Comtrade url string, as a character string. Default
-value is "https://comtrade.un.org/api/get?" and should be changed unless
-the Comtrade changes their endpoint url.}
+value is "https://comtrade.un.org/api/get?" and should mot be changed
+unless Comtrade changes their endpoint url.}
 
-\item{colname}{Should the output dataframe have human-friendly or
+\item{col_name}{Should the output data frame have human-friendly or
 machine-friendly column names. Human-friendly means easy for a human to
-read and understand, and may contain special characters and spaces.
-Machine-friendly means easy for a machine to parse, and may not contain
-special characters or spaces. Must be either "human" or "machine". Default
-value is "human".}
+read and understand. Machine-friendly means easy for a machine to parse,
+and may not be intuitive for a human to read and understand. Must be
+either "human" or "machine". Default value is "human".}
 }
 \value{
 List of length three, elements are:
@@ -64,11 +64,11 @@ List of length three, elements are:
  \item \code{msg}: Brief message on success/failure of the API call.
  \item \code{details}: More detailed message on success/failure of the API
    call.
- \item \code{data}: Dataframe object of return data.
+ \item \code{data}: Data frame object of return data.
  }
 }
 \description{
-Make queries to the UN Comtrade API, data is returned as a tidy dataframe.
+Make queries to the UN Comtrade API, data is returned as a tidy data frame.
 Comtrade is a DB hosted by the United Nations that houses country-level
 shipping data. Full API docs can be found here:
 \url{https://comtrade.un.org/data/doc/api/}
@@ -88,13 +88,13 @@ Basic rate limit restrictions. For details on how to register a
  parameter combinations, they are listed below:
  \itemize{
  \item Between params "reporters", "partners", and the query date range (as
-   dictated by the two params "startdate" and "enddate"), only one of these
-   three may use the catch-all input "All".
+   dictated by the two params "start_date" and "end_date"), only one of
+   these three may use the catch-all input "All".
  \item For the same group of three ("reporters", "partners", date range),
    if the input is not "All", then the maximum number of input values
    for each is five (for date range, if not using "all", then the
-   "startdate" and "enddate" must at most span five months or five years).
- \item For param "commodcodes", if not using input "All", then the maximum
+   "start_date" and "end_date" must at most span five months or five years).
+ \item For param "commod_codes", if not using input "All", then the maximum
    number of input values is 20 (although "All" is always a valid input).
  }
 }
@@ -105,25 +105,24 @@ Basic rate limit restrictions. For details on how to register a
 # years.
 ex_1 <- ct_search(reporters = "China",
                   partners = c("Rep. of Korea", "USA", "Mexico"),
-                  tradedirection = "exports")
+                  trade_direction = "exports")
 nrow(ex_1$data)
 
 ## Example API call number 2:
-# All shipments related to halibut between Canada and all other countries,
+# All shipments related to shrimp between Canada and all other countries,
 # between 2011 and 2015.
 # Perform "shrimp" query
 shrimp_codes <- commodity_lookup("shrimp",
                                  return_code = TRUE,
-                                 return_char = TRUE,
-                                 verbose = TRUE)
+                                 return_char = TRUE)
 
 # Make API call
 ex_2 <- ct_search(reporters = "Canada",
                   partners = "All",
-                  tradedirection = "all",
-                  startdate = "2011-01-01",
-                  enddate = "2015-01-01",
-                  commodcodes = shrimp_codes)
+                  trade_direction = "all",
+                  start_date = "2011-01-01",
+                  end_date = "2015-01-01",
+                  commod_codes = shrimp_codes)
 nrow(ex_2$data)
 }
 }

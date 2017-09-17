@@ -35,7 +35,7 @@ Lets say we want to get data on all imports into the United States from Germany,
 ```{r}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
-               tradedirection = "imports")
+               trade_direction = "imports")
 
 # API calls will always return a list of length three.
 q$msg
@@ -49,18 +49,18 @@ Limit the search range to shipments between 2010 and 2014.
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
-               tradedirection = "imports", 
-               startdate = "2010-01-01", 
-               enddate = "2014-01-01")
+               trade_direction = "imports", 
+               start_date = "2010-01-01", 
+               end_date = "2014-01-01")
 ```
 
 By default, the return data is in yearly amounts. We can specify monthly, however the API limits each "monthly" query to a five month span.
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
-               tradedirection = "imports", 
-               startdate = "2012-03-01", 
-               enddate = "2012-07-01", 
+               trade_direction = "imports", 
+               start_date = "2012-03-01", 
+               end_date = "2012-07-01", 
                freq = "monthly")
 ```
 
@@ -72,11 +72,10 @@ ct_country_lookup("bolivia", "partner")
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "Rep. of Korea", 
                partners = "Bolivia (Plurinational State of)", 
-               tradedirection = "all")
+               trade_direction = "all")
 ```
 
-Search trade related to specific commodities (say, tomatoes).
-We can query the commodity database to see all of the different commodity descriptions available for tomatoes.
+Search trade related to specific commodities (say, tomatoes). We can query the commodity database to see all of the different commodity descriptions available for tomatoes.
 ```{r}
 ct_commodity_lookup("tomato")
 ```
@@ -88,15 +87,15 @@ tomato_codes <- ct_commodity_lookup("tomato",
 
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
-               tradedirection = "all", 
-               commodcodes = tomato_codes)
+               trade_direction = "all", 
+               commod_codes = tomato_codes)
 ```
 On the other hand, if we wanted to exclude the juice and sauces from our search, we can pass a vector of the relevant codes to the API call.
 ```{r, eval = FALSE}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
-               tradedirection = "all", 
-               commodcodes = c(0702, 070200, 2002, 200210, 200290))
+               trade_direction = "all", 
+               commod_codes = c(0702, 070200, 2002, 200210, 200290))
 ```
 
 ## More on the lookup functions
@@ -150,16 +149,16 @@ library(ggplot2)
 # Comtrade api query.
 df <- ct_search(reporters = "China", 
                 partners = c("Rep. of Korea", "USA", "Mexico"), 
-                tradedirection = "exports")
+                trade_direction = "exports")
 df <- df$data
 
 # Create plot.
-ggplot(df, aes(Year, `Trade Value (US$)`, color = factor(Partner), 
-               shape = factor(Partner))) +
+ggplot(df, aes(year, `trade_value_usd`, color = factor(partner), 
+               shape = factor(partner))) +
   geom_point(size = 2) +
   geom_line(size = 1) +
-  scale_x_continuous(limits = c(min(df$Year), max(df$Year)), 
-                     breaks = seq.int(min(df$Year), max(df$Year), 2)) +
+  scale_x_continuous(limits = c(min(df$year), max(df$year)), 
+                     breaks = seq.int(min(df$year), max(df$year), 2)) +
   scale_color_manual(values = c("orange", "blue", "red"), 
                      name = "Destination\nCountry") +
   scale_shape_discrete(name = "Destination\nCountry") +
@@ -182,36 +181,36 @@ shrimp_codes <- ct_commodity_lookup("shrimp",
 # Comtrade api query.
 df <- ct_search(reporters = "Thailand", 
                 partners = "All", 
-                tradedirection = "exports", 
-                startdate = "2007-01-01", 
-                enddate = "2011-01-01", 
-                commodcodes = shrimp_codes)
+                trade_direction = "exports", 
+                start_date = "2007-01-01", 
+                end_date = "2011-01-01", 
+                commod_codes = shrimp_codes)
 
 # Create country specific "total weight per year" dataframe for plotting.
 plotdf <- df$data %>% 
-  group_by_(.dots = c("Partner", "Year")) %>% 
-  summarise(kg = as.numeric(sum(`Netweight (kg)`, na.rm = TRUE))) %>% 
+  group_by_(.dots = c("partner", "year")) %>% 
+  summarise(kg = as.numeric(sum(netweight_kg, na.rm = TRUE))) %>% 
   as_data_frame()
 
 # Get vector of the top 8 destination countries/areas by total weight shipped 
 # across all years, then subset plotdf to only include observations related 
 # to those countries/areas.
 top8 <- plotdf %>% 
-  group_by(Partner) %>% 
+  group_by(partner) %>% 
   summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) %>% 
   arrange(desc(kg)) %>% 
-  magrittr::extract2("Partner") %>% 
+  magrittr::extract2("partner") %>% 
   magrittr::extract(1:8)
-plotdf <- plotdf %>% filter(Partner %in% top8)
+plotdf <- plotdf %>% filter(partner %in% top8)
 
 # Create plots (y-axis is NOT fixed across panels, this will allow us to ID 
 # trends over time within each country/area individually).
-qplot(Year, kg, data = plotdf) + 
-  geom_line(data = plotdf[plotdf$Partner %in% names(which(table(plotdf$Partner) > 1)), ]) + 
-  xlim(min(plotdf$Year), max(plotdf$Year)) + 
+qplot(year, kg, data = plotdf) + 
+  geom_line(data = plotdf[plotdf$partner %in% names(which(table(plotdf$partner) > 1)), ]) + 
+  xlim(min(plotdf$year), max(plotdf$year)) + 
   labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011", 
        x = "year", y = "sum of weight of all shipments in KG") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), 
         axis.text = element_text(size = 7)) + 
-  facet_wrap(~factor(Partner, levels = top8), scales = "free", nrow = 2, ncol = 4)
+  facet_wrap(~factor(partner, levels = top8), scales = "free", nrow = 2, ncol = 4)
 ```
