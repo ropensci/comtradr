@@ -4,41 +4,41 @@
 #' @noRd
 api_col_names <- function() {
   return(c(
-    "Classification",
-    "Year",
-    "Period",
-    "Period Desc.",
-    "Aggregate Level",
-    "Is Leaf Code",
-    "Trade Flow Code",
-    "Trade Flow",
-    "Reporter Code",
-    "Reporter",
-    "Reporter ISO",
-    "Partner Code",
-    "Partner",
-    "Partner ISO",
-    "2nd Partner Code",
-    "2nd Partner",
-    "2nd Partner ISO",
-    "Customs Proc. Code",
-    "Customs",
-    "Mode of Transport Code",
-    "Mode of Transport",
-    "Commodity Code",
-    "Commodity",
-    "Qty Unit Code",
-    "Qty Unit",
-    "Qty",
-    "Alt Qty Unit Code",
-    "Alt Qty Unit",
-    "Alt Qty",
-    "Netweight (kg)",
-    "Gross weight (kg)",
-    "Trade Value (US$)",
-    "CIF Trade Value (US$)",
-    "FOB Trade Value (US$)",
-    "Flag"
+    "classification",
+    "year",
+    "period",
+    "period_desc",
+    "aggregate_level",
+    "is_leaf_code",
+    "trade_flow_code",
+    "trade_flow",
+    "reporter_code",
+    "reporter",
+    "reporter_iso",
+    "partner_code",
+    "partner",
+    "partner_iso",
+    "2nd_partner_code",
+    "2nd_partner",
+    "2nd_partner_iso",
+    "customs_proc_code",
+    "customs",
+    "mode_of_transport_code",
+    "mode_of_transport",
+    "commodity_code",
+    "commodity",
+    "qty_unit_code",
+    "qty_unit",
+    "qty",
+    "alt_qty_unit_code",
+    "alt_qty_unit",
+    "alt_qty",
+    "netweight_kg",
+    "gross_weight_kg",
+    "trade_value_usd",
+    "cif_trade_value_usd",
+    "fob_trade_value_usd",
+    "flag"
   ))
 }
 
@@ -50,8 +50,12 @@ api_col_names <- function() {
 #' @return list containing current rate limit info.
 #' @noRd
 get_cache_values <- function() {
+  last_query <- get("last_query", envir = ct_env)
+  if (is.null(last_query)) {
+    last_query <- Sys.time()
+  }
   list(
-    last_query = get("last_query", envir = ct_env),
+    last_query = last_query,
     next_hour_reset = get("next_hour_reset", envir = ct_env),
     queries_this_hour = get("queries_this_hour", envir = ct_env)
   )
