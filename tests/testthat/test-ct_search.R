@@ -44,7 +44,6 @@ test_that(msg, {
                     "160520",
                     "160521",
                     "160529")
-  Sys.sleep(5)
   vals <- ct_search(reporters = "USA",
                     partners = c("Germany", "Thailand"),
                     tradedirection = "exports",
