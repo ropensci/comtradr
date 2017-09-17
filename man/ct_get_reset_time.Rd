@@ -8,7 +8,7 @@ ct_get_reset_time()
 }
 \value{
 date and time in which the hourly query limit will reset. Return is
-  an object of class "POSIXct" (see \code{\link{DateTimeClasses}}).
+  a "POSIXct" object (see \code{\link{DateTimeClasses}}).
 }
 \description{
 Get the time in which the hourly limit will reset.

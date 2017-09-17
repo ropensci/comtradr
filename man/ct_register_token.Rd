@@ -9,6 +9,9 @@ ct_register_token(token)
 \arguments{
 \item{token}{char string, valid API token.}
 }
+\value{
+Set comtradr API token and update rate limits.
+}
 \description{
 Function to set an API token for the UN Comtrade API. Details on tokens and
   rate limits can be found
