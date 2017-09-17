@@ -4,13 +4,11 @@
 \alias{ct_search}
 \title{Get UN Comtrade data via API}
 \usage{
-ct_search(reporters, partners, url = "https://comtrade.un.org/api/get?",
-  max_rec = NULL, type = c("goods", "services"), freq = c("annual",
-  "monthly"), startdate = "all", enddate = "all",
-  tradedirection = c("all", "imports", "exports", "re-imports", "re-exports"),
-  commodcodes = "TOTAL", fmt = c("json", "csv"), colname = c("human",
-  "machine"), codetype = c("HS", "H0", "H1", "H2", "H3", "H4", "ST", "S1",
-  "S2", "S3", "S4", "BEC", "EB02"))
+ct_search(reporters, partners, tradedirection = c("all", "imports", "exports",
+  "re-imports", "re-exports"), freq = c("annual", "monthly"),
+  startdate = "all", enddate = "all", commodcodes = "TOTAL",
+  max_rec = NULL, type = c("goods", "services"),
+  url = "https://comtrade.un.org/api/get?", colname = c("human", "machine"))
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -20,16 +18,10 @@ be a vector of country names, or "All" to represent all countries.}
 country(s), as a character vector. Can either be a vector of country names,
 or "All" to represent all countries.}
 
-\item{url}{Base of the Comtrade url string, as a character string.}
-
-\item{max_rec}{Max number of records returned from each API call, as an
-integer. If max_rec is set to NULL, then value is determined by whether or
-not an API token has been rergistered. API cap without a token is 50000,
-cap with a valid token is 250000. Default value is NULL. For details on
-how to register a valid token, see \code{\link{ct_register_token}}.}
-
-\item{type}{Type of trade, as a character string. Must be either "goods" or
-"services".}
+\item{tradedirection}{Indication of which trade directions on which to
+focus, as a character vector. Must either be "all", or a vector containing
+any combination of the following: "imports", "exports", "re-imports",
+"re-exports".}
 
 \item{freq}{Time frequency of the returned results, as a character string.
 Must be either "annual" or "monthly".}
@@ -40,22 +32,24 @@ Must be either "annual" or "monthly".}
 \item{enddate}{End date of a time period, or "all". Default value is "all".
 If inputing a date, must be string w/ structure "yyyy-mm-dd".}
 
-\item{tradedirection}{Indication of which trade directions on which to
-focus, as a character vector. Must either be "all", or a vector containing
-any combination of the following: "imports", "exports", "re-imports",
-"re-exports".}
-
 \item{commodcodes}{Character vector of commodity codes, or "TOTAL". Valid
 commodity codes as input will restrict the query to only look for trade
 related to those commodities, "TOTAL" as input will return all trade
 between the indicated reporter country(s) and partner country(s). Default
 value is "TOTAL".}
 
-\item{fmt}{Indication as to the format of the returned data, as a character
-string. Must be either "json" or "csv". Regardless of the fmt used, the
-return data will be in the form of a tidy dataframe. "json" is the
-suggested value for this parameter, as the API tends to provide more
-detailed feedback on why a query failed when using json.}
+\item{max_rec}{Max number of records returned from each API call, as an
+integer. If max_rec is set to NULL, then value is determined by whether or
+not an API token has been rergistered. API cap without a token is 50000,
+cap with a valid token is 250000. Default value is NULL. For details on
+how to register a valid token, see \code{\link{ct_register_token}}.}
+
+\item{type}{Type of trade, as a character string. Must be either "goods" or
+"services". Default value is "goods".}
+
+\item{url}{Base of the Comtrade url string, as a character string. Default
+value is "https://comtrade.un.org/api/get?" and should be changed unless
+the Comtrade changes their endpoint url.}
 
 \item{colname}{Should the output dataframe have human-friendly or
 machine-friendly column names. Human-friendly means easy for a human to
@@ -63,9 +57,6 @@ read and understand, and may contain special characters and spaces.
 Machine-friendly means easy for a machine to parse, and may not contain
 special characters or spaces. Must be either "human" or "machine". Default
 value is "human".}
-
-\item{codetype}{Trade data classification scheme to use, as a character
-string. See "Details" for a list of a valid inputs.}
 }
 \value{
 List of length three, elements are:
@@ -105,27 +96,6 @@ Basic rate limit restrictions. For details on how to register a
    "startdate" and "enddate" must at most span five months or five years).
  \item For param "commodcodes", if not using input "All", then the maximum
    number of input values is 20 (although "All" is always a valid input).
- }
-
- The default for param \code{codetype} is \code{HS}. Below is a list of all
- valid inputs with a very brief description for each. For more information
- on each of these types, see
- \url{https://comtrade.un.org/data/doc/api/#DataAvailabilityRequests}
- \itemize{
- \item \code{HS}: Harmonized System (HS), as reported
- \item \code{HS1992}: HS 1992
- \item \code{HS1996}: HS 1996
- \item \code{HS2002}: HS 2002
- \item \code{HS2007}: HS 2007
- \item \code{HS2012}: HS 2012
- \item \code{SITC}: Standard International Trade Classification (SITC), as
-   reported
- \item \code{SITCrev1}: SITC Revision 1
- \item \code{SITCrev2}: SITC Revision 2
- \item \code{SITCrev3}: SITC Revision 3
- \item \code{SITCrev4}: SITC Revision 4
- \item \code{BEC}: Broad Economic Categories
- \item \code{EB02}: Extended Balance of Payments Services Classification
  }
 }
 \examples{
