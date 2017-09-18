@@ -137,10 +137,10 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # Get the current date/time.
   curr_date <- format(Sys.time(), "%a, %d %b %Y %X %Z")
 
-  # If "force" is FALSE, get the current databases from ct_env.
+  # If "force" is FALSE, get the current databases as data frames.
   if (!force) {
-    country_df <- get("country_df", envir = ct_env)
-    commodity_df <- get("commodity_df", envir = ct_env)
+    country_df <- get_country_db()
+    commodity_df <- get_commodity_db()
   }
 
   # Get the commodity database from the Comtrade website. Compare the

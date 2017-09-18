@@ -32,5 +32,5 @@
 #' ct_commodity_db_type()
 #'
 ct_commodity_db_type <- function() {
-  get("commodity_df", envir = ct_env)$type[1]
+  get_commodity_db()$type[1]
 }

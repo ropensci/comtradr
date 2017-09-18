@@ -114,7 +114,7 @@ ct_search <- function(reporters, partners,
   # throttling of API queries).
   cache_vals <- get_cache_values()
 
-  # If last api query was less than 1.2 seconds ago, delay code by 1.2 seconds.
+  # If last api query was less than 2 seconds ago, delay code by 2 seconds.
   if (Sys.time() < cache_vals$last_query + 2) {
     Sys.sleep(2)
   }
@@ -124,7 +124,7 @@ ct_search <- function(reporters, partners,
   token <- getOption("comtradr")$comtrade$token
 
   # Fetch the country database from ct_env.
-  country_df <- get("country_df", envir = ct_env)
+  country_df <- get_country_db()
 
   # Check to see if the current one hour time limit needs to be reset. If
   # current value is NULL, initialize the cache value with the current time.

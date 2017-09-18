@@ -47,7 +47,7 @@ ct_commodity_lookup <- function(values, return_code = FALSE,
   values <- as.character(values)
 
   # Fetch the commodity database from ct_env.
-  commodity_df <- get("commodity_df", envir = ct_env)
+  commodity_df <- get_commodity_db()
 
 
   # transform input arg "return_code" to match the col name indicated
