@@ -171,7 +171,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
       compress = "bzip2"
     )
     # Save df to ct_env.
-    assign("commmodity_df", df, envir = ct_env)
+    assign("commodity_df", df, envir = ct_env)
     # Update the output message.
     if (verbose) {
       msg <- paste0("Updates found. The following datasets have been ",
@@ -261,14 +261,15 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # If updates were made to either the reporter OR partner portions of the
   # country database, then save the updated country DB to the data dir of the
   # comtradr package, and update "country_df" within ct_env.
-  save(
-    country_df,
-    file = paste0(system.file("extdata", package = "comtradr"),
-                  "/country_table.rda"),
-    compress = "bzip2"
-  )
-  # Save country_df to ct_env.
-  assign("country_df", country_df, envir = ct_env)
+  if (any(country_update, force))
+    save(
+      country_df,
+      file = paste0(system.file("extdata", package = "comtradr"),
+                    "/country_table.rda"),
+      compress = "bzip2"
+    )
+    # Save country_df to ct_env.
+    assign("country_df", country_df, envir = ct_env)
 
   # Finally, print to console the results of the update function (msg).
   if (verbose) {
