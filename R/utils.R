@@ -60,3 +60,23 @@ get_cache_values <- function() {
     queries_this_hour = get("queries_this_hour", envir = ct_env)
   )
 }
+
+
+#' Missing commodity DB file message
+#'
+#' @noRd
+commodity_missing_file_msg <- function() {
+  paste0("commodity database file not found. In order to download the ",
+         "commodity database from Comtrade, run:\n",
+         "ct_update_databases(force = TRUE)")
+}
+
+
+#' Missing country DB file message
+#'
+#' @noRd
+country_missing_file_msg <- function() {
+  paste0("country database file not found. In order to download the ",
+         "country database from Comtrade, run:\n",
+         "ct_update_databases(force = TRUE)")
+}

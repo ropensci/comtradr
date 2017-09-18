@@ -4,12 +4,19 @@
 \alias{ct_update_databases}
 \title{Check for updates to country/commodity databases}
 \usage{
-ct_update_databases(commodity_type = c("HS", "HS1992", "HS1996", "HS2002",
-  "HS2007", "HS2012", "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4",
-  "BEC", "EB02"), commodity_url = NULL, reporter_url = NULL,
-  partner_url = NULL)
+ct_update_databases(force = FALSE, verbose = TRUE,
+  commodity_type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007", "HS2012",
+  "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4", "BEC", "EB02"),
+  commodity_url = NULL, reporter_url = NULL, partner_url = NULL)
 }
 \arguments{
+\item{force}{logical, if TRUE, both the country and commodity databases
+will be downloaded, regardless of the status of the DB's on file. Default
+value is FALSE.}
+
+\item{verbose}{logical, if TRUE, an update status message will be printed
+to console. Default value is TRUE.}
+
 \item{commodity_type}{Trade data classification scheme to use, see
 "details" for a list of the valid inputs. Default value is "HS", which is
 the default "type" of the commodity database on file upon install of

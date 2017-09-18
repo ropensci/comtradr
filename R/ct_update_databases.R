@@ -10,6 +10,11 @@
 #' it to the \code{comtradr} package directory, and update the DB for use
 #' within the current R session.
 #'
+#' @param force logical, if TRUE, both the country and commodity databases
+#'  will be downloaded, regardless of the status of the DB's on file. Default
+#'  value is FALSE.
+#' @param verbose logical, if TRUE, an update status message will be printed
+#'  to console. Default value is TRUE.
 #' @param commodity_type Trade data classification scheme to use, see
 #'  "details" for a list of the valid inputs. Default value is "HS", which is
 #'  the default "type" of the commodity database on file upon install of
@@ -62,14 +67,16 @@
 #' @examples \dontrun{
 #' ct_update_databases()
 #' }
-ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
-                                                "HS2002", "HS2007", "HS2012",
-                                                "SITC", "SITCrev1", "SITCrev2",
-                                                "SITCrev3", "SITCrev4", "BEC",
-                                                "EB02"),
-                             commodity_url = NULL,
-                             reporter_url = NULL,
-                             partner_url = NULL) {
+ct_update_databases <- function(force = FALSE, verbose = TRUE,
+                                commodity_type = c("HS", "HS1992", "HS1996",
+                                                   "HS2002", "HS2007",
+                                                   "HS2012", "SITC",
+                                                   "SITCrev1", "SITCrev2",
+                                                   "SITCrev3", "SITCrev4",
+                                                   "BEC", "EB02"),
+                                commodity_url = NULL,
+                                reporter_url = NULL,
+                                partner_url = NULL) {
 
   # Input validation.
   commodity_type <- match.arg(commodity_type)
@@ -123,14 +130,18 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
   }
 
   # Create output message.
-  msg <- "All DB's are up to date, no action required"
+  if (verbose) {
+    msg <- "All DB's are up to date, no action required"
+  }
 
   # Get the current date/time.
   curr_date <- format(Sys.time(), "%a, %d %b %Y %X %Z")
 
-  # Get the current databases from ct_env.
-  country_df <- get("country_df", envir = ct_env)
-  commodity_df <- get("commodity_df", envir = ct_env)
+  # If "force" is FALSE, get the current databases from ct_env.
+  if (!force) {
+    country_df <- get("country_df", envir = ct_env)
+    commodity_df <- get("commodity_df", envir = ct_env)
+  }
 
   # Get the commodity database from the Comtrade website. Compare the
   # "last-modified" date value within the header to the value in variable
@@ -141,7 +152,8 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
   # Replacement will be for both the current session and within the data dir
   # of the comtradr package.
   res <- httr::GET(commodity_url)
-  if (commodity_type != commodity_df$type[1] ||
+  if (force ||
+      commodity_type != commodity_df$type[1] ||
       httr::headers(res)$`last-modified` > commodity_df$date[1]) {
     # Extract data frame.
     df <- res %>%
@@ -154,16 +166,17 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
     # Save df to data dir of the comtradr package.
     save(
       df,
-      file = system.file("extdata",
-                         "commodity_table.rda",
-                         package = "comtradr"),
+      file = paste0(system.file("extdata", package = "comtradr"),
+                    "/commodity_table.rda"),
       compress = "bzip2"
     )
     # Save df to ct_env.
     assign("commmodity_df", df, envir = ct_env)
     # Update the output message.
-    msg <- paste0("Updates found. The following datasets have been ",
-                  "downloaded: commodities DB")
+    if (verbose) {
+      msg <- paste0("Updates found. The following datasets have been ",
+                    "downloaded: commodities DB")
+    }
   }
 
   # Get the reporter country database from the Comtrade website. Compare the
@@ -175,7 +188,8 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
   # the comtradr package.
   country_update <- FALSE
   res <- httr::GET(reporter_url)
-  if (httr::headers(res)$`last-modified` >
+  if (force ||
+      httr::headers(res)$`last-modified` >
       country_df[country_df$type == "reporter", ]$date[1]) {
     # Extract data frame.
     df <- res %>%
@@ -187,14 +201,20 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
     df$date <- curr_date
     # Replace the reporters portion of the current country_df with the new
     # data.
-    country_update <- TRUE
-    country_df[country_df$type == "reporter", ] <- df
-    # Update the output message.
-    if (grepl("Updates found", msg, fixed = TRUE)) {
-      msg <- paste0(msg, ", reporter countries")
+    if (!force) {
+      country_update <- TRUE
+      country_df[country_df$type == "reporter", ] <- df
     } else {
-      msg <- paste0("Updates found. The following datasets have been ",
-                    "downloaded: reporter countries")
+      country_df <- df
+    }
+    # Update the output message.
+    if (verbose) {
+      if (grepl("Updates found", msg, fixed = TRUE)) {
+        msg <- paste0(msg, ", reporter countries")
+      } else {
+        msg <- paste0("Updates found. The following datasets have been ",
+                      "downloaded: reporter countries")
+      }
     }
   }
 
@@ -206,7 +226,8 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
   # the newer DB, both for the current session and within the data dir of
   # the comtradr package.
   res <- httr::GET(partner_url)
-  if (httr::headers(res)$`last-modified` >
+  if (force ||
+      httr::headers(res)$`last-modified` >
       country_df[country_df$type == "partner", ]$date[1]) {
     # Extract data frame.
     df <- res %>%
@@ -218,16 +239,22 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
     df$date <- curr_date
     # Replace the reporters portion of the current country_df with the new
     # data.
-    if (!country_update) {
-      country_update <- TRUE
-    }
-    country_df[country_df$type == "partner", ] <- df
-    # Update the output message.
-    if (grepl("Updates found", msg, fixed = TRUE)) {
-      msg <- paste0(msg, ", partner countries")
+    if (!force) {
+      if (!country_update) {
+        country_update <- TRUE
+      }
+      country_df[country_df$type == "partner", ] <- df
     } else {
-      msg <- paste0("Updates found. The following datasets have been ",
-                    "downloaded: partner countries")
+      country_df <- rbind(country_df, df)
+    }
+    # Update the output message.
+    if (verbose) {
+      if (grepl("Updates found", msg, fixed = TRUE)) {
+        msg <- paste0(msg, ", partner countries")
+      } else {
+        msg <- paste0("Updates found. The following datasets have been ",
+                      "downloaded: partner countries")
+      }
     }
   }
 
@@ -236,15 +263,15 @@ ct_update_databases <- function(commodity_type = c("HS", "HS1992", "HS1996",
   # comtradr package, and update "country_df" within ct_env.
   save(
     country_df,
-    file = system.file("extdata",
-                       "country_table.rda",
-                       package = "comtradr"),
+    file = paste0(system.file("extdata", package = "comtradr"),
+                  "/country_table.rda"),
     compress = "bzip2"
   )
   # Save country_df to ct_env.
   assign("country_df", country_df, envir = ct_env)
 
   # Finally, print to console the results of the update function (msg).
-  message(msg)
-
+  if (verbose) {
+    message(msg)
+  }
 }
