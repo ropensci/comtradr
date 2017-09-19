@@ -65,6 +65,14 @@
 #'    number of input values is 20 (although "All" is always a valid input).
 #'  }
 #'
+#'  This function returns objects with metadata related to the API call that
+#'  can be accessed via \code{\link{attributes}}. The metadata accessable is:
+#'  \itemize{
+#'  \item url: url of the API call.
+#'  \item time_stamp: date-time of the API call.
+#'  \item req_duration: total duration of the API call, in seconds.
+#'  }
+#'
 #' @return List of length three, elements are:
 #'  \itemize{
 #'  \item \code{msg}: Brief message on success/failure of the API call.
@@ -99,6 +107,11 @@
 #'                   end_date = "2015-01-01",
 #'                   commod_codes = shrimp_codes)
 #' nrow(ex_2$data)
+#'
+#' # Access metadata
+#' attributes(ex_2)$url
+#' attributes(ex_2)$time_stamp
+#' attributes(ex_2)$req_duration
 #' }
 ct_search <- function(reporters, partners,
                       trade_direction = c("all", "imports", "exports",
@@ -271,9 +284,10 @@ ct_search <- function(reporters, partners,
   }
 
   # Transformations to commod_codes.
-  if (any(commod_codes %in% c("TOTAL", "Total", "total"))) {
+  stopifnot(is.character(commod_codes))
+  if (any(tolower(commod_codes) == "total")) {
     commod_codes <- "TOTAL"
-  } else if (any(commod_codes %in% c("ALL", "All", "all"))) {
+  } else if (any(tolower(commod_codes) == "all")) {
     commod_codes <- "ALL"
   } else if (length(commod_codes) > 1) {
     commod_codes <- paste(commod_codes, collapse = ",")
@@ -334,6 +348,14 @@ ct_search <- function(reporters, partners,
   # Edit cache variable "queries_this_hour" to be one less.
   assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
          envir = ct_env)
+
+  # Assign metadata attributes to obj "res".
+  attributes(res)$url <- url
+  last_query <- get("last_query", envir = ct_env)
+  attributes(res)$time_stamp <- last_query
+  attributes(res)$req_duration <- as.double(
+    difftime(Sys.time(), last_query, units = "secs")
+  )
 
   return(res)
 }

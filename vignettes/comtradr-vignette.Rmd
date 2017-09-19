@@ -91,11 +91,24 @@ q <- ct_search(reporters = "USA",
                commod_codes = tomato_codes)
 ```
 On the other hand, if we wanted to exclude the juice and sauces from our search, we can pass a vector of the relevant codes to the API call.
-```{r, eval = FALSE}
+```{r}
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "all", 
-               commod_codes = c(0702, 070200, 2002, 200210, 200290))
+               commod_codes = c("0702", "070200", "2002", "200210", "200290"))
+```
+
+## API search metadata
+
+In addition to the trade data, each API return object contains metadata as attributes.
+```{r}
+# The url of the API call.
+attributes(q)$url
+# The date-time of the API call.
+attributes(q)$time_stamp
+
+# The total duration of the API call, in seconds.
+attributes(q)$req_duration
 ```
 
 ## More on the lookup functions
@@ -119,19 +132,21 @@ ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), verbose = TRUE)
 
 ## API rate limits
 
-The Comtrade API imposes rate limits on both guest users and premium users. Below is a breakdown of those limits, API docs on these details can be found [here](https://comtrade.un.org/data/doc/api/#Authentication).
+The Comtrade API imposes rate limits on both guest users and premium users. `comtradr` features automated throttling of API calls to ensure the user stays within the limits defined by Comtrade. Below is a breakdown of those limits, API docs on these details can be found [here](https://comtrade.un.org/data/doc/api/#Authentication).
 
 * Without authentication token: 1 request per second, 100 requests per hour.
 * With valid user token: 1 request per second, 10,000 requests per hour.
 
-In addition to these rate limits, the API imposes some limits on parameter combinations:
-* Between args "reporters", "partners", and the query date range, only one of these three may use the catch-all input "All".
-* For the same group of three ("reporters", "partners", date range), if the input is not "All", then the maximum number of input values for each is five (for date range, if not using "all", then the "startdate" and "enddate" must at most span five months or five years).
-* For arg "commodcodes", if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
+In addition to these rate limits, the API imposes some limits on parameter combinations.
 
-Additionally, the maximum nunmber of returned records from a single query without a token is 50,000. With a token, that number is 250,000.
+* Between args `reporters`, `partners`, and the query date range, only one of these three may use the catch-all input "All".
+* For the same group of three (`reporters`, `partners`, date range), if the input is not "All", then the maximum number of input values for each is five (for date range, if not using "All", then the `start_date` and `end_date` must at most span five months or five years).
+* For arg `commod_codes`, if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
+
+Additionally, the maximum number of returned records from a single query without a token is 50,000. With a token, that number is 250,000.
 
 `comtradr` features a few functions for working with the API rate limits and tokens.
+
 * `ct_register_token("some_valid_token_str")` allows a user to set an API token as a global variable. 
 * `ct_get_remaining_hourly_queries()` will return the number of remaining queries for the current hour.
 * `ct_get_reset_time()` will return the date/time in which the hourly time limit will reset, as a `POSIXct` object.
