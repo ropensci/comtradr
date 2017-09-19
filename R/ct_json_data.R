@@ -21,7 +21,8 @@
 #' @importFrom magrittr "%>%"
 ct_json_data <- function(url, col_name) {
 
-  res <- tryCatch(httr::GET(url), error = function(e) e)
+  res <- tryCatch(httr::GET(url, httr::user_agent(get("ua", envir = ct_env))),
+                  error = function(e) e)
 
   if (methods::is(res, "error")) {
     msg <- "Could not complete connection to API"

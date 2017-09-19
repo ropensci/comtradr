@@ -151,7 +151,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # of the current database, the old DB will be replaced by the newer DB.
   # Replacement will be for both the current session and within the data dir
   # of the comtradr package.
-  res <- httr::GET(commodity_url)
+  res <- httr::GET(commodity_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
       commodity_type != commodity_df$type[1] ||
       httr::headers(res)$`last-modified` > commodity_df$date[1]) {
@@ -187,7 +187,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # the newer DB, both for the current session and within the data dir of
   # the comtradr package.
   country_update <- FALSE
-  res <- httr::GET(reporter_url)
+  res <- httr::GET(reporter_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
       httr::headers(res)$`last-modified` >
       country_df[country_df$type == "reporter", ]$date[1]) {
@@ -225,7 +225,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # DB, the partner countries portion of the old DB will be replaced by
   # the newer DB, both for the current session and within the data dir of
   # the comtradr package.
-  res <- httr::GET(partner_url)
+  res <- httr::GET(partner_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
       httr::headers(res)$`last-modified` >
       country_df[country_df$type == "partner", ]$date[1]) {

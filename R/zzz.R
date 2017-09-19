@@ -7,6 +7,12 @@ ct_env <- new.env()
 assign("last_query", NULL, envir = ct_env)
 assign("next_hour_reset", NULL, envir = ct_env)
 assign("queries_this_hour", 100, envir = ct_env)
+assign(
+  "ua",
+  paste(
+    Sys.info()[["user"]], R.version$version.str, version$platform, sep = ", "
+  ), envir = ct_env
+)
 # Read in country DB and commodity DB. If either file doesn't exist, assign
 # the DB variable as NULL within env ct_env.
 country_file <- system.file("extdata",
