@@ -405,7 +405,7 @@ execute_api_request <- function(url, col_name) {
   # Ping API.
   res <- httr::GET(url, httr::user_agent(get("ua", envir = ct_env)))
 
-  # Check status code of res (if 400 or greater, throw an error).
+  # Check status code of res (if not 200, throw an error).
   if (httr::status_code(res) != 200) {
     stop(
       sprintf(
