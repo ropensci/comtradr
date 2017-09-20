@@ -2,7 +2,7 @@ context("ct_commodity_lookup")
 
 
 test_that("correct vals given return_code == FALSE & return_char == TRUE", {
-  vals <- ct_commodity_lookup(values = "halibut",
+  vals <- ct_commodity_lookup(search_terms = "halibut",
                               return_code = FALSE,
                               return_char = TRUE,
                               verbose = TRUE)
@@ -16,7 +16,7 @@ test_that("correct vals given return_code == FALSE & return_char == TRUE", {
 
 
 test_that("correct vals given return_code == TRUE & return_char == FALSE", {
-  vals <- ct_commodity_lookup(values = 1602,
+  vals <- ct_commodity_lookup(search_terms = 1602,
                               return_code = TRUE,
                               return_char = FALSE,
                               verbose = TRUE)
@@ -30,7 +30,7 @@ test_that("correct vals given return_code == TRUE & return_char == FALSE", {
 
 
 test_that("correct vals given return_code == TRUE & return_char == TRUE", {
-  vals <- ct_commodity_lookup(values = c(010119, 010231, 010594),
+  vals <- ct_commodity_lookup(search_terms = c(010119, 010231, 010594),
                               return_code = TRUE,
                               return_char = TRUE,
                               verbose = TRUE)
@@ -47,7 +47,7 @@ test_that("correct vals given return_code == TRUE & return_char == TRUE", {
 
 
 test_that("correct vals given return_code == FALSE & return_char == FALSE", {
-  vals <- ct_commodity_lookup(values = c("tomato", "trout"),
+  vals <- ct_commodity_lookup(search_terms = c("tomato", "trout"),
                               return_code = FALSE,
                               return_char = FALSE,
                               verbose = TRUE)
@@ -64,8 +64,9 @@ test_that("correct vals given return_code == FALSE & return_char == FALSE", {
 
 
 test_that("errors and warnings are thrown as expected", {
-  # Correct return values when input for "value" not found in lookup table.
-  expect_warning(ex_5 <- ct_commodity_lookup(values = "not_a_trade_item",
+  # Correct return values when input for "search_terms" not found in lookup
+  # table.
+  expect_warning(ex_5 <- ct_commodity_lookup(search_terms = "not_a_trade_item",
                                              return_char = TRUE))
   expect_equal(length(ex_5), 0)
 
