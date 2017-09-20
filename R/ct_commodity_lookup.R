@@ -4,11 +4,11 @@
 #' using commodity codes. This is a helper function for querying the
 #' Comtrade commodity database. It takes as input a vector of
 #' commodities or commodity codes. Output is a list or vector of commodity
-#' descriptions or codes associated with the input values. For use with the UN
-#' Comtrade API, full API docs can be found at
+#' descriptions or codes associated with the input search_terms. For use with
+#' the UN Comtrade API, full API docs can be found at
 #' \url{https://comtrade.un.org/data/doc/api/}
 #'
-#' @param values Commodity names or commodity codes, as a char or numeric
+#' @param search_terms Commodity names or commodity codes, as a char or numeric
 #'  vector.
 #' @param return_code Logical, if set to FALSE, the function will return a
 #'  set of commodity descriptions along with commodity codes (as a single
@@ -18,12 +18,21 @@
 #'  matches as a named list, if set to TRUE it will return them as a character
 #'  vector. Default value is FALSE.
 #' @param verbose Logical, if set to TRUE, a warning message will print to
-#'  console if any of the elements of input "values" returned no matches
+#'  console if any of the elements of input "search_terms" returned no matches
 #'  (message will indicate which elements returned no data). Default is TRUE.
 #'
 #' @return A list or character vector of commodity descriptions and/or
-#'  commodity codes that are matches with the elements of "values".
+#'  commodity codes that are matches with the elements of "search_terms".
+#'
+#' @details This function uses regular expressions (regex) to find matches
+#'  within the commodity DB. This means it will treat as a match any commodity
+#'  description that contains the input search term. For more on using regex
+#'  within R, see this great tutorial by Gloria Li and Jenny Bryan
+#'  \url{http://stat545.com/block022_regular-expression.html}
+#'
 #' @export
+#'
+#' @seealso \code{\link{grepl}}
 #'
 #' @examples \dontrun{
 #' # Look up commodity descriptions related to "halibut"
@@ -41,10 +50,10 @@
 #'                     verbose = TRUE)
 #' }
 
-ct_commodity_lookup <- function(values, return_code = FALSE,
+ct_commodity_lookup <- function(search_terms, return_code = FALSE,
                                 return_char = FALSE, verbose = TRUE) {
-  stopifnot(mode(values) %in% c("numeric", "character"))
-  values <- as.character(values)
+  stopifnot(mode(search_terms) %in% c("numeric", "character"))
+  search_terms <- as.character(search_terms)
 
   # Fetch the commodity database from ct_env.
   commodity_df <- get_commodity_db()
@@ -58,9 +67,9 @@ ct_commodity_lookup <- function(values, return_code = FALSE,
     return_col <- "commodity"
   }
 
-  # For each element of input arg "values", fetch all commodity descriptions
-  # and/or codes from the database. Output will be a list.
-  ans <- purrr::map(values, function(x) {
+  # For each element of input arg "search_terms", fetch all commodity
+  # descriptions and/or codes from the database. Output will be a list.
+  ans <- purrr::map(search_terms, function(x) {
     # Determine whether the param 'value' is a commodity or a code, then
     # perform the look up.
     if (grepl("[a-z]", x)) {
@@ -71,14 +80,16 @@ ct_commodity_lookup <- function(values, return_code = FALSE,
     commodity_df[grepl(x, commodity_df[[lu]], ignore.case = TRUE), return_col]
   })
 
-  # If "verbose" == TRUE, create warning message if any of the elements of input
-  # arg "values" produced no search results.
+  # If "verbose" == TRUE, create warning message if any of the elements of
+  # input arg "search_terms" produced no search results.
   if (verbose) {
     check_len <- purrr::map_int(ans, length)
     if (any(check_len == 0)) {
       if (any(check_len > 0)) {
-        msg <- paste0("There were no matching results found for inputs: ",
-                      paste(values[which(check_len == 0)], collapse = ", "))
+        msg <- paste0(
+          "There were no matching results found for inputs: ",
+          paste(search_terms[which(check_len == 0)], collapse = ", ")
+        )
       } else {
         msg <- "There were no matching results found"
       }
@@ -87,11 +98,11 @@ ct_commodity_lookup <- function(values, return_code = FALSE,
   }
 
   # If "return_char" == TRUE, unlist obj "ans". Otherwise, assign names to the
-  # elements of obj "ans" (names will be taken from input arg "values").
+  # elements of obj "ans" (names will be taken from input arg "search_terms").
   if (return_char) {
     ans <- unlist(ans, FALSE, FALSE)
   } else {
-    names(ans) <- values
+    names(ans) <- search_terms
   }
   return(ans)
 }

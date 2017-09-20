@@ -4,10 +4,10 @@
 \alias{ct_country_lookup}
 \title{UN Comtrade country database query}
 \usage{
-ct_country_lookup(loc, type = c("reporter", "partner"))
+ct_country_lookup(search_terms, type = c("reporter", "partner"))
 }
 \arguments{
-\item{loc}{Char vector of country names.}
+\item{search_terms}{Char vector of country names.}
 
 \item{type}{The country list to use for the search, valid inputs are
 "reporter" and "partner".}
@@ -21,11 +21,21 @@ Country names passed to the Comtrade API must have precise
 spelling/capitalization. This is a helper function for querying the country
 names/spelling used by Comtrade.. It takes as input a vector of
 country names, output is any country names that contain any of the input
-strings, using regex via the base function grepl (search is case insensitive).
+strings, using regex via the base function grepl.
 For use with the UN Comtrade API, full API docs can be found at
 \url{https://comtrade.un.org/data/doc/api/}
+}
+\details{
+This function uses regular expressions (regex) to find matches
+ within the country DB. This means it will treat as a match any country
+ string that contains the input search term. For more on using regex
+ within R, see this great tutorial by Gloria Li and Jenny Bryan
+ \url{http://stat545.com/block022_regular-expression.html}
 }
 \examples{
 # Look up all reporters that contain the terms "korea" and "vietnam"
 ct_country_lookup(c("korea", "vietnam"), "reporter")
+}
+\seealso{
+\code{\link{grepl}}
 }

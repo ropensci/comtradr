@@ -4,11 +4,11 @@
 \alias{ct_commodity_lookup}
 \title{UN Comtrade commodities database query}
 \usage{
-ct_commodity_lookup(values, return_code = FALSE, return_char = FALSE,
+ct_commodity_lookup(search_terms, return_code = FALSE, return_char = FALSE,
   verbose = TRUE)
 }
 \arguments{
-\item{values}{Commodity names or commodity codes, as a char or numeric
+\item{search_terms}{Commodity names or commodity codes, as a char or numeric
 vector.}
 
 \item{return_code}{Logical, if set to FALSE, the function will return a
@@ -21,21 +21,28 @@ matches as a named list, if set to TRUE it will return them as a character
 vector. Default value is FALSE.}
 
 \item{verbose}{Logical, if set to TRUE, a warning message will print to
-console if any of the elements of input "values" returned no matches
+console if any of the elements of input "search_terms" returned no matches
 (message will indicate which elements returned no data). Default is TRUE.}
 }
 \value{
 A list or character vector of commodity descriptions and/or
- commodity codes that are matches with the elements of "values".
+ commodity codes that are matches with the elements of "search_terms".
 }
 \description{
 The Comtrade API requires that searches for specific commodities be done
 using commodity codes. This is a helper function for querying the
 Comtrade commodity database. It takes as input a vector of
 commodities or commodity codes. Output is a list or vector of commodity
-descriptions or codes associated with the input values. For use with the UN
-Comtrade API, full API docs can be found at
+descriptions or codes associated with the input search_terms. For use with
+the UN Comtrade API, full API docs can be found at
 \url{https://comtrade.un.org/data/doc/api/}
+}
+\details{
+This function uses regular expressions (regex) to find matches
+ within the commodity DB. This means it will treat as a match any commodity
+ description that contains the input search term. For more on using regex
+ within R, see this great tutorial by Gloria Li and Jenny Bryan
+ \url{http://stat545.com/block022_regular-expression.html}
 }
 \examples{
 \dontrun{
@@ -53,4 +60,7 @@ ct_commodity_lookup("shrimp",
                     return_char = FALSE,
                     verbose = TRUE)
 }
+}
+\seealso{
+\code{\link{grepl}}
 }
