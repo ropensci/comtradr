@@ -399,6 +399,7 @@ ct_search <- function(reporters, partners,
 #' @param col_name str, indicating whether to edit the col headers of the
 #'  return data frame.
 #'
+#' @noRd
 #' @return data frame of API return data.
 execute_api_request <- function(url, col_name) {
   # Ping API.
