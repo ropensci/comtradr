@@ -405,7 +405,7 @@ execute_api_request <- function(url, col_name) {
   res <- httr::GET(url, httr::user_agent(get("ua", envir = ct_env)))
 
   # Check status code of res (if 400 or greater, throw an error).
-  if (httr::http_error(res)) {
+  if (httr::status_code(res) != 200) {
     stop(
       sprintf(
         "Comtrade API request failed, with status code [%s]\n%s",
@@ -418,7 +418,7 @@ execute_api_request <- function(url, col_name) {
   if (httr::http_type(res) != "application/json") {
     stop(
       sprintf(
-        "API did not return json. Instead, %s was returned",
+        "API did not return json. Instead, %s data was returned",
         httr::http_type(res)
       ), call. = FALSE
     )
