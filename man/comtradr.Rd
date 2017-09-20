@@ -21,6 +21,15 @@ Interface with and extract data from the United Nations
 }
 }
 
+\section{Development links}{
+
+
+\itemize{
+  \item \url{https://github.com/ChrisMuir/comtradr}
+  \item Report bugs at \url{https://github.com/ChrisMuir/comtradr/issues}
+}
+}
+
 \section{\code{comtradr} features the following functions}{
 
 \itemize{

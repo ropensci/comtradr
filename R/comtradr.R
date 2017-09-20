@@ -13,6 +13,13 @@
 #'   \item Full API Documentation \url{https://comtrade.un.org/data/doc/api/}
 #' }
 #'
+#' @section Development links:
+#'
+#' \itemize{
+#'   \item \url{https://github.com/ChrisMuir/comtradr}
+#'   \item Report bugs at \url{https://github.com/ChrisMuir/comtradr/issues}
+#' }
+#'
 #' @section \code{comtradr} features the following functions:
 #' \itemize{
 #'   \item \code{\link{ct_commodity_db_type}}
