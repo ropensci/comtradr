@@ -82,21 +82,24 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
                                 partner_url = NULL) {
 
   # Input validation.
-  commodity_type <- match.arg(commodity_type)
-
+  stopifnot(is.logical(force))
+  stopifnot(is.logical(verbose))
   if (!is.null(commodity_url)) {
+    stopifnot(is.character(commodity_url))
     commodity_url <- commodity_url
   } else {
     commodity_url <- "https://comtrade.un.org/data/cache/"
   }
 
   if (!is.null(reporter_url)) {
+    stopifnot(is.character(reporter_url))
     reporter_url <- reporter_url
   } else {
     reporter_url <- "https://comtrade.un.org/data/cache/reporterAreas.json"
   }
 
   if (!is.null(partner_url)) {
+    stopifnot(is.character(partner_url))
     partner_url <- partner_url
   } else {
     partner_url <- "https://comtrade.un.org/data/cache/partnerAreas.json"
@@ -104,6 +107,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
 
   # Append the correct url str to the end of commodity_url, based on arg
   # "commodity_type".
+  commodity_type <- match.arg(commodity_type)
   if (commodity_type == "HS") {
     commodity_url <- paste0(commodity_url, "classificationHS.json")
   } else if (commodity_type == "HS1992") {
