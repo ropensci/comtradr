@@ -2,10 +2,10 @@
 % Please edit documentation in R/ct_search.R
 \name{ct_search}
 \alias{ct_search}
-\title{Get UN Comtrade data via API}
+\title{Get UN Comtrade data}
 \usage{
 ct_search(reporters, partners, trade_direction = c("all", "imports",
-  "exports", "re-imports", "re-exports"), freq = c("annual", "monthly"),
+  "exports", "re_imports", "re_exports"), freq = c("annual", "monthly"),
   start_date = "all", end_date = "all", commod_codes = "TOTAL",
   max_rec = NULL, type = c("goods", "services"),
   url = "https://comtrade.un.org/api/get?", col_name = c("human",
@@ -59,13 +59,7 @@ and may not be intuitive for a human to read and understand. Must be
 either "human" or "machine". Default value is "human".}
 }
 \value{
-List of length three, elements are:
- \itemize{
- \item \code{msg}: Brief message on success/failure of the API call.
- \item \code{details}: More detailed message on success/failure of the API
-   call.
- \item \code{data}: Data frame object of return data.
- }
+Data frame of Comtrade shipping data.
 }
 \description{
 Make queries to the UN Comtrade API, data is returned as a tidy data frame.
@@ -97,6 +91,14 @@ Basic rate limit restrictions. For details on how to register a
  \item For param "commod_codes", if not using input "All", then the maximum
    number of input values is 20 (although "All" is always a valid input).
  }
+
+ This function returns objects with metadata related to the API call that
+ can be accessed via \code{\link{attributes}}. The metadata accessable is:
+ \itemize{
+ \item url: url of the API call.
+ \item time_stamp: date-time of the API call.
+ \item req_duration: total duration of the API call, in seconds.
+ }
 }
 \examples{
 \dontrun{
@@ -106,7 +108,7 @@ Basic rate limit restrictions. For details on how to register a
 ex_1 <- ct_search(reporters = "China",
                   partners = c("Rep. of Korea", "USA", "Mexico"),
                   trade_direction = "exports")
-nrow(ex_1$data)
+nrow(ex_1)
 
 ## Example API call number 2:
 # All shipments related to shrimp between Canada and all other countries,
@@ -123,6 +125,11 @@ ex_2 <- ct_search(reporters = "Canada",
                   start_date = "2011-01-01",
                   end_date = "2015-01-01",
                   commod_codes = shrimp_codes)
-nrow(ex_2$data)
+nrow(ex_2)
+
+# Access metadata
+attributes(ex_2)$url
+attributes(ex_2)$time_stamp
+attributes(ex_2)$req_duration
 }
 }

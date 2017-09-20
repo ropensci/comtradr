@@ -1,4 +1,4 @@
-#' Get UN Comtrade data via API
+#' Get UN Comtrade data
 #'
 #' Make queries to the UN Comtrade API, data is returned as a tidy data frame.
 #' Comtrade is a DB hosted by the United Nations that houses country-level
@@ -73,14 +73,11 @@
 #'  \item req_duration: total duration of the API call, in seconds.
 #'  }
 #'
-#' @return List of length three, elements are:
-#'  \itemize{
-#'  \item \code{msg}: Brief message on success/failure of the API call.
-#'  \item \code{details}: More detailed message on success/failure of the API
-#'    call.
-#'  \item \code{data}: Data frame object of return data.
-#'  }
+#' @return Data frame of Comtrade shipping data.
+#'
 #' @export
+#'
+#' @importFrom magrittr "%>%"
 #'
 #' @examples \dontrun{
 #' ## Example API call number 1:
@@ -89,7 +86,7 @@
 #' ex_1 <- ct_search(reporters = "China",
 #'                   partners = c("Rep. of Korea", "USA", "Mexico"),
 #'                   trade_direction = "exports")
-#' nrow(ex_1$data)
+#' nrow(ex_1)
 #'
 #' ## Example API call number 2:
 #' # All shipments related to shrimp between Canada and all other countries,
@@ -106,7 +103,7 @@
 #'                   start_date = "2011-01-01",
 #'                   end_date = "2015-01-01",
 #'                   commod_codes = shrimp_codes)
-#' nrow(ex_2$data)
+#' nrow(ex_2)
 #'
 #' # Access metadata
 #' attributes(ex_2)$url
@@ -115,13 +112,31 @@
 #' }
 ct_search <- function(reporters, partners,
                       trade_direction = c("all", "imports", "exports",
-                                          "re-imports", "re-exports"),
+                                          "re_imports", "re_exports"),
                       freq = c("annual", "monthly"),
                       start_date = "all", end_date = "all",
                       commod_codes = "TOTAL", max_rec = NULL,
                       type = c("goods", "services"),
                       url = "https://comtrade.un.org/api/get?",
                       col_name = c("human", "machine")) {
+
+  ## Input validation related to API limits on parameter combinations.
+
+  # Between params "reporters", "partners", and the query date range (as
+  # dictated by the two params "start_date" and "end_date"), only one of
+  # these three may use the catch-all input "All".
+  if (
+    all(
+      any(tolower(reporters) == "all"),
+      any(tolower(partners) == "all"),
+      any(tolower(c(start_date, end_date)) == "all")
+    )
+  ) {
+    stop(paste("between 'reporters', 'partners', and date range, only one",
+               "of these may be 'all'"), call. = FALSE)
+  }
+
+
 
   # Fetch current values within ct_env (these values help manage
   # throttling of API queries).
@@ -190,16 +205,22 @@ ct_search <- function(reporters, partners,
                              as.Date(end_date, format = "%Y-%m-%d"),
                              by = "year") %>%
         as.Date() %>%
-        format(format = "%Y") %>%
-        paste(collapse = ",")
+        format(format = "%Y")
     } else if (freq == "M") {
       date_range <- seq.Date(as.Date(start_date, format = "%Y-%m-%d"),
                              as.Date(end_date, format = "%Y-%m-%d"),
                              by = "month") %>%
         as.Date() %>%
-        format(format = "%Y%m") %>%
-        paste(collapse = ",")
+        format(format = "%Y%m")
     }
+
+    # Check to make sure the total date range is five or fewer months/years.
+    if (length(date_range) > 5) {
+      stop(paste("if date range specified, the span of months or years",
+                 "must be five or fewer"))
+    }
+
+    date_range <- paste(date_range, collapse = ",")
   }
 
   # Transformations to reporters.
@@ -216,12 +237,16 @@ ct_search <- function(reporters, partners,
                "country database:", err))
   }
 
-  ids <- purrr::map_chr(reporters, function(x) {
+  if (length(reporters) > 5) {
+    stop(paste("arg 'reporters' must be 'all' or a char vector of country",
+               "names, length five or fewer"))
+  }
+
+  reporters <- purrr::map_chr(reporters, function(x) {
     country_df[country_df$`country name` == x &
                    country_df$type == "reporter", ]$code
-  })
-
-  reporters <- paste(ids, collapse = ",")
+  }) %>%
+    paste(collapse = ",")
 
   # Transformations to partners.
   if (any(partners %in% c("all", "All", "ALL"))) {
@@ -230,19 +255,23 @@ ct_search <- function(reporters, partners,
 
   if (!all(partners %in% country_df$`country name`)) {
     err <- paste(
-      partners[!reporters %in% country_df$`country name`],
+      partners[!partners %in% country_df$`country name`],
       collapse = ", "
     )
     stop(paste("From arg 'partners', these values were not found in the",
                "country database:", err))
   }
 
-  ids <- purrr::map_chr(partners, function(x) {
+  if (length(partners) > 5) {
+    stop(paste("arg 'partners' must be 'all' or a char vector of country",
+               "names, length five or fewer"))
+  }
+
+  partners <- purrr::map_chr(partners, function(x) {
     country_df[country_df$`country name` == x &
                    country_df$type == "partner", ]$code
-  })
-
-  partners <- paste(ids, collapse = ",")
+  }) %>%
+    paste(collapse = ",")
 
   # Transformations to trade_direction.
   rg <- vector()
@@ -289,6 +318,9 @@ ct_search <- function(reporters, partners,
     commod_codes <- "TOTAL"
   } else if (any(tolower(commod_codes) == "all")) {
     commod_codes <- "ALL"
+  } else if (length(commod_codes) > 20) {
+    stop(paste("arg 'commod_codes' must be 'all' or a char vector of",
+               "commodity codes, length 20 or fewer"))
   } else if (length(commod_codes) > 1) {
     commod_codes <- paste(commod_codes, collapse = ",")
   }
@@ -343,7 +375,7 @@ ct_search <- function(reporters, partners,
   assign("last_query", Sys.time(), envir = ct_env)
 
   # Execute API call.
-  res <- tryCatch(ct_json_data(url, col_name), error = function(e) e)
+  res <- execute_api_request(url, col_name)
 
   # Edit cache variable "queries_this_hour" to be one less.
   assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
@@ -359,3 +391,62 @@ ct_search <- function(reporters, partners,
 
   return(res)
 }
+
+
+#' Send API request to Comtrade.
+#'
+#' @param url str, url to send to the Comtrade API.
+#' @param col_name str, indicating whether to edit the col headers of the
+#'  return data frame.
+#'
+#' @return data frame of API return data.
+execute_api_request <- function(url, col_name) {
+  # Ping API.
+  res <- httr::GET(url, httr::user_agent(get("ua", envir = ct_env)))
+
+  # Check status code of res (if 400 or greater, throw an error).
+  if (httr::http_error(res)) {
+    stop(
+      sprintf(
+        "Comtrade API request failed, with status code [%s]\n%s",
+        httr::status_code(res)
+      ), call. = FALSE
+    )
+  }
+
+  # Check content type of res (if not json, throw an error).
+  if (httr::http_type(res) != "application/json") {
+    stop(
+      sprintf(
+        "API did not return json. Instead, %s was returned",
+        httr::http_type(res)
+      ), call. = FALSE
+    )
+  }
+
+  # Get response content and data from res.
+  raw_data <- res %>%
+    httr::content("text", encoding = "UTF-8") %>%
+    jsonlite::fromJSON(simplifyDataFrame = TRUE)
+
+  # If no data returned and Comtrade provided a useful message indicating why,
+  # throw error that uses the useful message.
+  if (length(raw_data$dataset) == 0 &&
+      !is.null(raw_data$validation$message)) {
+    stop(
+      sprintf(
+        "Comtrade API request failed, with status code [%s]\nFail Reason: %s",
+        httr::status_code(res),
+        raw_data$validation$message
+      ), call. = FALSE
+    )
+  }
+
+  # If arg "col_name" == "H" (for "human"), edit col headers of the return
+  # data frame.
+  if (col_name == "H") {
+    colnames(raw_data$dataset) <- api_col_names()
+  }
+  return(raw_data$dataset)
+}
+

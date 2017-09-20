@@ -11,26 +11,25 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
                     end_date = "2011-05-01")
 
   # Data type.
-  expect_is(vals, "list")
-  expect_is(vals$data, "data.frame")
+  expect_is(vals, "data.frame")
 
   # Number of variables.
-  expect_equal(ncol(vals$data), 35)
+  expect_equal(ncol(vals), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$data$reporter), "Canada")
+  expect_equal(unique(vals$reporter), "Canada")
 
   # Variable "Partner".
-  expect_equal(unique(vals$data$partner), "Germany")
+  expect_equal(unique(vals$partner), "Germany")
 
   # Variable "Trade Flow".
-  expect_equal(unique(vals$data$trade_flow), "Imports")
+  expect_equal(unique(vals$trade_flow), "Imports")
 
   # Variable "Period".
-  expect_equal(vals$data$period[1], 201101)
+  expect_equal(vals$period[1], 201101)
 
   # Variable "Commodity Code".
-  expect_equal(unique(vals$data$commodity_code), "TOTAL")
+  expect_equal(unique(vals$commodity_code), "TOTAL")
 })
 
 
@@ -53,61 +52,60 @@ test_that(msg, {
                     commod_codes = shrimp_codes)
 
   # Data type.
-  expect_is(vals, "list")
-  expect_is(vals$data, "data.frame")
+  expect_is(vals, "data.frame")
 
   # Number of variables.
-  expect_equal(ncol(vals$data), 35)
+  expect_equal(ncol(vals), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$data$reporter), "USA")
+  expect_equal(unique(vals$reporter), "USA")
 
   # Variable "Partner".
-  expect_equal(sort(unique(vals$data$partner)), c("Germany", "Thailand"))
+  expect_equal(sort(unique(vals$partner)), c("Germany", "Thailand"))
 
   # Variable "Trade Flow".
-  expect_equal(unique(vals$data$trade_flow), "Export")
+  expect_equal(unique(vals$trade_flow), "Export")
 
   # Variable "Period".
-  expect_equal(sort(unique(vals$data$period))[1:3], c(1991, 1992, 1993))
+  expect_equal(sort(unique(vals$period))[1:3], c(1991, 1992, 1993))
 
   # Variable "Commodity Code".
-  expect_equal(sort(unique(vals$data$commodity_code)), shrimp_codes)
+  expect_equal(sort(unique(vals$commodity_code)), shrimp_codes)
 
   # Variable "Netweight (kg)".
-  expect_is(vals$data$netweight_kg, "integer")
+  expect_is(vals$netweight_kg, "integer")
 })
 
 
 test_that("errors and warnings are thrown as expected", {
-  # Throw error with invalid input for param "reporters".
+  # Throw error with invalid input for arg "reporters".
   expect_error(ct_search(reporters = "invalid_reporter",
                          partners = "Germany",
                          trade_direction = "imports"))
 
-  # Throw error with invalid input for param "partners".
+  # Throw error with invalid input for arg "partners".
   expect_error(ct_search(reporters = "Canada",
                          partners = "invalid_partner",
                          trade_direction = "imports"))
 
-  # Throw error with invalid input for param "tradedirection".
+  # Throw error with invalid input for arg "trade_direction".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "invalid_td"))
 
-  # Throw error with invalid input for param "type".
+  # Throw error with invalid input for arg "type".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          type = "invalid_type"))
 
-  # Throw error with invalid input for param "freq".
+  # Throw error with invalid input for arg "freq".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          freq = "invalid_freq"))
 
-  # Throw error with invalid input for params "startdate" and "endate".
+  # Throw error with invalid input for arg "start_date" and "end_date".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
@@ -115,22 +113,15 @@ test_that("errors and warnings are thrown as expected", {
                          start_date = "1/1/2011",
                          end_date = "5/1/2011"))
 
-  # Returned error msg from the API with invalid input for param "commodcodes".
-  vals <- ct_search(reporters = "Canada",
+  # Returned error msg from the API with invalid input for arg "commod_codes".
+  expect_error(ct_search(reporters = "Canada",
                     partners = "Germany",
                     trade_direction = "imports",
-                    commod_codes = "invalid_codes")
-  expect_equal(vals$details, "invalid_codes is an invalid commodity code.")
+                    commod_codes = "invalid_codes"))
 
-  # Throw error with invalid input for param "colname".
+  # Throw error with invalid input for arg "col_name".
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          col_name = "invalid_fmt"))
-
-  # Throw error with invalid input for param "codetype".
-  expect_error(ct_search(reporters = "Canada",
-                         partners = "Germany",
-                         trade_direction = "imports",
-                         code_type = "invalid_codetype"))
 })

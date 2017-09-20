@@ -37,10 +37,8 @@ q <- ct_search(reporters = "USA",
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "imports")
 
-# API calls will always return a list of length three.
-q$msg
-q$details
-str(q$data)
+# API calls return a tidy data frame..
+str(q)
 ```
 
 Here are a few more examples to show the different parameter options:
@@ -120,10 +118,12 @@ ct_country_lookup(c("Belgium", "vietnam", "brazil"), "reporter")
 ct_commodity_lookup(c("tomato", "trout"), return_char = TRUE)
 ```
 
+
 `ct_commodity_lookup` can return a vector (as seen above) or a named list, using parameter `return_char`
 ```{r}
 ct_commodity_lookup(c("tomato", "trout"), return_char = FALSE)
 ```
+
 
 For `ct_commodity_lookup`, if any of the input search terms return zero results, and parameter `verbose` is set to `TRUE`, a warning will be printed to console (set `verbose` to `FALSE` to turn off this feature).
 ```{r}
@@ -165,7 +165,6 @@ library(ggplot2)
 df <- ct_search(reporters = "China", 
                 partners = c("Rep. of Korea", "USA", "Mexico"), 
                 trade_direction = "exports")
-df <- df$data
 
 # Create plot.
 ggplot(df, aes(year, `trade_value_usd`, color = factor(partner), 
@@ -202,7 +201,7 @@ df <- ct_search(reporters = "Thailand",
                 commod_codes = shrimp_codes)
 
 # Create country specific "total weight per year" dataframe for plotting.
-plotdf <- df$data %>% 
+plotdf <- df %>% 
   group_by_(.dots = c("partner", "year")) %>% 
   summarise(kg = as.numeric(sum(netweight_kg, na.rm = TRUE))) %>% 
   as_data_frame()
