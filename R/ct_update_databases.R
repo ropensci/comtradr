@@ -62,7 +62,10 @@
 #'  }
 #'
 #' @return Updated database of commodities and countries.
+#'
 #' @export
+#'
+#' @importFrom magrittr "%>%"
 #'
 #' @examples \dontrun{
 #' ct_update_databases()
