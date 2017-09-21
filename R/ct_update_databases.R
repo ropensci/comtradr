@@ -163,22 +163,22 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
       commodity_type != commodity_df$type[1] ||
       httr::headers(res)$`last-modified` > commodity_df$date[1]) {
     # Extract data frame.
-    df <- res %>%
+    commodity_df <- res %>%
       httr::content("text", encoding = "UTF-8") %>%
       jsonlite::fromJSON(simplifyDataFrame = TRUE) %>%
       magrittr::extract2("results") %>%
       `colnames<-`(c("code", "commodity", "parent"))
-    df$type <- commodity_type
-    df$date <- curr_date
+    commodity_df$type <- commodity_type
+    commodity_df$date <- curr_date
     # Save df to data dir of the comtradr package.
     save(
-      df,
+      commodity_df,
       file = paste0(system.file("extdata", package = "comtradr"),
                     "/commodity_table.rda"),
       compress = "bzip2"
     )
     # Save df to ct_env.
-    assign("commodity_df", df, envir = ct_env)
+    assign("commodity_df", commodity_df, envir = ct_env)
     # Update the output message.
     if (verbose) {
       msg <- paste0("Updates found. The following datasets have been ",
