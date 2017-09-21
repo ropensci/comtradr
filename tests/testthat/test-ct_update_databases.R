@@ -5,8 +5,10 @@ test_that("func produces the correct message", {
   skip_on_cran()
 
   expect_message(
-    ct_update_databases(),
-    regexp = "All DB's are up to date, no action required",
+    ct_update_databases(force = TRUE),
+    regexp = paste("Updates found. The following datasets have",
+                   "been downloaded: commodities DB, reporter",
+                   "countries, partner countries"),
     fixed = TRUE
   )
 })
