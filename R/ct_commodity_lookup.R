@@ -34,7 +34,7 @@
 #'
 #' @seealso \code{\link{grepl}}
 #'
-#' @examples \dontrun{
+#' @examples
 #' # Look up commodity descriptions related to "halibut"
 #' ct_commodity_lookup("halibut",
 #'                     commoditydf,
@@ -48,7 +48,6 @@
 #'                     return_code = TRUE,
 #'                     return_char = FALSE,
 #'                     verbose = TRUE)
-#' }
 
 ct_commodity_lookup <- function(search_terms, return_code = FALSE,
                                 return_char = FALSE, verbose = TRUE) {

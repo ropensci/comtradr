@@ -5,9 +5,8 @@
 #' @return numeric value, number of current queries left in the hour.
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
 #' ct_get_remaining_hourly_queries()
-#' }
 ct_get_remaining_hourly_queries <- function() {
   get("queries_this_hour", envir = ct_env)
 }
@@ -21,12 +20,11 @@ ct_get_remaining_hourly_queries <- function() {
 #'   a "POSIXct" object (see \code{\link{DateTimeClasses}}).
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
 #' ct_get_reset_time()
 #'
 #' # Get minutes remaining until limit reset, as numeric value.
-#' as.double(Sys.time() - ct_get_reset_time())
-#' }
+#' as.double(ct_get_reset_time() - Sys.time())
 ct_get_reset_time <- function() {
   val <- get("next_hour_reset", envir = ct_env)
   if (!is.null(val)) {
