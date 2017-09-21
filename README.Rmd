@@ -16,7 +16,7 @@ comtradr
 [![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ChrisMuir/comtradr?branch=master&svg=true)](https://ci.appveyor.com/project/ChrisMuir/comtradr)
 [![codecov](https://codecov.io/github/ChrisMuir/comtradr/branch/master/graphs/badge.svg)](https://codecov.io/github/ChrisMuir/comtradr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/comtradr)](http://cran.r-project.org/package=comtradr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
 
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of 
 specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found 
@@ -59,10 +59,10 @@ ct_country_lookup("korea")
 # Since we want South Korea, we'll use "Rep. of Korea" within the API query.
 example1 <- ct_search(reporters = "China", 
                       partners = c("Rep. of Korea", "USA", "Mexico"), 
-                      tradedirection = "exports")
+                      trade_direction = "exports")
 
 # Inspect the return data
-str(example1$data)
+str(example1)
 ```
 
 **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
@@ -76,11 +76,11 @@ shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = 
 # API query.
 example2 <- ct_search(reporters = "Thailand", 
                       partners = "All", 
-                      tradedirection = "exports", 
-                      startdate = "2007-01-01", 
-                      enddate = "2011-01-01", 
-                      commodcodes = shrimp_codes)
+                      trade_direction = "exports", 
+                      start_date = "2007-01-01", 
+                      end_date = "2011-01-01", 
+                      commod_codes = shrimp_codes)
 
 # Inspect the output
-str(example2$data)
+str(example2)
 ```
