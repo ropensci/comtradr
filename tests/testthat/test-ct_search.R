@@ -1,6 +1,9 @@
 context("ct_search")
 
+
 test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
+  skip_on_cran()
+
   # Get monhtly data on all German imports into Canada,
   # 2011-01-01 thru 2011-05-01.
   vals <- ct_search(reporters = "Canada",
@@ -36,6 +39,8 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
 msg <- paste0("correct api vals given: 1 reporter, 2 partners, exports, ",
               "annual, only shrimp")
 test_that(msg, {
+  skip_on_cran()
+
   # Get yearly data on US shrimp exports into Germany and Thailand,
   # for all years on record.
   shrimp_codes <- c("030613",
@@ -77,51 +82,79 @@ test_that(msg, {
 })
 
 
-test_that("errors and warnings are thrown as expected", {
-  # Throw error with invalid input for arg "reporters".
+test_that("throw error with invalid input to arg 'reporters'", {
   expect_error(ct_search(reporters = "invalid_reporter",
                          partners = "Germany",
                          trade_direction = "imports"))
+})
 
-  # Throw error with invalid input for arg "partners".
+
+test_that("throw error with invalid input to arg 'partners'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "invalid_partner",
                          trade_direction = "imports"))
+})
 
-  # Throw error with invalid input for arg "trade_direction".
+
+test_that("throw error with invalid input to arg 'trade_direction'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "invalid_td"))
+})
 
-  # Throw error with invalid input for arg "type".
+
+test_that("throw error with invalid input to arg 'type'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          type = "invalid_type"))
+})
 
-  # Throw error with invalid input for arg "freq".
+
+test_that("throw error with invalid input to arg 'freq'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          freq = "invalid_freq"))
+})
 
-  # Throw error with invalid input for arg "start_date" and "end_date".
+
+test_that("throw error with invalid input to arg 'start_date' & 'end_date'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          freq = "monthly",
                          start_date = "1/1/2011",
                          end_date = "5/1/2011"))
+})
 
-  # Returned error msg from the API with invalid input for arg "commod_codes".
+
+test_that("throw error with invalid input to arg 'commod_codes'", {
+  skip_on_cran()
+
   expect_error(ct_search(reporters = "Canada",
-                    partners = "Germany",
-                    trade_direction = "imports",
-                    commod_codes = "invalid_codes"))
+                         partners = "Germany",
+                         trade_direction = "imports",
+                         commod_codes = "invalid_codes"))
+})
 
-  # Throw error with invalid input for arg "col_name".
+
+test_that("throw error with invalid input to arg 'col_name'", {
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
                          trade_direction = "imports",
                          col_name = "invalid_fmt"))
+})
+
+
+test_that("throw error with too many catch-all 'all' input values", {
+  expect_error(ct_search(reporters = "all",
+                         partners = "all"))
+})
+
+
+test_that("throw error with more than five specified reporter countries", {
+  expect_error(ct_search(reporters = c("Canada", "USA", "Mexico", "Germany",
+                                       "France", "China"),
+                         partners = "Japan"))
 })

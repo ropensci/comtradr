@@ -62,14 +62,11 @@ test_that("correct vals given return_code == FALSE & return_char == FALSE", {
   expect_named(vals, c("tomato", "trout"))
 })
 
-
-test_that("errors and warnings are thrown as expected", {
-  # Correct return values when input for "search_terms" not found in lookup
-  # table.
+test_that("throw warning with invalid input to arg 'search_terms'", {
   expect_warning(ex_5 <- ct_commodity_lookup(search_terms = "not_a_trade_item",
                                              return_char = TRUE))
-  expect_equal(length(ex_5), 0)
+})
 
-  # Throw error with invalid input for param "value".
-  expect_error(ct_commodity_lookup(value = list()))
+test_that("throw error with invalid input to arg 'value'", {
+  expect_error(ct_commodity_lookup(search_terms = list()))
 })

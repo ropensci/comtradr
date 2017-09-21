@@ -33,12 +33,13 @@ test_that("Correct vals given input not found in country DB", {
 })
 
 
-test_that("errors and warnings are thrown as expected", {
-  # Throw error with invalid input for param "search_terms".
+test_that("throw error with invalid input to arg 'search_terms'", {
   expect_error(ct_country_lookup(search_terms = 533,
                                  type = "reporter"))
+})
 
-  # Throw error with invalid input for param "type".
+
+test_that("throw error with invalid input to arg 'type'", {
   expect_error(ct_country_lookup(search_terms = c("Korea", "EU"),
                                  type = "not_reporter"))
 })
