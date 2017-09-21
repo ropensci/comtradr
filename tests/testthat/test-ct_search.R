@@ -155,3 +155,18 @@ test_that("throw error with more than five specified reporter countries", {
                                        "France", "China"),
                          partners = "Japan"))
 })
+
+
+test_that("throw error when hourly query limit is at zero", {
+  # Get current rate limit values.
+  cache_vals <- get_cache_values()
+
+  # Assign the hourly limit value to be 0.
+  assign("queries_this_hour", 0, envir = ct_env)
+
+  expect_error(ct_search(reporters = "Canada",
+                         partners = "Germany"))
+
+  # Set the rate limit value back to what it was previously.
+  assign("queries_this_hour", cache_vals$queries_this_hour, envir = ct_env)
+})
