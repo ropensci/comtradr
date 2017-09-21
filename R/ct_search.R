@@ -136,8 +136,6 @@ ct_search <- function(reporters, partners,
                "of these may be 'all'"), call. = FALSE)
   }
 
-
-
   # Fetch current values within ct_env (these values help manage
   # throttling of API queries).
   cache_vals <- get_cache_values()
@@ -168,6 +166,7 @@ ct_search <- function(reporters, partners,
     stop(msg)
   }
 
+
   # Transformations to type.
   type <- match.arg(type)
   if (type == "goods") {
@@ -176,6 +175,7 @@ ct_search <- function(reporters, partners,
     type <- "S"
   }
 
+
   # Transformations to freq.
   freq <- match.arg(freq)
   if (freq == "annual") {
@@ -183,6 +183,7 @@ ct_search <- function(reporters, partners,
   } else if (freq == "monthly") {
     freq <- "M"
   }
+
 
   # Transformations to start_date and end_date.
   if (any(c(start_date, end_date) %in% c("all", "All", "ALL"))) {
@@ -223,6 +224,7 @@ ct_search <- function(reporters, partners,
     date_range <- paste(date_range, collapse = ",")
   }
 
+
   # Transformations to reporters.
   if (any(reporters %in% c("all", "All", "ALL"))) {
     reporters <- "All"
@@ -247,6 +249,7 @@ ct_search <- function(reporters, partners,
                    country_df$type == "reporter", ]$code
   }) %>%
     paste(collapse = ",")
+
 
   # Transformations to partners.
   if (any(partners %in% c("all", "All", "ALL"))) {
@@ -273,13 +276,13 @@ ct_search <- function(reporters, partners,
   }) %>%
     paste(collapse = ",")
 
-  # Transformations to trade_direction.
-  rg <- vector()
 
-  if (any(trade_direction %in% c("all", "All", "ALL"))) {
-    rg <- "all"
+  # Transformations to trade_direction.
+  if (any(tolower(trade_direction) == "all")) {
+    trade_direction <- "all"
   } else {
     trade_direction <- match.arg(trade_direction, several.ok = TRUE)
+    rg <- vector()
 
     if (any(trade_direction == "imports")) {
       rg <- "1"
@@ -312,6 +315,7 @@ ct_search <- function(reporters, partners,
     trade_direction <- rg
   }
 
+
   # Transformations to commod_codes.
   stopifnot(is.character(commod_codes))
   if (any(tolower(commod_codes) == "total")) {
@@ -325,6 +329,7 @@ ct_search <- function(reporters, partners,
     commod_codes <- paste(commod_codes, collapse = ",")
   }
 
+
   # Transformations to colname:
   col_name <- match.arg(col_name)
   if (col_name == "human") {
@@ -333,8 +338,10 @@ ct_search <- function(reporters, partners,
     col_name <- "M"
   }
 
+
   # Get the commodity code scheme type to use.
   code_type <- ct_commodity_db_type()
+
 
   # Get max_rec. If arg value is set to NULL, then max_rec is determined by
   # whether an API token has been registered. If a token has been registered,
@@ -348,6 +355,7 @@ ct_search <- function(reporters, partners,
   } else {
     max_rec <- as.numeric(max_rec)
   }
+
 
   # Stitch together the url of the API call.
   url <- paste0(
