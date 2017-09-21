@@ -147,7 +147,7 @@ Additionally, the maximum number of returned records from a single query without
 
 `comtradr` features a few functions for working with the API rate limits and tokens.
 
-* `ct_register_token("some_valid_token_str")` allows a user to set an API token as a global variable. 
+* `ct_register_token()` allows the user to set an API token within the package environment. 
 * `ct_get_remaining_hourly_queries()` will return the number of remaining queries for the current hour.
 * `ct_get_reset_time()` will return the date/time in which the hourly time limit will reset, as a `POSIXct` object.
 
