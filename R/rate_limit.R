@@ -52,6 +52,9 @@ ct_get_reset_time <- function() {
 #' ct_register_token("some_valid_token_str")
 #' }
 ct_register_token <- function(token) {
+  # input validation.
+  stopifnot(is.character(token))
+
   # Set token within options.
   ct_options <- getOption("comtradr")
   ct_options$comtrade$token <- token
