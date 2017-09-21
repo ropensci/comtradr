@@ -36,8 +36,8 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
 })
 
 
-msg <- paste0("correct api vals given: 1 reporter, 2 partners, exports, ",
-              "annual, only shrimp")
+msg <- paste0("correct api vals given: 1 reporter, 2 partners, ",
+              "all trade directions, annual, only shrimp")
 test_that(msg, {
   skip_on_cran()
 
@@ -52,8 +52,8 @@ test_that(msg, {
                     partners = c("Germany", "Thailand"),
                     trade_direction = "exports",
                     freq = "annual",
-                    start_date = "all",
-                    end_date = "all",
+                    start_date = "2011-01-01",
+                    end_date = "2015-01-01",
                     commod_codes = shrimp_codes)
 
   # Data type.
@@ -68,11 +68,8 @@ test_that(msg, {
   # Variable "Partner".
   expect_equal(sort(unique(vals$partner)), c("Germany", "Thailand"))
 
-  # Variable "Trade Flow".
-  expect_equal(unique(vals$trade_flow), "Export")
-
   # Variable "Period".
-  expect_equal(sort(unique(vals$period))[1:3], c(1991, 1992, 1993))
+  expect_equal(sort(unique(vals$period))[1:3], c(2011, 2012, 2013))
 
   # Variable "Commodity Code".
   expect_equal(sort(unique(vals$commodity_code)), shrimp_codes)

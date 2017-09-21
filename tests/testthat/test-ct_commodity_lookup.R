@@ -63,8 +63,9 @@ test_that("correct vals given return_code == FALSE & return_char == FALSE", {
 })
 
 test_that("throw warning with invalid input to arg 'search_terms'", {
-  expect_warning(ex_5 <- ct_commodity_lookup(search_terms = "not_a_trade_item",
-                                             return_char = TRUE))
+  expect_warning(ct_commodity_lookup(search_terms = c("not_a_trade_item",
+                                                      "also_not_a_trade_item"),
+                                     return_char = TRUE))
 })
 
 test_that("throw error with invalid input to arg 'value'", {
