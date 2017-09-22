@@ -13,7 +13,5 @@ numeric value, number of current queries left in the hour.
 Get the remaining number of queries left in the current hour.
 }
 \examples{
-\dontrun{
 ct_get_remaining_hourly_queries()
-}
 }

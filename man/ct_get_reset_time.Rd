@@ -14,10 +14,8 @@ date and time in which the hourly query limit will reset. Return is
 Get the time in which the hourly limit will reset.
 }
 \examples{
-\dontrun{
 ct_get_reset_time()
 
 # Get minutes remaining until limit reset, as numeric value.
-as.double(Sys.time() - ct_get_reset_time())
-}
+as.double(ct_get_reset_time() - Sys.time())
 }
