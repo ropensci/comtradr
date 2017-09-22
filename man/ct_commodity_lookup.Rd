@@ -45,21 +45,17 @@ This function uses regular expressions (regex) to find matches
  \url{http://stat545.com/block022_regular-expression.html}
 }
 \examples{
-\dontrun{
 # Look up commodity descriptions related to "halibut"
 ct_commodity_lookup("halibut",
-                    commoditydf,
                     return_code = FALSE,
                     return_char = FALSE,
                     verbose = TRUE)
 
 # Look up commodity codes related to "shrimp".
 ct_commodity_lookup("shrimp",
-                    commoditydf,
                     return_code = TRUE,
                     return_char = FALSE,
                     verbose = TRUE)
-}
 }
 \seealso{
 \code{\link{grepl}}
