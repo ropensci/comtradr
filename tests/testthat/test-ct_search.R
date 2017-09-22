@@ -87,16 +87,20 @@ test_that("throw error with invalid input to arg 'reporters'", {
 
 
 test_that("throw error with invalid input to arg 'partners'", {
-  expect_error(ct_search(reporters = "Canada",
+  expect_error(ct_search(reporters = "all",
                          partners = "invalid_partner",
-                         trade_direction = "imports"))
+                         trade_direction = "imports",
+                         start_date = "2011-01-01",
+                         end_date = "2012-01-01"))
 })
 
 
 test_that("throw error with invalid input to arg 'trade_direction'", {
   expect_error(ct_search(reporters = "Canada",
-                         partners = "Germany",
-                         trade_direction = "invalid_td"))
+                         partners = "all",
+                         trade_direction = "invalid_td",
+                         start_date = "2011-01-01",
+                         end_date = "2012-01-01"))
 })
 
 
@@ -131,8 +135,10 @@ test_that("throw error with invalid input to arg 'commod_codes'", {
 
   expect_error(ct_search(reporters = "Canada",
                          partners = "Germany",
-                         trade_direction = "imports",
-                         commod_codes = "invalid_codes"))
+                         trade_direction = "all",
+                         commod_codes = "invalid_codes"),
+               regexp = "invalid_codes is an invalid commodity code.",
+               fixed = TRUE)
 })
 
 
@@ -154,6 +160,21 @@ test_that("throw error with more than five specified reporter countries", {
   expect_error(ct_search(reporters = c("Canada", "USA", "Mexico", "Germany",
                                        "France", "China"),
                          partners = "Japan"))
+})
+
+
+test_that("throw error with more than 20 commodity codes", {
+  expect_error(
+    ct_search(reporters = "Germany",
+              partners = "Japan",
+              trade_direction = c("imports",
+                                  "exports",
+                                  "re_imports",
+                                  "re_exports"),
+              commod_codes = ct_commodity_lookup("frozen",
+                                                 return_char = TRUE,
+                                                 return_code = TRUE))
+  )
 })
 
 
