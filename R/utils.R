@@ -1,45 +1,91 @@
 #' Column names to be used for API data
 #'
+#' @param type char string, the type of the column headers to use. "desc" will
+#'  return headers that are descriptive and easy to interpret. "comtrade" will
+#'  return the col headers that are used by the UN Comtrade API. Default
+#'  value is "desc".
 #' @return char vector of column headers.
 #' @noRd
-api_col_names <- function() {
-  return(c(
-    "classification",
-    "year",
-    "period",
-    "period_desc",
-    "aggregate_level",
-    "is_leaf_code",
-    "trade_flow_code",
-    "trade_flow",
-    "reporter_code",
-    "reporter",
-    "reporter_iso",
-    "partner_code",
-    "partner",
-    "partner_iso",
-    "2nd_partner_code",
-    "2nd_partner",
-    "2nd_partner_iso",
-    "customs_proc_code",
-    "customs",
-    "mode_of_transport_code",
-    "mode_of_transport",
-    "commodity_code",
-    "commodity",
-    "qty_unit_code",
-    "qty_unit",
-    "qty",
-    "alt_qty_unit_code",
-    "alt_qty_unit",
-    "alt_qty",
-    "netweight_kg",
-    "gross_weight_kg",
-    "trade_value_usd",
-    "cif_trade_value_usd",
-    "fob_trade_value_usd",
-    "flag"
-  ))
+api_col_names <- function(type = c("desc", "comtrade")) {
+  type <- match.arg(type)
+
+  if (type == "desc") {
+    return(c(
+      "classification",
+      "year",
+      "period",
+      "period_desc",
+      "aggregate_level",
+      "is_leaf_code",
+      "trade_flow_code",
+      "trade_flow",
+      "reporter_code",
+      "reporter",
+      "reporter_iso",
+      "partner_code",
+      "partner",
+      "partner_iso",
+      "2nd_partner_code",
+      "2nd_partner",
+      "2nd_partner_iso",
+      "customs_proc_code",
+      "customs",
+      "mode_of_transport_code",
+      "mode_of_transport",
+      "commodity_code",
+      "commodity",
+      "qty_unit_code",
+      "qty_unit",
+      "qty",
+      "alt_qty_unit_code",
+      "alt_qty_unit",
+      "alt_qty",
+      "netweight_kg",
+      "gross_weight_kg",
+      "trade_value_usd",
+      "cif_trade_value_usd",
+      "fob_trade_value_usd",
+      "flag"
+    ))
+  } else {
+    return(c(
+      "pfCode",
+      "yr",
+      "period",
+      "periodDesc",
+      "aggrLevel",
+      "IsLeaf",
+      "rgCode",
+      "rgDesc",
+      "rtCode",
+      "rtTitle",
+      "rt3ISO",
+      "ptCode",
+      "ptTitle",
+      "pt3ISO",
+      "ptCode2",
+      "ptTitle2",
+      "pt3ISO2",
+      "cstCode",
+      "cstDesc",
+      "motCode",
+      "motDesc",
+      "cmdCode",
+      "cmdDescE",
+      "qtCode",
+      "qtDesc",
+      "qtAltCode",
+      "qtAltDesc",
+      "TradeQuantity",
+      "AltQuantity",
+      "NetWeight",
+      "GrossWeight",
+      "TradeValue",
+      "CIFValue",
+      "FOBValue",
+      "estCode"
+    ))
+  }
 }
 
 

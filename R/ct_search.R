@@ -35,11 +35,10 @@
 #' @param url Base of the Comtrade url string, as a character string. Default
 #'  value is "https://comtrade.un.org/api/get?" and should mot be changed
 #'  unless Comtrade changes their endpoint url.
-#' @param col_name Should the output data frame have human-friendly or
-#'  machine-friendly column names. Human-friendly means easy for a human to
-#'  read and understand. Machine-friendly means easy for a machine to parse,
-#'  and may not be intuitive for a human to read and understand. Must be
-#'  either "human" or "machine". Default value is "human".
+#' @param col_name char string, the type of the column headers to use. "desc"
+#'  will return headers that are descriptive and easy to interpret. "comtrade"
+#'  will return the col headers that are used by the UN Comtrade API. Both
+#'  options are machine-readable. Default value is "desc".
 #'
 #' @details Basic rate limit restrictions. For details on how to register a
 #'  valid token, see \code{\link{ct_register_token}}. For API docs on rate
@@ -118,7 +117,7 @@ ct_search <- function(reporters, partners,
                       commod_codes = "TOTAL", max_rec = NULL,
                       type = c("goods", "services"),
                       url = "https://comtrade.un.org/api/get?",
-                      col_name = c("human", "machine")) {
+                      col_name = c("desc", "comtrade")) {
 
   ## Input validation related to API limits on parameter combinations.
 
@@ -166,8 +165,7 @@ ct_search <- function(reporters, partners,
     stop(msg)
   }
 
-
-  # Transformations to type.
+  ## Transformations to type.
   type <- match.arg(type)
   if (type == "goods") {
     type <- "C"
@@ -175,8 +173,7 @@ ct_search <- function(reporters, partners,
     type <- "S"
   }
 
-
-  # Transformations to freq.
+  ## Transformations to freq.
   freq <- match.arg(freq)
   if (freq == "annual") {
     freq <- "A"
@@ -184,8 +181,7 @@ ct_search <- function(reporters, partners,
     freq <- "M"
   }
 
-
-  # Transformations to start_date and end_date.
+  ## Transformations to start_date and end_date.
   if (any(c(start_date, end_date) %in% c("all", "All", "ALL"))) {
     date_range <- "all"
   } else {
@@ -224,8 +220,7 @@ ct_search <- function(reporters, partners,
     date_range <- paste(date_range, collapse = ",")
   }
 
-
-  # Transformations to reporters.
+  ## Transformations to reporters.
   if (any(reporters %in% c("all", "All", "ALL"))) {
     reporters <- "All"
   }
@@ -250,8 +245,7 @@ ct_search <- function(reporters, partners,
   }) %>%
     paste(collapse = ",")
 
-
-  # Transformations to partners.
+  ## Transformations to partners.
   if (any(partners %in% c("all", "All", "ALL"))) {
     partners <- "All"
   }
@@ -276,8 +270,7 @@ ct_search <- function(reporters, partners,
   }) %>%
     paste(collapse = ",")
 
-
-  # Transformations to trade_direction.
+  ## Transformations to trade_direction.
   if (any(tolower(trade_direction) == "all")) {
     trade_direction <- "all"
   } else {
@@ -315,8 +308,7 @@ ct_search <- function(reporters, partners,
     trade_direction <- rg
   }
 
-
-  # Transformations to commod_codes.
+  ## Transformations to commod_codes.
   stopifnot(is.character(commod_codes))
   if (any(tolower(commod_codes) == "total")) {
     commod_codes <- "TOTAL"
@@ -329,23 +321,12 @@ ct_search <- function(reporters, partners,
     commod_codes <- paste(commod_codes, collapse = ",")
   }
 
-
-  # Transformations to colname:
-  col_name <- match.arg(col_name)
-  if (col_name == "human") {
-    col_name <- "H"
-  } else if (col_name == "machine") {
-    col_name <- "M"
-  }
-
-
-  # Get the commodity code scheme type to use.
+  ## Get the commodity code scheme type to use.
   code_type <- ct_commodity_db_type()
 
-
-  # Get max_rec. If arg value is set to NULL, then max_rec is determined by
-  # whether an API token has been registered. If a token has been registered,
-  # then max_rec will be set to 250000, otherwise it will be set to 50000.
+  ## Get max_rec. If arg value is set to NULL, then max_rec is determined by
+  ## whether an API token has been registered. If a token has been registered,
+  ## then max_rec will be set to 250000, otherwise it will be set to 50000.
   if (is.null(max_rec)) {
     if (is.null(token)) {
       max_rec <- 50000
@@ -356,8 +337,10 @@ ct_search <- function(reporters, partners,
     max_rec <- as.numeric(max_rec)
   }
 
+  ## Input validation to arg col_name.
+  col_name <- match.arg(col_name)
 
-  # Stitch together the url of the API call.
+  ## Stitch together the url of the API call.
   url <- paste0(
     url,
     "max=", max_rec,
@@ -370,11 +353,11 @@ ct_search <- function(reporters, partners,
     "&rg=", trade_direction,
     "&cc=", commod_codes,
     "&fmt=", "json",
-    "&head=", col_name
+    "&head=", "H"
   )
 
-  # If token within global options is not NULL, append the token str to the
-  # end of the API url.
+  ## If token within global options is not NULL, append the token str to the
+  ## end of the API url.
   if (!is.null(token)) {
     url <- paste0(url, "&token=", token)
   }
@@ -403,9 +386,11 @@ ct_search <- function(reporters, partners,
 
 #' Send API request to Comtrade.
 #'
-#' @param url str, url to send to the Comtrade API.
-#' @param col_name str, indicating whether to edit the col headers of the
-#'  return data frame.
+#' @param url char str, url to send to the Comtrade API.
+#' @param col_name char string, the type of the column headers to use. "desc"
+#'  will return headers that are descriptive and easy to interpret. "comtrade"
+#'  will return the col headers that are used by the UN Comtrade API. Both
+#'  options are machine-readable. Default value is "desc".
 #'
 #' @noRd
 #' @return data frame of API return data.
@@ -438,23 +423,32 @@ execute_api_request <- function(url, col_name) {
     httr::content("text", encoding = "UTF-8") %>%
     jsonlite::fromJSON(simplifyDataFrame = TRUE)
 
-  # If no data returned and Comtrade provided a useful message indicating why,
-  # throw error that uses the useful message.
-  if (length(raw_data$dataset) == 0 &&
-      !is.null(raw_data$validation$message)) {
-    stop(
-      sprintf(
-        "Comtrade API request failed, with status code [%s]\nFail Reason: %s",
-        httr::status_code(res),
-        raw_data$validation$message
-      ), call. = FALSE
-    )
+  # Check length of return data.
+  if (length(raw_data$dataset) == 0) {
+    if (!is.null(raw_data$validation$message)) {
+      # If no data returned and Comtrade provided a useful message indicating
+      # why, throw error that uses the useful message.
+      stop(
+        sprintf(
+          "Comtrade API request failed, with status code [%s]\nFail Reason: %s",
+          httr::status_code(res),
+          raw_data$validation$message
+        ), call. = FALSE
+      )
+    } else {
+      # If no data returned and there's no Comtrade message explaining why,
+      # this is an indication that there was no error and there really is no
+      # data to return (based on the input valies given). Prep an empty
+      # data frame to return.
+      raw_data$dataset <- matrix(ncol = 35, nrow = 0) %>%
+        data.frame(stringsAsFactors = FALSE) %>%
+        `colnames<-`(api_col_names(col_name))
+    }
   }
 
-  # If arg "col_name" == "H" (for "human"), edit col headers of the return
-  # data frame.
-  if (col_name == "H") {
-    colnames(raw_data$dataset) <- api_col_names()
+  # rename colnames if necessary.
+  if (col_name == "desc") {
+    colnames(raw_data$dataset) <- api_col_names("desc")
   }
   return(raw_data$dataset)
 }
