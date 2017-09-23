@@ -449,6 +449,8 @@ execute_api_request <- function(url, col_name) {
   # rename colnames if necessary.
   if (col_name == "desc") {
     colnames(raw_data$dataset) <- api_col_names("desc")
+  } else if (col_name == "comtrade") {
+    colnames(raw_data$dataset) <- api_col_names("comtrade")
   }
   return(raw_data$dataset)
 }

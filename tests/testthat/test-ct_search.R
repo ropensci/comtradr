@@ -54,7 +54,8 @@ test_that(msg, {
                     freq = "annual",
                     start_date = "2011-01-01",
                     end_date = "2015-01-01",
-                    commod_codes = shrimp_codes)
+                    commod_codes = shrimp_codes,
+                    col_name = "comtrade")
 
   # Data type.
   expect_is(vals, "data.frame")
@@ -63,19 +64,19 @@ test_that(msg, {
   expect_equal(ncol(vals), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$reporter), "USA")
+  expect_equal(unique(vals$rtTitle), "USA")
 
   # Variable "Partner".
-  expect_equal(sort(unique(vals$partner)), c("Germany", "Thailand"))
+  expect_equal(sort(unique(vals$ptTitle)), c("Germany", "Thailand"))
 
   # Variable "Period".
-  expect_equal(sort(unique(vals$period))[1:3], c(2011, 2012, 2013))
+  expect_equal(sort(unique(vals$yr))[1:3], c(2011, 2012, 2013))
 
   # Variable "Commodity Code".
-  expect_equal(sort(unique(vals$commodity_code)), shrimp_codes)
+  expect_equal(sort(unique(vals$cmdCode)), shrimp_codes)
 
   # Variable "Netweight (kg)".
-  expect_is(vals$netweight_kg, "integer")
+  expect_is(vals$NetWeight, "integer")
 })
 
 
