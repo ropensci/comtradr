@@ -160,16 +160,17 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # of the comtradr package.
   res <- httr::GET(commodity_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
-      commodity_type != commodity_df$type[1] ||
-      httr::headers(res)$`last-modified` > commodity_df$date[1]) {
+      commodity_type != attributes(commodity_df)$type ||
+      httr::headers(res)$`last-modified` > attributes(commodity_df)$date) {
     # Extract data frame.
     commodity_df <- res %>%
       httr::content("text", encoding = "UTF-8") %>%
       jsonlite::fromJSON(simplifyDataFrame = TRUE) %>%
       magrittr::extract2("results") %>%
       `colnames<-`(c("code", "commodity", "parent"))
-    commodity_df$type <- commodity_type
-    commodity_df$date <- curr_date
+    # Assign attributes to the data frame (current date/time, and type).
+    attributes(commodity_df)$date <- curr_date
+    attributes(commodity_df)$type <- commodity_type
     # Save df to data dir of the comtradr package.
     save(
       commodity_df,
@@ -197,7 +198,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   res <- httr::GET(reporter_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
       httr::headers(res)$`last-modified` >
-      country_df[country_df$type == "reporter", ]$date[1]) {
+      attributes(country_df)$reporter_date) {
     # Extract data frame.
     df <- res %>%
       httr::content("text", encoding = "UTF-8") %>%
@@ -205,14 +206,15 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
       magrittr::extract2("results") %>%
       `colnames<-`(c("code", "country name"))
     df$type <- "reporter"
-    df$date <- curr_date
     # Replace the reporters portion of the current country_df with the new
     # data.
     if (!force) {
       country_update <- TRUE
       country_df[country_df$type == "reporter", ] <- df
+      attributes(country_df)$reporter_date <- curr_date
     } else {
       country_df <- df
+      attributes(country_df)$reporter_date <- curr_date
     }
     # Update the output message.
     if (verbose) {
@@ -235,7 +237,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   res <- httr::GET(partner_url, httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
       httr::headers(res)$`last-modified` >
-      country_df[country_df$type == "partner", ]$date[1]) {
+      attributes(country_df)$partner_date) {
     # Extract data frame.
     df <- res %>%
       httr::content("text", encoding = "UTF-8") %>%
@@ -243,7 +245,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
       magrittr::extract2("results") %>%
       `colnames<-`(c("code", "country name"))
     df$type <- "partner"
-    df$date <- curr_date
+    ###########df$date <- curr_date
     # Replace the reporters portion of the current country_df with the new
     # data.
     if (!force) {
@@ -251,8 +253,10 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
         country_update <- TRUE
       }
       country_df[country_df$type == "partner", ] <- df
+      attributes(country_df)$partner_date <- curr_date
     } else {
       country_df <- rbind(country_df, df)
+      attributes(country_df)$partner_date <- curr_date
     }
     # Update the output message.
     if (verbose) {

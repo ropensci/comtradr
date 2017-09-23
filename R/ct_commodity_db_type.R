@@ -32,5 +32,5 @@
 #' ct_commodity_db_type()
 #'
 ct_commodity_db_type <- function() {
-  get_commodity_db()$type[1]
+  attributes(get_commodity_db())$type
 }
