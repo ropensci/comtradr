@@ -92,9 +92,9 @@
 #' # All shipments related to shrimp between Canada and all other countries,
 #' # between 2011 and 2015.
 #' # Perform "shrimp" query
-#' shrimp_codes <- commodity_lookup("shrimp",
-#'                                  return_code = TRUE,
-#'                                  return_char = TRUE)
+#' shrimp_codes <- ct_commodity_lookup("shrimp",
+#'                                     return_code = TRUE,
+#'                                     return_char = TRUE)
 #'
 #' # Make API call
 #' ex_2 <- ct_search(reporters = "Canada",
