@@ -20,6 +20,9 @@
 #' @param verbose Logical, if set to TRUE, a warning message will print to
 #'  console if any of the elements of input "search_terms" returned no matches
 #'  (message will indicate which elements returned no data). Default is TRUE.
+#' @param ignore.case logical, to be passed along to arg ignore.case within
+#'  \code{\link{grepl}}. Default value is TRUE.
+#' @param ... additional args to be passed along to \code{\link{grepl}}.
 #'
 #' @return A list or character vector of commodity descriptions and/or
 #'  commodity codes that are matches with the elements of "search_terms".
@@ -48,7 +51,8 @@
 #'                     verbose = TRUE)
 
 ct_commodity_lookup <- function(search_terms, return_code = FALSE,
-                                return_char = FALSE, verbose = TRUE) {
+                                return_char = FALSE, verbose = TRUE,
+                                ignore.case = TRUE, ...) {
   stopifnot(mode(search_terms) %in% c("numeric", "character"))
   search_terms <- as.character(search_terms)
 
@@ -74,7 +78,8 @@ ct_commodity_lookup <- function(search_terms, return_code = FALSE,
     } else {
       lu <- "code"
     }
-    commodity_df[grepl(x, commodity_df[[lu]], ignore.case = TRUE), return_col]
+    commodity_df[grepl(x, commodity_df[[lu]],
+                       ignore.case = ignore.case, ...), return_col]
   })
 
   # If "verbose" == TRUE, create warning message if any of the elements of

@@ -5,7 +5,7 @@
 \title{UN Comtrade commodities database query}
 \usage{
 ct_commodity_lookup(search_terms, return_code = FALSE, return_char = FALSE,
-  verbose = TRUE)
+  verbose = TRUE, ignore.case = TRUE, ...)
 }
 \arguments{
 \item{search_terms}{Commodity names or commodity codes, as a char or numeric
@@ -23,6 +23,11 @@ vector. Default value is FALSE.}
 \item{verbose}{Logical, if set to TRUE, a warning message will print to
 console if any of the elements of input "search_terms" returned no matches
 (message will indicate which elements returned no data). Default is TRUE.}
+
+\item{ignore.case}{logical, to be passed along to arg ignore.case within
+\code{\link{grepl}}. Default value is TRUE.}
+
+\item{...}{additional args to be passed along to \code{\link{grepl}}.}
 }
 \value{
 A list or character vector of commodity descriptions and/or
