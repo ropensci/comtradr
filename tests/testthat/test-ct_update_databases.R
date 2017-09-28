@@ -7,8 +7,7 @@ test_that("func produces the correct message", {
   expect_message(
     ct_update_databases(force = TRUE),
     regexp = paste("Updates found. The following datasets have",
-                   "been downloaded: commodities DB, reporter",
-                   "countries, partner countries"),
+                   "been downloaded: commodities DB, countries DB"),
     fixed = TRUE
   )
 })

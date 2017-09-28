@@ -9,8 +9,11 @@
 #' \url{https://comtrade.un.org/data/doc/api/}
 #'
 #' @param search_terms Char vector of country names.
-#' @param type The country list to use for the search, valid inputs are
+#' @param type str, the country list to use for the search, valid inputs are
 #'  "reporter" and "partner".
+#' @param ignore.case logical, to be passed along to arg ignore.case within
+#'  \code{\link{grepl}}. Default value is TRUE.
+#' @param ... additional args to be passed along to \code{\link{grepl}}.
 #'
 #' @return A character vector of country names that are complete or partial
 #'  matches with any of the input country names.
@@ -28,10 +31,12 @@
 #' @examples
 #' # Look up all reporters that contain the terms "korea" and "vietnam"
 #' ct_country_lookup(c("korea", "vietnam"), "reporter")
-ct_country_lookup <- function(search_terms, type = c("reporter", "partner")) {
+ct_country_lookup <- function(search_terms, type = c("reporter", "partner"),
+                              ignore.case = TRUE, ...) {
   # Input validation.
   type <- match.arg(type)
   stopifnot(is.character(search_terms))
+  stopifnot(is.logical(ignore.case))
 
   # If length of search_terms is more than one, transform values into a regex
   # friendly string.
@@ -43,10 +48,10 @@ ct_country_lookup <- function(search_terms, type = c("reporter", "partner")) {
   country_df <- get("country_df", envir = ct_env)
 
   # Perform the lookup.
-  ans <- country_df[country_df$type == type &
-                      grepl(search_terms, country_df$`country name`,
-                            ignore.case = TRUE),
-                    c("country name")]
+  ans <- country_df[country_df[[type]] == TRUE &
+                      grepl(search_terms, country_df$country_name,
+                            ignore.case = ignore.case, ...),
+                    c("country_name")]
 
   # Check output, if valid then return as is, if empty return "no matches"
   # message.

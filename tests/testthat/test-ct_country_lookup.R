@@ -15,14 +15,14 @@ test_that("correct vals given partner lookup", {
   vals <- ct_country_lookup(search_terms = c("Korea", "EU"), type = "partner")
 
   # Check values of output.
-  expect_equal(vals, c("Africa CAMEU region, nes",
-                       "Dem. People's Rep. of Korea",
-                       "Eastern Europe, nes",
-                       "Europe EFTA, nes",
-                       "Europe EU, nes",
-                       "Neutral Zone",
-                       "Other Europe, nes",
-                       "Rep. of Korea" ))
+  expect_equal(sort(vals), c("Africa CAMEU region, nes",
+                             "Dem. People's Rep. of Korea",
+                             "Eastern Europe, nes",
+                             "Europe EFTA, nes",
+                             "Europe EU, nes",
+                             "Neutral Zone",
+                             "Other Europe, nes",
+                             "Rep. of Korea" ))
 })
 
 
@@ -42,4 +42,10 @@ test_that("throw error with invalid input to arg 'search_terms'", {
 test_that("throw error with invalid input to arg 'type'", {
   expect_error(ct_country_lookup(search_terms = c("Korea", "EU"),
                                  type = "not_reporter"))
+})
+
+
+test_that("throw warning when ignore.case = TRUE and fixed = TRUE", {
+  expect_warning(ct_country_lookup(search_terms = "korea",
+                                   ignore.case = TRUE, fixed = TRUE))
 })

@@ -4,13 +4,19 @@
 \alias{ct_country_lookup}
 \title{UN Comtrade country database query}
 \usage{
-ct_country_lookup(search_terms, type = c("reporter", "partner"))
+ct_country_lookup(search_terms, type = c("reporter", "partner"),
+  ignore.case = TRUE, ...)
 }
 \arguments{
 \item{search_terms}{Char vector of country names.}
 
-\item{type}{The country list to use for the search, valid inputs are
+\item{type}{str, the country list to use for the search, valid inputs are
 "reporter" and "partner".}
+
+\item{ignore.case}{logical, to be passed along to arg ignore.case within
+\code{\link{grepl}}. Default value is TRUE.}
+
+\item{...}{additional args to be passed along to \code{\link{grepl}}.}
 }
 \value{
 A character vector of country names that are complete or partial

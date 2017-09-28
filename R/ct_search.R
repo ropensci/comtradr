@@ -225,9 +225,9 @@ ct_search <- function(reporters, partners,
     reporters <- "All"
   }
 
-  if (!all(reporters %in% country_df$`country name`)) {
+  if (!all(reporters %in% country_df$country_name)) {
     err <- paste(
-      reporters[!reporters %in% country_df$`country name`],
+      reporters[!reporters %in% country_df$country_name],
       collapse = ", "
     )
     stop(paste("From arg 'reporters', these values were not found in the",
@@ -240,8 +240,8 @@ ct_search <- function(reporters, partners,
   }
 
   reporters <- purrr::map_chr(reporters, function(x) {
-    country_df[country_df$`country name` == x &
-                   country_df$type == "reporter", ]$code
+    country_df[country_df$country_name == x &
+                   country_df$reporter == TRUE, ]$code
   }) %>%
     paste(collapse = ",")
 
@@ -250,9 +250,9 @@ ct_search <- function(reporters, partners,
     partners <- "All"
   }
 
-  if (!all(partners %in% country_df$`country name`)) {
+  if (!all(partners %in% country_df$country_name)) {
     err <- paste(
-      partners[!partners %in% country_df$`country name`],
+      partners[!partners %in% country_df$country_name],
       collapse = ", "
     )
     stop(paste("From arg 'partners', these values were not found in the",
@@ -265,8 +265,8 @@ ct_search <- function(reporters, partners,
   }
 
   partners <- purrr::map_chr(partners, function(x) {
-    country_df[country_df$`country name` == x &
-                   country_df$type == "partner", ]$code
+    country_df[country_df$country_name == x &
+                   country_df$partner == TRUE, ]$code
   }) %>%
     paste(collapse = ",")
 

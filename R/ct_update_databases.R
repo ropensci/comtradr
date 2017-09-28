@@ -187,92 +187,61 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
     }
   }
 
-  # Get the reporter country database from the Comtrade website. Compare the
-  # "last-modified" date value within the header to the value in variable
-  # "date" for reporter countries within the current country databse. If the
-  # "last-modified" date is newer than the date within the current country
-  # DB, the reporter countries portion of the old DB will be replaced by
-  # the newer DB, both for the current session and within the data dir of
-  # the comtradr package.
+  # Get the reporter country database and the partner country database from
+  # the Comtrade website. Compare the "last-modified" date value within the
+  # header of each to the "date" attribute of the current country_table
+  # reference dataset on file. If either "last-modified" date is newer than
+  # the date attr of the dataset on file, replace the dataset on file with the
+  # data pulled from the Comtrade website.
   country_update <- FALSE
-  res <- httr::GET(reporter_url, httr::user_agent(get("ua", envir = ct_env)))
+  res_rep <- httr::GET(reporter_url,
+                       httr::user_agent(get("ua", envir = ct_env)))
+  res_par <- httr::GET(partner_url,
+                       httr::user_agent(get("ua", envir = ct_env)))
   if (force ||
-      httr::headers(res)$`last-modified` >
-      attributes(country_df)$reporter_date) {
-    # Extract data frame.
-    df <- res %>%
+      httr::headers(res_rep)$`last-modified` > attributes(country_df)$date ||
+      httr::headers(res_rep)$`last-modified` > attributes(country_df)$date) {
+    country_update <- TRUE
+    # Get reporters dataset as data frame.
+    reporters <- res_rep %>%
       httr::content("text", encoding = "UTF-8") %>%
       jsonlite::fromJSON(simplifyDataFrame = TRUE) %>%
       magrittr::extract2("results") %>%
-      `colnames<-`(c("code", "country name"))
-    df$type <- "reporter"
-    # Replace the reporters portion of the current country_df with the new
-    # data.
-    if (!force) {
-      country_update <- TRUE
-      country_df[country_df$type == "reporter", ] <- df
-      attributes(country_df)$reporter_date <- curr_date
-    } else {
-      country_df <- df
-      attributes(country_df)$reporter_date <- curr_date
-    }
-    # Update the output message.
-    if (verbose) {
-      if (grepl("Updates found", msg, fixed = TRUE)) {
-        msg <- paste0(msg, ", reporter countries")
-      } else {
-        msg <- paste0("Updates found. The following datasets have been ",
-                      "downloaded: reporter countries")
-      }
-    }
-  }
-
-  # Get the partner country database from the Comtrade website. Compare the
-  # "last-modified" date value within the header to the value in variable
-  # "date" for partner countries within the current country database. If the
-  # "last-modified" date is newer than the date within the current country
-  # DB, the partner countries portion of the old DB will be replaced by
-  # the newer DB, both for the current session and within the data dir of
-  # the comtradr package.
-  res <- httr::GET(partner_url, httr::user_agent(get("ua", envir = ct_env)))
-  if (force ||
-      httr::headers(res)$`last-modified` >
-      attributes(country_df)$partner_date) {
-    # Extract data frame.
-    df <- res %>%
+      `colnames<-`(c("code", "country_name"))
+    # Get partners dataset as data frame.
+    partners <- res_par %>%
       httr::content("text", encoding = "UTF-8") %>%
       jsonlite::fromJSON(simplifyDataFrame = TRUE) %>%
       magrittr::extract2("results") %>%
-      `colnames<-`(c("code", "country name"))
-    df$type <- "partner"
-    ###########df$date <- curr_date
-    # Replace the reporters portion of the current country_df with the new
-    # data.
-    if (!force) {
-      if (!country_update) {
-        country_update <- TRUE
-      }
-      country_df[country_df$type == "partner", ] <- df
-      attributes(country_df)$partner_date <- curr_date
-    } else {
-      country_df <- rbind(country_df, df)
-      attributes(country_df)$partner_date <- curr_date
-    }
-    # Update the output message.
-    if (verbose) {
-      if (grepl("Updates found", msg, fixed = TRUE)) {
-        msg <- paste0(msg, ", partner countries")
-      } else {
-        msg <- paste0("Updates found. The following datasets have been ",
-                      "downloaded: partner countries")
-      }
-    }
+      `colnames<-`(c("code", "country_name"))
+    # Get all countries and codes as vectors.
+    countries <- c(reporters$country_name, partners$country_name)
+    codes <- c(reporters$code, partners$code)
+    # Initialize output data frame.
+    country_df <- data.frame("country_name" = unique(countries),
+                             stringsAsFactors = FALSE)
+    # Add country codes to country_df.
+    country_df$code <- vapply(unique(countries), function(x) {
+      codes[match(x, countries)]
+    }, character(1), USE.NAMES = FALSE)
+    # Add logical vector indicating, for each obs of country_df, whether the
+    # country appears as a reporter.
+    country_df$reporter <- vapply(unique(countries), function(x) {
+      any(reporters$country_name == x)
+    }, logical(1), USE.NAMES = FALSE)
+    # Add logical vector indicating, for each obs of country_df, whether the
+    # country appears as a partner.
+    country_df$partner <- vapply(unique(countries), function(x) {
+      any(partners$country_name == x)
+    }, logical(1), USE.NAMES = FALSE)
   }
+  # Assign attributes to the data frame (current date/time).
+  attributes(country_df)$date <- curr_date
 
-  # If updates were made to either the reporter OR partner portions of the
-  # country database, then save the updated country DB to the data dir of the
-  # comtradr package, and update "country_df" within ct_env.
-  if (any(country_update, force))
+  # If updates were found for the country reference dataset, then save the
+  # updated country DB to the data dir of the comtradr package, and update
+  # "country_df" within ct_env.
+  if (force) {
     save(
       country_df,
       file = paste0(system.file("extdata", package = "comtradr"),
@@ -281,6 +250,16 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
     )
     # Save country_df to ct_env.
     assign("country_df", country_df, envir = ct_env)
+    # Update the output message.
+    if (verbose) {
+      if (grepl("Updates found", msg, fixed = TRUE)) {
+        msg <- paste0(msg, ", countries DB")
+      } else {
+        msg <- paste0("Updates found. The following datasets have been ",
+                      "downloaded: countries DB")
+      }
+    }
+  }
 
   # Finally, print to console the results of the update function (msg).
   if (verbose) {
