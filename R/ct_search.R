@@ -430,7 +430,7 @@ execute_api_request <- function(url, col_name) {
       # why, throw error that uses the useful message.
       stop(
         sprintf(
-          "Comtrade API request failed, with status code [%s]\nFail Reason: %s",
+          "API request failed, with status code [%s]\nFail Reason: %s",
           httr::status_code(res),
           raw_data$validation$message
         ), call. = FALSE
@@ -444,6 +444,11 @@ execute_api_request <- function(url, col_name) {
         data.frame(stringsAsFactors = FALSE) %>%
         `colnames<-`(api_col_names(col_name))
     }
+  }
+
+  # Within the return data frame, replace all empty strings with NA.
+  if (nrow(raw_data$dataset) > 0) {
+    is.na(raw_data$dataset) <- raw_data$dataset == ""
   }
 
   # rename colnames if necessary.
