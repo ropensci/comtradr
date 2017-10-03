@@ -35,10 +35,6 @@
 #' @param url Base of the Comtrade url string, as a character string. Default
 #'  value is "https://comtrade.un.org/api/get?" and should mot be changed
 #'  unless Comtrade changes their endpoint url.
-#' @param col_name char string, the type of the column headers to use. "desc"
-#'  will return headers that are descriptive and easy to interpret. "comtrade"
-#'  will return the col headers that are used by the UN Comtrade API. Both
-#'  options are machine-readable. Default value is "desc".
 #'
 #' @details Basic rate limit restrictions. For details on how to register a
 #'  valid token, see \code{\link{ct_register_token}}. For API docs on rate
@@ -116,8 +112,7 @@ ct_search <- function(reporters, partners,
                       start_date = "all", end_date = "all",
                       commod_codes = "TOTAL", max_rec = NULL,
                       type = c("goods", "services"),
-                      url = "https://comtrade.un.org/api/get?",
-                      col_name = c("desc", "comtrade")) {
+                      url = "https://comtrade.un.org/api/get?") {
 
   ## Input validation related to API limits on parameter combinations.
 
@@ -162,7 +157,7 @@ ct_search <- function(reporters, partners,
   if (cache_vals$queries_this_hour == 0) {
     msg <- paste("over the hourly limit. hour resets at",
                  ct_get_reset_time())
-    stop(msg)
+    stop(msg, call. = FALSE)
   }
 
   ## Transformations to type.
@@ -214,7 +209,7 @@ ct_search <- function(reporters, partners,
     # Check to make sure the total date range is five or fewer months/years.
     if (length(date_range) > 5) {
       stop(paste("if date range specified, the span of months or years",
-                 "must be five or fewer"))
+                 "must be five or fewer"), call. = TRUE)
     }
 
     date_range <- paste(date_range, collapse = ",")
@@ -231,12 +226,12 @@ ct_search <- function(reporters, partners,
       collapse = ", "
     )
     stop(paste("From arg 'reporters', these values were not found in the",
-               "country database:", err))
+               "country database:", err), call. = FALSE)
   }
 
   if (length(reporters) > 5) {
     stop(paste("arg 'reporters' must be 'all' or a char vector of country",
-               "names, length five or fewer"))
+               "names, length five or fewer"), call. = FALSE)
   }
 
   reporters <- purrr::map_chr(reporters, function(x) {
@@ -256,12 +251,12 @@ ct_search <- function(reporters, partners,
       collapse = ", "
     )
     stop(paste("From arg 'partners', these values were not found in the",
-               "country database:", err))
+               "country database:", err), call. = FALSE)
   }
 
   if (length(partners) > 5) {
     stop(paste("arg 'partners' must be 'all' or a char vector of country",
-               "names, length five or fewer"))
+               "names, length five or fewer"), call. = FALSE)
   }
 
   partners <- purrr::map_chr(partners, function(x) {
@@ -316,7 +311,7 @@ ct_search <- function(reporters, partners,
     commod_codes <- "ALL"
   } else if (length(commod_codes) > 20) {
     stop(paste("arg 'commod_codes' must be 'all' or a char vector of",
-               "commodity codes, length 20 or fewer"))
+               "commodity codes, length 20 or fewer"), call. = FALSE)
   } else if (length(commod_codes) > 1) {
     commod_codes <- paste(commod_codes, collapse = ",")
   }
@@ -336,9 +331,6 @@ ct_search <- function(reporters, partners,
   } else {
     max_rec <- as.numeric(max_rec)
   }
-
-  ## Input validation to arg col_name.
-  col_name <- match.arg(col_name)
 
   ## Stitch together the url of the API call.
   url <- paste0(
@@ -366,7 +358,7 @@ ct_search <- function(reporters, partners,
   assign("last_query", Sys.time(), envir = ct_env)
 
   # Execute API call.
-  res <- execute_api_request(url, col_name)
+  res <- execute_api_request(url)
 
   # Edit cache variable "queries_this_hour" to be one less.
   assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
@@ -387,14 +379,10 @@ ct_search <- function(reporters, partners,
 #' Send API request to Comtrade.
 #'
 #' @param url char str, url to send to the Comtrade API.
-#' @param col_name char string, the type of the column headers to use. "desc"
-#'  will return headers that are descriptive and easy to interpret. "comtrade"
-#'  will return the col headers that are used by the UN Comtrade API. Both
-#'  options are machine-readable. Default value is "desc".
 #'
 #' @noRd
 #' @return data frame of API return data.
-execute_api_request <- function(url, col_name) {
+execute_api_request <- function(url) {
   # Ping API.
   res <- httr::GET(url, httr::user_agent(get("ua", envir = ct_env)))
 
@@ -422,9 +410,10 @@ execute_api_request <- function(url, col_name) {
   raw_data <- res %>%
     httr::content("text", encoding = "UTF-8") %>%
     jsonlite::fromJSON(simplifyDataFrame = TRUE)
+  df <- raw_data$dataset
 
   # Check length of return data.
-  if (length(raw_data$dataset) == 0) {
+  if (length(df) == 0) {
     if (!is.null(raw_data$validation$message)) {
       # If no data returned and Comtrade provided a useful message indicating
       # why, throw error that uses the useful message.
@@ -440,23 +429,26 @@ execute_api_request <- function(url, col_name) {
       # this is an indication that there was no error and there really is no
       # data to return (based on the input valies given). Prep an empty
       # data frame to return.
-      raw_data$dataset <- matrix(ncol = 35, nrow = 0) %>%
+      df <- matrix(ncol = 35, nrow = 0) %>%
         data.frame(stringsAsFactors = FALSE) %>%
-        `colnames<-`(api_col_names(col_name))
+        `colnames<-`(names(cols))
     }
   }
 
-  # Within the return data frame, replace all empty strings with NA.
-  if (nrow(raw_data$dataset) > 0) {
-    is.na(raw_data$dataset) <- raw_data$dataset == ""
+  # Within the return data frame, replace all empty strings with NA, and
+  # rename the column headers.
+  if (nrow(df) > 0) {
+    is.na(df) <- df == ""
+    if (all(colnames(df) %in% cols)) {
+      colnames(df) <- purrr::map_chr(colnames(df), function(x) {
+        names(cols)[which(cols == x)]
+      })
+    } else {
+      warning(paste("col headers of the return data from the API cannot be",
+                    "mapped to package data. Data will be returned with the",
+                    "Comtrade API col headers."), call. = FALSE)
+    }
   }
 
-  # rename colnames if necessary.
-  if (col_name == "desc") {
-    colnames(raw_data$dataset) <- api_col_names("desc")
-  } else if (col_name == "comtrade") {
-    colnames(raw_data$dataset) <- api_col_names("comtrade")
-  }
-  return(raw_data$dataset)
+  return(df)
 }
-

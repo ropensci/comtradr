@@ -8,8 +8,7 @@ ct_search(reporters, partners, trade_direction = c("all", "imports",
   "exports", "re_imports", "re_exports"), freq = c("annual", "monthly"),
   start_date = "all", end_date = "all", commod_codes = "TOTAL",
   max_rec = NULL, type = c("goods", "services"),
-  url = "https://comtrade.un.org/api/get?", col_name = c("desc",
-  "comtrade"))
+  url = "https://comtrade.un.org/api/get?")
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either
@@ -51,11 +50,6 @@ how to register a valid token, see \code{\link{ct_register_token}}.}
 \item{url}{Base of the Comtrade url string, as a character string. Default
 value is "https://comtrade.un.org/api/get?" and should mot be changed
 unless Comtrade changes their endpoint url.}
-
-\item{col_name}{char string, the type of the column headers to use. "desc"
-will return headers that are descriptive and easy to interpret. "comtrade"
-will return the col headers that are used by the UN Comtrade API. Both
-options are machine-readable. Default value is "desc".}
 }
 \value{
 Data frame of Comtrade shipping data.

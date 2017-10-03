@@ -54,8 +54,7 @@ test_that(msg, {
                     freq = "annual",
                     start_date = "2011-01-01",
                     end_date = "2015-01-01",
-                    commod_codes = shrimp_codes,
-                    col_name = "comtrade")
+                    commod_codes = shrimp_codes)
 
   # Data type.
   expect_is(vals, "data.frame")
@@ -64,19 +63,19 @@ test_that(msg, {
   expect_equal(ncol(vals), 35)
 
   # Variable "Reporter".
-  expect_equal(unique(vals$rtTitle), "USA")
+  expect_equal(unique(vals$reporter), "USA")
 
   # Variable "Partner".
-  expect_equal(sort(unique(vals$ptTitle)), c("Germany", "Thailand"))
+  expect_equal(sort(unique(vals$partner)), c("Germany", "Thailand"))
 
   # Variable "Period".
-  expect_equal(sort(unique(vals$yr))[1:3], c(2011, 2012, 2013))
+  expect_equal(sort(unique(vals$year))[1:3], c(2011, 2012, 2013))
 
   # Variable "Commodity Code".
-  expect_equal(sort(unique(vals$cmdCode)), shrimp_codes)
+  expect_equal(sort(unique(vals$commodity_code)), shrimp_codes)
 
   # Variable "Netweight (kg)".
-  expect_is(vals$NetWeight, "integer")
+  expect_is(vals$netweight_kg, "integer")
 })
 
 
@@ -140,14 +139,6 @@ test_that("throw error with invalid input to arg 'commod_codes'", {
                          commod_codes = "invalid_codes"),
                regexp = "invalid_codes is an invalid commodity code.",
                fixed = TRUE)
-})
-
-
-test_that("throw error with invalid input to arg 'col_name'", {
-  expect_error(ct_search(reporters = "Canada",
-                         partners = "Germany",
-                         trade_direction = "imports",
-                         col_name = "invalid_fmt"))
 })
 
 
