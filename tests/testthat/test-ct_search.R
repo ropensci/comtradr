@@ -29,7 +29,7 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
   expect_equal(unique(vals$trade_flow), "Imports")
 
   # Variable "Period".
-  expect_equal(vals$period[1], 201101)
+  expect_equal(sort(vals$period)[1], 201101)
 
   # Variable "Commodity Code".
   expect_equal(unique(vals$commodity_code), "TOTAL")
