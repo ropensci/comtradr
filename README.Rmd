@@ -31,7 +31,7 @@ Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, 
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-**NOTE**: As of 2017-06-27, the curl errors due to an inadility to validate the SSL certificate of the API site are no longer appearing, I believe that UN Comtrade fixed their SSL cert issue. As of 2017-07-03, the package is back on CRAN.
+For information on citation of this package, use `citation("comtradr")`
 
 ## Installation
 
