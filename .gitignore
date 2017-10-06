@@ -3,4 +3,4 @@
 .RData
 ^cran-comments\.md$
 TODO.md
-inst/doc
+#inst/doc
