@@ -41,7 +41,9 @@ Example Usage
 ``` r
 library(comtradr)
 
-# Country names passed to the API query function must be spelled as they appear in the Comtrade DB. Use "ct_country_lookup" to query the country DB and return the exact spelling of specific countries.
+# Country names passed to the API query function must be spelled as they appear 
+# in the Comtrade DB. Use "ct_country_lookup" to query the country DB and 
+#return the exact spelling of specific countries.
 ct_country_lookup("korea")
 #> [1] "Dem. People's Rep. of Korea" "Rep. of Korea"
 
@@ -89,8 +91,8 @@ str(example1)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=all&r=156&p=410,842,484&rg=2&cc=TOTAL&fmt=json&head=H"
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-04 23:04:14"
-#>  - attr(*, "req_duration")= num 5.04
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-06 00:45:10"
+#>  - attr(*, "req_duration")= num 4.57
 ```
 
 **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
@@ -98,7 +100,8 @@ str(example1)
 ``` r
 library(comtradr)
 
-# Fetch all shrimp related commodity codes from the Comtrade commodities DB. This vector of codes will get passed to the API query.
+# Fetch all shrimp related commodity codes from the Comtrade commodities DB. 
+# This vector of codes will get passed to the API query.
 shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE)
 
 # API query.
@@ -148,6 +151,6 @@ str(example2)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2007,2008,2009,2010,2011&r=764&p=all&rg=2&cc=0"| __truncated__
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-04 23:04:19"
-#>  - attr(*, "req_duration")= num 17.1
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-06 00:45:15"
+#>  - attr(*, "req_duration")= num 9.83
 ```

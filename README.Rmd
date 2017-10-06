@@ -53,7 +53,9 @@ devtools::install_github("ChrisMuir/comtradr")
 ```{r}
 library(comtradr)
 
-# Country names passed to the API query function must be spelled as they appear in the Comtrade DB. Use "ct_country_lookup" to query the country DB and return the exact spelling of specific countries.
+# Country names passed to the API query function must be spelled as they appear 
+# in the Comtrade DB. Use "ct_country_lookup" to query the country DB and 
+#return the exact spelling of specific countries.
 ct_country_lookup("korea")
 
 # Since we want South Korea, we'll use "Rep. of Korea" within the API query.
@@ -70,7 +72,8 @@ str(example1)
 ```{r}
 library(comtradr)
 
-# Fetch all shrimp related commodity codes from the Comtrade commodities DB. This vector of codes will get passed to the API query.
+# Fetch all shrimp related commodity codes from the Comtrade commodities DB. 
+# This vector of codes will get passed to the API query.
 shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE)
 
 # API query.
