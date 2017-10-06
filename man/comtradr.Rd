@@ -11,6 +11,14 @@ Interface with and extract data from the United Nations
   of commodities, these functions allow for easy API query and data returned
   as a tidy data frame.
 }
+\section{Package Vignette}{
+
+
+\itemize{
+  \item \url{../doc/comtradr-vignette.html}
+}
+}
+
 \section{Documentation for the Comtrade API}{
 
 
@@ -41,6 +49,7 @@ Interface with and extract data from the United Nations
   \item \code{\link{ct_register_token}}
   \item \code{\link{ct_search}}
   \item \code{\link{ct_update_databases}}
+  \item \code{\link{ct_use_pretty_cols}}
 }
 }
 
