@@ -84,14 +84,14 @@ tomato_codes <- ct_commodity_lookup("tomato",
                                     return_char = TRUE)
 
 q <- ct_search(reporters = "USA", 
-               partners = c("Germany", "France", "Japan", "Mexico"), 
+               partners = c("Germany", "France", "Mexico"), 
                trade_direction = "all", 
                commod_codes = tomato_codes)
 ```
 On the other hand, if we wanted to exclude juices and sauces from our search, we can pass a vector of the relevant codes to the API call.
 ```{r}
 q <- ct_search(reporters = "USA", 
-               partners = c("Germany", "France", "Japan", "Mexico"), 
+               partners = c("Germany", "France", "Mexico"), 
                trade_direction = "all", 
                commod_codes = c("0702", "070200", "2002", "200210", "200290"))
 ```
