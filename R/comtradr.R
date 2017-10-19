@@ -5,6 +5,12 @@
 #'   of commodities, these functions allow for easy API query and data returned
 #'   as a tidy data frame.
 #'
+#' @section Package Vignette:
+#'
+#' \itemize{
+#'   \item \url{../doc/comtradr-vignette.html}
+#' }
+#'
 #' @section Documentation for the Comtrade API:
 #'
 #' \itemize{
