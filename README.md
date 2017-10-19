@@ -3,7 +3,7 @@
 comtradr
 ========
 
-[![Travis-CI Build Status](https://travis-ci.org/ChrisMuir/comtradr.svg?branch=master)](https://travis-ci.org/ChrisMuir/comtradr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ChrisMuir/comtradr?branch=master&svg=true)](https://ci.appveyor.com/project/ChrisMuir/comtradr) [![codecov](https://codecov.io/github/ChrisMuir/comtradr/branch/master/graphs/badge.svg)](https://codecov.io/github/ChrisMuir/comtradr) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
+[![Travis-CI Build Status](https://travis-ci.org/ropensci/comtradr.svg?branch=master)](https://travis-ci.org/ropensci/comtradr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/comtradr?branch=master&svg=true)](https://ci.appveyor.com/project/ropensci/comtradr) [![codecov](https://codecov.io/github/ropensci/comtradr/branch/master/graphs/badge.svg)](https://codecov.io/github/ropensci/comtradr) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
 
 R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found [here](https://comtrade.un.org/data/doc/api/).
 
@@ -11,7 +11,7 @@ This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/a
 
 I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
 
-Please [report](https://github.com/ChrisMuir/comtradr/issues) issues, comments, or feature requests.
+Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests.
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
@@ -91,8 +91,8 @@ str(example1)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=all&r=156&p=410,842,484&rg=2&cc=TOTAL&fmt=json&head=H"
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:05:02"
-#>  - attr(*, "req_duration")= num 4
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:30:12"
+#>  - attr(*, "req_duration")= num 1.15
 ```
 
 **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
@@ -151,8 +151,8 @@ str(example2)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2007,2008,2009,2010,2011&r=764&p=all&rg=2&cc=0"| __truncated__
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:05:06"
-#>  - attr(*, "req_duration")= num 58.7
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:30:15"
+#>  - attr(*, "req_duration")= num 3.29
 ```
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
