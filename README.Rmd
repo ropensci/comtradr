@@ -87,3 +87,5 @@ example2 <- ct_search(reporters = "Thailand",
 # Inspect the output
 str(example2)
 ```
+
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

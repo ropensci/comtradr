@@ -91,8 +91,8 @@ str(example1)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=all&r=156&p=410,842,484&rg=2&cc=TOTAL&fmt=json&head=H"
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-06 00:45:10"
-#>  - attr(*, "req_duration")= num 4.57
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:05:02"
+#>  - attr(*, "req_duration")= num 4
 ```
 
 **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
@@ -151,6 +151,8 @@ str(example2)
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
 #>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2007,2008,2009,2010,2011&r=764&p=all&rg=2&cc=0"| __truncated__
-#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-06 00:45:15"
-#>  - attr(*, "req_duration")= num 9.83
+#>  - attr(*, "time_stamp")= POSIXct, format: "2017-10-18 20:05:06"
+#>  - attr(*, "req_duration")= num 58.7
 ```
+
+[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
