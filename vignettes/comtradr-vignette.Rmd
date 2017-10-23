@@ -226,7 +226,7 @@ ggplot(df, aes(Year, `Trade Value usd`, color = factor(`Partner Country`),
 library(ggplot2)
 library(dplyr)
 
-# First, collect commodity codes related to shrimp..
+# First, collect commodity codes related to shrimp.
 shrimp_codes <- ct_commodity_lookup("shrimp", 
                                     return_code = TRUE, 
                                     return_char = TRUE)
