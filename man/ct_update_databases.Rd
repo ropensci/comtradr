@@ -30,7 +30,7 @@ the "type" of the current commodity DB, use
 
 \item{commodity_url}{Default value NULL, otherwise this should be the base
 url of the Comtrade json data directory. Only necessary if the Comtrade
-site changes from \url{https://comtrade.un.org/data/cache/}. This partial
+site changes from "https://comtrade.un.org/data/cache/". This partial
 url string will have a commodity extension appended to it to create a
 valid url. The commodity extension will be chosen based on the input to
 arg \code{commodity_type}.}

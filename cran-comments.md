@@ -1,3 +1,25 @@
+# Resubmission 2017-10-23
+
+## Reviewer comments
+
+2017-10-23 Uwe Ligges
+
+Thanks, we see:
+
+Found the following (possibly) invalid URLs:
+  URL: https://comtrade.un.org/data/cache/
+    From: man/ct_update_databases.Rd
+    Status: 403
+    Message: Forbidden
+
+Please fix and resubmit.
+
+## Resubmission Fixes
+
+* I have removed the invalid URL from the package.
+
+# Initial Submission 2017-10-23
+
 ## Test environments
 * local Windows 10 install, R 3.4.2
 * local OS X install, R 3.4.2
