@@ -1,4 +1,4 @@
-comtradr 0.0.2.9000
+comtradr 0.1.0
 ===================
 
 ### PKG API CHANGES
@@ -24,7 +24,7 @@ comtradr 0.0.2.9000
 
 ### BUG FIXES
 
-* The issues related to type-safety in function `commodity_lookup` have been fixed by importing `purrr` and using `purrr::map` in place of `sapply`. This fixes [issue #2](https://github.com/ChrisMuir/comtradr/issues/2) and [issue #3](https://github.com/ChrisMuir/comtradr/issues/3).
+* The issues related to type-safety in function `commodity_lookup` have been fixed by importing `purrr` and using `purrr::map` in place of `sapply`. This fixes [issue #2](https://github.com/ropensci/comtradr/issues/2) and [issue #3](https://github.com/ropensci/comtradr/issues/3).
 
 
 comtradr 0.0.2 (2017-07-03)
