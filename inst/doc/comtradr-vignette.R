@@ -15,7 +15,7 @@ q <- ct_search(reporters = "USA",
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "imports")
 
-# API calls return a tidy data frame..
+# API calls return a tidy data frame.
 str(q)
 
 ## ---- eval = FALSE-------------------------------------------------------
