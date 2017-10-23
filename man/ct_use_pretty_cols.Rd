@@ -14,7 +14,7 @@ ct_use_pretty_cols(df)
 data frame, input df with polish column headers.
 }
 \description{
-Transform the column headers of return data from funcion
+Transform the column headers of return data from function
 \code{\link{ct_search}} into a more "polished" set of column headers.
 Intended for use with plots, publication tables, etc.
 }

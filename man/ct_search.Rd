@@ -40,7 +40,7 @@ value is "TOTAL".}
 
 \item{max_rec}{Max number of records returned from each API call, as an
 integer. If max_rec is set to NULL, then value is determined by whether or
-not an API token has been rergistered. API cap without a token is 50000,
+not an API token has been registered. API cap without a token is 50000,
 cap with a valid token is 250000. Default value is NULL. For details on
 how to register a valid token, see \code{\link{ct_register_token}}.}
 
@@ -86,7 +86,7 @@ Basic rate limit restrictions. For details on how to register a
  }
 
  This function returns objects with metadata related to the API call that
- can be accessed via \code{\link{attributes}}. The metadata accessable is:
+ can be accessed via \code{\link{attributes}}. The metadata accessible is:
  \itemize{
  \item url: url of the API call.
  \item time_stamp: date-time of the API call.
