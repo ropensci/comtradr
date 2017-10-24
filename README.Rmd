@@ -44,7 +44,7 @@ install.packages("comtradr")
 Or install from this repo:
 ```{r eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("ChrisMuir/comtradr")
+devtools::install_github("ropensci/comtradr")
 ```
 
 ## Example Usage
