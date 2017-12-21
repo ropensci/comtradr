@@ -427,7 +427,7 @@ execute_api_request <- function(url) {
     } else {
       # If no data returned and there's no Comtrade message explaining why,
       # this is an indication that there was no error and there really is no
-      # data to return (based on the input valies given). Prep an empty
+      # data to return (based on the input values given). Prep an empty
       # data frame to return.
       df <- matrix(ncol = 35, nrow = 0) %>%
         data.frame(stringsAsFactors = FALSE) %>%
