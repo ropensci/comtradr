@@ -151,11 +151,11 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   }
 
   # Get the commodity database from the Comtrade website. Compare the
-  # "last-modified" date value within the header to the value in variable
-  # "date" within the current commodity database. If the "last-modified"
-  # date is newer than the date within the current database, or the value
-  # passed to arg "commodty_type" doesn't match the values in variable "type"
-  # of the current database, the old DB will be replaced by the newer DB.
+  # "last-modified" date value within the header to the "date" attribute of
+  # the current commodity database on file. If the "last-modified" date is
+  # newer than the date of the current database, or the value passed to arg
+  # "commodty_type" doesn't match the "type" attribute of the current database,
+  # or arg "force" is TRUE, the old DB will be replaced by the newer DB.
   # Replacement will be for both the current session and within the data dir
   # of the comtradr package.
   res <- httr::GET(commodity_url, httr::user_agent(get("ua", envir = ct_env)))
@@ -190,9 +190,9 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # Get the reporter country database and the partner country database from
   # the Comtrade website. Compare the "last-modified" date value within the
   # header of each to the "date" attribute of the current country_table
-  # reference dataset on file. If either "last-modified" date is newer than
-  # the date attr of the dataset on file, replace the dataset on file with the
-  # data pulled from the Comtrade website.
+  # database on file. If either of the "last-modified" dates is newer than the
+  # date of the database on file, or if arg "force" is TRUE, replace the
+  # database on file with the data pulled from the Comtrade website.
   country_update <- FALSE
   res_rep <- httr::GET(reporter_url,
                        httr::user_agent(get("ua", envir = ct_env)))
@@ -241,7 +241,7 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   # If updates were found for the country reference dataset, then save the
   # updated country DB to the data dir of the comtradr package, and update
   # "country_df" within ct_env.
-  if (force) {
+  if (country_update) {
     save(
       country_df,
       file = paste0(system.file("extdata", package = "comtradr"),
