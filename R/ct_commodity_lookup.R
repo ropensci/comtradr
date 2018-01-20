@@ -73,7 +73,7 @@ ct_commodity_lookup <- function(search_terms, return_code = FALSE,
   ans <- purrr::map(search_terms, function(x) {
     # Determine whether the param 'value' is a commodity or a code, then
     # perform the look up.
-    if (grepl("[a-z]", x)) {
+    if (grepl("[A-z]", x)) {
       lu <- "commodity"
     } else {
       lu <- "code"
