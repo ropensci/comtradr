@@ -431,8 +431,7 @@ execute_api_request <- function(url) {
       # why, throw error that uses the useful message.
       stop(
         sprintf(
-          "API request failed, with status code [%s]\nFail Reason: %s",
-          httr::status_code(res),
+          "API request failed. Err msg from Comtrade:\n  %s",
           raw_data$validation$message
         ), call. = FALSE
       )
