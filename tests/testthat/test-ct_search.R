@@ -79,6 +79,18 @@ test_that(msg, {
 })
 
 
+test_that("correct api vals given: type == 'services'", {
+  vals <- ct_search(reporters = "USA",
+                    partners = "World",
+                    freq = "annual",
+                    start_date = "2015-01-01",
+                    end_date = "2015-12-31",
+                    commod_codes = "TOTAL",
+                    type = "services")
+  expect_true(nrow(vals) > 0)
+})
+
+
 test_that("throw error with invalid input to arg 'reporters'", {
   expect_error(ct_search(reporters = "invalid_reporter",
                          partners = "Germany",

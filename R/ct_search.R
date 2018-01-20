@@ -160,12 +160,21 @@ ct_search <- function(reporters, partners,
     stop(msg, call. = FALSE)
   }
 
+  ## Get the commodity code scheme type to use.
+  code_type <- ct_commodity_db_type()
+
   ## Transformations to type.
   type <- match.arg(type)
+
   if (type == "goods") {
     type <- "C"
   } else if (type == "services") {
     type <- "S"
+  }
+
+  # If type == "S", then code_type must be "EB02".
+  if (type == "S" && code_type != "EB02") {
+    code_type <- "EB02"
   }
 
   ## Transformations to freq.
@@ -306,7 +315,13 @@ ct_search <- function(reporters, partners,
   ## Transformations to commod_codes.
   stopifnot(is.character(commod_codes))
   if (any(tolower(commod_codes) == "total")) {
-    commod_codes <- "TOTAL"
+    if (code_type != "EB02") {
+      commod_codes <- "TOTAL"
+    } else {
+      # If code_type is "EB02" and input to commod_codes includes "total",
+      # then make commod_codes "200" ("total == "200" in EB02).
+      commod_codes <- "200"
+    }
   } else if (any(tolower(commod_codes) == "all")) {
     commod_codes <- "ALL"
   } else if (length(commod_codes) > 20) {
@@ -315,9 +330,6 @@ ct_search <- function(reporters, partners,
   } else if (length(commod_codes) > 1) {
     commod_codes <- paste(commod_codes, collapse = ",")
   }
-
-  ## Get the commodity code scheme type to use.
-  code_type <- ct_commodity_db_type()
 
   ## Get max_rec. If arg value is set to NULL, then max_rec is determined by
   ## whether an API token has been registered. If a token has been registered,
