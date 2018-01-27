@@ -1,12 +1,18 @@
 comtradr 0.1.0.09000
 ===================
 
-* No changes to report yet.
+## BUG FIXES
+
+* Passing `"services"` to arg `type` within function `ct_search` now uses commodity scheme `EB02` by default (previously this would throw an error, fixes [issue #6](https://github.com/ropensci/comtradr/issues/6)).
+* When using commodity scheme `EB02` within function `ct_search`, passing `"TOTAL"` to arg `commod_codes` no longer returns zero results (fixes [issue #7](https://github.com/ropensci/comtradr/issues/7)).
+* `ct_commodity_lookup` no longer returns zero results when passing all caps input to arg `search_terms` (fixes [issue #9](https://github.com/ropensci/comtradr/issues/9)).
+
+
 
 comtradr 0.1.0
 ===================
 
-### PKG API CHANGES
+## PKG API CHANGES
 
 * Eliminated functions `ct_commodities_table` and `ct_countries_table`.
 * Added new functions `ct_update_databases`, `ct_use_pretty_cols`, `ct_commodity_db_type`, `ct_register_token`, `ct_get_reset_time`, `ct_get_remaining_hourly_queries`.
@@ -16,7 +22,7 @@ comtradr 0.1.0
 * Changed some function argument names to ensure `snake_case` is being used throughout the package.
 * `ct_search` now returns a data frame, as opposed to a list.
 
-### MINOR CHANGES
+## MINOR CHANGES
 
 * Added a vignette directory, with an "Intro to comtradr" vignette.
 * API requests are now throttled based on the [rate limits](https://comtrade.un.org/data/doc/api/#Limits) imposed by the UN Comtrade.
@@ -27,7 +33,7 @@ comtradr 0.1.0
 * `Imports` changes: remove `dplyr`, add `magrittr` and `purrr`.
 * Expand and improve test coverage via [testthat](https://github.com/hadley/testthat).
 
-### BUG FIXES
+## BUG FIXES
 
 * The issues related to type-safety in function `commodity_lookup` have been fixed by importing `purrr` and using `purrr::map` in place of `sapply`. This fixes [issue #2](https://github.com/ropensci/comtradr/issues/2) and [issue #3](https://github.com/ropensci/comtradr/issues/3).
 
@@ -35,11 +41,11 @@ comtradr 0.1.0
 comtradr 0.0.2 (2017-07-03)
 ===========================
 
-### NEW FEATURES
+## NEW FEATURES
 
 * commodity_lookup(): Expanded function to accept multiple commodities or commodity codes (as either character vector or numeric vector). Also added argument "return_char" that allows the user to specify list output or char vector output, and argument "return_code" that specifies output of commodity descriptions or commodity codes.
 
-### MINOR IMPROVEMENTS
+## MINOR IMPROVEMENTS
 
 * Add unit tests via [testthat](https://github.com/hadley/testthat).
 
@@ -47,6 +53,6 @@ comtradr 0.0.2 (2017-07-03)
 comtradr 0.0.1 (2017-04-06)
 ===========================
 
-### NEW FEATURES
+## NEW FEATURES
 
 * released to CRAN
