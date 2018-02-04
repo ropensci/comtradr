@@ -65,8 +65,6 @@
 #'
 #' @export
 #'
-#' @importFrom magrittr "%>%"
-#'
 #' @examples \dontrun{
 #' ct_update_databases()
 #' }

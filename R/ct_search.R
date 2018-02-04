@@ -84,8 +84,6 @@
 #'
 #' @export
 #'
-#' @importFrom magrittr "%>%"
-#'
 #' @examples \dontrun{
 #' ## Example API call number 1:
 #' # All exports from China to South Korea, United States and Mexico over all

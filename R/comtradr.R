@@ -39,6 +39,7 @@
 #'   \item \code{\link{ct_use_pretty_cols}}
 #' }
 #'
+#' @importFrom magrittr "%>%"
 #' @docType package
 #' @name comtradr
 NULL
