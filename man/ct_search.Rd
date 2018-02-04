@@ -103,7 +103,7 @@ Basic rate limit restrictions listed below. For details on how to
  and 2016 would all be valid). If \code{freq} is "monhtly",
  \code{start_date} and \code{end_date} must be a string with format
  "yyyy-mm" or "yyyy-mm-dd" (so "2016-02" and "2016-02-01" would both be
- valid)..
+ valid).
 }
 \examples{
 \dontrun{
