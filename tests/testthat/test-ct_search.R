@@ -10,8 +10,8 @@ test_that("correct api vals given: 1 reporter, 1 partner, imports, monthly", {
                     partners = "Germany",
                     trade_direction = "imports",
                     freq = "monthly",
-                    start_date = "2011-01-01",
-                    end_date = "2011-05-01")
+                    start_date = "2011-01",
+                    end_date = "2011-05")
 
   # Data type.
   expect_is(vals, "data.frame")
@@ -139,6 +139,19 @@ test_that("throw error with invalid input to arg 'start_date' & 'end_date'", {
                          freq = "monthly",
                          start_date = "1/1/2011",
                          end_date = "5/1/2011"))
+})
+
+
+msg <- paste0("when 'freq' is 'annual', integer inputs for 'start_date' & ",
+             "'end_date' work properly")
+test_that(msg, {
+  vals1 <- ct_search(reporters = "Canada",
+                     partners = "Germany",
+                     trade_direction = "imports",
+                     freq = "annual",
+                     start_date = 2014,
+                     end_date = 2016)
+  expect_equal(sort(unique(vals$year)), 2014:2016)
 })
 
 

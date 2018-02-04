@@ -17,9 +17,11 @@
 #' @param freq Time frequency of the returned results, as a character string.
 #'  Must be either "annual" or "monthly". Default value is "annual".
 #' @param start_date Start date of a time period, or "all". Default value is
-#'  "all". If inputing a date, must be string w/ structure "yyyy-mm-dd".
-#' @param end_date End date of a time period, or "all". Default value is "all".
-#'  If inputing a date, must be string w/ structure "yyyy-mm-dd".
+#'  "all". See "details" for more info on valid input formats when not using
+#'  "all" as input.
+#' @param end_date End date of a time period, or "all". Default value is
+#'  "all". See "details" for more info on valid input formats when not using
+#'  "all" as input.
 #' @param commod_codes Character vector of commodity codes, or "TOTAL". Valid
 #'  commodity codes as input will restrict the query to only look for trade
 #'  related to those commodities, "TOTAL" as input will return all trade
@@ -36,9 +38,9 @@
 #'  value is "https://comtrade.un.org/api/get?" and should mot be changed
 #'  unless Comtrade changes their endpoint url.
 #'
-#' @details Basic rate limit restrictions. For details on how to register a
-#'  valid token, see \code{\link{ct_register_token}}. For API docs on rate
-#'  limits, see \url{https://comtrade.un.org/data/doc/api/#Limits}
+#' @details Basic rate limit restrictions listed below. For details on how to
+#'  register a valid token, see \code{\link{ct_register_token}}. For API docs
+#'  on rate limits, see \url{https://comtrade.un.org/data/doc/api/#Limits}
 #'  \itemize{
 #'  \item Without authentication token: 1 request per second, 100 requests
 #'    per hour (each per IP address).
@@ -68,6 +70,16 @@
 #'  \item req_duration: total duration of the API call, in seconds.
 #'  }
 #'
+#'  For args \code{start_date} and \code{end_date}, if inputing a date (as
+#'  opposed to the catch-all input "all"), valid input format is dependent on
+#'  the input passed to arg \code{freq}. If \code{freq} is "annual",
+#'  \code{start_date} and \code{end_date} must be either a string w/ format
+#'  "yyyy" or "yyyy-mm-dd", or a year as an integer (so "2016", "2016-01-01",
+#'  and 2016 would all be valid). If \code{freq} is "monhtly",
+#'  \code{start_date} and \code{end_date} must be a string with format
+#'  "yyyy-mm" or "yyyy-mm-dd" (so "2016-02" and "2016-02-01" would both be
+#'  valid)..
+#'
 #' @return Data frame of Comtrade shipping data.
 #'
 #' @export
@@ -95,8 +107,8 @@
 #' ex_2 <- ct_search(reporters = "Canada",
 #'                   partners = "All",
 #'                   trade_direction = "all",
-#'                   start_date = "2011-01-01",
-#'                   end_date = "2015-01-01",
+#'                   start_date = "2011",
+#'                   end_date = "2015",
 #'                   commod_codes = shrimp_codes)
 #' nrow(ex_2)
 #'
@@ -189,36 +201,18 @@ ct_search <- function(reporters, partners,
   if (any(c(start_date, end_date) %in% c("all", "All", "ALL"))) {
     date_range <- "all"
   } else {
-    sd <- tryCatch(
-      as.Date(start_date, format = "%Y-%m-%d"), error = function(e) e
-    )
-    ed <- tryCatch(
-      as.Date(end_date, format = "%Y-%m-%d"), error = function(e) e
-    )
-    if (any(methods::is(sd, "error"), methods::is(ed, "error"),
-            is.na(sd), is.na(ed))) {
-      stop("args 'start_date' & 'end_date' must either be 'all' or be dates ",
-           "that have format 'yyyy-mm-dd'", call. = FALSE)
-    }
-
-    if (freq == "A") {
-      date_range <- seq.Date(as.Date(start_date, format = "%Y-%m-%d"),
-                             as.Date(end_date, format = "%Y-%m-%d"),
-                             by = "year") %>%
-        as.Date() %>%
-        format(format = "%Y")
-    } else if (freq == "M") {
-      date_range <- seq.Date(as.Date(start_date, format = "%Y-%m-%d"),
-                             as.Date(end_date, format = "%Y-%m-%d"),
+    start_date <- as.character(start_date)
+    end_date <- as.character(end_date)
+    if (freq == "M") {
+      date_range <- validate_date_inputs(start_date, end_date, freq)
+      date_range <- seq.Date(date_range$start_date, date_range$end_date,
                              by = "month") %>%
-        as.Date() %>%
         format(format = "%Y%m")
-    }
-
-    # Check to make sure the total date range is five or fewer months/years.
-    if (length(date_range) > 5) {
-      stop(paste("if date range specified, the span of months or years",
-                 "must be five or fewer"), call. = TRUE)
+    } else if (freq == "A") {
+      date_range <- validate_date_inputs(start_date, end_date, freq)
+      date_range <- seq.Date(date_range$start_date, date_range$end_date,
+                             by = "year") %>%
+        format(format = "%Y")
     }
 
     date_range <- paste(date_range, collapse = ",")
@@ -462,4 +456,44 @@ execute_api_request <- function(url) {
   }
 
   return(df)
+}
+
+
+#' Validate date input args
+#'
+#' @return List of validated and transformed dates (start date and end date).
+#' @noRd
+validate_date_inputs <- function(start_date, end_date, freq) {
+  if (freq == "A") {
+    # For annual date ranges.
+    s_date <- as.Date(start_date, format = "%Y-%m-%d")
+    if (is.na(s_date)) {
+      s_date <- as.Date(paste0(start_date, "-01-01"), format = "%Y-%m-%d")
+    }
+    e_date <- as.Date(end_date, format = "%Y-%m-%d")
+    if (is.na(e_date)) {
+      e_date <- as.Date(paste0(end_date, "-01-01"), format = "%Y-%m-%d")
+    }
+    if (any(is.na(s_date), is.na(e_date))) {
+      stop("if 'freq' is 'annual', args 'start_date' & 'end_date' must",
+           " either be 'all' or be strings that have format 'yyyy-mm-dd' or",
+           " 'yyyy'", call. = FALSE)
+    }
+  } else if (freq == "M") {
+    # For monthly date ranges.
+    s_date <- as.Date(start_date, format = "%Y-%m-%d")
+    if (is.na(s_date)) {
+      s_date <- as.Date(paste0(start_date, "-01"), format = "%Y-%m-%d")
+    }
+    e_date <- as.Date(end_date, format = "%Y-%m-%d")
+    if (is.na(e_date)) {
+      e_date <- as.Date(paste0(end_date, "-01"), format = "%Y-%m-%d")
+    }
+    if (any(is.na(s_date), is.na(e_date))) {
+      stop("if 'freq' is 'monthly', args 'start_date' & 'end_date' must",
+           " either be 'all' or be strings that have format 'yyyy-mm-dd' or",
+           " 'yyyy-mm'", call. = FALSE)
+    }
+  }
+  return(list("start_date" = s_date, "end_date" = e_date))
 }
