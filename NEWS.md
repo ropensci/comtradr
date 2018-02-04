@@ -1,5 +1,9 @@
 comtradr 0.1.0.09000
-===================
+====================
+
+## NEW FEATURES
+
+* For function `ct_search`, expanded the valid input types for args `start_date` and `end_date` (see [issue #10](https://github.com/ropensci/comtradr/issues/10) for details).
 
 ## BUG FIXES
 
