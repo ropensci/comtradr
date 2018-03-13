@@ -45,7 +45,7 @@ ct_country_lookup <- function(search_terms, type = c("reporter", "partner"),
   }
 
   # Fetch the country databse from ct_env.
-  country_df <- get("country_df", envir = ct_env)
+  country_df <- get_country_db()
 
   # Perform the lookup.
   ans <- country_df[country_df[[type]] == TRUE &
