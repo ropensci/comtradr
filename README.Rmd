@@ -82,8 +82,8 @@ shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = 
 example2 <- ct_search(reporters = "Thailand", 
                       partners = "All", 
                       trade_direction = "exports", 
-                      start_date = "2007-01-01", 
-                      end_date = "2011-01-01", 
+                      start_date = 2007, 
+                      end_date = 2011, 
                       commod_codes = shrimp_codes)
 
 # Inspect the output

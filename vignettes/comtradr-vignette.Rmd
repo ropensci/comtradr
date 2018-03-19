@@ -48,17 +48,26 @@ Limit the search range to shipments between 2010 and 2014.
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "imports", 
-               start_date = "2010-01-01", 
-               end_date = "2014-01-01")
+               start_date = 2010, 
+               end_date = 2014)
 ```
 
-By default, the return data is in yearly amounts. We can specify monthly, however the API limits each "monthly" query to a five month span.
+By default, the return data is in yearly amounts. We can pass `"monthly"` to arg `freq` to return data in monthly amounts, however the API limits each "monthly" query to a single year.
 ```{r, eval = FALSE}
+# Get all monthly data for a single year (API max of 12 months per call).
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "imports", 
-               start_date = "2012-03-01", 
-               end_date = "2012-07-01", 
+               start_date = 2012, 
+               end_date = 2012, 
+               freq = "monthly")
+
+# Get monthly data for a specific span of months (API max of five months per call).
+q <- ct_search(reporters = "USA", 
+               partners = c("Germany", "France", "Japan", "Mexico"), 
+               trade_direction = "imports", 
+               start_date = "2012-03", 
+               end_date = "2012-07", 
                freq = "monthly")
 ```
 
@@ -140,7 +149,7 @@ The Comtrade API imposes rate limits on both guest users and premium users. `com
 In addition to these rate limits, the API imposes some limits on parameter combinations.
 
 * Between args `reporters`, `partners`, and the query date range, only one of these three may use the catch-all input "All".
-* For the same group of three (`reporters`, `partners`, date range), if the input is not "All", then the maximum number of input values for each is five (for date range, if not using "All", then the `start_date` and `end_date` must at most span five months or five years).
+* For the same group of three (`reporters`, `partners`, date range), if the input is not "All", then the maximum number of input values for each is five. For date range, if not using "All", then the `start_date` and `end_date` must not span more than five months or five years. There is one exception to this rule, if arg `freq` is "monthly", then a single year can be passed to `start_date` and `end_date` and the API will return all of the monthly data for that year.
 * For arg `commod_codes`, if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
 
 Additionally, the maximum number of returned records from a single query without a token is 50,000. With a token, that number is 250,000.
@@ -235,8 +244,8 @@ shrimp_codes <- ct_commodity_lookup("shrimp",
 df <- ct_search(reporters = "Thailand", 
                 partners = "All", 
                 trade_direction = "exports", 
-                start_date = "2007-01-01", 
-                end_date = "2011-01-01", 
+                start_date = 2007, 
+                end_date = 2011, 
                 commod_codes = shrimp_codes)
 
 # Apply polished col headers.

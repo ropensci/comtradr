@@ -81,8 +81,11 @@ Basic rate limit restrictions listed below. For details on how to
    these three may use the catch-all input "All".
  \item For the same group of three ("reporters", "partners", date range),
    if the input is not "All", then the maximum number of input values
-   for each is five (for date range, if not using "all", then the
-   "start_date" and "end_date" must at most span five months or five years).
+   for each is five. For date range, if not using "All", then the
+   "start_date" and "end_date" must not span more than five months or five
+   years. There is one exception to this rule, if arg "freq" is "monthly",
+   then a single year can be passed to "start_date" and "end_date" and the
+   API will return all of the monthly data for that year.
  \item For param "commod_codes", if not using input "All", then the maximum
    number of input values is 20 (although "All" is always a valid input).
  }
@@ -127,8 +130,8 @@ shrimp_codes <- ct_commodity_lookup("shrimp",
 ex_2 <- ct_search(reporters = "Canada",
                   partners = "All",
                   trade_direction = "all",
-                  start_date = "2011",
-                  end_date = "2015",
+                  start_date = 2011,
+                  end_date = 2015,
                   commod_codes = shrimp_codes)
 nrow(ex_2)
 

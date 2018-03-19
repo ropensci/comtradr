@@ -56,8 +56,11 @@
 #'    these three may use the catch-all input "All".
 #'  \item For the same group of three ("reporters", "partners", date range),
 #'    if the input is not "All", then the maximum number of input values
-#'    for each is five (for date range, if not using "all", then the
-#'    "start_date" and "end_date" must at most span five months or five years).
+#'    for each is five. For date range, if not using "All", then the
+#'    "start_date" and "end_date" must not span more than five months or five
+#'    years. There is one exception to this rule, if arg "freq" is "monthly",
+#'    then a single year can be passed to "start_date" and "end_date" and the
+#'    API will return all of the monthly data for that year.
 #'  \item For param "commod_codes", if not using input "All", then the maximum
 #'    number of input values is 20 (although "All" is always a valid input).
 #'  }
@@ -105,8 +108,8 @@
 #' ex_2 <- ct_search(reporters = "Canada",
 #'                   partners = "All",
 #'                   trade_direction = "all",
-#'                   start_date = "2011",
-#'                   end_date = "2015",
+#'                   start_date = 2011,
+#'                   end_date = 2015,
 #'                   commod_codes = shrimp_codes)
 #' nrow(ex_2)
 #'
@@ -199,21 +202,7 @@ ct_search <- function(reporters, partners,
   if (any(c(start_date, end_date) %in% c("all", "All", "ALL"))) {
     date_range <- "all"
   } else {
-    start_date <- as.character(start_date)
-    end_date <- as.character(end_date)
-    if (freq == "M") {
-      date_range <- validate_date_inputs(start_date, end_date, freq)
-      date_range <- seq.Date(date_range$start_date, date_range$end_date,
-                             by = "month") %>%
-        format(format = "%Y%m")
-    } else if (freq == "A") {
-      date_range <- validate_date_inputs(start_date, end_date, freq)
-      date_range <- seq.Date(date_range$start_date, date_range$end_date,
-                             by = "year") %>%
-        format(format = "%Y")
-    }
-
-    date_range <- paste(date_range, collapse = ",")
+    date_range <- get_date_range(start_date, end_date, freq)
   }
 
   ## Transformations to reporters.
@@ -457,41 +446,99 @@ execute_api_request <- function(url) {
 }
 
 
-#' Validate date input args
+#' Get Date Range
 #'
-#' @return List of validated and transformed dates (start date and end date).
+#' @return Date range as a single string, comma sep.
 #' @noRd
-validate_date_inputs <- function(start_date, end_date, freq) {
+get_date_range <- function(start_date, end_date, freq) {
+  start_date <- as.character(start_date)
+  end_date <- as.character(end_date)
+
   if (freq == "A") {
-    # For annual date ranges.
-    s_date <- as.Date(start_date, format = "%Y-%m-%d")
-    if (is.na(s_date)) {
-      s_date <- as.Date(paste0(start_date, "-01-01"), format = "%Y-%m-%d")
-    }
-    e_date <- as.Date(end_date, format = "%Y-%m-%d")
-    if (is.na(e_date)) {
-      e_date <- as.Date(paste0(end_date, "-01-01"), format = "%Y-%m-%d")
-    }
-    if (any(is.na(s_date), is.na(e_date))) {
-      stop("if 'freq' is 'annual', args 'start_date' & 'end_date' must",
-           " either be 'all' or be strings that have format 'yyyy-mm-dd' or",
-           " 'yyyy'", call. = FALSE)
-    }
+    # Date range when freq is "annual" (date range by year).
+    start_date <- convert_to_date(start_date)
+    end_date <- convert_to_date(end_date)
+    date_range <- seq.Date(start_date, end_date, by = "year") %>%
+      format(format = "%Y")
   } else if (freq == "M") {
-    # For monthly date ranges.
-    s_date <- as.Date(start_date, format = "%Y-%m-%d")
-    if (is.na(s_date)) {
-      s_date <- as.Date(paste0(start_date, "-01"), format = "%Y-%m-%d")
-    }
-    e_date <- as.Date(end_date, format = "%Y-%m-%d")
-    if (is.na(e_date)) {
-      e_date <- as.Date(paste0(end_date, "-01"), format = "%Y-%m-%d")
-    }
-    if (any(is.na(s_date), is.na(e_date))) {
-      stop("if 'freq' is 'monthly', args 'start_date' & 'end_date' must",
-           " either be 'all' or be strings that have format 'yyyy-mm-dd' or",
-           " 'yyyy-mm'", call. = FALSE)
+    # Date range when freq is "monthly".
+    sd_year <- is_year(start_date)
+    ed_year <- is_year(end_date)
+    if (sd_year && ed_year) {
+      # If start_date and end_date are both years ("yyyy") and are identical,
+      # return the single year as the date range.
+      if (identical(start_date, end_date)) {
+        return(start_date)
+      } else {
+        stop("Cannot get more than a single year's worth of monthly data ",
+             "in a single query", call. = FALSE)
+      }
+    } else if (!sd_year && !ed_year) {
+      # If neither start_date nor end_date are years, get date range by month.
+      start_date <- convert_to_date(start_date)
+      end_date <- convert_to_date(end_date)
+      date_range <- seq.Date(start_date, end_date, by = "month") %>%
+        format(format = "%Y%m")
+    } else {
+      # Between start_date and end_date, if one is a year and the other isn't,
+      # throw an error.
+      stop("If arg 'freq' is 'monhtly', 'start_date' and 'end_date' must ",
+           "have the same format", call. = FALSE)
     }
   }
-  return(list("start_date" = s_date, "end_date" = e_date))
+
+  # If the derived date range is longer than five elements, throw an error.
+  if (length(date_range) > 5) {
+    stop("If specifying years/months, cannot search more than five ",
+         "consecutive years/months in a single query", call. = FALSE)
+  }
+
+  return(paste(date_range, collapse = ","))
+}
+
+
+#' Given a numeric or character date, convert to an object with class "Date".
+#'
+#' @return Object of class "Date" (using base::as.Date()).
+#' @noRd
+convert_to_date <- function(date_obj) {
+  # Convert to char.
+  #date_obj <- as.character(date_obj)
+  # Convert to Date.
+  if (is_year(date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01-01"), format = "%Y-%m-%d")
+  } else if (is_year_month(date_obj)) {
+    date_obj <- as.Date(paste0(date_obj, "-01"), format = "%Y-%m-%d")
+  } else {
+    date_obj <- as.Date(date_obj, format = "%Y-%m-%d")
+  }
+  # If conversion to Date failed, throw error.
+  if (is.na(date_obj)) {
+    stop(sprintf(
+      paste("arg '%s' must be a date with one of these formats:\n",
+            "int: yyyy\n",
+            "char: 'yyyy'\n",
+            "char: 'yyyy-mm'\n",
+            "char: 'yyyy-mm-dd'"),
+      deparse(substitute(date_obj))
+    ), call. = FALSE)
+  }
+
+  date_obj
+}
+
+
+#' Is input a year string or not.
+#'
+#' @noRd
+is_year <- function(x) {
+  grepl("^\\d{4}$", x)
+}
+
+
+#' Is input a year-month string or not.
+#'
+#' @noRd
+is_year_month <- function(x) {
+  grepl("^\\d{4}-\\d{2}", x)
 }
