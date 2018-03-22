@@ -1,8 +1,23 @@
 Package: comtradr
 Title: Interface with the United Nations Comtrade API
 Version: 0.1.0.9000
-Authors@R: person("Chris", "Muir", email = "chrismuirRVA@gmail.com", role = c("aut", "cre"))
-Description: Interface with and extract data from the United Nations Comtrade API <https://comtrade.un.org/data/>. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame.
+Authors@R: c(person("Chris", "Muir", 
+              email = "chrismuirRVA@gmail.com", 
+              role = c("aut", "cre")), 
+            person("Alicia", "Schep", 
+                  role = "rev", 
+                  comment = c(ORCID = "0000-0002-3915-0618", 
+                              "Alicia reviewed the package for rOpenSci, 
+                              see https://github.com/ropensci/onboarding/issues/141")), 
+            person("Rafael", "Hellwig", 
+                  role = "rev", 
+                  comment = c(ORCID = "0000-0002-3092-3493", 
+                              "Rafael reviewed the package for rOpenSci, 
+                              see https://github.com/ropensci/onboarding/issues/141")))
+Description: Interface with and extract data from the United Nations Comtrade 
+  API <https://comtrade.un.org/data/>. Comtrade provides country level shipping 
+  data for a variety of commodities, these functions allow for easy API query 
+  and data returned as a tidy data frame.
 Depends: R (>= 3.0.0)
 License: GPL-3
 Encoding: UTF-8
@@ -13,7 +28,7 @@ Imports:
         magrittr (>= 1.5), 
         methods, 
         purrr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 URL: https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
