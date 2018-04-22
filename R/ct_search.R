@@ -174,7 +174,8 @@ ct_search <- function(reporters, partners,
   }
 
   ## Get the commodity code scheme type to use.
-  code_type <- ct_commodity_db_type()
+  code_type <- ct_commodity_db_type() %>%
+    commodity_type_switch
 
   ## Transformations to type.
   type <- match.arg(type)

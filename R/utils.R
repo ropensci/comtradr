@@ -85,3 +85,28 @@ missing_file_msg <- function(type) {
          type, " database from Comtrade, run:\n",
          "ct_update_databases(force = TRUE)")
 }
+
+
+#' Switch for getting the proper commodity type string, used when constructing
+#' the api call url in function ct_search
+#'
+#' @noRd
+commodity_type_switch <- function(commodity_type) {
+  dict <- c(
+    "HS" = "HS",
+    "HS1992" = "H0",
+    "HS1996" = "H1",
+    "HS2002" = "H2",
+    "HS2007" = "H3",
+    "HS2012" = "H4",
+    "HS2017" = "H5",
+    "SITC" = "ST",
+    "SITCrev1" = "S1",
+    "SITCrev2" = "S2",
+    "SITCrev3" = "S3",
+    "SITCrev4" = "S4",
+    "BEC" = "BEC"
+  )
+
+  dict[commodity_type]
+}

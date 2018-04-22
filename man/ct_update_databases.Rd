@@ -6,8 +6,8 @@
 \usage{
 ct_update_databases(force = FALSE, verbose = TRUE,
   commodity_type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007", "HS2012",
-  "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4", "BEC", "EB02"),
-  commodity_url = NULL, reporter_url = NULL, partner_url = NULL)
+  "HS2017", "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4", "BEC",
+  "EB02"), commodity_url = NULL, reporter_url = NULL, partner_url = NULL)
 }
 \arguments{
 \item{force}{logical, if TRUE, both the country and commodity databases
@@ -71,6 +71,7 @@ The default for arg \code{commodity_type} is \code{HS}. Below is a
  \item \code{HS2002}: HS 2002
  \item \code{HS2007}: HS 2007
  \item \code{HS2012}: HS 2012
+ \item \code{HS2017}: HS 2017
  \item \code{SITC}: Standard International Trade Classification (SITC), as
    reported
  \item \code{SITCrev1}: SITC Revision 1

@@ -51,6 +51,7 @@
 #'  \item \code{HS2002}: HS 2002
 #'  \item \code{HS2007}: HS 2007
 #'  \item \code{HS2012}: HS 2012
+#'  \item \code{HS2017}: HS 2017
 #'  \item \code{SITC}: Standard International Trade Classification (SITC), as
 #'    reported
 #'  \item \code{SITCrev1}: SITC Revision 1
@@ -71,7 +72,7 @@
 ct_update_databases <- function(force = FALSE, verbose = TRUE,
                                 commodity_type = c("HS", "HS1992", "HS1996",
                                                    "HS2002", "HS2007",
-                                                   "HS2012", "SITC",
+                                                   "HS2012", "HS2017", "SITC",
                                                    "SITCrev1", "SITCrev2",
                                                    "SITCrev3", "SITCrev4",
                                                    "BEC", "EB02"),
@@ -118,6 +119,8 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
     commodity_url <- paste0(commodity_url, "classificationH3.json")
   } else if (commodity_type == "HS2012") {
     commodity_url <- paste0(commodity_url, "classificationH4.json")
+  } else if (commodity_type == "HS2017") {
+    commodity_url <- paste0(commodity_url, "classificationH5.json")
   } else if (commodity_type == "SITC") {
     commodity_url <- paste0(commodity_url, "classificationST.json")
   } else if (commodity_type == "SITCrev1") {
