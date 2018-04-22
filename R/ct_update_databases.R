@@ -266,4 +266,6 @@ ct_update_databases <- function(force = FALSE, verbose = TRUE,
   if (verbose) {
     message(msg)
   }
+
+  return(invisible())
 }
