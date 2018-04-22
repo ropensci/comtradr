@@ -229,7 +229,7 @@ ct_search <- function(reporters, partners,
     country_df[country_df$country_name == x &
                    country_df$reporter == TRUE, ]$code
   }) %>%
-    paste(collapse = ",")
+    paste(collapse = "%2C")
 
   ## Transformations to partners.
   if (any(partners %in% c("all", "All", "ALL"))) {
@@ -254,7 +254,7 @@ ct_search <- function(reporters, partners,
     country_df[country_df$country_name == x &
                    country_df$partner == TRUE, ]$code
   }) %>%
-    paste(collapse = ",")
+    paste(collapse = "%2C")
 
   ## Transformations to trade_direction.
   if (any(tolower(trade_direction) == "all")) {
@@ -271,7 +271,7 @@ ct_search <- function(reporters, partners,
       if (length(rg) == 0) {
         rg <- "2"
       } else {
-        rg <- paste(rg, "2", sep = ",")
+        rg <- paste(rg, "2", sep = "%2C")
       }
     }
 
@@ -279,7 +279,7 @@ ct_search <- function(reporters, partners,
       if (length(rg) == 0) {
         rg <- "3"
       } else {
-        rg <- paste(rg, "3", sep = ",")
+        rg <- paste(rg, "3", sep = "%2C")
       }
     }
 
@@ -287,7 +287,7 @@ ct_search <- function(reporters, partners,
       if (length(rg) == 0) {
         rg <- "4"
       } else {
-        rg <- paste(rg, "4", sep = ",")
+        rg <- paste(rg, "4", sep = "%2C")
       }
     }
 
@@ -310,7 +310,7 @@ ct_search <- function(reporters, partners,
     stop(paste("arg 'commod_codes' must be 'all' or a char vector of",
                "commodity codes, length 20 or fewer"), call. = FALSE)
   } else if (length(commod_codes) > 1) {
-    commod_codes <- paste(commod_codes, collapse = ",")
+    commod_codes <- paste(commod_codes, collapse = "%2C")
   }
 
   ## Get max_rec. If arg value is set to NULL, then max_rec is determined by
@@ -494,7 +494,7 @@ get_date_range <- function(start_date, end_date, freq) {
          "consecutive years/months in a single query", call. = FALSE)
   }
 
-  return(paste(date_range, collapse = ","))
+  return(paste(date_range, collapse = "%2C"))
 }
 
 

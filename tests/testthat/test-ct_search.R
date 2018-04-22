@@ -202,8 +202,9 @@ test_that("different date inputs produce correct date ranges", {
   # Tests with "freq" is "annual".
   expect_equal(get_date_range("2016", "2016", "A"), "2016")
   expect_equal(get_date_range("2016-01-01", 2016, "A"), "2016")
-  expect_equal(get_date_range("2013", "2016", "A"), "2013,2014,2015,2016")
-  expect_equal(get_date_range(2010, 2012, "A"), "2010,2011,2012")
+  expect_equal(get_date_range("2013", "2016", "A"),
+               "2013%2C2014%2C2015%2C2016")
+  expect_equal(get_date_range(2010, 2012, "A"), "2010%2C2011%2C2012")
   expect_error(
     get_date_range("2008", "2016", "A"),
     regexp = "cannot search more than five consecutive years/months"
@@ -211,7 +212,7 @@ test_that("different date inputs produce correct date ranges", {
 
   # Tests with "freq" as "monthly".
   expect_equal(get_date_range("2016-01-01", "2016-05", "M"),
-               "201601,201602,201603,201604,201605")
+               "201601%2C201602%2C201603%2C201604%2C201605")
   expect_equal(get_date_range(2016, 2016, "M"), "2016")
   expect_error(get_date_range("2013", "2016", "M"),
                regexp = "Cannot get more than a single year's worth")
