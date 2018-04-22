@@ -384,7 +384,7 @@ execute_api_request <- function(url) {
   if (httr::status_code(res) != 200) {
     stop(
       sprintf(
-        "Comtrade API request failed, with status code [%s]\n%s",
+        "Comtrade API request failed, with status code [%s]",
         httr::status_code(res)
       ), call. = FALSE
     )
