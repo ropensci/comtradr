@@ -51,7 +51,31 @@ ct_get_reset_time <- function() {
 #' }
 ct_register_token <- function(token) {
   # input validation.
-  stopifnot(is.character(token))
+  stopifnot(is.character(token) || is.null(token))
+
+  # Get number of queries left for the current hour.
+  queries_this_hour <- get("queries_this_hour", envir = ct_env)
+
+  # If token is NULL, reset all options to pkg load defaults.
+  if (is.null(token)) {
+    ct_options <- list(
+      comtrade = list(
+        token = NULL,
+        account_type = "standard",
+        per_hour_limit = 100,
+        per_second_limit = 1
+      )
+    )
+    class(ct_options) <- "comtradr_credentials"
+    options(comtradr = ct_options)
+
+    # Reset "queries_this_hour" to 100 if it's currently greater than 100.
+    if (queries_this_hour > 100) {
+      assign("queries_this_hour", 100, envir = ct_env)
+    }
+
+    return(invisible())
+  }
 
   # Set token within options.
   ct_options <- getOption("comtradr")
@@ -63,7 +87,6 @@ ct_register_token <- function(token) {
 
   # Change the hourly limit within the env ct_env. Subtract the number of
   # queries already performed this hour from the update value.
-  queries_this_hour <- get("queries_this_hour", envir = ct_env)
   curr_account_type <- getOption("comtradr")$comtrade$account_type
   if (curr_account_type == "standard") {
     new_hr_limit <- 10000 - (100 - queries_this_hour)
@@ -71,4 +94,6 @@ ct_register_token <- function(token) {
     new_hr_limit <- 10000 - (10000 - queries_this_hour)
   }
   assign("queries_this_hour", new_hr_limit, envir = ct_env)
+
+  return(invisible())
 }
