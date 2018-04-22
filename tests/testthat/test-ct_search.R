@@ -189,11 +189,12 @@ test_that("throw error when hourly query limit is at zero", {
 
 test_that("throw error with invalid input to arg 'start_date' & 'end_date'", {
   expect_error(ct_search(reporters = "Canada",
-                         partners = "Germany",
-                         trade_direction = "imports",
-                         freq = "monthly",
-                         start_date = "1/1/2011",
-                         end_date = "5/1/2011"))
+               partners = "Germany",
+               trade_direction = "imports",
+               freq = "monthly",
+               start_date = "1/1/2011",
+               end_date = "5/1/2011"),
+  regexp = "arg 'start_date' must be a date with one of these formats:")
 })
 
 

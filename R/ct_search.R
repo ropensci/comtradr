@@ -503,8 +503,8 @@ get_date_range <- function(start_date, end_date, freq) {
 #' @return Object of class "Date" (using base::as.Date()).
 #' @noRd
 convert_to_date <- function(date_obj) {
-  # Convert to char.
-  #date_obj <- as.character(date_obj)
+  # Capture arg name from ct_search().
+  arg_name <- deparse(substitute(date_obj))
   # Convert to Date.
   if (is_year(date_obj)) {
     date_obj <- as.Date(paste0(date_obj, "-01-01"), format = "%Y-%m-%d")
@@ -521,7 +521,7 @@ convert_to_date <- function(date_obj) {
             "char: 'yyyy'\n",
             "char: 'yyyy-mm'\n",
             "char: 'yyyy-mm-dd'"),
-      deparse(substitute(date_obj))
+      arg_name
     ), call. = FALSE)
   }
 
