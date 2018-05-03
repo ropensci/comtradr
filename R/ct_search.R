@@ -382,10 +382,15 @@ execute_api_request <- function(url) {
 
   # Check status code of res (if not 200, throw an error).
   if (httr::status_code(res) != 200) {
+    raw_data <- res %>%
+      httr::content("text", encoding = "UTF-8") %>%
+      jsonlite::fromJSON(simplifyDataFrame = TRUE)
+    print(httr::status_code(res))
     stop(
       sprintf(
-        "Comtrade API request failed, with status code [%s]",
-        httr::status_code(res)
+        #"Comtrade API request failed, with status code [%s]",
+        #httr::status_code(res)
+        "msg: %s", raw_data$validation$message
       ), call. = FALSE
     )
   }
