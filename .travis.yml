@@ -13,6 +13,8 @@ r_packages:
   - digest
   - htmltools
   - purrr
+  - rlang
+  - tibble
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
