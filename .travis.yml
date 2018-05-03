@@ -10,6 +10,7 @@ os:
 
 r_packages:
   - covr
+  - digest
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
