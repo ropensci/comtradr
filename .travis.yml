@@ -21,10 +21,8 @@ addons:
     packages:
       - libssl1.0.0
 
-env:
-  global:
-    - R_CHECK_ARGS="--as-cran --no-build-vignettes --no-manual"
-    - R_BUILD_ARGS="--no-manual --no-build-vignettes"
+r_build_args: --no-build-vignettes --no-manual
+r_check_args: --as-cran --no-build-vignettes --no-manual
 
 latex: false
 
