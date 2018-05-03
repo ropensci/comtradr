@@ -12,6 +12,7 @@ r_packages:
   - covr
   - digest
   - htmltools
+  - purrr
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
