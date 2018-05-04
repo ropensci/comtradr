@@ -35,5 +35,7 @@ NeedsCompilation: no
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2,
+    dplyr
 VignetteBuilder: knitr

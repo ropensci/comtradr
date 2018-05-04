@@ -107,3 +107,74 @@ q <- ct_use_pretty_cols(q)
 # Print new column headers.
 colnames(q)
 
+## ---- warning = FALSE, message = FALSE-----------------------------------
+library(ggplot2)
+
+# Comtrade api query.
+df <- ct_search(reporters = "China", 
+                partners = c("Rep. of Korea", "USA", "Mexico"), 
+                trade_direction = "exports")
+
+# Apply polished col headers.
+df <- ct_use_pretty_cols(df)
+
+# Create plot.
+ggplot(df, aes(Year, `Trade Value usd`, color = factor(`Partner Country`), 
+               shape = factor(`Partner Country`))) +
+  geom_point(size = 2) +
+  geom_line(size = 1) +
+  scale_x_continuous(limits = c(min(df$Year), max(df$Year)), 
+                     breaks = seq.int(min(df$Year), max(df$Year), 2)) +
+  scale_color_manual(values = c("orange", "blue", "red"), 
+                     name = "Destination\nCountry") +
+  scale_shape_discrete(name = "Destination\nCountry") +
+  labs(title = "Total Value (USD) of Chinese Exports, by Year") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+## ---- warning = FALSE, message = FALSE-----------------------------------
+library(ggplot2)
+library(dplyr)
+
+# First, collect commodity codes related to shrimp.
+shrimp_codes <- ct_commodity_lookup("shrimp", 
+                                    return_code = TRUE, 
+                                    return_char = TRUE)
+
+# Comtrade api query.
+df <- ct_search(reporters = "Thailand", 
+                partners = "All", 
+                trade_direction = "exports", 
+                start_date = 2007, 
+                end_date = 2011, 
+                commod_codes = shrimp_codes)
+
+# Apply polished col headers.
+df <- ct_use_pretty_cols(df)
+
+# Create country specific "total weight per year" dataframe for plotting.
+plotdf <- df %>% 
+  group_by_(.dots = c("`Partner Country`", "Year")) %>% 
+  summarise(kg = as.numeric(sum(`Net Weight kg`, na.rm = TRUE))) %>% 
+  as_data_frame()
+
+# Get vector of the top 8 destination countries/areas by total weight shipped 
+# across all years, then subset plotdf to only include observations related 
+# to those countries/areas.
+top8 <- plotdf %>% 
+  group_by(`Partner Country`) %>% 
+  summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) %>% 
+  top_n(8, kg) %>%
+  arrange(desc(kg)) %>% 
+  .[["Partner Country"]]
+plotdf <- plotdf %>% filter(`Partner Country` %in% top8)
+
+# Create plots (y-axis is NOT fixed across panels, this will allow us to ID 
+# trends over time within each country/area individually).
+qplot(Year, kg, data = plotdf) + 
+  geom_line(data = plotdf[plotdf$`Partner Country` %in% names(which(table(plotdf$`Partner Country`) > 1)), ]) + 
+  xlim(min(plotdf$Year), max(plotdf$Year)) + 
+  labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), 
+        axis.text = element_text(size = 7)) + 
+  facet_wrap(~factor(`Partner Country`, levels = top8), scales = "free", nrow = 2, ncol = 4)
+
