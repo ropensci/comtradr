@@ -6,3 +6,4 @@
 ^TODO\.md$
 ^CONDUCT\.md$
 ^appveyor\.yml$
+^revdep$
