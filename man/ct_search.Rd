@@ -98,7 +98,7 @@ Basic rate limit restrictions listed below. For details on how to
  \item req_duration: total duration of the API call, in seconds.
  }
 
- For args \code{start_date} and \code{end_date}, if inputing a date (as
+ For args \code{start_date} and \code{end_date}, if inputting a date (as
  opposed to the catch-all input "all"), valid input format is dependent on
  the input passed to arg \code{freq}. If \code{freq} is "annual",
  \code{start_date} and \code{end_date} must be either a string w/ format

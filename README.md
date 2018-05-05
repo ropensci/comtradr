@@ -90,9 +90,9 @@ str(example1)
 #>  $ cif_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
-#>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=all&r=156&p=410,842,484&rg=2&cc=TOTAL&fmt=json&head=H"
-#>  - attr(*, "time_stamp")= POSIXct, format: "2018-03-18 13:20:03"
-#>  - attr(*, "req_duration")= num 1.12
+#>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=all&r=156&p=410%2C842%2C484&rg=2&cc=TOTAL&fmt=json&head=H"
+#>  - attr(*, "time_stamp")= POSIXct, format: "2018-05-04 20:03:23"
+#>  - attr(*, "req_duration")= num 1.02
 ```
 
 **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
@@ -150,9 +150,9 @@ str(example2)
 #>  $ cif_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ fob_trade_value_usd   : logi  NA NA NA NA NA NA ...
 #>  $ flag                  : int  0 0 0 0 0 0 0 0 0 0 ...
-#>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2007,2008,2009,2010,2011&r=764&p=all&rg=2&cc=0"| __truncated__
-#>  - attr(*, "time_stamp")= POSIXct, format: "2018-03-18 13:20:07"
-#>  - attr(*, "req_duration")= num 3.14
+#>  - attr(*, "url")= chr "https://comtrade.un.org/api/get?max=50000&type=C&freq=A&px=HS&ps=2007%2C2008%2C2009%2C2010%2C2011&r=764&p=all&r"| __truncated__
+#>  - attr(*, "time_stamp")= POSIXct, format: "2018-05-04 20:03:26"
+#>  - attr(*, "req_duration")= num 3.19
 ```
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

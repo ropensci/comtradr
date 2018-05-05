@@ -73,7 +73,7 @@
 #'  \item req_duration: total duration of the API call, in seconds.
 #'  }
 #'
-#'  For args \code{start_date} and \code{end_date}, if inputing a date (as
+#'  For args \code{start_date} and \code{end_date}, if inputting a date (as
 #'  opposed to the catch-all input "all"), valid input format is dependent on
 #'  the input passed to arg \code{freq}. If \code{freq} is "annual",
 #'  \code{start_date} and \code{end_date} must be either a string w/ format
@@ -483,7 +483,7 @@ get_date_range <- function(start_date, end_date, freq) {
     } else {
       # Between start_date and end_date, if one is a year and the other isn't,
       # throw an error.
-      stop("If arg 'freq' is 'monhtly', 'start_date' and 'end_date' must ",
+      stop("If arg 'freq' is 'monthly', 'start_date' and 'end_date' must ",
            "have the same format", call. = FALSE)
     }
   }
