@@ -1,4 +1,4 @@
-comtradr 0.2.0
+comtradr 0.2.1
 ====================
 
 ## NEW FEATURES

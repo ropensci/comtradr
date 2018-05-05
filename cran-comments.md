@@ -1,3 +1,6 @@
+## Resubmission
+This is a resubmission, after the initial submission failed the automated checks. The failure reasons were due to API calls in the vignette script that had connection issues and/or timed out. To resolve these issues, I have included internal package data objects that are loaded in the vignette script to replace the API calls.
+
 ## Test environments
 * Ubuntu 14.04.5 LTS (on travis-ci), R 3.5.0
 * OSX 10.12.6 (on travis-ci), R 3.5.0
