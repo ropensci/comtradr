@@ -80,6 +80,8 @@ test_that(msg, {
 
 
 test_that("correct api vals given: type == 'services'", {
+  skip_on_cran()
+
   vals <- ct_search(reporters = "USA",
                     partners = "World",
                     freq = "annual",
