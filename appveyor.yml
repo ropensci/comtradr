@@ -19,6 +19,7 @@ environment:
   matrix:
   - R_VERSION: devel
     PKGTYPE: source
+    USE_RTOOLS: true
 
   - R_VERSION: release
 
