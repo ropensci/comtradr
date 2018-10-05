@@ -1,3 +1,8 @@
+comtradr 0.2.2
+====================
+
+* Remove unused dependency `methods` from `Imports`.
+
 comtradr 0.2.1
 ====================
 

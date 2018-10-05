@@ -5,27 +5,27 @@
 |setting  |value                        |
 |:--------|:----------------------------|
 |version  |R version 3.5.0 (2018-04-23) |
-|system   |x86_64, mingw32              |
+|system   |x86_64, darwin15.6.0         |
 |ui       |RStudio (1.1.383)            |
 |language |(EN)                         |
-|collate  |English_United States.1252   |
-|tz       |America/Chicago              |
-|date     |2018-05-04                   |
+|collate  |en_US.UTF-8                  |
+|tz       |America/New_York             |
+|date     |2018-10-04                   |
 
 ## Packages
 
-|package   |*  |version |date       |source                            |
-|:---------|:--|:-------|:----------|:---------------------------------|
-|comtradr  |   |0.2.0   |2018-05-04 |local (ropensci/comtradr@036201e) |
-|dplyr     |   |0.7.4   |2017-09-28 |CRAN (R 3.5.0)                    |
-|ggplot2   |   |2.2.1   |2016-12-30 |CRAN (R 3.5.0)                    |
-|httr      |   |1.3.1   |2017-08-20 |CRAN (R 3.5.0)                    |
-|jsonlite  |   |1.5     |2017-06-01 |CRAN (R 3.5.0)                    |
-|knitr     |   |1.20    |2018-02-20 |CRAN (R 3.5.0)                    |
-|magrittr  |   |1.5     |2014-11-22 |CRAN (R 3.5.0)                    |
-|purrr     |   |0.2.4   |2017-10-18 |CRAN (R 3.5.0)                    |
-|rmarkdown |   |1.9     |2018-03-01 |CRAN (R 3.5.0)                    |
-|testthat  |   |2.0.0   |2017-12-13 |CRAN (R 3.5.0)                    |
+|package   |*  |version |date       |source        |
+|:---------|:--|:-------|:----------|:-------------|
+|comtradr  |*  |0.2.1   |2018-05-05 |cran (@0.2.1) |
+|dplyr     |   |0.7.6   |2018-06-29 |cran (@0.7.6) |
+|ggplot2   |   |3.0.0   |2018-07-03 |cran (@3.0.0) |
+|httr      |   |1.3.1   |2017-08-20 |cran (@1.3.1) |
+|jsonlite  |   |1.5     |2017-06-01 |cran (@1.5)   |
+|knitr     |   |1.20    |2018-02-20 |cran (@1.20)  |
+|magrittr  |   |1.5     |2014-11-22 |cran (@1.5)   |
+|purrr     |   |0.2.5   |2018-05-29 |cran (@0.2.5) |
+|rmarkdown |   |1.10    |2018-06-11 |cran (@1.10)  |
+|testthat  |   |2.0.0   |2017-12-13 |cran (@2.0.0) |
 
 # Check results
 
