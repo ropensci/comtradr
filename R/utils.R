@@ -1,22 +1,3 @@
-#' Get rate limit values
-#'
-#' Return the values of pkg env ct_env related to rate limit as a list.
-#'
-#' @return list containing current rate limit info.
-#' @noRd
-get_cache_values <- function() {
-  last_query <- get("last_query", envir = ct_env)
-  if (is.null(last_query)) {
-    last_query <- Sys.time()
-  }
-  list(
-    last_query = last_query,
-    next_hour_reset = get("next_hour_reset", envir = ct_env),
-    queries_this_hour = get("queries_this_hour", envir = ct_env)
-  )
-}
-
-
 #' Get commodity database
 #'
 #' Helper function that attempts to return the commodity DB as a data frame.

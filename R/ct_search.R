@@ -143,10 +143,6 @@ ct_search <- function(reporters, partners,
                "of these may be 'all'"), call. = FALSE)
   }
 
-  # Fetch current values within ct_env (these values help manage
-  # throttling of API queries).
-  cache_vals <- get_cache_values()
-
   # If last api query was less than 2 seconds ago, delay code by 2 seconds.
   if (Sys.time() < get("last_query", envir = ct_env) + 2) {
     Sys.sleep(2)
