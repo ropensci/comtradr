@@ -4,7 +4,12 @@
 \alias{ct_get_reset_time}
 \title{Comtradr rate limit time check}
 \usage{
-ct_get_reset_time()
+ct_get_reset_time(set = NULL)
+}
+\arguments{
+\item{set}{logical, if \code{TRUE} and the current reset time is
+\code{NULL}, set the reset time to be one hour from the current
+\code{Sys.time}.}
 }
 \value{
 date and time in which the hourly query limit will reset. Return is

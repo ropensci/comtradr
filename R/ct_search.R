@@ -148,8 +148,19 @@ ct_search <- function(reporters, partners,
   cache_vals <- get_cache_values()
 
   # If last api query was less than 2 seconds ago, delay code by 2 seconds.
-  if (Sys.time() < cache_vals$last_query + 2) {
+  if (Sys.time() < get("last_query", envir = ct_env) + 2) {
     Sys.sleep(2)
+  }
+
+  # If the hourly time limit has past, reset the hourly time limt and hourly
+  # query count.
+  reset_time <- ct_get_reset_time(set = TRUE)
+
+  # Check to make sure the hourly query limit hasn't been reached.
+  if (ct_get_remaining_hourly_queries() == 0) {
+    msg <- paste("over the hourly limit. hour resets at",
+                 reset_time)
+    stop(msg, call. = FALSE)
   }
 
   # Fetch current value of user token, to see if an auth token has been
@@ -159,19 +170,6 @@ ct_search <- function(reporters, partners,
   # Fetch the country database from ct_env.
   country_df <- get_country_db()
 
-  # Check to see if the current one hour time limit needs to be reset. If
-  # current value is NULL, initialize the cache value with the current time.
-  if (is.null(cache_vals$next_hour_reset) ||
-      Sys.time() > ct_get_reset_time()) {
-    assign("next_hour_reset", Sys.time(), envir = ct_env)
-  }
-
-  # Check to make sure the hourly query limit hasn't been reached.
-  if (cache_vals$queries_this_hour == 0) {
-    msg <- paste("over the hourly limit. hour resets at",
-                 ct_get_reset_time())
-    stop(msg, call. = FALSE)
-  }
 
   ## Get the commodity code scheme type to use.
   code_type <- ct_commodity_db_type() %>%
@@ -355,7 +353,7 @@ ct_search <- function(reporters, partners,
   res <- execute_api_request(url)
 
   # Edit cache variable "queries_this_hour" to be one less.
-  assign("queries_this_hour", (cache_vals$queries_this_hour - 1),
+  assign("queries_this_hour", (ct_get_remaining_hourly_queries() - 1),
          envir = ct_env)
 
   # Assign metadata attributes to obj "res".
