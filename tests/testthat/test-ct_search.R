@@ -176,7 +176,7 @@ test_that("throw error with more than 20 commodity codes", {
 
 test_that("throw error when hourly query limit is at zero", {
   # Get current rate limit values.
-  cache_vals <- get_cache_values()
+  queries <- ct_get_remaining_hourly_queries()
 
   # Assign the hourly limit value to be 0.
   assign("queries_this_hour", 0, envir = ct_env)
@@ -185,7 +185,7 @@ test_that("throw error when hourly query limit is at zero", {
                          partners = "Germany"))
 
   # Set the rate limit value back to what it was previously.
-  assign("queries_this_hour", cache_vals$queries_this_hour, envir = ct_env)
+  assign("queries_this_hour", queries, envir = ct_env)
 })
 
 
