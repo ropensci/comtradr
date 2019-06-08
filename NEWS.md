@@ -1,3 +1,11 @@
+comtradr 0.2.2.09000
+====================
+
+## BUG FIXES
+
+* Passing an API token string to `ct_register_token()` now properly bumps the hourly rate limit up to 10,000
+([#21](https://github.com/ropensci/comtradr/issues/21)).
+
 comtradr 0.2.2
 ====================
 

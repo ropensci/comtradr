@@ -111,6 +111,9 @@ ct_register_token <- function(token) {
     return(invisible())
   }
 
+  # Get the current account type.
+  curr_account_type <- getOption("comtradr")$comtrade$account_type
+
   # Set token within options.
   ct_options <- getOption("comtradr")
   ct_options$comtrade$token <- token
@@ -121,11 +124,10 @@ ct_register_token <- function(token) {
 
   # Change the hourly limit within the env ct_env. Subtract the number of
   # queries already performed this hour from the update value.
-  curr_account_type <- getOption("comtradr")$comtrade$account_type
   if (curr_account_type == "standard") {
     new_hr_limit <- 10000 - (100 - queries_this_hour)
   } else if (curr_account_type == "premium") {
-    new_hr_limit <- 10000 - (10000 - queries_this_hour)
+    new_hr_limit <- queries_this_hour
   }
   assign("queries_this_hour", new_hr_limit, envir = ct_env)
 
