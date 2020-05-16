@@ -3,7 +3,6 @@
 \docType{package}
 \name{comtradr}
 \alias{comtradr}
-\alias{comtradr-package}
 \title{Interface to the United Nations Comtrade API}
 \description{
 Interface with and extract data from the United Nations

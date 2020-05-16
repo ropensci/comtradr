@@ -4,8 +4,14 @@
 \alias{ct_commodity_lookup}
 \title{UN Comtrade commodities database query}
 \usage{
-ct_commodity_lookup(search_terms, return_code = FALSE,
-  return_char = FALSE, verbose = TRUE, ignore.case = TRUE, ...)
+ct_commodity_lookup(
+  search_terms,
+  return_code = FALSE,
+  return_char = FALSE,
+  verbose = TRUE,
+  ignore.case = TRUE,
+  ...
+)
 }
 \arguments{
 \item{search_terms}{Commodity names or commodity codes, as a char or numeric

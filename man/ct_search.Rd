@@ -4,11 +4,18 @@
 \alias{ct_search}
 \title{Get UN Comtrade data}
 \usage{
-ct_search(reporters, partners, trade_direction = c("all", "imports",
-  "exports", "re_imports", "re_exports"), freq = c("annual", "monthly"),
-  start_date = "all", end_date = "all", commod_codes = "TOTAL",
-  max_rec = NULL, type = c("goods", "services"),
-  url = "https://comtrade.un.org/api/get?")
+ct_search(
+  reporters,
+  partners,
+  trade_direction = c("all", "imports", "exports", "re_imports", "re_exports"),
+  freq = c("annual", "monthly"),
+  start_date = "all",
+  end_date = "all",
+  commod_codes = "TOTAL",
+  max_rec = NULL,
+  type = c("goods", "services"),
+  url = "https://comtrade.un.org/api/get?"
+)
 }
 \arguments{
 \item{reporters}{Country(s) of interest, as a character vector. Can either

@@ -290,6 +290,10 @@ ct_search <- function(reporters, partners,
 
   ## Transformations to commod_codes.
   stopifnot(is.character(commod_codes))
+  if (!codes_as_ints(commod_codes)) {
+    stop("arg 'commod_codes' must be either 'TOTAL', or 'ALL', or a char ",
+         "vector of codes that can be cast as integers", call. = FALSE)
+  }
   if (any(tolower(commod_codes) == "total")) {
     if (code_type != "EB02") {
       commod_codes <- "TOTAL"
@@ -301,8 +305,7 @@ ct_search <- function(reporters, partners,
   } else if (any(tolower(commod_codes) == "all")) {
     commod_codes <- "ALL"
   } else if (length(commod_codes) > 20) {
-    stop(paste("arg 'commod_codes' must be 'all' or a char vector of",
-               "commodity codes, length 20 or fewer"), call. = FALSE)
+    stop(paste("arg 'commod_codes' must be length 20 or fewer"), call. = FALSE)
   } else if (length(commod_codes) > 1) {
     commod_codes <- paste(commod_codes, collapse = "%2C")
   }
@@ -536,4 +539,17 @@ is_year <- function(x) {
 #' @noRd
 is_year_month <- function(x) {
   grepl("^\\d{4}-\\d{2}", x)
+}
+
+
+#' Check that all elements of char_vect be successfully cast as integers, OR
+#' that input contains either "total" or "all"
+#'
+#' @noRd
+codes_as_ints <- function(char_vect) {
+  if (any(tolower(char_vect) %in% c("all", "total"))) {
+    return(TRUE)
+  }
+  as_ints <- suppressWarnings(as.integer(char_vect))
+  return(all(!is.na(as_ints)))
 }

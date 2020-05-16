@@ -4,10 +4,12 @@
 \name{ct_pretty_cols}
 \alias{ct_pretty_cols}
 \title{"pretty" column headers for Comtrade API data.}
-\format{Named vector, with the polished column headers as the names, and
+\format{
+Named vector, with the polished column headers as the names, and
  the machine-readable column headers as the values. Each element is meant
  to be treated as a key-value pair. The function \code{\link{ct_search}}
- returns data with the machine-readable column headers by default.}
+ returns data with the machine-readable column headers by default.
+}
 \description{
 Named vector of polished column headers, intended for use with plots,
 publication tables, etc.

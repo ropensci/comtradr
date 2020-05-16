@@ -4,11 +4,15 @@
 \alias{ct_update_databases}
 \title{Check for updates to country/commodity databases}
 \usage{
-ct_update_databases(force = FALSE, verbose = TRUE,
-  commodity_type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007",
-  "HS2012", "HS2017", "SITC", "SITCrev1", "SITCrev2", "SITCrev3",
-  "SITCrev4", "BEC", "EB02"), commodity_url = NULL,
-  reporter_url = NULL, partner_url = NULL)
+ct_update_databases(
+  force = FALSE,
+  verbose = TRUE,
+  commodity_type = c("HS", "HS1992", "HS1996", "HS2002", "HS2007", "HS2012", "HS2017",
+    "SITC", "SITCrev1", "SITCrev2", "SITCrev3", "SITCrev4", "BEC", "EB02"),
+  commodity_url = NULL,
+  reporter_url = NULL,
+  partner_url = NULL
+)
 }
 \arguments{
 \item{force}{logical, if TRUE, both the country and commodity databases

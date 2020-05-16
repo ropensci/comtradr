@@ -4,8 +4,12 @@
 \alias{ct_country_lookup}
 \title{UN Comtrade country database query}
 \usage{
-ct_country_lookup(search_terms, type = c("reporter", "partner"),
-  ignore.case = TRUE, ...)
+ct_country_lookup(
+  search_terms,
+  type = c("reporter", "partner"),
+  ignore.case = TRUE,
+  ...
+)
 }
 \arguments{
 \item{search_terms}{Char vector of country names.}

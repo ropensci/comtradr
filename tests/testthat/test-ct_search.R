@@ -141,8 +141,13 @@ test_that("throw error with invalid input to arg 'commod_codes'", {
                          partners = "Germany",
                          trade_direction = "all",
                          commod_codes = "invalid_codes"),
-               regexp = "invalid_codes is an invalid commodity code.",
-               fixed = TRUE)
+               regexp = "char vector of codes that can be cast as integers")
+
+  expect_error(ct_search(reporters = "Canada",
+                         partners = "Germany",
+                         trade_direction = "all",
+                         commod_codes = rep("cats", 5)),
+               regexp = "char vector of codes that can be cast as integers")
 })
 
 
@@ -167,9 +172,8 @@ test_that("throw error with more than 20 commodity codes", {
                                   "exports",
                                   "re_imports",
                                   "re_exports"),
-              commod_codes = ct_commodity_lookup("frozen",
-                                                 return_char = TRUE,
-                                                 return_code = TRUE))
+              commod_codes = rep("1", 21)),
+    regexp = "arg 'commod_codes' must be length 20 or fewer"
   )
 })
 
