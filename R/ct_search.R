@@ -548,7 +548,7 @@ is_year_month <- function(x) {
 #'
 #' @noRd
 codes_as_ints <- function(char_vect) {
-  if (any(tolower(char_vect) %in% c("all", "total", "ag1", "ag2", "ag3", "ag4", "ag5"))) {
+  if (any(tolower(char_vect) %in% c("all", "total", "ag1", "ag2", "ag3", "ag4", "ag5", "ag6"))) {
     return(TRUE)
   }
   as_ints <- suppressWarnings(as.integer(char_vect))

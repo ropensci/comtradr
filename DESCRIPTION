@@ -13,7 +13,8 @@ Authors@R: c(person("Chris", "Muir",
                   role = "rev", 
                   comment = c(ORCID = "0000-0002-3092-3493", 
                               "Rafael reviewed the package for rOpenSci, 
-                              see https://github.com/ropensci/onboarding/issues/141")))
+                              see https://github.com/ropensci/onboarding/issues/141")),
+            person("Juergen", "Amann", role=c("ctb")))
 Description: Interface with and extract data from the United Nations Comtrade 
   API <https://comtrade.un.org/data/>. Comtrade provides country level shipping 
   data for a variety of commodities, these functions allow for easy API query 
