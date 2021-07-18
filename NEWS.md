@@ -10,6 +10,12 @@ comtradr 0.2.2.09000
 * Passing an API token string to `ct_register_token()` now properly bumps the hourly rate limit up to 10,000
 ([#21](https://github.com/ropensci/comtradr/issues/21)).
 
+* In func `ct_search()`, passing a character vector of long-form commodity descriptions to arg `commod_codes` will now 
+throw an error prior to making an API call, which would fail ([#24](https://github.com/ropensci/comtradr/issues/24)).
+
+* Update the country package data, to stay up to date with the reporter/partner country table that Comtrade is using. This is an update to
+the file `inst/extdata/country_table.rda`. ([#29](https://github.com/ropensci/comtradr/issues/29)).
+
 comtradr 0.2.2
 ====================
 
