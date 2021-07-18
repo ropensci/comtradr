@@ -1,6 +1,10 @@
 comtradr 0.2.2.09000
 ====================
 
+## NEW FEATURES
+
+* Modifications to `ct_search()` to add support for commodity code `ag6` ([#30](https://github.com/ropensci/comtradr/pull/30))
+
 ## BUG FIXES
 
 * Passing an API token string to `ct_register_token()` now properly bumps the hourly rate limit up to 10,000

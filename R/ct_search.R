@@ -335,8 +335,8 @@ ct_search <- function(reporters, partners,
     "&p=", partners,
     "&rg=", trade_direction,
     "&cc=", commod_codes,
-    "&fmt=", "json",
-    "&head=", "H"
+    "&head=", "H",
+    "&fmt=", "json"
   )
 
   ## If token within global options is not NULL, append the token str to the
@@ -391,8 +391,9 @@ execute_api_request <- function(url) {
   if (httr::http_type(res) != "application/json") {
     stop(
       sprintf(
-        "API did not return json. Instead, %s data was returned",
-        httr::http_type(res)
+        "API did not return json. Instead, %s data was returned. Return data:\n%s",
+        httr::http_type(res),
+        httr::content(res, "text", encoding = "UTF-8")
       ), call. = FALSE
     )
   }
@@ -547,7 +548,7 @@ is_year_month <- function(x) {
 #'
 #' @noRd
 codes_as_ints <- function(char_vect) {
-  if (any(tolower(char_vect) %in% c("all", "total"))) {
+  if (any(tolower(char_vect) %in% c("all", "total", "ag1", "ag2", "ag3", "ag4", "ag5", "ag6"))) {
     return(TRUE)
   }
   as_ints <- suppressWarnings(as.integer(char_vect))
