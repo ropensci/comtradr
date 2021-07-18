@@ -16,6 +16,8 @@ throw an error prior to making an API call, which would fail ([#24](https://gith
 * Update the country package data, to stay up to date with the reporter/partner country table that Comtrade is using. This is an update to
 the file `inst/extdata/country_table.rda`. ([#29](https://github.com/ropensci/comtradr/issues/29)).
 
+* In func `ct_search()`, improve error messaging when an input country is invalid. ([#31](https://github.com/ropensci/comtradr/issues/31)).
+
 comtradr 0.2.2
 ====================
 

@@ -205,11 +205,9 @@ ct_search <- function(reporters, partners,
     reporters <- "All"
   }
 
-  if (!all(reporters %in% country_df$country_name)) {
-    err <- paste(
-      reporters[!reporters %in% country_df$country_name],
-      collapse = ", "
-    )
+  missing_reporters <- !reporters %in% country_df[country_df$reporter == TRUE, ]$country_name
+  if (any(missing_reporters)) {
+    err <- paste(reporters[missing_reporters], collapse = ", ")
     stop(paste("From arg 'reporters', these values were not found in the",
                "country database:", err), call. = FALSE)
   }
@@ -230,11 +228,9 @@ ct_search <- function(reporters, partners,
     partners <- "All"
   }
 
-  if (!all(partners %in% country_df$country_name)) {
-    err <- paste(
-      partners[!partners %in% country_df$country_name],
-      collapse = ", "
-    )
+  missing_partners <- !partners %in% country_df[country_df$partner == TRUE, ]$country_name
+  if (any(missing_partners)) {
+    err <- paste(partners[missing_partners], collapse = ", ")
     stop(paste("From arg 'partners', these values were not found in the",
                "country database:", err), call. = FALSE)
   }
