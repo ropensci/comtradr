@@ -69,6 +69,24 @@ reset_hourly_limits <- function() {
 }
 
 
+#' Validate Token
+#'
+#' Verifies validity of token provided by user.
+#'
+#' @param token char string, API token
+#'
+#' @return Returns token if successfully validated by API; NULL otherwise.
+#'
+#' @noRd
+validate_token <- function (token) {
+  result <- NULL
+  tryCatch(result <- jsonlite::fromJSON(
+    paste0("https://comtrade.un.org/api/getUserInfo?token=", token)),
+    error = function(e) e)
+  if (!is.null(result)) token else result
+}
+
+
 #' Comtradr set API token
 #'
 #' Function to set an API token for the UN Comtrade API. Details on tokens and
@@ -86,6 +104,9 @@ reset_hourly_limits <- function() {
 ct_register_token <- function(token) {
   # input validation.
   stopifnot(is.character(token) || is.null(token))
+
+  # Verify validity of token
+  token <- validate_token(token)
 
   # Get number of queries left for the current hour.
   queries_this_hour <- get("queries_this_hour", envir = ct_env)
