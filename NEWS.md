@@ -20,6 +20,9 @@ the file `inst/extdata/country_table.rda`. ([#29](https://github.com/ropensci/co
 
 * In func `ct_search()`, improve error messaging when an input country is invalid. ([#31](https://github.com/ropensci/comtradr/issues/31)).
 
+* In func `ct_search()`, fix bug in which running queries using the `SITCrev2` commodity type was returning raw HTML (as opposed to json data). ([#27](https://github.com/ropensci/comtradr/issues/27)).
+
+
 comtradr 0.2.2
 ====================
 
