@@ -7,6 +7,8 @@ comtradr 0.2.2.09000
 
 ## BUG FIXES
 
+* Function `ct_register_token()` now checks if the provided token is recognized by the official API and only grants "premium" credentials if it is ([#34](https://github.com/ropensci/comtradr/issues/34)).
+
 * Passing an API token string to `ct_register_token()` now properly bumps the hourly rate limit up to 10,000
 ([#21](https://github.com/ropensci/comtradr/issues/21)).
 
