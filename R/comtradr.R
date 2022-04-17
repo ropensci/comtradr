@@ -22,8 +22,8 @@
 #' @section Development links:
 #'
 #' \itemize{
-#'   \item \url{https://github.com/ChrisMuir/comtradr}
-#'   \item Report bugs at \url{https://github.com/ChrisMuir/comtradr/issues}
+#'   \item \url{https://github.com/ropensci/comtradr}
+#'   \item Report bugs at \url{https://github.com/ropensci/comtradr/issues}
 #' }
 #'
 #' @section \code{comtradr} features the following functions:

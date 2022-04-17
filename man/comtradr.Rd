@@ -32,8 +32,8 @@ Interface with and extract data from the United Nations
 
 
 \itemize{
-  \item \url{https://github.com/ChrisMuir/comtradr}
-  \item Report bugs at \url{https://github.com/ChrisMuir/comtradr/issues}
+  \item \url{https://github.com/ropensci/comtradr}
+  \item Report bugs at \url{https://github.com/ropensci/comtradr/issues}
 }
 }
 

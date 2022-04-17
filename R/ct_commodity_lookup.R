@@ -31,7 +31,7 @@
 #'  within the commodity DB. This means it will treat as a match any commodity
 #'  description that contains the input search term. For more on using regex
 #'  within R, see
-#'  \url{https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html}
+#'  \url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html}
 #'
 #' @export
 #'
