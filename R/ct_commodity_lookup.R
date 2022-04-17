@@ -30,8 +30,8 @@
 #' @details This function uses regular expressions (regex) to find matches
 #'  within the commodity DB. This means it will treat as a match any commodity
 #'  description that contains the input search term. For more on using regex
-#'  within R, see this great tutorial by Gloria Li and Jenny Bryan
-#'  \url{http://stat545.com/block022_regular-expression.html}
+#'  within R, see
+#'  \url{https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html}
 #'
 #' @export
 #'
