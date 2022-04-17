@@ -41,7 +41,7 @@ ct_country_lookup <- function(search_terms, type = c("reporter", "partner"),
   # If length of search_terms is more than one, transform values into a regex
   # friendly string.
   if (length(search_terms) > 1) {
-    search_terms <- paste(search_terms, collapse = "|")
+    search_terms <- paste(search_terms[!is.na(search_terms)], collapse = "|")
   }
 
   # Fetch the country databse from ct_env.

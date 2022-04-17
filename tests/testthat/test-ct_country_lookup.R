@@ -26,10 +26,20 @@ test_that("correct vals given partner lookup", {
 })
 
 
-test_that("Correct vals given input not found in country DB", {
+test_that("correct vals given input not found in country DB", {
   expect_equal(ct_country_lookup(search_terms = "not_a_country",
                                  type = "reporter"),
                "No matching results found")
+})
+
+
+test_that("correct vals given some invalid inputs", {
+  vals <- ct_country_lookup(search_terms = c("Korea", NA, "EU"), type = "reporter")
+
+  # Check values of output.
+  expect_equal(vals, c("Dem. People's Rep. of Korea",
+                       "EU-28",
+                       "Rep. of Korea" ))
 })
 
 
