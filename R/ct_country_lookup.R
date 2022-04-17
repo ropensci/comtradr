@@ -55,7 +55,7 @@ ct_country_lookup <- function(search_terms, type = c("reporter", "partner"),
 
   # Check output, if valid then return as is, if empty return "no matches"
   # message.
-  if (any(c(length(ans) == 0, is.null(ans), is.na(ans)))) {
+  if (any(c(length(ans) == 0, is.null(ans), all(is.na(ans))))) {
     ans <- "No matching results found"
   }
 
