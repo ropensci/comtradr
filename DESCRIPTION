@@ -1,6 +1,6 @@
 Package: comtradr
 Title: Interface with the United Nations Comtrade API
-Version: 0.2.2.09000
+Version: 0.3.0
 Authors@R: c(person("Chris", "Muir", 
               email = "chrismuirRVA@gmail.com", 
               role = c("aut", "cre")), 
