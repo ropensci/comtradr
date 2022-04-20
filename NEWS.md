@@ -69,7 +69,7 @@ comtradr 0.1.0
 * Added package level man page.
 * Now using native R errors/warnings, as opposed to nesting API status codes in a returned list.
 * `Imports` changes: remove `dplyr`, add `magrittr` and `purrr`.
-* Expand and improve test coverage via [testthat](https://github.com/hadley/testthat).
+* Expand and improve test coverage via [testthat](https://github.com/r-lib/testthat).
 
 ## BUG FIXES
 
@@ -85,7 +85,7 @@ comtradr 0.0.2 (2017-07-03)
 
 ## MINOR IMPROVEMENTS
 
-* Add unit tests via [testthat](https://github.com/hadley/testthat).
+* Add unit tests via [testthat](https://github.com/r-lib/testthat).
 
 
 comtradr 0.0.1 (2017-04-06)

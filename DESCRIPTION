@@ -29,7 +29,7 @@ Imports:
         magrittr (>= 1.5), 
         purrr
 RoxygenNote: 7.1.1
-URL: https://docs.ropensci.org/comtradr, https://github.com/ropensci/comtradr
+URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
