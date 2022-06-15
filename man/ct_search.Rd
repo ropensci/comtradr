@@ -12,7 +12,7 @@ ct_search(
   start_date = "all",
   end_date = "all",
   commod_codes = "TOTAL",
-  max_rec = NULL,
+  max_rec = 100000,
   type = c("goods", "services"),
   url = "https://comtrade.un.org/api/get?"
 )
@@ -48,10 +48,7 @@ between the indicated reporter country(s) and partner country(s). Default
 value is "TOTAL".}
 
 \item{max_rec}{Max number of records returned from each API call, as an
-integer. If max_rec is set to NULL, then value is determined by whether or
-not an API token has been registered. API cap without a token is 50000,
-cap with a valid token is 250000. Default value is NULL. For details on
-how to register a valid token, see \code{\link{ct_register_token}}.}
+integer. Default value is 100000.}
 
 \item{type}{Type of trade, as a character string. Must be either "goods" or
 "services". Default value is "goods".}

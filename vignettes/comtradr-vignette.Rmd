@@ -161,7 +161,7 @@ In addition to these rate limits, the API imposes some limits on parameter combi
 * For the same group of three (`reporters`, `partners`, date range), if the input is not "All", then the maximum number of input values for each is five. For date range, if not using "All", then the `start_date` and `end_date` must not span more than five months or five years. There is one exception to this rule, if arg `freq` is "monthly", then a single year can be passed to `start_date` and `end_date` and the API will return all of the monthly data for that year.
 * For arg `commod_codes`, if not using input "All", then the maximum number of input values is 20 (although "All" is always a valid input).
 
-Additionally, the maximum number of returned records from a single query without a token is 50,000. With a token, that number is 250,000.
+Additionally, the default maximum number of returned records from a single query is 100,000. If you have a valid registered token, and have a higher per-query limit, you can pass in a max int to input param `max_rec`.
 
 `comtradr` features a few functions for working with the API rate limits and tokens.
 

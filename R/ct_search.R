@@ -28,10 +28,7 @@
 #'  between the indicated reporter country(s) and partner country(s). Default
 #'  value is "TOTAL".
 #' @param max_rec Max number of records returned from each API call, as an
-#'  integer. If max_rec is set to NULL, then value is determined by whether or
-#'  not an API token has been registered. API cap without a token is 50000,
-#'  cap with a valid token is 250000. Default value is NULL. For details on
-#'  how to register a valid token, see \code{\link{ct_register_token}}.
+#'  integer. Default value is 100000.
 #' @param type Type of trade, as a character string. Must be either "goods" or
 #'  "services". Default value is "goods".
 #' @param url Base of the Comtrade url string, as a character string. Default
@@ -123,7 +120,7 @@ ct_search <- function(reporters, partners,
                                           "re_imports", "re_exports"),
                       freq = c("annual", "monthly"),
                       start_date = "all", end_date = "all",
-                      commod_codes = "TOTAL", max_rec = NULL,
+                      commod_codes = "TOTAL", max_rec = 100000,
                       type = c("goods", "services"),
                       url = "https://comtrade.un.org/api/get?") {
 
@@ -306,18 +303,9 @@ ct_search <- function(reporters, partners,
     commod_codes <- paste(commod_codes, collapse = "%2C")
   }
 
-  ## Get max_rec. If arg value is set to NULL, then max_rec is determined by
-  ## whether an API token has been registered. If a token has been registered,
-  ## then max_rec will be set to 250000, otherwise it will be set to 50000.
-  if (is.null(max_rec)) {
-    if (is.null(token)) {
-      max_rec <- 50000
-    } else {
-      max_rec <- 250000
-    }
-  } else {
-    max_rec <- as.numeric(max_rec)
-  }
+  ## Transformations to max_rec
+  stopifnot(is.numeric(max_rec))
+  max_rec <- as.character(as.integer(max_rec))
 
   ## Stitch together the url of the API call.
   url <- paste0(
