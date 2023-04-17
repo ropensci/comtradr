@@ -28,7 +28,7 @@ Imports:
         jsonlite, 
         magrittr (>= 1.5), 
         purrr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no

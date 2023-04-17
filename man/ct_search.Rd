@@ -12,7 +12,7 @@ ct_search(
   start_date = "all",
   end_date = "all",
   commod_codes = "TOTAL",
-  max_rec = 100000,
+  max_rec = 1e+05,
   type = c("goods", "services"),
   url = "https://comtrade.un.org/api/get?"
 )
