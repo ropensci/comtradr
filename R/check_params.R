@@ -2,7 +2,8 @@
 #'
 #' @inheritParams get_comtrade_data
 #'
-#' @return returns a list of named parameters for building a request
+#' @return Returns a list of named parameters for building a request.
+#' @noRd
 check_params <- function(frequency = 'A',
                          commodity_classification = 'HS',
                          commodity_code = NULL,
