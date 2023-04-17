@@ -6,7 +6,7 @@
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_commodity_db_type <- function() {
+ct_commodity_db_type <- function(...) {
     lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()",  "xyz()" )
     }
 
@@ -15,7 +15,7 @@ ct_commodity_db_type <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_commodity_lookup <- function() {
+ct_commodity_lookup <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_commodity_lookup()",
@@ -28,7 +28,7 @@ ct_commodity_lookup <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_country_lookup <- function() {
+ct_country_lookup <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_country_lookup()",
@@ -41,7 +41,7 @@ ct_country_lookup <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_search <- function() {
+ct_search <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_search()",
@@ -54,7 +54,7 @@ ct_search <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_update_databases <- function() {
+ct_update_databases <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_update_databases()",
@@ -67,7 +67,7 @@ ct_update_databases <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_use_pretty_cols <- function() {
+ct_use_pretty_cols <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_use_pretty_cols()",
@@ -80,7 +80,7 @@ ct_use_pretty_cols <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_get_reset_time <- function() {
+ct_get_reset_time <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_get_reset_time()",
@@ -93,7 +93,7 @@ ct_get_reset_time <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_get_remaining_hourly_queries <- function() {
+ct_get_remaining_hourly_queries <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_get_remaining_hourly_queries()",
@@ -106,7 +106,7 @@ ct_get_remaining_hourly_queries <- function() {
 #' `r lifecycle::badge("superseded")`
 #' @export
 #'
-ct_register_token <- function() {
+ct_register_token <- function(...) {
     lifecycle::deprecate_stop(
         "1.0.0",
         "ct_register_token()",
