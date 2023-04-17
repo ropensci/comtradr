@@ -34,7 +34,7 @@
 #'
 #' @export
 #' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
-get_comtrade_data <- function(frequency = 'A',
+ct_get_data <- function(frequency = 'A',
                               commodity_classification = 'HS',
                               commodity_code = 'TOTAL',
                               flow_direction = 'all',
@@ -50,7 +50,7 @@ get_comtrade_data <- function(frequency = 'A',
                               customs_code ='C00',
                               ...) {
   ## compile codes
-  params <- check_params(
+  params <- ct_check_params(
     frequency = frequency,
     commodity_classification = commodity_classification,
     commodity_code = commodity_code,
@@ -64,12 +64,12 @@ get_comtrade_data <- function(frequency = 'A',
     ...
   )
 
-  req <- build_comtrade_request(params, verbose = verbose, primary_token = primary_token)
+  req <- ct_build_request(params, verbose = verbose, primary_token = primary_token)
 
-  resp <- perform_comtrade_request(req, verbose = verbose)
+  resp <- ct_perform_request(req, verbose = verbose)
 
   if (process) {
-    result <- process_comtrade_response(resp, verbose = verbose)
+    result <- ct_process_response(resp, verbose = verbose)
     return(result)
   } else{
     return(resp)
