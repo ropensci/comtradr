@@ -1,8 +1,9 @@
-#' Check that input parameters are valid and in compliance with comtrade - v1.
+#' Check that input parameters are valid and in compliance with UN Comtrade APIs.
 #'
 #' @inheritParams get_comtrade_data
 #'
 #' @return Returns a list of named parameters for building a request.
+#'
 #' @noRd
 check_params <- function(frequency = 'A',
                          commodity_classification = 'HS',
