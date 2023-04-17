@@ -11,8 +11,8 @@
 #' @param flow_direction The direction of trade flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports, "re-import" for re-imports, "re-export" for re-exports, or "all" for imports, exports, re-imports, and re-exports. Multiple values can be supplied as a character vector. The default value is "all".
 #' @param reporter This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
 #' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
-#' @param start_date Start date of a time period.
-#' @param end_date End date of a time period.
+#' @param start_date The start date of the query, either in the format `yyyy` or `yyyy-mm`.
+#' @param end_date The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annual frequency or one year for monthly.
 #' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
 #' @param process Whether to return the raw httr2 request or a data.frame with the results.
 #' @param verbose whether the function sends status updates to the console
