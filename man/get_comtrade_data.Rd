@@ -29,7 +29,7 @@ get_comtrade_data(
 
 \item{commodity_code}{The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.}
 
-\item{flow_direction}{The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports. Multiple values can be supplied as a character vector. The default value is 'all' for imports, exports, re-imports and re-exports.}
+\item{flow_direction}{The direction of trade flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports, "re-import" for re-imports, "re-export" for re-exports, or "all" for imports, exports, re-imports, and re-exports. Multiple values can be supplied as a character vector. The default value is "all".}
 
 \item{reporter}{This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
 
