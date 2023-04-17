@@ -27,13 +27,15 @@ Imports:
         httr, 
         jsonlite, 
         magrittr (>= 1.5), 
-        purrr
-RoxygenNote: 7.2.1
+        purrr,
+        lifecycle
+RoxygenNote: 7.1.1
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
-Suggests: testthat,
+Suggests: 
+    testthat,
     knitr,
     rmarkdown,
     ggplot2,
