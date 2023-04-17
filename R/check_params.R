@@ -194,57 +194,55 @@ check_cmdCode <- function(commodity_code) {
   return(commodity_code)
 }
 
-#' Check reporter parameter
+#' Check validity of reporter parameter.
 #'
 #' This function checks that the given reporter code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @param reporter A character vector or string of comma-separated codes that
-#'   represent the reporters in the trade data. The default value is NULL.
+#' @inheritParams get_comtrade_data
 #'
 #' @return A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
-#' check_reporterCode("USA")
-#' check_reporterCode(c("USA", "FRA"))
-#' check_reporterCode("all")
+#' check_reporterCode("USA") # returns "842,841"
+#' check_reporterCode(c("USA", "FRA")) # returns "251,842,841"
+#' check_reporterCode("all") # returns all country codes
 check_reporterCode <- function(reporter) {
   # check that reporter code is valid
   if (!is.null(reporter)) {
     reporter <- as.character(reporter)
-  } else{
-    rlang::abort("You need to provide at least one reporter")
+  } else {
+    rlang::abort("You need to provide at least one reporter.")
   }
-
 
   ## check if valid reporter code length and type
   reporter <- stringr::str_squish(reporter)
   ## get multiple values or single values that are not 'all'
   if (length(reporter) > 1 | !any(reporter == 'all')) {
     if (any(reporter == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument')
+      rlang::abort('"all" can only be provided as a single argument.')
     }
     # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
-    if (!all(reporter %in% untrader::REPORTER$reporterCodeIsoAlpha3)) {
+    if (!all(reporter %in% reporter_codes$iso_3)) {
       rlang::abort(paste0(
         "The following reporterCodes you provided are invalid: ",
-        paste0(reporter[!reporter %in% untrader::REPORTER$reporterCodeIsoAlpha3], collapse = ", ")
+        paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
       ))
     }
   }
 
   # create proper ids for reporter Code
   if (length(reporter) > 1 | !any(reporter == 'all')) {
-    reporter <-
-      untrader::REPORTER$id[untrader::REPORTER$reporterCodeIsoAlpha3 %in% reporter &
-                              untrader::REPORTER$isGroup ==
-                              F] |>
-      paste0(collapse = ',')
+    reporter <- reporter_codes |>
+      dplyr::filter(iso_3 %in% reporter) |>
+      dplyr::pull(id) |>
+      paste(collapse = ",")
   } else if (reporter == 'all') {
-    reporter <-
-      untrader::REPORTER$id[untrader::REPORTER$isGroup == F] |>
-      paste0(collapse = ',')
+    reporter <- reporter_codes |>
+      dplyr::filter(group == F) |>
+      dplyr::pull(id) |>
+      paste(collapse = ',')
   }
 
   return(reporter)

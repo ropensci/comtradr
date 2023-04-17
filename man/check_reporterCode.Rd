@@ -2,13 +2,12 @@
 % Please edit documentation in R/check_params.R
 \name{check_reporterCode}
 \alias{check_reporterCode}
-\title{Check reporter parameter}
+\title{Check validity of reporter parameter.}
 \usage{
 check_reporterCode(reporter)
 }
 \arguments{
-\item{reporter}{A character vector or string of comma-separated codes that
-represent the reporters in the trade data. The default value is NULL.}
+\item{reporter}{This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
 }
 \value{
 A character vector of valid reporter IDs.
@@ -20,8 +19,8 @@ It also converts the input to a proper format if necessary.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-check_reporterCode("USA")
-check_reporterCode(c("USA", "FRA"))
-check_reporterCode("all")
+check_reporterCode("USA") # returns "842,841"
+check_reporterCode(c("USA", "FRA")) # returns "251,842,841"
+check_reporterCode("all") # returns all country codes
 \dontshow{\}) # examplesIf}
 }
