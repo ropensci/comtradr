@@ -104,6 +104,8 @@ check_freq <- function(frequency) {
 #' @examplesIf interactive()
 #' untrader:::check_clCode("HS") # returns "HS"
 #' untrader:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
+#'
+#' @noRd
 check_clCode <- function(commodity_classification) {
   rlang::arg_match(commodity_classification, values = c("HS"))
   return(commodity_classification)
