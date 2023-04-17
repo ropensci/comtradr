@@ -2,18 +2,18 @@
 % Please edit documentation in R/check_params.R
 \name{check_freq}
 \alias{check_freq}
-\title{Check frequency parameter}
+\title{Check frequency parameter.}
 \usage{
 check_freq(frequency)
 }
 \arguments{
-\item{frequency}{A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".}
+\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.}
 }
 \value{
 A character string specifying the frequency of the data.
 }
 \description{
-Check frequency parameter
+Check frequency parameter.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

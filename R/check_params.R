@@ -74,9 +74,9 @@ check_params <- function(frequency,
   return(params)
 }
 
-#' Check frequency parameter
+#' Check frequency parameter.
 #'
-#' @param frequency A character string specifying the frequency of the data. Must be one of "A", "Q", or "M".
+#' @inheritParams get_comtrade_data
 #'
 #' @return A character string specifying the frequency of the data.
 #'
