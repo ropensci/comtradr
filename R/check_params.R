@@ -306,30 +306,35 @@ check_partnerCode <- function(partner) {
 
 ## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
 
-#' Check date parameter
+#' Check validity of date parameter.
 #'
-#' This function checks that the given period code is valid. If the range or format is not valid, the function throws an error message indicating which codes are invalid. It also converts the input to the proper format if necessary.
+#' This function checks that the given period code is valid. If the range or
+#' format is not valid, the function throws an error message indicating which
+#' codes are invalid. It also converts the input to the proper format if necessary.
 #'
-#' @param start_date The start date of the query, either in the format `yyyy` or `yyyy-mm`.
-#' @param end_date The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annuel frequency or one year for monthly.
-#' @param frequency The frequency of reported trade data, either `A` for annual or `M` for monthly.
+#' @inheritParams get_comtrade_data
 #'
 #' @return A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
-#' check_date(2010,2011,'A')
+#' check_date(2010, 2011, 'A') # returns "2010,2011"
+#' check_date(2010, 2011, 'A') # returns "2010"
+#' check_date("2010-01", "2010-07", "M") # returns "201001,201002,201003,201004,201005,201006,201007"
+#'
+#' @noRd
 check_date <- function(start_date, end_date, frequency) {
+
   start_date <- as.character(start_date)
   end_date <- as.character(end_date)
 
   if (frequency == "A") {
-    # Date range when freq is "annual" (date range by year).
+    # Date range when freq is "annual" (date range by year)
     start_date <- convert_to_date(date_obj = start_date)
     end_date <- convert_to_date(date_obj = end_date)
     date_range <- seq.Date(start_date, end_date, by = "year") |>
       format(format = "%Y")
   } else if (frequency == "M") {
-    # Date range when freq is "monthly".
+    # Date range when freq is "monthly"
     sd_year <- is_year(start_date)
     ed_year <- is_year(end_date)
     if (sd_year && ed_year) {
@@ -338,7 +343,7 @@ check_date <- function(start_date, end_date, frequency) {
       if (identical(start_date, end_date)) {
         return(start_date)
       } else {
-        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query")
+        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.")
       }
     } else if (!sd_year && !ed_year) {
       # If neither start_date nor end_date are years, get date range by month.
@@ -349,13 +354,13 @@ check_date <- function(start_date, end_date, frequency) {
     } else {
       # Between start_date and end_date, if one is a year and the other isn't,
       # throw an error.
-      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format")
+      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.")
     }
   }
 
   # If the derived date range is longer than five elements, throw an error.
   if (length(date_range) > 12) {
-    stop("If specifying years/months, cannot search more than five consecutive years/months in a single query")
+    stop("If specifying years/months, cannot search more than five consecutive years/months in a single query.")
   }
 
   return(paste(date_range, collapse = ","))
