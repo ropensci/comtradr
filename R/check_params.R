@@ -207,7 +207,9 @@ check_cmdCode <- function(commodity_code) {
 #' @examplesIf interactive()
 #' check_reporterCode("USA") # returns "842,841"
 #' check_reporterCode(c("USA", "FRA")) # returns "251,842,841"
-#' check_reporterCode("all") # returns all country codes
+#' check_reporterCode("all") # returns all country codes, excluding any country groupings
+#'
+#' @noRd
 check_reporterCode <- function(reporter) {
   # check that reporter code is valid
   if (!is.null(reporter)) {
