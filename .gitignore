@@ -4,3 +4,4 @@
 ^cran-comments\.md$
 TODO.md
 /revdep/.cache.rds
+.DS_Store
