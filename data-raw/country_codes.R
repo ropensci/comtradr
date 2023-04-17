@@ -25,7 +25,7 @@ partner_codes <- partner_codes_raw |>
   transmute(
     id,
     country = text,
-    iso_3 = PartnerCodeIsoAlpha3,
+    iso_3 = if_else(isGroup == TRUE, text, PartnerCodeIsoAlpha3),
     entry_year = lubridate::year(entryEffectiveDate),
     exit_year = lubridate::year(entryExpiredDate),
     group = isGroup,

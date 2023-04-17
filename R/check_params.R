@@ -250,63 +250,55 @@ check_reporterCode <- function(reporter) {
   return(reporter)
 }
 
-
-#' Check partner parameter
+#' Check validity of partner parameter.
 #'
 #' This function checks that the given partner code is valid. If the code is not
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @param partner A character vector or string of comma-separated codes that
-#'   represent the trade partners in the trade data. The default value is NULL.
+#' @inheritParams get_comtrade_data
 #'
 #' @return A character vector of valid partner IDs.
 #'
 #' @examplesIf interactive()
-#' check_partnerCode("CAN")
-#' check_partnerCode(c("CAN", "MEX"))
-#' check_partnerCode("all")
+#' check_partnerCode("CAN") # returns "124"
+#' check_partnerCode(c("CAN", "MEX")) # returns "124,484"
+#' check_partnerCode("all") # returns all partner codes, excluding country groupings
+#'
+#' @noRd
 check_partnerCode <- function(partner) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
   } else{
-    rlang::abort("You need to provide at least one partner")
+    rlang::abort("You need to provide at least one partner.")
   }
 
   if (length(partner) > 1 | !any(partner == 'all')) {
     partner <- stringr::str_squish(partner)
     if (any(partner == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument')
+      rlang::abort('"all" can only be provided as a single argument.')
     }
     # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partner %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world'))) {
-      rlang::abort(paste0(
+    if (!all(partner %in% partner_codes$iso_3)) {
+      rlang::abort(paste(
         "The following partner you provided are invalid: ",
-        paste0(partner[!partner %in% c(untrader::PARTNER$PartnerCodeIsoAlpha3, 'world')], collapse = ", ")
-      ))
+        setdiff(partner, partner_codes$iso_3), collapse = ", ")
+      )
     }
   }
 
   # create proper ids for partner
   if (length(partner) > 1 | !any(partner == 'all')) {
-    values <-
-      untrader::PARTNER$id[untrader::PARTNER$PartnerCodeIsoAlpha3 %in% partner &
-                             untrader::PARTNER$isGroup == F] |>
-      paste0(collapse = ',')
-
-    if (any(stringr::str_detect(partner, 'world'))) {
-      partner <- paste0(values, '0', collapse = "")
-    } else {
-      partner <- values
-    }
-
-  } else if (partner == 'world') {
-    partner <- '0'
+    partner <- partner_codes |>
+      dplyr::filter(iso_3 %in% partner) |>
+      dplyr::pull(id) |>
+      paste(collapse = ",")
   } else if (partner == 'all') {
-    partner <-
-      untrader::PARTNER$id[untrader::PARTNER$isGroup == F] |>
-      paste0(collapse = ',')
+    partner <- partner_codes |>
+      filter(group == F) |>
+      pull(id) |>
+      paste(collapse = ",")
   }
   return(partner)
 }
