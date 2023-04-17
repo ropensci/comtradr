@@ -124,6 +124,8 @@ check_clCode <- function(commodity_classification) {
 #' check_flowCode(c("export", "re-export")) # returns "X,RX"
 #' check_flowCode("trade") # throws an error because "trade" is not a valid flow code
 #' check_flowCode(NULL) # throws an error because at least one flow code must be provided
+#'
+#' @noRd
 check_flowCode <- function(flow_direction) {
   rlang::arg_match(
     flow_direction,
@@ -153,11 +155,13 @@ check_flowCode <- function(flow_direction) {
   return(flow_direction)
 }
 
-#' Check commodity_code parameter
+#' Check validity of commodity code parameter.
 #'
-#' @param commodity_code A character string or vector specifying the HS codes.
+#' Commodity code. We currently only support HS codes.
 #'
-#' @return A character vector specifying the HS codes.
+#' @inheritParams get_comtrade_data
+#'
+#' @return A character vector specifying the commodity codes requested.
 #'
 #' @examplesIf interactive()
 #' check_cmdCode("01") # returns "01"
@@ -172,14 +176,14 @@ check_cmdCode <- function(commodity_code) {
     rlang::abort("You need to provide at least one commodity_code reference.")
   }
 
-  # check validity of arguments ---------------------------------------------
-  # separating provided hs codes
+  # remove any white space from cmd codes provided
   commodity_code <- stringr::str_squish(commodity_code)
+
   # if one of the HS codes is not in the list of valid HS codes send stop signal and list problems
-  if (!all(commodity_code %in% untrader::HS$id)) {
+  if (!all(commodity_code %in% comtradr::cmd_codes$id)) {
     rlang::abort(paste0(
       "The following HS codes you provided are invalid: ",
-      paste0(commodity_code[!commodity_code %in% untrader::HS$id], collapse = ", ")
+      paste0(setdiff(commodity_code, comtradr::cmd_codes$id), collapse = ", ")
     ))
   } else {
     commodity_code <- paste0(commodity_code, collapse = ',')

@@ -2,18 +2,18 @@
 % Please edit documentation in R/check_params.R
 \name{check_cmdCode}
 \alias{check_cmdCode}
-\title{Check commodity_code parameter}
+\title{Check validity of commodity code parameter.}
 \usage{
 check_cmdCode(commodity_code)
 }
 \arguments{
-\item{commodity_code}{A character string or vector specifying the HS codes.}
+\item{commodity_code}{The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.}
 }
 \value{
-A character vector specifying the HS codes.
+A character vector specifying the commodity codes requested.
 }
 \description{
-Check commodity_code parameter
+Commodity code. We currently only support HS codes.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
