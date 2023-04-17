@@ -4,12 +4,14 @@ library(tidyverse)
 
 # Get HS codes ------------------------------------------------------------
 
-hs_cmd_codes_raw <- jsonlite::fromJSON("https://comtrade.un.org/Data/cache/classificationHS.json")$results
+hs_cmd_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/HS.json")$results
 
 hs_cmd_codes <- hs_cmd_codes_raw |>
-  mutate(
+  transmute(
+    id,
     text = str_remove(text, "\\w{1,6} - "),
-    parent = na_if(parent, "#"),
+    parent = na_if(parent, "-1"),
+    aggr_level = aggrLevel,
     class_code = "HS"
   )
 
