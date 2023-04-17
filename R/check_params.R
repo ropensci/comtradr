@@ -20,7 +20,6 @@ check_params <- function(frequency,
                          ...) {
 
   frequency <- check_freq(frequency)
-
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of frequency."))
   }
@@ -76,6 +75,8 @@ check_params <- function(frequency,
 
 #' Check validity of frequency parameter.
 #'
+#' Trade frequency: 'A' for annual and 'M' for monthly.
+#'
 #' @inheritParams get_comtrade_data
 #'
 #' @return A character string specifying the frequency of the data.
@@ -85,23 +86,26 @@ check_params <- function(frequency,
 #' check_freq("Q") # returns "Q"
 #' check_freq("M") # returns "M"
 #' check_freq("D") # throws an error because "D" is not a valid frequency code
+#'
+#' @noRd
 check_freq <- function(frequency) {
   rlang::arg_match(frequency, values = c("A", "Q", "M"))
   return(frequency)
 }
 
-#' Check HS classification parameter
+#' Check validity of classification parameter.
 #'
-#' @param commodity_classification A character string specifying the HS classification code. Must be "HS".
+#' Trade (IMTS) classifications: HS, SITC, BEC or EBOPS. Currently, we only support the HS classification.
 #'
-#' @return A character string specifying the HS classification code.
+#' @inheritParams get_comtrade_data
 #'
+#' @return A character string specifying the selected classification code.
 #'
 #' @examplesIf interactive()
 #' untrader:::check_clCode("HS") # returns "HS"
 #' untrader:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
 check_clCode <- function(commodity_classification) {
-  rlang::arg_match(commodity_classification, values = c('HS'))
+  rlang::arg_match(commodity_classification, values = c("HS"))
   return(commodity_classification)
 }
 
