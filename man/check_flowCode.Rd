@@ -2,18 +2,18 @@
 % Please edit documentation in R/check_params.R
 \name{check_flowCode}
 \alias{check_flowCode}
-\title{Check flow_direction parameter}
+\title{Check validity of flow direction parameter.}
 \usage{
 check_flowCode(flow_direction)
 }
 \arguments{
-\item{flow_direction}{A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".}
+\item{flow_direction}{The direction of trade flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports, "re-import" for re-imports, "re-export" for re-exports, or "all" for imports, exports, re-imports, and re-exports. Multiple values can be supplied as a character vector. The default value is "all".}
 }
 \value{
 A character vector specifying the trade flow codes.
 }
 \description{
-Check flow_direction parameter
+Trade flow code: export, import, re-export, re-import.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

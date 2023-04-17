@@ -111,10 +111,11 @@ check_clCode <- function(commodity_classification) {
   return(commodity_classification)
 }
 
-
-#' Check flow_direction parameter
+#' Check validity of flow direction parameter.
 #'
-#' @param flow_direction A character string or vector specifying the type of trade flow. Must be one or more of "import", "export", "re-export", "re-import", or "all".
+#' Trade flow code: export, import, re-export, re-import.
+#'
+#' @inheritParams get_comtrade_data
 #'
 #' @return A character vector specifying the trade flow codes.
 #'
@@ -123,7 +124,6 @@ check_clCode <- function(commodity_classification) {
 #' check_flowCode(c("export", "re-export")) # returns "X,RX"
 #' check_flowCode("trade") # throws an error because "trade" is not a valid flow code
 #' check_flowCode(NULL) # throws an error because at least one flow code must be provided
-#'
 check_flowCode <- function(flow_direction) {
   rlang::arg_match(
     flow_direction,
@@ -137,22 +137,21 @@ check_flowCode <- function(flow_direction) {
     rlang::abort("You need to provide at least one flow_direction reference.")
   }
 
-  if(length(flow_direction)>1 & any(flow_direction=='all')){
-    rlang::abort("You can only provide 'all' as a single argument")
+  if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
+    rlang::abort("You can only provide 'all' as a single argument.")
   }
 
-  if(length(flow_direction)>1|!any(flow_direction=='all')){
-    flow_direction <- stringr::str_replace_all(flow_direction,'^import$',"M")
-    flow_direction <- stringr::str_replace_all(flow_direction,'^export$',"X")
-    flow_direction <- stringr::str_replace_all(flow_direction,'^re-import$',"RM")
-    flow_direction <- stringr::str_replace_all(flow_direction,'^re-export$',"RX")
+  if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
+    flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
+    flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
+    flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
+    flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
     flow_direction <- flow_direction |> paste0(collapse = ',')
-  } else if( flow_direction=='all') {
+  } else if (flow_direction == 'all') {
     flow_direction <- 'M,X,RM,RX'
   }
   return(flow_direction)
 }
-
 
 #' Check commodity_code parameter
 #'
