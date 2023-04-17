@@ -1,20 +1,6 @@
-#' check_params
+#' Check that input parameters are valid and in compliance with comtrade - v1.
 #'
-#' Checks that input parameters are valid and in compliance with the comtrade API.
-#'
-#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.
-#' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
-#' @param commodity_code The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.
-#' @param flow_direction The direction of flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports. Multiple values can be supplied as a character vector. The default value is 'all' for imports, exports, re-imports and re-exports.
-#' @param reporter This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
-#' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
-#' @param start_date Start date of a time period.
-#' @param end_date End date of a time period.
-#' @param verbose whether the function sends status updates to the console
-#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
-#' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
-#' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
-#' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters exactly as they are put in.
+#' @inheritParams get_comtrade_data
 #'
 #' @return returns a list of named parameters for building a request
 check_params <- function(frequency = 'A',

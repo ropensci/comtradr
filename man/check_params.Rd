@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_params.R
 \name{check_params}
 \alias{check_params}
-\title{check_params}
+\title{Check that input parameters are valid and in compliance with comtrade - v1.}
 \usage{
 check_params(
   frequency = "A",
@@ -45,11 +45,11 @@ check_params(
 
 \item{verbose}{whether the function sends status updates to the console}
 
-\item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters exactly as they are put in.}
+\item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
 }
 \value{
 returns a list of named parameters for building a request
 }
 \description{
-Checks that input parameters are valid and in compliance with the comtrade API.
+Check that input parameters are valid and in compliance with comtrade - v1.
 }
