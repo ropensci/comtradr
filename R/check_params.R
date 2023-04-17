@@ -168,6 +168,8 @@ check_flowCode <- function(flow_direction) {
 #' check_cmdCode(c("01", "02")) # returns "01,02"
 #' check_cmdCode("ABC") # throws an error because "ABC" is not a valid HS code
 #' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
+#'
+#' @noRd
 check_cmdCode <- function(commodity_code) {
   # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
