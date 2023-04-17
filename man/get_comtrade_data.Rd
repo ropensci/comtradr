@@ -35,9 +35,9 @@ get_comtrade_data(
 
 \item{partner}{This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.}
 
-\item{start_date}{Start date of a time period.}
+\item{start_date}{The start date of the query, either in the format `yyyy` or `yyyy-mm`.}
 
-\item{end_date}{End date of a time period.}
+\item{end_date}{The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annual frequency or one year for monthly.}
 
 \item{process}{Whether to return the raw httr2 request or a data.frame with the results.}
 
