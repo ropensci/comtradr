@@ -74,7 +74,7 @@ check_params <- function(frequency,
   return(params)
 }
 
-#' Check frequency parameter.
+#' Check validity of frequency parameter.
 #'
 #' @inheritParams get_comtrade_data
 #'
@@ -86,10 +86,9 @@ check_params <- function(frequency,
 #' check_freq("M") # returns "M"
 #' check_freq("D") # throws an error because "D" is not a valid frequency code
 check_freq <- function(frequency) {
-  rlang::arg_match(frequency, values = c('A', "Q", "M"))
+  rlang::arg_match(frequency, values = c("A", "Q", "M"))
   return(frequency)
 }
-
 
 #' Check HS classification parameter
 #'
