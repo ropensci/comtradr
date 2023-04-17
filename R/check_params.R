@@ -5,23 +5,24 @@
 #' @return Returns a list of named parameters for building a request.
 #'
 #' @noRd
-check_params <- function(frequency = 'A',
-                         commodity_classification = 'HS',
-                         commodity_code = NULL,
-                         flow_direction = NULL,
-                         reporter = NULL,
-                         partner = NULL,
-                         start_date = NULL,
-                         end_date= NULL,
-                         mode_of_transport = '0',
-                         partner_2 = '0',
-                         customs_code ='C00',
-                         verbose = F,
+check_params <- function(frequency,
+                         commodity_classification,
+                         commodity_code,
+                         flow_direction,
+                         reporter,
+                         partner,
+                         start_date,
+                         end_date,
+                         mode_of_transport,
+                         partner_2,
+                         customs_code,
+                         verbose,
                          ...) {
 
   frequency <- check_freq(frequency)
+
   if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of frequency!"))
+    cli::cli_inform(c("v" = "Checked validity of frequency."))
   }
 
   commodity_classification <- check_clCode(commodity_classification)
