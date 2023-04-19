@@ -228,7 +228,7 @@ check_reporterCode <- function(reporter) {
     # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
     if (!all(reporter %in% reporter_codes$iso_3)) {
       rlang::abort(paste0(
-        "The following reporterCodes you provided are invalid: ",
+        "The following reporter(s) you provided are invalid: ",
         paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
       ))
     }

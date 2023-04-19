@@ -27,7 +27,7 @@ ct_get_data(
 
 \item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
 
-\item{commodity_code}{The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. The default value is 'TOTAL': the sum of all commodities.}
+\item{commodity_code}{The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.}
 
 \item{flow_direction}{The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.}
 

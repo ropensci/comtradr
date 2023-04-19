@@ -7,7 +7,7 @@
 #'
 #' @param frequency The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
 #' @param commodity_classification The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.
-#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. The default value is 'TOTAL': the sum of all commodities.
+#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.
 #' @param flow_direction The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.
 #' @param reporter Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.
 #' @param partner Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.
@@ -60,6 +60,9 @@ ct_get_data <- function(frequency = 'A',
     start_date = start_date,
     end_date = end_date,
     verbose = verbose,
+    mode_of_transport = mode_of_transport,
+    partner_2 = partner_2,
+    customs_code = customs_code,
     includeDesc = "TRUE",
     ...
   )
