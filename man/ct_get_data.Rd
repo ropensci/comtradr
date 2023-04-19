@@ -9,8 +9,8 @@ ct_get_data(
   commodity_classification = "HS",
   commodity_code = "TOTAL",
   flow_direction = "all",
-  reporter = NULL,
-  partner = NULL,
+  reporter = "all",
+  partner = "World",
   start_date = NULL,
   end_date = NULL,
   process = T,
@@ -33,7 +33,7 @@ ct_get_data(
 
 \item{reporter}{Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.}
 
-\item{partner}{Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.}
+\item{partner}{Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World'.}
 
 \item{start_date}{The start date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`.}
 
