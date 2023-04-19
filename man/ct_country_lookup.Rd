@@ -4,7 +4,7 @@
 \alias{ct_country_lookup}
 \title{ct_country_lookup}
 \usage{
-ct_country_lookup()
+ct_country_lookup(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

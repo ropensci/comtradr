@@ -4,7 +4,7 @@
 \alias{ct_commodity_db_type}
 \title{ct_commodity_db_type}
 \usage{
-ct_commodity_db_type()
+ct_commodity_db_type(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

@@ -6,18 +6,18 @@
 #'
 #' @noRd
 ct_check_params <- function(frequency,
-                         commodity_classification,
-                         commodity_code,
-                         flow_direction,
-                         reporter,
-                         partner,
-                         start_date,
-                         end_date,
-                         mode_of_transport,
-                         partner_2,
-                         customs_code,
-                         verbose,
-                         ...) {
+                            commodity_classification,
+                            commodity_code,
+                            flow_direction,
+                            reporter,
+                            partner,
+                            start_date,
+                            end_date,
+                            mode_of_transport,
+                            partner_2,
+                            customs_code,
+                            verbose,
+                            ...) {
 
   frequency <- check_freq(frequency)
   if (verbose) {
@@ -89,7 +89,7 @@ ct_check_params <- function(frequency,
 #'
 #' @noRd
 check_freq <- function(frequency) {
-  rlang::arg_match(frequency, values = c("A", "Q", "M"))
+  rlang::arg_match(frequency, values = c("A", "M"))
   return(frequency)
 }
 
@@ -228,7 +228,7 @@ check_reporterCode <- function(reporter) {
     # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
     if (!all(reporter %in% reporter_codes$iso_3)) {
       rlang::abort(paste0(
-        "The following reporterCodes you provided are invalid: ",
+        "The following reporter(s) you provided are invalid: ",
         paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
       ))
     }

@@ -4,7 +4,7 @@
 \alias{ct_search}
 \title{ct_search}
 \usage{
-ct_search()
+ct_search(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

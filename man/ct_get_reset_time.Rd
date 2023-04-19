@@ -4,7 +4,7 @@
 \alias{ct_get_reset_time}
 \title{ct_get_reset_time}
 \usage{
-ct_get_reset_time()
+ct_get_reset_time(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.
