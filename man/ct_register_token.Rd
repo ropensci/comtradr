@@ -4,7 +4,7 @@
 \alias{ct_register_token}
 \title{ct_get_remaining_secondly_queries}
 \usage{
-ct_register_token()
+ct_register_token(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

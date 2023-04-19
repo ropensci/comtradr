@@ -4,7 +4,7 @@
 \alias{ct_get_remaining_hourly_queries}
 \title{ct_get_remaining_hourly_queries}
 \usage{
-ct_get_remaining_hourly_queries()
+ct_get_remaining_hourly_queries(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

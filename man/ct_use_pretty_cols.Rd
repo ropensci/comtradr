@@ -4,7 +4,7 @@
 \alias{ct_use_pretty_cols}
 \title{ct_use_pretty_cols}
 \usage{
-ct_use_pretty_cols()
+ct_use_pretty_cols(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

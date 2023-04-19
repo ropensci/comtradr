@@ -4,7 +4,7 @@
 \alias{ct_update_databases}
 \title{ct_update_databases}
 \usage{
-ct_update_databases()
+ct_update_databases(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

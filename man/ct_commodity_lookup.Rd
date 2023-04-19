@@ -4,7 +4,7 @@
 \alias{ct_commodity_lookup}
 \title{ct_commodity_lookup}
 \usage{
-ct_commodity_lookup()
+ct_commodity_lookup(...)
 }
 \description{
 This function is deprecated Please use  `xyz()` instead.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ct_get_data.R
 \name{ct_get_data}
 \alias{ct_get_data}
-\title{Get trade data from the Comtrade API}
+\title{Get trade data from the free UN Comtrade API}
 \usage{
 ct_get_data(
   frequency = "A",
