@@ -22,12 +22,12 @@
 #' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
 #'
 #' @examplesIf interactive()
-#' get_comtrade_data(frequency = 'A',
+#' ct_get_data(frequency = 'A',
 #' commodity_classification = 'HS',
 #' commodity_code = c('2204','2203'),
 #' flow_direction = 'export',
 #' reporter = c("ARG","GBR"),
-#' partner = 'world',
+#' partner = 'World',
 #' start_date = "2018",
 #' end_date = "2019",
 #' process = T)
