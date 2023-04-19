@@ -14,7 +14,7 @@
 #' @param start_date The start date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`.
 #' @param end_date The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.
 #' @param primary_token Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.
-#' @param process A logical value. If TRUE, returns the raw httr2 request. If FALSE, returns a data.frame with the results. Defaults to TRUE.
+#' @param process A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.
 #' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
 #' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
@@ -35,20 +35,20 @@
 #' @export
 #' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
 ct_get_data <- function(frequency = 'A',
-                              commodity_classification = 'HS',
-                              commodity_code = 'TOTAL',
-                              flow_direction = 'all',
-                              reporter = NULL,
-                              partner = NULL,
-                              start_date = NULL,
-                              end_date = NULL,
-                              process = T,
-                              verbose = F,
-                              primary_token = get_primary_comtrade_key(),
-                              mode_of_transport = '0',
-                              partner_2 = '0',
-                              customs_code ='C00',
-                              ...) {
+                        commodity_classification = 'HS',
+                        commodity_code = 'TOTAL',
+                        flow_direction = 'all',
+                        reporter = NULL,
+                        partner = NULL,
+                        start_date = NULL,
+                        end_date = NULL,
+                        process = T,
+                        verbose = F,
+                        primary_token = get_primary_comtrade_key(),
+                        mode_of_transport = '0',
+                        partner_2 = '0',
+                        customs_code ='C00',
+                        ...) {
   ## compile codes
   params <- ct_check_params(
     frequency = frequency,

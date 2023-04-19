@@ -39,7 +39,7 @@ ct_get_data(
 
 \item{end_date}{The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.}
 
-\item{process}{A logical value. If TRUE, returns the raw httr2 request. If FALSE, returns a data.frame with the results. Defaults to TRUE.}
+\item{process}{A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.}
 
 \item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
 
