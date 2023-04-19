@@ -19,10 +19,9 @@ last_modified <- httr2::resp_header(header = "Last-Modified", resp = response) |
 ## writing last modification to data
 list_of_datasets$last_modified <- last_modified
 
-## changing colon to underscore in dataset names and adding prefix 'ref'
+## changing colon to underscore in dataset names
 list_of_datasets$category <- stringr::str_replace_all(list_of_datasets$category,':',"_") |>
-  tolower() |>
-  stringr::str_c('ref_',y =_)
+  tolower()
 
 save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 
