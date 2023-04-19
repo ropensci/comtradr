@@ -1,21 +1,21 @@
-#' Get trade data from the Comtrade API
+#' Get trade data from the UN Comtrade API
 #'
 #' As the package is under development, please note, that the following parameters will be supplied internally in a fixed manner:
 #' * customsCode is set to C00, which is the most general
 #' * motCode is set to 0, which is all modes of transportation
 #' * partner2Code is set to 0, which is the most general settings returning all data
 #'
-#' @param frequency The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.
-#' @param commodity_classification The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.
-#' @param commodity_code The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.
-#' @param flow_direction The direction of trade flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports, "re-import" for re-imports, "re-export" for re-exports, or "all" for imports, exports, re-imports, and re-exports. Multiple values can be supplied as a character vector. The default value is "all".
-#' @param reporter This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)
-#' @param partner This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.
-#' @param start_date The start date of the query, either in the format `yyyy` or `yyyy-mm`.
-#' @param end_date The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annual frequency or one year for monthly.
-#' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
-#' @param process Whether to return the raw httr2 request or a data.frame with the results.
-#' @param verbose whether the function sends status updates to the console
+#' @param frequency The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
+#' @param commodity_classification The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.
+#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. The default value is 'TOTAL': the sum of all commodities.
+#' @param flow_direction The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.
+#' @param reporter Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.
+#' @param partner Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.
+#' @param start_date The start date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`.
+#' @param end_date The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.
+#' @param primary_token Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.
+#' @param process A logical value. If TRUE, returns the raw httr2 request. If FALSE, returns a data.frame with the results. Defaults to TRUE.
+#' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
 #' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
 #' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.

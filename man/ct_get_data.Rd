@@ -2,7 +2,7 @@
 % Please edit documentation in R/ct_get_data.R
 \name{ct_get_data}
 \alias{ct_get_data}
-\title{Get trade data from the free UN Comtrade API}
+\title{Get trade data from the UN Comtrade API}
 \usage{
 ct_get_data(
   frequency = "A",
@@ -23,27 +23,27 @@ ct_get_data(
 )
 }
 \arguments{
-\item{frequency}{The frequency of returned trade data, default is 'A' for annual. Alternative is 'M' for monthly. The default value is 'A'.}
+\item{frequency}{The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.}
 
-\item{commodity_classification}{The used classification scheme for the commodity code. As of now, only HS codes are supported, so default is 'HS'.}
+\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
 
-\item{commodity_code}{The commodity code that you would like to investigate. The default value is TOTAL, implying the sum of all commodities. Multiple values can be supplied as a character vector.}
+\item{commodity_code}{The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. The default value is 'TOTAL': the sum of all commodities.}
 
-\item{flow_direction}{The direction of trade flows, e.g. whether you would like to get data on reported imports or exports. Possible values are "import" for imports, "export" for exports, "re-import" for re-imports, "re-export" for re-exports, or "all" for imports, exports, re-imports, and re-exports. Multiple values can be supplied as a character vector. The default value is "all".}
+\item{flow_direction}{The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.}
 
-\item{reporter}{This has to be a vector of character values specifying one or multiple reporter countries in the iso3c format. The reporter is the country that supplied the data to the UN. The string 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries)}
+\item{reporter}{Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.}
 
-\item{partner}{This has to be a vector of character values specifying the partner country in the iso3c format. The partner area is the country with whom the reporter has reported trade relations. The string 'all' can be supplied to return values for all partner countries that are not labelled as 'group' by the UN (e.g. ASEAN countries or the entire World). The value 'world' can be supplied, to include trade with all partner countries aggregated globally.}
+\item{partner}{Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. NULL can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is NULL.}
 
-\item{start_date}{The start date of the query, either in the format `yyyy` or `yyyy-mm`.}
+\item{start_date}{The start date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`.}
 
-\item{end_date}{The end date of the query, either in the format `yyyy` or `yyyy-mm`. Can be a maximum of 12 years after the start date for the annual frequency or one year for monthly.}
+\item{end_date}{The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.}
 
-\item{process}{Whether to return the raw httr2 request or a data.frame with the results.}
+\item{process}{A logical value. If TRUE, returns the raw httr2 request. If FALSE, returns a data.frame with the results. Defaults to TRUE.}
 
-\item{verbose}{whether the function sends status updates to the console}
+\item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
 
-\item{primary_token}{Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function}
+\item{primary_token}{Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.}
 
 \item{mode_of_transport}{The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.}
 
