@@ -31,7 +31,7 @@ get_primary_comtrade_key <- function() {
 #' Get reference table from package data
 #'
 #' @export
-ct_get_ref_table <- function(param) {
+ct_get_commodity_table <- function(commodity_classification) {
   switch_list <- c(
     'B4' = 'cmd_b4',
     'B5' = 'cmd_b5',
@@ -55,17 +55,17 @@ ct_get_ref_table <- function(param) {
   )
 
   possible_values <- names(switch_list)
-  rlang::arg_match(param, values = possible_values)
+  rlang::arg_match(commodity_classification, values = possible_values)
 
-  ref_table_name <- switch_list[param]
+  ref_table_name <- switch_list[commodity_classification]
 
-  data <- get(param, envir = ct_env)
+  data <- get(commodity_classification, envir = ct_env)
   if(!is.null(data)){
     return(data)
   } else {
-    data <- fs::path_package(paste0('extdata/',ref_table_name[1],'.rds'),package = 'comtradr') |>
+    data <- fs::path_package(paste0('extdata/',ref_table_name,'.rds'),package = 'comtradr') |>
       readr::read_rds()
-    assign(param,data,envir = ct_env)
+    assign(commodity_classification,data,envir = ct_env)
     return(data)
   }
 }
