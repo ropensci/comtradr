@@ -48,8 +48,15 @@ for(i in 1:nrow(list_of_datasets)){
 
   result$last_modified <- last_modified
 
-  assign(list_of_datasets$category[i],result)
-
-  save(list = list_of_datasets$category[i],
-       file = paste0('inst/extdata/',list_of_datasets$category[i],'.rda'))
+  readr::write_rds(result,
+       file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
 }
+
+
+
+# -------------------------------------------------------------------------
+switch <- list_of_datasets |>
+  mutate(class_code = stringr::str_split_i(fileuri, '/',8) |> stringr::str_remove('.json')) |>
+  filter(variable=='Product') |>
+  select(class_code,category) |>
+  readr::write_delim(file = 'data-raw/switch_cmd_code.csv',delim = ' - ')

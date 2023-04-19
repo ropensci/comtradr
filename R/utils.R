@@ -28,6 +28,43 @@ get_primary_comtrade_key <- function() {
   }
 }
 
+#' Get reference table from package data
+#'
+#' @export
+ct_get_ref_table <- function(param) {
+  switch_list <- c(
+    'B4' = 'cmd_b4',
+    'B5' = 'cmd_b5',
+    'EB02' = 'cmd_eb02',
+    'EB10' = 'cmd_eb10',
+    'EB10S' = 'cmd_eb10s',
+    'EB' = 'cmd_eb',
+    'H0' = 'cmd_h0',
+    'H1' = 'cmd_h1',
+    'H2' = 'cmd_h2',
+    'H3' = 'cmd_h3',
+    'H4' = 'cmd_h4',
+    'H5' = 'cmd_h5',
+    'H6' = 'cmd_h6',
+    'HS' = 'cmd_hs',
+    'S1' = 'cmd_s1',
+    'S2' = 'cmd_s2',
+    'S3' = 'cmd_s3',
+    'S4' = 'cmd_s4',
+    'SS' = 'cmd_ss'
+  )
+
+  possible_values <- names(switch_list)
+  rlang::arg_match(param, values = possible_values)
+
+  ref_table_name <- switch_list[param]
+
+  data <- fs::path_package(paste0('extdata/',ref_table_name[1],'.rds'),package = 'comtradr') |>
+    readr::read_rds()
+
+  return(data)
+}
+
 
 
 
