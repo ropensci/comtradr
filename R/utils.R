@@ -59,10 +59,15 @@ ct_get_ref_table <- function(param) {
 
   ref_table_name <- switch_list[param]
 
-  data <- fs::path_package(paste0('extdata/',ref_table_name[1],'.rds'),package = 'comtradr') |>
-    readr::read_rds()
-
-  return(data)
+  data <- get(param, envir = ct_env)
+  if(!is.null(data)){
+    return(data)
+  } else {
+    data <- fs::path_package(paste0('extdata/',ref_table_name[1],'.rds'),package = 'comtradr') |>
+      readr::read_rds()
+    assign(param,data,envir = ct_env)
+    return(data)
+  }
 }
 
 

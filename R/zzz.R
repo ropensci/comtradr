@@ -10,15 +10,38 @@ assign(
   paste(
     Sys.info()[["user"]], R.version$version.str, version$platform, sep = ", "
   ), envir = ct_env
-) 
+)
 
-# Initialize placeholders for package data within ct_env. 
+# Initialize placeholders for package data within ct_env.
 assign("country_df", NULL, envir = ct_env)
 assign("commodity_df", NULL, envir = ct_env)
+assign("commodity_df", NULL, envir = ct_env)
+
+
+assign('B4', NULL, envir = ct_env)
+assign('B5', NULL, envir = ct_env)
+assign('EB0', NULL, envir = ct_env)
+assign('EB1', NULL, envir = ct_env)
+assign('EB1', NULL, envir = ct_env)
+assign('EB', NULL, envir = ct_env)
+assign('H0', NULL, envir = ct_env)
+assign('H1', NULL, envir = ct_env)
+assign('H2', NULL, envir = ct_env)
+assign('H3', NULL, envir = ct_env)
+assign('H4', NULL, envir = ct_env)
+assign('H5', NULL, envir = ct_env)
+assign('H6', NULL, envir = ct_env)
+assign('HS', NULL, envir = ct_env)
+assign('S1', NULL, envir = ct_env)
+assign('S2', NULL, envir = ct_env)
+assign('S3', NULL, envir = ct_env)
+assign('S4', NULL, envir = ct_env)
+assign('SS', NULL, envir = ct_env)
+
 
 # Establish initial credentials for the Comtrade API.
 # .onLoad <- function(libname, pkgname) {
-#   if (is.null(getOption("comtradr"))) { 
+#   if (is.null(getOption("comtradr"))) {
 #     ct_options <- list(
 #       comtrade = list(
 #         token = NULL,
