@@ -24,13 +24,15 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    httr,
-    jsonlite,
     magrittr (>= 1.5),
-    purrr,
     lifecycle,
     fs,
-    readr
+    readr,
+    askpass,
+    cli,
+    httr2,
+    rlang,
+    stringr
 RoxygenNote: 7.2.3
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
