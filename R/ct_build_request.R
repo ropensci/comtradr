@@ -14,6 +14,8 @@ ct_build_request <- function(params,
                                    verbose = F) {
   query_params <- params$query_params
 
+  type <- params$url_params$type
+
   freq <- params$url_params$freq
 
   clCode <- params$url_params$clCode

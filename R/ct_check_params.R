@@ -25,7 +25,7 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of type."))
   }
 
-  frequency <- check_freq(frequency)
+  frequency <- check_freq(type, frequency)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of frequency."))
   }
@@ -94,7 +94,7 @@ ct_check_params <- function(type,
 #' check_freq("Good") # throws an error because "Good" is not a valid type code
 #'
 #' @noRd
-check_freq <- function(type) {
+check_type <- function(type) {
   lowercase <- tolower(type)
   rlang::arg_match(lowercase, values = c("goods", "services"))
   switch <- c('goods' = 'C',
@@ -109,7 +109,7 @@ check_freq <- function(type) {
 #'
 #' Trade frequency: 'A' for annual and 'M' for monthly.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character string specifying the frequency of the data.
 #'
@@ -120,8 +120,13 @@ check_freq <- function(type) {
 #' check_freq("D") # throws an error because "D" is not a valid frequency code
 #'
 #' @noRd
-check_freq <- function(frequency) {
-  rlang::arg_match(frequency, values = c("A", "M"))
+check_freq <- function(type, frequency) {
+  # only annual data for services endpoint
+  if(type == 'S'){
+    rlang::arg_match(frequency, values = c("A"))
+  } else {
+    rlang::arg_match(frequency, values = c("A", "M"))
+  }
   return(frequency)
 }
 
@@ -129,7 +134,7 @@ check_freq <- function(frequency) {
 #'
 #' Trade (IMTS) classifications: HS, SITC, BEC or EBOPS. Currently, we only support the HS classification.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character string specifying the selected classification code.
 #'
@@ -138,8 +143,15 @@ check_freq <- function(frequency) {
 #' untrader:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
 #'
 #' @noRd
-check_clCode <- function(commodity_classification) {
-  rlang::arg_match(commodity_classification, values = c("HS"))
+check_clCode <- function(type,commodity_classification) {
+  cmd_list_goods <- c('B4','B5','H0','H1','H2','H3','H4','H5',
+                      'H6','HS','S1','S2','S3','S4','SS')
+  cmd_list_services <- c('EB02','EB10','EB10S','EB')
+  if(type == 'C'){
+    rlang::arg_match(commodity_classification, values = cmd_list_goods)
+  } else {
+    rlang::arg_match(commodity_classification, values = cmd_list_services)
+  }
   return(commodity_classification)
 }
 
@@ -147,7 +159,7 @@ check_clCode <- function(commodity_classification) {
 #'
 #' Trade flow code: export, import, re-export, re-import.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character vector specifying the trade flow codes.
 #'
@@ -191,7 +203,7 @@ check_flowCode <- function(flow_direction) {
 #'
 #' Commodity code. We currently only support HS codes.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character vector specifying the commodity codes requested.
 #'
@@ -232,7 +244,7 @@ check_cmdCode <- function(commodity_code) {
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character vector of valid reporter IDs.
 #'
@@ -288,7 +300,7 @@ check_reporterCode <- function(reporter) {
 #' valid, the function throws an error message indicating which codes are invalid.
 #' It also converts the input to a proper format if necessary.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character vector of valid partner IDs.
 #'
@@ -344,7 +356,7 @@ check_partnerCode <- function(partner) {
 #' format is not valid, the function throws an error message indicating which
 #' codes are invalid. It also converts the input to the proper format if necessary.
 #'
-#' @inheritParams get_comtrade_data
+#' @inheritParams ct_get_data
 #'
 #' @return A character vector of valid reporter IDs.
 #'
