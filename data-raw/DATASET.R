@@ -48,7 +48,7 @@ for(i in 1:nrow(list_of_datasets)){
 
   result$last_modified <- last_modified
 
-  readr::write_rds(result,
+  readr::write_rds(result, "xz",
        file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
 }
 
