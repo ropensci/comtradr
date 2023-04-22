@@ -17,6 +17,7 @@ ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = F) 
     resp <- req |>
       httr2::req_error(body = comtrade_error_body) |>
       httr2::req_throttle(rate = requests_per_second) |>
+      httr2::req_retry(max_tries = 5) |>
       httr2::req_perform()
 
     if (verbose) {
