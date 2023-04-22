@@ -29,6 +29,7 @@ get_primary_comtrade_key <- function() {
 }
 
 #' Get reference table from package data
+#' @inheritParams ct_get_data
 #'
 #' @export
 ct_get_commodity_table <- function(commodity_classification) {
