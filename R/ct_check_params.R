@@ -30,7 +30,7 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of frequency."))
   }
 
-  commodity_classification <- check_clCode(commodity_classification)
+  commodity_classification <- check_clCode(type, commodity_classification)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
   }
@@ -40,7 +40,7 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of flow_direction."))
   }
 
-  commodity_code <- check_cmdCode(commodity_code)
+  commodity_code <- check_cmdCode(commodity_classification,commodity_code)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of commodity_code."))
   }
@@ -144,9 +144,8 @@ check_freq <- function(type, frequency) {
 #'
 #' @noRd
 check_clCode <- function(type,commodity_classification) {
-  cmd_list_goods <- c('B4','B5','H0','H1','H2','H3','H4','H5',
-                      'H6','HS','S1','S2','S3','S4','SS')
-  cmd_list_services <- c('EB02','EB10','EB10S','EB')
+  cmd_list_goods <- c('HS','S1','S2','S3','S4','SS')
+  cmd_list_services <- c('B4','B5','EB02','EB10','EB10S','EB')
   if(type == 'C'){
     rlang::arg_match(commodity_classification, values = cmd_list_goods)
   } else {
@@ -231,7 +230,7 @@ check_cmdCode <- function(commodity_classification,commodity_code) {
   # if one of the codes is not in the list of valid codes send stop signal and list problems
   if (!all(commodity_code %in% valid_codes)) {
     rlang::abort(paste0(
-      "The following HS codes you provided are invalid: ",
+      "The following services/commodity codes you provided are invalid: ",
       paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
     ))
   } else {
@@ -369,6 +368,10 @@ check_partnerCode <- function(partner) {
 #'
 #' @noRd
 check_date <- function(start_date, end_date, frequency) {
+
+  if(is.null(start_date)|is.null(end_date)){
+    rlang::abort('Please provide a start and end date for the period of interest.')
+  }
 
   start_date <- as.character(start_date)
   end_date <- as.character(end_date)
