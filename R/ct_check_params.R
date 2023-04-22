@@ -214,7 +214,7 @@ check_flowCode <- function(flow_direction) {
 #' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
 #'
 #' @noRd
-check_cmdCode <- function(commodity_code) {
+check_cmdCode <- function(commodity_classification,commodity_code) {
   # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
     commodity_code <- as.character(commodity_code)
@@ -225,16 +225,18 @@ check_cmdCode <- function(commodity_code) {
   # remove any white space from cmd codes provided
   commodity_code <- stringr::str_squish(commodity_code)
 
-  # if one of the HS codes is not in the list of valid HS codes send stop signal and list problems
-  if (!all(commodity_code %in% comtradr::cmd_codes$id)) {
+  # get the list of valid parameters from inst/extdata
+  valid_codes <- ct_get_commodity_table(commodity_classification)$id
+
+  # if one of the codes is not in the list of valid codes send stop signal and list problems
+  if (!all(commodity_code %in% valid_codes)) {
     rlang::abort(paste0(
       "The following HS codes you provided are invalid: ",
-      paste0(setdiff(commodity_code, comtradr::cmd_codes$id), collapse = ", ")
+      paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
     ))
   } else {
     commodity_code <- paste0(commodity_code, collapse = ',')
   }
-
   return(commodity_code)
 }
 
