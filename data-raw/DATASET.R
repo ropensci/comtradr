@@ -26,30 +26,34 @@ list_of_datasets$category <- stringr::str_replace_all(list_of_datasets$category,
 save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 
 for(i in 1:nrow(list_of_datasets)){
-
+  valid_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4', 'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10', 'cmd_eb10s', 'cmd_eb')
+  if(list_of_datasets$category[i] %in% valid_datasets){
     response <- httr2::request(list_of_datasets$fileuri[i]) |>
-    httr2::req_perform()
+      httr2::req_perform()
 
     data <- response |>
-    httr2::resp_body_json(simplifyVector = T)
+      httr2::resp_body_json(simplifyVector = T)
 
     last_modified <- httr2::resp_header(header = "Last-Modified", resp = response) |>
       stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
       as.Date(format = "%d %b %Y")
 
-  print(length(data))
-  if(length(data)==1){
-    result <- data[[1]]
-  } else if(length(data)==2) {
-    result <- data[[2]]
+    print(length(data))
+    if(length(data)==1){
+      result <- data[[1]]
+    } else if(length(data)==2) {
+      result <- data[[2]]
+    } else {
+      result <- data[[5]]
+    }
+
+    result$last_modified <- last_modified
+
+    readr::write_rds(result, "xz",
+                     file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
   } else {
-    result <- data[[5]]
+    next
   }
-
-  result$last_modified <- last_modified
-
-  readr::write_rds(result, "xz",
-       file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
 }
 
 
