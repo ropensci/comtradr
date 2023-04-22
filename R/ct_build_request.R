@@ -19,7 +19,8 @@ ct_build_request <- function(params,
   clCode <- params$url_params$clCode
 
   res <-
-    httr2::request("https://comtradeapi.un.org/data/v1/get/C") |>
+    httr2::request("https://comtradeapi.un.org/data/v1/get/") |>
+    httr2::req_url_path_append(type) |>
     httr2::req_url_path_append(freq) |>
     httr2::req_url_path_append(clCode) |>
     httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token) |>

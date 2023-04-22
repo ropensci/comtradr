@@ -5,7 +5,8 @@
 #' * motCode is set to 0, which is all modes of transportation
 #' * partner2Code is set to 0, which is the most general settings returning all data
 #'
-#' @param frequency The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
+#' @param type The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
+#' @param frequency The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.
 #' @param commodity_classification The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.
 #' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.
 #' @param flow_direction The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.
@@ -34,7 +35,8 @@
 #'
 #' @export
 #' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
-ct_get_data <- function(frequency = 'A',
+ct_get_data <- function(type = 'goods',
+                        frequency = 'A',
                         commodity_classification = 'HS',
                         commodity_code = 'TOTAL',
                         flow_direction = 'all',
@@ -51,6 +53,7 @@ ct_get_data <- function(frequency = 'A',
                         ...) {
   ## compile codes
   params <- ct_check_params(
+    type = type,
     frequency = frequency,
     commodity_classification = commodity_classification,
     commodity_code = commodity_code,

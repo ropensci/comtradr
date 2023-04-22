@@ -5,7 +5,8 @@
 #' @return Returns a list of named parameters for building a request.
 #'
 #' @noRd
-ct_check_params <- function(frequency,
+ct_check_params <- function(type,
+                            frequency,
                             commodity_classification,
                             commodity_code,
                             flow_direction,
@@ -18,6 +19,11 @@ ct_check_params <- function(frequency,
                             customs_code,
                             verbose,
                             ...) {
+
+  type <- check_type(type)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of type."))
+  }
 
   frequency <- check_freq(frequency)
   if (verbose) {
@@ -66,12 +72,38 @@ ct_check_params <- function(frequency,
       customsCode = customs_code,
       ...
     ),
-    url_params = list(freq = frequency,
+    url_params = list(type = type,
+                      freq = frequency,
                       clCode = commodity_classification)
   )
 
   return(params)
 }
+
+#' Check validity of type parameter.
+#'
+#' Trade frequency: 'goods' for goods and 'services' for services
+#'
+#' @inheritParams get_comtrade_data
+#'
+#' @return A character string specifying the type parameter of the data.
+#'
+#' @examplesIf interactive()
+#' check_freq("goods") # returns "C"
+#' check_freq("services") # returns "S"
+#' check_freq("Good") # throws an error because "Good" is not a valid type code
+#'
+#' @noRd
+check_freq <- function(type) {
+  lowercase <- tolower(type)
+  rlang::arg_match(lowercase, values = c("goods", "services"))
+  switch <- c('goods' = 'C',
+              'services' = 'S')
+
+  type <- switch[lowercase]
+  return(type)
+}
+
 
 #' Check validity of frequency parameter.
 #'
