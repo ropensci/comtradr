@@ -29,10 +29,10 @@ get_primary_comtrade_key <- function() {
 }
 
 #' Get reference table from package data
-#' @inheritParams ct_get_data
+#' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #'
 #' @export
-ct_get_commodity_table <- function(commodity_classification) {
+ct_get_ref_table <- function(dataset_id) {
   switch_list <- c(
     'B4'    = 'cmd_b4'   ,
     'B5'    = 'cmd_b5'   ,
@@ -45,21 +45,24 @@ ct_get_commodity_table <- function(commodity_classification) {
     'S2'    = 'cmd_s2'   ,
     'S3'    = 'cmd_s3'   ,
     'S4'    = 'cmd_s4'   ,
-    'SS'    = 'cmd_ss'
+    'SS'    = 'cmd_ss'   ,
+    'reporter'    = 'reporter'   ,
+    'partner'    = 'partner'
+
   )
 
   possible_values <- names(switch_list)
-  rlang::arg_match(commodity_classification, values = possible_values)
+  rlang::arg_match(dataset_id, values = possible_values)
 
-  ref_table_name <- switch_list[commodity_classification]
+  ref_table_name <- switch_list[dataset_id]
 
-  data <- get(commodity_classification, envir = ct_env)
+  data <- get(dataset_id, envir = ct_env)
   if(!is.null(data)){
     return(data)
   } else {
     data <- fs::path_package(paste0('extdata/',ref_table_name,'.rds'),package = 'comtradr') |>
       readr::read_rds()
-    assign(commodity_classification,data,envir = ct_env)
+    assign(dataset_id,data,envir = ct_env)
     return(data)
   }
 }

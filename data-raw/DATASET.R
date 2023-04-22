@@ -23,11 +23,22 @@ list_of_datasets$last_modified <- last_modified
 list_of_datasets$category <- stringr::str_replace_all(list_of_datasets$category,':',"_") |>
   tolower()
 
+## save list of datasets
 save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 
+i <- 1
+## loop over all datasets (for loop, because it is readable,
+## no need for speeding this up with more complicated lapply or more dependencies)
 for(i in 1:nrow(list_of_datasets)){
-  valid_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4', 'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10', 'cmd_eb10s', 'cmd_eb')
-  if(list_of_datasets$category[i] %in% valid_datasets){
+  ## define the valid commodity codes that we need
+  valid_cmd_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4',
+                      'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10',
+                      'cmd_eb10s', 'cmd_eb')
+
+  valid_country_datasets <- c('reporter','partner')
+
+  ## if it is a valid dataset that we need, download it
+  if(list_of_datasets$category[i] %in% valid_cmd_datasets){
     response <- httr2::request(list_of_datasets$fileuri[i]) |>
       httr2::req_perform()
 
@@ -38,13 +49,44 @@ for(i in 1:nrow(list_of_datasets)){
       stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
       as.Date(format = "%d %b %Y")
 
-    print(length(data))
-    if(length(data)==1){
-      result <- data[[1]]
-    } else if(length(data)==2) {
-      result <- data[[2]]
+    result <- data$results
+
+    result$last_modified <- last_modified
+
+    readr::write_rds(result, "xz",
+                     file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
+  } else if(list_of_datasets$category[i] %in% valid_country_datasets) {
+    response <- httr2::request(list_of_datasets$fileuri[i]) |>
+      httr2::req_perform()
+
+    data <- response |>
+      httr2::resp_body_json(simplifyVector = T)
+
+    last_modified <- httr2::resp_header(header = "Last-Modified", resp = response) |>
+      stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
+      as.Date(format = "%d %b %Y")
+
+    if(list_of_datasets$category[i]=='reporter'){
+      result <- data$results |>
+        poorman::transmute(
+          id,
+          country = text,
+          iso_3 = reporterCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup
+        )
     } else {
-      result <- data[[5]]
+      result <- data$results |>
+        poorman::transmute(
+          id,
+          country = text,
+          iso_3 = PartnerCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup
+        ) |>
+        mutate(iso_3 = ifelse(country=='World','World',iso_3))
     }
 
     result$last_modified <- last_modified
@@ -59,8 +101,8 @@ for(i in 1:nrow(list_of_datasets)){
 
 
 # -------------------------------------------------------------------------
-switch <- list_of_datasets |>
-  mutate(class_code = stringr::str_split_i(fileuri, '/',8) |> stringr::str_remove('.json')) |>
-  filter(variable=='Product') |>
-  select(class_code,category) |>
-  readr::write_delim(file = 'data-raw/switch_cmd_code.csv',delim = ' - ')
+# switch <- list_of_datasets |>
+#   mutate(class_code = stringr::str_split_i(fileuri, '/',8) |> stringr::str_remove('.json')) |>
+#   filter(variable=='Product') |>
+#   select(class_code,category) |>
+#   readr::write_delim(file = 'data-raw/switch_cmd_code.csv',delim = ' - ')

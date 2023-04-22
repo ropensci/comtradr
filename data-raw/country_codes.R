@@ -50,4 +50,4 @@ usethis::use_data(country_codes, overwrite = TRUE)
 
 # Save internal datasets --------------------------------------------------
 
-usethis::use_data(reporter_codes, partner_codes, internal = TRUE, overwrite = TRUE)
+# usethis::use_data(reporter_codes, partner_codes, internal = TRUE, overwrite = TRUE)

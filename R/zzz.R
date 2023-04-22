@@ -37,6 +37,8 @@ assign('S2', NULL, envir = ct_env)
 assign('S3', NULL, envir = ct_env)
 assign('S4', NULL, envir = ct_env)
 assign('SS', NULL, envir = ct_env)
+assign('reporter', NULL, envir = ct_env)
+assign('partner', NULL, envir = ct_env)
 
 
 # Establish initial credentials for the Comtrade API.

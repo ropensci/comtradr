@@ -225,7 +225,7 @@ check_cmdCode <- function(commodity_classification,commodity_code) {
   commodity_code <- stringr::str_squish(commodity_code)
 
   # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_commodity_table(commodity_classification)$id
+  valid_codes <- ct_get_ref_table(dataset_id = commodity_classification)$id
 
   # if one of the codes is not in the list of valid codes send stop signal and list problems
   if (!all(commodity_code %in% valid_codes)) {
@@ -265,6 +265,9 @@ check_reporterCode <- function(reporter) {
 
   ## check if valid reporter code length and type
   reporter <- stringr::str_squish(reporter)
+
+  reporter_codes <- ct_get_ref_table(dataset_id = 'reporter')
+
   ## get multiple values or single values that are not 'all'
   if (length(reporter) > 1 | !any(reporter == 'all')) {
     if (any(reporter == 'all')) {
@@ -318,6 +321,9 @@ check_partnerCode <- function(partner) {
   } else{
     rlang::abort("You need to provide at least one partner.")
   }
+
+  partner_codes <- ct_get_ref_table(dataset_id = 'partner')
+
 
   if (length(partner) > 1 | !any(partner == 'all')) {
     partner <- stringr::str_squish(partner)
