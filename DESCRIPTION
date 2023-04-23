@@ -32,7 +32,9 @@ Imports:
     cli,
     httr2,
     rlang,
-    stringr
+    stringr,
+    poorman,
+    lubridate
 RoxygenNote: 7.2.3
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
