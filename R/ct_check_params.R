@@ -289,13 +289,13 @@ check_reporterCode <- function(reporter, update = F, verbose = F) {
   # create proper ids for reporter Code
   if (length(reporter) > 1 | !any(reporter == 'all')) {
     reporter <- reporter_codes |>
-      dplyr::filter(iso_3 %in% reporter) |>
-      dplyr::pull(id) |>
+      poorman::filter(iso_3 %in% reporter) |>
+      poorman::pull(id) |>
       paste(collapse = ",")
   } else if (reporter == 'all') {
     reporter <- reporter_codes |>
-      dplyr::filter(group == F) |>
-      dplyr::pull(id) |>
+      poorman::filter(group == F) |>
+      poorman::pull(id) |>
       paste(collapse = ',')
   }
 
@@ -346,13 +346,13 @@ check_partnerCode <- function(partner, update = F, verbose = F) {
   # create proper ids for partner
   if (length(partner) > 1 | !any(partner == 'all')) {
     partner <- partner_codes |>
-      dplyr::filter(iso_3 %in% partner) |>
-      dplyr::pull(id) |>
+      poorman::filter(iso_3 %in% partner) |>
+      poorman::pull(id) |>
       paste(collapse = ",")
   } else if (partner == 'all') {
     partner <- partner_codes |>
-      filter(group == F) |>
-      pull(id) |>
+      poorman::filter(group == F) |>
+      poorman::pull(id) |>
       paste(collapse = ",")
   }
   return(partner)
