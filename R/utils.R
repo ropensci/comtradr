@@ -95,7 +95,7 @@ ct_download_ref_table <- function(ref_table_id) {
     load(path_datasets, envir = ct_env)
   }
   datasets <- get('list_of_datasets', envir = ct_env) |>
-    poorman::filter(.data$category == ref_table_id)
+    poorman::filter(category == ref_table_id)
 
   response <- httr2::request(datasets$fileuri) |>
     httr2::req_perform()
@@ -116,26 +116,26 @@ ct_download_ref_table <- function(ref_table_id) {
     if (ref_table_id == 'reporter') {
       data <- data |>
         poorman::transmute(
-          .data$id,
-          country = .data$text,
-          iso_3 = .data$reporterCodeIsoAlpha3,
-          entry_year = lubridate::year(.data$entryEffectiveDate),
-          exit_year = lubridate::year(.data$entryExpiredDate),
-          group = .data$isGroup,
-          .data$last_modified
+          id,
+          country = text,
+          iso_3 = reporterCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup,
+          last_modified
         )
     } else {
       data <- data |>
         poorman::transmute(
-          .data$id,
-          country = .data$text,
-          iso_3 = .data$PartnerCodeIsoAlpha3,
-          entry_year = lubridate::year(.data$entryEffectiveDate),
-          exit_year = lubridate::year(.data$entryExpiredDate),
-          group = .data$isGroup,
-          .data$last_modified
+          id,
+          country = text,
+          iso_3 = PartnerCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup,
+          last_modified
         ) |>
-        poorman::mutate(.data$iso_3 = ifelse(country == 'World', 'World', .data$iso_3))
+        poorman::mutate(iso_3 = ifelse(country == 'World', 'World', iso_3))
     }
     return(data)
   } else {

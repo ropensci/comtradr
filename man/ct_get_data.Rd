@@ -20,6 +20,7 @@ ct_get_data(
   mode_of_transport = "0",
   partner_2 = "0",
   customs_code = "C00",
+  update = F,
   ...
 )
 }
@@ -52,7 +53,7 @@ ct_get_data(
 
 \item{partner_2}{This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.}
 
-\item{customs_code}{The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.}
+\item{customs_code}{The update parameter takes the value TRUE or FALSE and lets you check, whether the reference tables with the valid commodity codes or reporter codes need to be updated for the session. The update is not persistent.}
 
 \item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
 }
