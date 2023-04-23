@@ -17,6 +17,7 @@ ct_check_params <- function(type,
                             mode_of_transport,
                             partner_2,
                             customs_code,
+                            update,
                             verbose,
                             ...) {
 
@@ -40,17 +41,20 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of flow_direction."))
   }
 
-  commodity_code <- check_cmdCode(commodity_classification,commodity_code)
+  commodity_code <- check_cmdCode(commodity_classification,
+                                  commodity_code,
+                                  update = update,
+                                  verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of commodity_code."))
   }
 
-  reporter <- check_reporterCode(reporter)
+  reporter <- check_reporterCode(reporter,update = update, verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of reporter."))
   }
 
-  partner <- check_partnerCode(partner)
+  partner <- check_partnerCode(partner,update = update, verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
@@ -213,7 +217,7 @@ check_flowCode <- function(flow_direction) {
 #' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
 #'
 #' @noRd
-check_cmdCode <- function(commodity_classification,commodity_code) {
+check_cmdCode <- function(commodity_classification,commodity_code, update = F, verbose = F) {
   # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
     commodity_code <- as.character(commodity_code)
@@ -225,7 +229,7 @@ check_cmdCode <- function(commodity_classification,commodity_code) {
   commodity_code <- stringr::str_squish(commodity_code)
 
   # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = commodity_classification)$id
+  valid_codes <- ct_get_ref_table(dataset_id = commodity_classification, update = update, verbose = verbose)$id
 
   # if one of the codes is not in the list of valid codes send stop signal and list problems
   if (!all(commodity_code %in% valid_codes)) {
@@ -255,7 +259,7 @@ check_cmdCode <- function(commodity_classification,commodity_code) {
 #' check_reporterCode("all") # returns all country codes, excluding any country groupings
 #'
 #' @noRd
-check_reporterCode <- function(reporter) {
+check_reporterCode <- function(reporter, update = F, verbose = F) {
   # check that reporter code is valid
   if (!is.null(reporter)) {
     reporter <- as.character(reporter)
@@ -266,7 +270,7 @@ check_reporterCode <- function(reporter) {
   ## check if valid reporter code length and type
   reporter <- stringr::str_squish(reporter)
 
-  reporter_codes <- ct_get_ref_table(dataset_id = 'reporter')
+  reporter_codes <- ct_get_ref_table(dataset_id = 'reporter', update = update, verbose = verbose)
 
   ## get multiple values or single values that are not 'all'
   if (length(reporter) > 1 | !any(reporter == 'all')) {
@@ -314,7 +318,7 @@ check_reporterCode <- function(reporter) {
 #' check_partnerCode("all") # returns all partner codes, excluding country groupings
 #'
 #' @noRd
-check_partnerCode <- function(partner) {
+check_partnerCode <- function(partner, update = F, verbose = F) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
@@ -322,7 +326,7 @@ check_partnerCode <- function(partner) {
     rlang::abort("You need to provide at least one partner.")
   }
 
-  partner_codes <- ct_get_ref_table(dataset_id = 'partner')
+  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
 
 
   if (length(partner) > 1 | !any(partner == 'all')) {

@@ -13,9 +13,9 @@ assign(
 )
 
 # Initialize placeholders for package data within ct_env.
-assign("country_df", NULL, envir = ct_env)
-assign("commodity_df", NULL, envir = ct_env)
-assign("commodity_df", NULL, envir = ct_env)
+# assign("country_df", NULL, envir = ct_env)
+# assign("commodity_df", NULL, envir = ct_env)
+# assign("commodity_df", NULL, envir = ct_env)
 
 
 assign('B4', NULL, envir = ct_env)
@@ -39,6 +39,9 @@ assign('S4', NULL, envir = ct_env)
 assign('SS', NULL, envir = ct_env)
 assign('reporter', NULL, envir = ct_env)
 assign('partner', NULL, envir = ct_env)
+assign('list_of_datasets', NULL, envir = ct_env)
+assign('reporter', ct_get_ref_table('reporter'), envir = ct_env)
+assign('partner', ct_get_ref_table('partner'), envir = ct_env)
 
 
 # Establish initial credentials for the Comtrade API.

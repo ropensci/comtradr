@@ -32,7 +32,7 @@ get_primary_comtrade_key <- function() {
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #'
 #' @export
-ct_get_ref_table <- function(dataset_id) {
+ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
   switch_list <- c(
     'B4'    = 'cmd_b4'   ,
     'B5'    = 'cmd_b5'   ,
@@ -50,118 +50,98 @@ ct_get_ref_table <- function(dataset_id) {
     'partner'    = 'partner'
 
   )
+  rlang::arg_match(dataset_id, values = names(switch_list))
 
-  possible_values <- names(switch_list)
-  rlang::arg_match(dataset_id, values = possible_values)
-
-  ref_table_name <- switch_list[dataset_id]
+  ref_table_id <- switch_list[dataset_id]
 
   data <- get(dataset_id, envir = ct_env)
-  if(!is.null(data)){
-    return(data)
-  } else {
-    data <- fs::path_package(paste0('extdata/',ref_table_name,'.rds'),package = 'comtradr') |>
+  if(is.null(data)){
+    data <- fs::path_package(paste0('extdata/',ref_table_id,'.rds'),package = 'comtradr') |>
       readr::read_rds()
     assign(dataset_id,data,envir = ct_env)
+  }
+  if(update){
+    if (verbose) {
+      cli::cli_inform(c("i" = paste0("Attempting to update reference table: ",dataset_id)))
+    }
+    data_new <- comtradr:::ct_download_ref_table(ref_table_id = ref_table_id)
+    if(unique(data_new$last_modified)>unique(data$last_modified)){
+      if (verbose) {
+        cli::cli_inform(c("i" = paste0("Updated reference tables ",dataset_id," with new data, last modified on: ",last_modified)))
+      }
+      assign(dataset_id,data_new,envir = ct_env)
+      return(data_new)
+    } else {
+      if (verbose) {
+        cli::cli_inform(c("i" = 'No update necessary for table ',dataset_id,'.'))
+      }
+      return(data)
+    }
+  } else {
+      return(data)
+    }
+  }
+
+
+
+#' Downloading the references tables from UN Comtrade
+#'
+#' @noRd
+ct_download_ref_table <- function(ref_table_id) {
+  datasets <- get('list_of_datasets', envir = ct_env)
+  if (is.null(datasets)) {
+    path_datasets <-
+      fs::path_package('extdata/list_of_datasets.rda', package = 'comtradr')
+    load(path_datasets, envir = ct_env)
+  }
+  datasets <- get('list_of_datasets', envir = ct_env) |>
+    poorman::filter(category == ref_table_id)
+
+  response <- httr2::request(datasets$fileuri) |>
+    httr2::req_perform()
+
+  data <- response |>
+    httr2::resp_body_json(simplifyVector = T)
+
+  last_modified <-
+    httr2::resp_header(header = "Last-Modified", resp = response) |>
+    stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
+    as.Date(format = "%d %b %Y")
+
+  data <- data$results
+
+  data$last_modified <- last_modified
+
+  if (ref_table_id %in% c('reporter', 'partner')) {
+    if (ref_table_id == 'reporter') {
+      data <- data |>
+        poorman::transmute(
+          id,
+          country = text,
+          iso_3 = reporterCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup,
+          last_modified
+        )
+    } else {
+      data <- data |>
+        poorman::transmute(
+          id,
+          country = text,
+          iso_3 = PartnerCodeIsoAlpha3,
+          entry_year = lubridate::year(entryEffectiveDate),
+          exit_year = lubridate::year(entryExpiredDate),
+          group = isGroup,
+          last_modified
+        ) |>
+        poorman::mutate(iso_3 = ifelse(country == 'World', 'World', iso_3))
+    }
+    return(data)
+  } else {
     return(data)
   }
 }
 
 
-
-
-
-#' Get commodity database
-#'
-#' Helper function that attempts to return the commodity DB as a data frame.
-#' It first looks in the pkg env "ct_env", if that fails it will look for the
-#' pkg file "commodity_table.rda". If both fail an error will be thrown
-#' telling the user how to download the commodity DB file (just a matter of
-#' running ct_update_databases(force = TRUE)).
-#'
-#' @noRd
-get_commodity_db <- function() {
-  # Look in ct_env.
-  df <- get("commodity_df", envir = ct_env)
-  if (!is.null(df)) {
-    return(df)
-  } else {
-    # If no commodity_df in ct_env, look for commodity_table file.
-    commodity_file <- system.file("extdata",
-                                  "commodity_table.rda",
-                                  package = "comtradr")
-    if (file.exists(commodity_file)) {
-      load(commodity_file, envir = ct_env)
-      df <- get("commodity_df", envir = ct_env)
-      return(df)
-    } else {
-      stop(missing_file_msg("commodity"), call. = FALSE)
-    }
-  }
-}
-
-
-#' Get country database
-#'
-#' Helper function that will attempt to return the country DB as a data frame.
-#' It first looks in the pkg env "ct_env", if that fails it will look for the
-#' pkg file "commodity_table.rda". If both fail an error will be thrown
-#' telling the user how to download the commodity DB file (just a matter of
-#' running ct_update_databases(force = TRUE)).
-#'
-#' @noRd
-get_country_db <- function() {
-  # Look in ct_env.
-  df <- get("country_df", envir = ct_env)
-  if (!is.null(df)) {
-    return(df)
-  } else {
-    # If no country_df in ct_env, look for country_table file.
-    country_file <- system.file("extdata",
-                                "country_table.rda",
-                                package = "comtradr")
-    if (file.exists(country_file)) {
-      load(country_file, envir = ct_env)
-      df <- get("country_df", envir = ct_env)
-      return(df)
-    } else {
-      stop(missing_file_msg("country"), call. = FALSE)
-    }
-  }
-}
-
-
-#' Missing DB file message
-#'
-#' @noRd
-missing_file_msg <- function(type) {
-  paste0(type, " database file not found. In order to download the ",
-         type, " database from Comtrade, run:\n",
-         "ct_update_databases(force = TRUE)")
-}
-
-
-#' Switch for getting the proper commodity type string, used when constructing
-#' the api call url in function ct_search
-#'
-#' @noRd
-commodity_type_switch <- function(commodity_type) {
-  dict <- c(
-    "HS" = "HS",
-    "HS1992" = "H0",
-    "HS1996" = "H1",
-    "HS2002" = "H2",
-    "HS2007" = "H3",
-    "HS2012" = "H4",
-    "HS2017" = "H5",
-    "SITC" = "ST",
-    "SITCrev1" = "S1",
-    "SITCrev2" = "S2",
-    "SITCrev3" = "S3",
-    "SITCrev4" = "S4",
-    "BEC" = "BEC"
-  )
-
-  dict[commodity_type]
-}
 

@@ -87,6 +87,7 @@ for(i in 1:nrow(list_of_datasets)){
           group = isGroup
         ) |>
         mutate(iso_3 = ifelse(country=='World','World',iso_3))
+
     }
 
     result$last_modified <- last_modified
