@@ -64,7 +64,7 @@ ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
     if (verbose) {
       cli::cli_inform(c("i" = paste0("Attempting to update reference table: ",dataset_id)))
     }
-    data_new <- comtradr:::ct_download_ref_table(ref_table_id = ref_table_id)
+    data_new <- ct_download_ref_table(ref_table_id = ref_table_id)
     if(unique(data_new$last_modified)>unique(data$last_modified)){
       if (verbose) {
         cli::cli_inform(c("i" = paste0("Updated reference tables ",dataset_id," with new data, last modified on: ",last_modified)))
@@ -73,7 +73,7 @@ ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
       return(data_new)
     } else {
       if (verbose) {
-        cli::cli_inform(c("i" = 'No update necessary for table ',dataset_id,'.'))
+        cli::cli_inform(c("i" = paste0('No update necessary for table ',dataset_id,'.')))
       }
       return(data)
     }
@@ -95,7 +95,7 @@ ct_download_ref_table <- function(ref_table_id) {
     load(path_datasets, envir = ct_env)
   }
   datasets <- get('list_of_datasets', envir = ct_env) |>
-    poorman::filter(category == ref_table_id)
+    poorman::filter(.data$category == ref_table_id)
 
   response <- httr2::request(datasets$fileuri) |>
     httr2::req_perform()
@@ -116,26 +116,26 @@ ct_download_ref_table <- function(ref_table_id) {
     if (ref_table_id == 'reporter') {
       data <- data |>
         poorman::transmute(
-          id,
-          country = text,
-          iso_3 = reporterCodeIsoAlpha3,
-          entry_year = lubridate::year(entryEffectiveDate),
-          exit_year = lubridate::year(entryExpiredDate),
-          group = isGroup,
-          last_modified
+          .data$id,
+          country = .data$text,
+          iso_3 = .data$reporterCodeIsoAlpha3,
+          entry_year = lubridate::year(.data$entryEffectiveDate),
+          exit_year = lubridate::year(.data$entryExpiredDate),
+          group = .data$isGroup,
+          .data$last_modified
         )
     } else {
       data <- data |>
         poorman::transmute(
-          id,
-          country = text,
-          iso_3 = PartnerCodeIsoAlpha3,
-          entry_year = lubridate::year(entryEffectiveDate),
-          exit_year = lubridate::year(entryExpiredDate),
-          group = isGroup,
-          last_modified
+          .data$id,
+          country = .data$text,
+          iso_3 = .data$PartnerCodeIsoAlpha3,
+          entry_year = lubridate::year(.data$entryEffectiveDate),
+          exit_year = lubridate::year(.data$entryExpiredDate),
+          group = .data$isGroup,
+          .data$last_modified
         ) |>
-        poorman::mutate(iso_3 = ifelse(country == 'World', 'World', iso_3))
+        poorman::mutate(.data$iso_3 = ifelse(country == 'World', 'World', .data$iso_3))
     }
     return(data)
   } else {
