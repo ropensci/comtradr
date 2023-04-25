@@ -2,11 +2,14 @@
 % Please edit documentation in R/legacy.R
 \name{ct_register_token}
 \alias{ct_register_token}
-\title{ct_get_remaining_secondly_queries}
+\title{ct_register_token}
 \usage{
 ct_register_token(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated. Please use  `set_primary_comtrade_key()` instead.
 `r lifecycle::badge("superseded")`
 }

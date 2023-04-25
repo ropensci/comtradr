@@ -30,7 +30,7 @@ get_primary_comtrade_key <- function() {
 
 #' Get reference table from package data
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
-#'
+#' @inheritParams ct_get_data
 #' @export
 ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
   switch_list <- c(

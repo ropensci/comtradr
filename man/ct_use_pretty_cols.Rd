@@ -6,7 +6,10 @@
 \usage{
 ct_use_pretty_cols(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated. Please use the `process` argument in the main function instead.
 `r lifecycle::badge("superseded")`
 }

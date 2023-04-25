@@ -6,7 +6,10 @@
 \usage{
 ct_commodity_db_type(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated. There is currently no alternative for this function.
 `r lifecycle::badge("superseded")`
 }

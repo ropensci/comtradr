@@ -17,6 +17,7 @@
 #' @param primary_token Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.
 #' @param process A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.
 #' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
+#' @param update A logical value. If TRUE, will download the possibly updated reference tables from the UN.
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
 #' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
 #' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.

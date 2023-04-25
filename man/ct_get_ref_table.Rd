@@ -8,6 +8,10 @@ ct_get_ref_table(dataset_id, update = F, verbose = F)
 }
 \arguments{
 \item{dataset_id}{The dataset ID, which is either partner, reporter or a valid classification scheme.}
+
+\item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
+
+\item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
 }
 \description{
 Get reference table from package data

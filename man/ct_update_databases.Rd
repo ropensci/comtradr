@@ -6,7 +6,10 @@
 \usage{
 ct_update_databases(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated. Please use  `update` parameter in the main `ct_get_data` function instead.
 `r lifecycle::badge("superseded")`
 }

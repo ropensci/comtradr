@@ -55,6 +55,8 @@ ct_get_data(
 
 \item{customs_code}{The update parameter takes the value TRUE or FALSE and lets you check, whether the reference tables with the valid commodity codes or reporter codes need to be updated for the session. The update is not persistent.}
 
+\item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
+
 \item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
 }
 \value{

@@ -6,7 +6,10 @@
 \usage{
 ct_country_lookup(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated. You can `use country_codes` to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.
 `r lifecycle::badge("superseded")`
 }

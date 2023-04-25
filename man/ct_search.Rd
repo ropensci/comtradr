@@ -6,7 +6,10 @@
 \usage{
 ct_search(...)
 }
+\arguments{
+\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+}
 \description{
-This function is deprecated Please use  `xyz()` instead.
+This function is deprecated Please use  `ct_get_data()` instead.
 `r lifecycle::badge("superseded")`
 }
