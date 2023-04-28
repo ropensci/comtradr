@@ -21,14 +21,14 @@ comtradr
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of 
-specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found 
-[here](https://comtrade.un.org/data/doc/api/).
+<!-- R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of  -->
+<!-- specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found  -->
+<!-- [here](https://comtrade.un.org/data/doc/api/). -->
 
-This package was inspired by the [R tutorial](https://comtrade.un.org/data/Doc/api/ex/r) posted by Comtrade, and is built using
-[httr](https://CRAN.R-project.org/package=httr) and [jsonlite](https://CRAN.R-project.org/package=jsonlite).
 
-I've also built a Shiny app for visualizing comtrade shipping data, that's powered by this package. The app can be viewed [here](https://chrismuir.shinyapps.io/comtrade_plot_shinyapp/).
+## Currently re-launching 
+
+See #44 for the discussion around it. 
 
 Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests.
 
@@ -38,57 +38,57 @@ For information on citation of this package, use `citation("comtradr")`
 
 ## Installation
 
-Install from CRAN:
-```{r eval=FALSE}
-install.packages("comtradr")
-```
+<!-- Install from CRAN: -->
+<!-- ```{r eval=FALSE} -->
+<!-- install.packages("comtradr") -->
+<!-- ``` -->
 
-Or install from this repo:
+Install the current development version from this repo:
 ```{r eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("ropensci/comtradr")
+devtools::install_github("ropensci/comtradr@api-update")
 ```
 
-## Example Usage
+<!-- ## Example Usage -->
 
-**Example 1**: Return all exports from China to South Korea, United States and Mexico, for all years
+<!-- **Example 1**: Return all exports from China to South Korea, United States and Mexico, for all years -->
 
-```{r}
-library(comtradr)
+<!-- ```{r, eval = F} -->
+<!-- library(comtradr) -->
 
-# Country names passed to the API query function must be spelled as they appear 
-# in the Comtrade DB. Use "ct_country_lookup" to query the country DB and 
-#return the exact spelling of specific countries.
-ct_country_lookup("korea")
+<!-- # Country names passed to the API query function must be spelled as they appear  -->
+<!-- # in the Comtrade DB. Use "ct_country_lookup" to query the country DB and  -->
+<!-- #return the exact spelling of specific countries. -->
+<!-- ct_country_lookup("korea") -->
 
-# Since we want South Korea, we'll use "Rep. of Korea" within the API query.
-example1 <- ct_search(reporters = "China", 
-                      partners = c("Rep. of Korea", "USA", "Mexico"), 
-                      trade_direction = "exports")
+<!-- # Since we want South Korea, we'll use "Rep. of Korea" within the API query. -->
+<!-- example1 <- ct_search(reporters = "China",  -->
+<!--                       partners = c("Rep. of Korea", "USA", "Mexico"),  -->
+<!--                       trade_direction = "exports") -->
 
-# Inspect the return data
-str(example1)
-```
+<!-- # Inspect the return data -->
+<!-- str(example1) -->
+<!-- ``` -->
 
-**Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011
+<!-- **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011 -->
 
-```{r}
-library(comtradr)
+<!-- ```{r, eval = F} -->
+<!-- library(comtradr) -->
 
-# Fetch all shrimp related commodity codes from the Comtrade commodities DB. 
-# This vector of codes will get passed to the API query.
-shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE)
+<!-- # Fetch all shrimp related commodity codes from the Comtrade commodities DB.  -->
+<!-- # This vector of codes will get passed to the API query. -->
+<!-- shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE) -->
 
-# API query.
-example2 <- ct_search(reporters = "Thailand", 
-                      partners = "All", 
-                      trade_direction = "exports", 
-                      start_date = 2007, 
-                      end_date = 2011, 
-                      commod_codes = shrimp_codes)
+<!-- # API query. -->
+<!-- example2 <- ct_search(reporters = "Thailand",  -->
+<!--                       partners = "All",  -->
+<!--                       trade_direction = "exports",  -->
+<!--                       start_date = 2007,  -->
+<!--                       end_date = 2011,  -->
+<!--                       commod_codes = shrimp_codes) -->
 
-# Inspect the output
-str(example2)
-```
+<!-- # Inspect the output -->
+<!-- str(example2) -->
+<!-- ``` -->
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
