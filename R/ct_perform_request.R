@@ -27,11 +27,24 @@ ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = F) 
   }
 
 comtrade_error_body <- function(resp) {
-  body <- httr2::resp_body_json(resp, simplifyVector = T)
 
-  message <- body$errorObject$errorMessage
-  if (!is.null(message)) {
-    message <- c(message)
+  if(stringr::str_detect(httr2::resp_header(resp,'Content-Type'),'json')){
+    body <- httr2::resp_body_json(resp, simplifyVector = T)
+
+    message <- body$errorObject$errorMessage
+    if (!is.null(message)) {
+      message <- c(message)
+    }
+    return(message)
+  } else if(stringr::str_detect(httr2::resp_header(resp,'Content-Type'),'text')) {
+    body <- httr2::resp_body_string(resp)
+
+    if (stringr::str_detect(body, 'Request URL Too Long')) {
+      message <- c('You might have provided too many parameters and the URL got too long.')
+      return(message)
+    } else if(stringr::str_detect(body, 'The resource you are looking for has been removed')){
+      message <- c('The original message is: ',body,'But most likely you have exceeded the character value for the api.')
+      return(message)
+    }
   }
-  message
 }
