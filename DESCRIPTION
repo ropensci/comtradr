@@ -24,7 +24,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    magrittr (>= 1.5),
     lifecycle,
     fs,
     readr,
@@ -47,3 +46,4 @@ Suggests:
     ggplot2,
     dplyr
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
