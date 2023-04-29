@@ -7,7 +7,7 @@
 ct_perform_request(req, requests_per_second = 10/60, verbose = F)
 }
 \arguments{
-\item{req}{a valid comtrade request built by the `ct_build_request()` function}
+\item{req}{a valid comtrade request built by the \code{ct_build_request()} function}
 
 \item{requests_per_second}{rate at which throttling is done}
 

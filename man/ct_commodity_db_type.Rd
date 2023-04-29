@@ -11,5 +11,5 @@ ct_commodity_db_type(...)
 }
 \description{
 This function is deprecated. There is currently no alternative for this function.
-`r lifecycle::badge("superseded")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 }

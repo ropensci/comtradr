@@ -7,7 +7,7 @@
 ct_process_response(resp, verbose = F)
 }
 \arguments{
-\item{resp}{a valid httr2 response object created from the function `ct_perform_request()`}
+\item{resp}{a valid httr2 response object created from the function \code{ct_perform_request()}}
 
 \item{verbose}{whether the function sends status updates to the console}
 }

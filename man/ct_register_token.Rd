@@ -10,6 +10,6 @@ ct_register_token(...)
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
 \description{
-This function is deprecated. Please use  `set_primary_comtrade_key()` instead.
-`r lifecycle::badge("superseded")`
+This function is deprecated. Please use  \code{set_primary_comtrade_key()} instead.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 }

@@ -11,5 +11,5 @@ ct_get_reset_time(...)
 }
 \description{
 This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
-`r lifecycle::badge("superseded")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 }

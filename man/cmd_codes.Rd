@@ -5,18 +5,18 @@
 \alias{cmd_codes}
 \title{Commodity codes}
 \format{
-`cmd_codes`
+\code{cmd_codes}
 A dataframe with 8,263 rows and five columns:
 \describe{
- \item{id}{Unique commodity code.}
- \item{text}{Description of the commodity.}
- \item{parent}{The parent commodity code.}
- \item{aggr_level}{The level of aggregation. You can access levels 0, 2, 4, and 6.}
- \item{class_code}{The commodity's classification code. We currently only support HS codes.}
+\item{id}{Unique commodity code.}
+\item{text}{Description of the commodity.}
+\item{parent}{The parent commodity code.}
+\item{aggr_level}{The level of aggregation. You can access levels 0, 2, 4, and 6.}
+\item{class_code}{The commodity's classification code. We currently only support HS codes.}
 }
 }
 \source{
-<https://comtrade.un.org/Data/cache/classificationHS.json>
+\url{https://comtrade.un.org/Data/cache/classificationHS.json}
 }
 \usage{
 cmd_codes

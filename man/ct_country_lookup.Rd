@@ -10,6 +10,6 @@ ct_country_lookup(...)
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
 \description{
-This function is deprecated. You can `use country_codes` to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.
-`r lifecycle::badge("superseded")`
+This function is deprecated. You can \verb{use country_codes} to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 }

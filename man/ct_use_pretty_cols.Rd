@@ -10,6 +10,6 @@ ct_use_pretty_cols(...)
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
 \description{
-This function is deprecated. Please use the `process` argument in the main function instead.
-`r lifecycle::badge("superseded")`
+This function is deprecated. Please use the \code{process} argument in the main function instead.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 }
