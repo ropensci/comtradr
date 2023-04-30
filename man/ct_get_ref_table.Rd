@@ -14,5 +14,5 @@ ct_get_ref_table(dataset_id, update = F, verbose = F)
 \item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
 }
 \description{
-Get reference table from package data
+The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
 }

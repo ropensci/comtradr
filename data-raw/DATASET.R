@@ -1,4 +1,9 @@
 library(httr2)
+library(poorman)
+library(stringr)
+library(readr)
+library(lubridate)
+library(usethis)
 
 # getting comtrade data ---------------------------------------------------
 
@@ -117,11 +122,16 @@ for(i in 1:nrow(list_of_datasets)){
   }
 }
 
+# Consolidate datasets ----------------------------------------------------
+reporter_codes <- readr::read_rds(paste0('inst/extdata/','reporter','.rds')) |>
+  poorman::mutate(reporter =T)
+partner_codes <- readr::read_rds(paste0('inst/extdata/','partner','.rds'))|>
+  poorman::mutate(partner =T)
+country_codes <- poorman::full_join(reporter_codes, partner_codes)
+
+# Save external datasets --------------------------------------------------
+
+usethis::use_data(country_codes, overwrite = TRUE)
 
 
-# -------------------------------------------------------------------------
-# switch <- list_of_datasets |>
-#   mutate(class_code = stringr::str_split_i(fileuri, '/',8) |> stringr::str_remove('.json')) |>
-#   filter(variable=='Product') |>
-#   select(class_code,category) |>
-#   readr::write_delim(file = 'data-raw/switch_cmd_code.csv',delim = ' - ')
+
