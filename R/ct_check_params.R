@@ -275,6 +275,7 @@ check_cmdCode <- function(commodity_classification,commodity_code, update = F, v
 #'
 #' @noRd
 check_reporterCode <- function(reporter, update = F, verbose = F) {
+  iso_3 <- id <- group <- NULL
   # check that reporter code is valid
   if (!is.null(reporter)) {
     reporter <- as.character(reporter)
@@ -334,6 +335,9 @@ check_reporterCode <- function(reporter, update = F, verbose = F) {
 #'
 #' @noRd
 check_partnerCode <- function(partner, update = F, verbose = F) {
+  ## evade checks in RMD Check about 'no visible binding...'
+  iso_3 <- id <- group <- NULL
+
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
@@ -391,6 +395,8 @@ check_partnerCode <- function(partner, update = F, verbose = F) {
 #'
 #' @noRd
 check_partner2Code <- function(partner, update = F, verbose = F) {
+  iso_3 <- id <- group <- NULL
+
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)

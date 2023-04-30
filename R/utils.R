@@ -125,6 +125,8 @@ ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
+  iso_3 <- id <- group <- category <- text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+  entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get('list_of_datasets', envir = ct_env)
