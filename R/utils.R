@@ -60,21 +60,30 @@ ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
       readr::read_rds()
     assign(dataset_id,data,envir = ct_env)
   }
-  if(update){
+  if(update & any(dataset_id %in% ct_env$updated)){
+    if (verbose) {
+      cli::cli_inform(c("i" = paste0("Already checked for updates for ",dataset_id,' in this session.')))
+    }
+    return(data)
+  } else if(update){
     if (verbose) {
       cli::cli_inform(c("i" = paste0("Attempting to update reference table: ",dataset_id)))
     }
     data_new <- ct_download_ref_table(ref_table_id = ref_table_id)
     if(unique(data_new$last_modified)>unique(data$last_modified)){
       if (verbose) {
-        cli::cli_inform(c("i" = paste0("Updated reference tables ",dataset_id," with new data, last modified on: ",last_modified)))
+        cli::cli_inform(c("i" = paste0("Updated reference tables ",dataset_id," with new data, last modified on: ",unique(data_new$last_modified))))
       }
       assign(dataset_id,data_new,envir = ct_env)
+      ct_env$updated <- c(ct_env$updated,dataset_id)
+
       return(data_new)
     } else {
       if (verbose) {
         cli::cli_inform(c("i" = paste0('No update necessary for table ',dataset_id,'.')))
       }
+      ct_env$updated <- c(ct_env$updated,dataset_id)
+
       return(data)
     }
   } else {
