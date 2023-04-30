@@ -83,8 +83,7 @@ ct_use_pretty_cols <- function(...) {
 #'
 ct_get_reset_time <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
-                              "ct_get_reset_time()",
-                              "none")
+                              "ct_get_reset_time()")
 }
 
 #' @title ct_get_remaining_hourly_queries
@@ -96,8 +95,7 @@ ct_get_reset_time <- function(...) {
 #'
 ct_get_remaining_hourly_queries <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
-                              "ct_get_remaining_hourly_queries()",
-                              "none")
+                              "ct_get_remaining_hourly_queries()")
 }
 
 #' @title ct_register_token
