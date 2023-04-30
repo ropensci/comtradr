@@ -1,14 +1,10 @@
 #' Get trade data from the UN Comtrade API
 #'
-#' As the package is under development, please note, that the following parameters will be supplied internally in a fixed manner:
-#' * customsCode is set to C00, which is the most general
-#' * motCode is set to 0, which is all modes of transportation
-#' * partner2Code is set to 0, which is the most general settings returning all data
 #'
 #' @param type The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
 #' @param frequency The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.
 #' @param commodity_classification The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.
-#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::cmd_codes` dataset. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.
+#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::ct_get_ref_table()` function. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.
 #' @param flow_direction The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.
 #' @param reporter Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.
 #' @param partner Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World' which returns the trade with all partner countries as an aggregate.

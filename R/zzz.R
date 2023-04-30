@@ -1,10 +1,8 @@
 ## Set up pkg environment to manage variables related to:
-# 1. throttling of API queries and rate limiting.
 # 2. Comtrade database of countries, stored as pkg data.
 # 3. Comtrade database of commodity descriptions and codes, stored as pkg data.
 ct_env <- new.env()
 
-# Variables for rate limiting.
 assign(
   "ua",
   paste(
@@ -13,11 +11,6 @@ assign(
 )
 
 # Initialize placeholders for package data within ct_env.
-# assign("country_df", NULL, envir = ct_env)
-# assign("commodity_df", NULL, envir = ct_env)
-# assign("commodity_df", NULL, envir = ct_env)
-
-
 assign('B4', NULL, envir = ct_env)
 assign('B5', NULL, envir = ct_env)
 assign('EB0', NULL, envir = ct_env)
@@ -45,21 +38,4 @@ assign('list_of_datasets', NULL, envir = ct_env)
 assign('reporter', ct_get_ref_table('reporter'), envir = ct_env)
 assign('partner', ct_get_ref_table('partner'), envir = ct_env)
 assign('updated', 'init', envir = ct_env)
-
-
-# Establish initial credentials for the Comtrade API.
-# .onLoad <- function(libname, pkgname) {
-#   if (is.null(getOption("comtradr"))) {
-#     ct_options <- list(
-#       comtrade = list(
-#         token = NULL,
-#         account_type = "standard",
-#         per_hour_limit = 100,
-#         per_second_limit = 1
-#       )
-#     )
-#     class(ct_options) <- "comtradr_credentials"
-#     options(comtradr = ct_options)
-#   }
-# }
 

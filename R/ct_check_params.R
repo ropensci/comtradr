@@ -58,9 +58,20 @@ ct_check_params <- function(type,
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
+
   partner_2 <- check_partner2Code(partner_2,update = update, verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of partner_2."))
+  }
+
+  mode_of_transport <- check_motCode(mode_of_transport,update = update, verbose = verbose)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of mode_of_transport."))
+  }
+
+  customs_code <- check_customsCode(customs_code ,update = update, verbose = verbose)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of customs_code."))
   }
 
   period <- check_date(start_date, end_date, frequency)
@@ -417,6 +428,79 @@ check_partner2Code <- function(partner, update = F, verbose = F) {
       paste(collapse = ",")
   }
   return(partner)
+}
+
+
+#' Check validity of mode of transport parameter.
+#'
+#'
+#' @inheritParams ct_get_data
+#'
+#' @return A character vector specifying the modes of transport requested.
+#'
+#' @noRd
+check_motCode <- function(mode_of_transport, update = F, verbose = F) {
+  # check that commodity_code code is not null
+  if (!is.null(mode_of_transport)) {
+    mode_of_transport <- as.character(mode_of_transport)
+  } else{
+    rlang::abort("You need to provide at least one mode_of_transport reference.")
+  }
+
+  # remove any white space from cmd codes provided
+  mode_of_transport <- stringr::str_squish(mode_of_transport)
+
+  # get the list of valid parameters from inst/extdata
+  valid_codes <- ct_get_ref_table(dataset_id = 'mot',
+                                  update = update,
+                                  verbose = verbose)$id
+
+  # if one of the codes is not in the list of valid codes send stop signal and list problems
+  if (!all(mode_of_transport %in% valid_codes)) {
+    rlang::abort(paste0(
+      "The following mode_of_transport codes you provided are invalid: ",
+      paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
+    ))
+  } else {
+    mode_of_transport <- paste0(mode_of_transport, collapse = ',')
+  }
+  return(mode_of_transport)
+}
+
+#' Check validity of customs parameter.
+#'
+#'
+#' @inheritParams ct_get_data
+#'
+#' @return A character vector specifying the custom codes requested.
+#'
+#' @noRd
+check_customsCode <- function(customs_code, update = F, verbose = F) {
+  # check that commodity_code code is not null
+  if (!is.null(customs_code)) {
+    customs_code <- as.character(customs_code)
+  } else{
+    rlang::abort("You need to provide at least one customs_code reference.")
+  }
+
+  # remove any white space from cmd codes provided
+  customs_code <- stringr::str_squish(customs_code)
+
+  # get the list of valid parameters from inst/extdata
+  valid_codes <- ct_get_ref_table(dataset_id = 'customs',
+                                  update = update,
+                                  verbose = verbose)$id
+
+  # if one of the codes is not in the list of valid codes send stop signal and list problems
+  if (!all(customs_code %in% valid_codes)) {
+    rlang::abort(paste0(
+      "The following customs_code codes you provided are invalid: ",
+      paste0(setdiff(customs_code, valid_codes), collapse = ", ")
+    ))
+  } else {
+    customs_code <- paste0(customs_code, collapse = ',')
+  }
+  return(customs_code)
 }
 
 
