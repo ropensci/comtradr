@@ -1,19 +1,3 @@
-#' Commodity codes
-#'
-#' A full dataset of all commodity codes available in the UN Comtrade database.
-#'
-#' @format `cmd_codes`
-#' A dataframe with 8,263 rows and five columns:
-#' \describe{
-#'  \item{id}{Unique commodity code.}
-#'  \item{text}{Description of the commodity.}
-#'  \item{parent}{The parent commodity code.}
-#'  \item{aggr_level}{The level of aggregation. You can access levels 0, 2, 4, and 6.}
-#'  \item{class_code}{The commodity's classification code. We currently only support HS codes.}
-#' }
-#' @source <https://comtrade.un.org/Data/cache/classificationHS.json>
-"cmd_codes"
-
 #' Country codes
 #'
 #' A full dataset of all reporter and partner codes available in the UN Comtrade database.
