@@ -58,6 +58,10 @@ ct_check_params <- function(type,
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
+  partner_2 <- check_partner2Code(partner_2,update = update, verbose = verbose)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of partner_2."))
+  }
 
   period <- check_date(start_date, end_date, frequency)
   if (verbose) {
@@ -338,6 +342,63 @@ check_partnerCode <- function(partner, update = F, verbose = F) {
     if (!all(partner %in% partner_codes$iso_3)) {
       rlang::abort(paste(
         "The following partner you provided are invalid: ",
+        setdiff(partner, partner_codes$iso_3), collapse = ", ")
+      )
+    }
+  }
+
+  # create proper ids for partner
+  if (length(partner) > 1 | !any(partner == 'all')) {
+    partner <- partner_codes |>
+      poorman::filter(iso_3 %in% partner) |>
+      poorman::pull(id) |>
+      paste(collapse = ",")
+  } else if (partner == 'all') {
+    partner <- partner_codes |>
+      poorman::filter(group == F) |>
+      poorman::pull(id) |>
+      paste(collapse = ",")
+  }
+  return(partner)
+}
+
+
+#' Check validity of partner_2 parameter.
+#'
+#' This function checks that the given partner_2 code is valid. If the code is not
+#' valid, the function throws an error message indicating which codes are invalid.
+#' It also converts the input to a proper format if necessary.
+#'
+#' @inheritParams ct_get_data
+#'
+#' @return A character vector of valid partner_2 IDs.
+#'
+#' @examplesIf interactive()
+#' check_partner2Code("CAN") # returns "124"
+#' check_partner2Code(c("CAN", "MEX")) # returns "124,484"
+#' check_partner2Code("all") # returns all partner codes, excluding country groupings
+#'
+#' @noRd
+check_partner2Code <- function(partner, update = F, verbose = F) {
+  # check that partner code is valid
+  if (!is.null(partner)) {
+    partner <- as.character(partner)
+  } else{
+    rlang::abort("You need to provide at least one partner 2.")
+  }
+
+  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+
+
+  if (length(partner) > 1 | !any(partner == 'all')) {
+    partner <- stringr::str_squish(partner)
+    if (any(partner == 'all')) {
+      rlang::abort('"all" can only be provided as a single argument.')
+    }
+    # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+    if (!all(partner %in% partner_codes$iso_3)) {
+      rlang::abort(paste(
+        "The following partner_2 you provided are invalid: ",
         setdiff(partner, partner_codes$iso_3), collapse = ", ")
       )
     }

@@ -50,7 +50,7 @@ ct_get_data <- function(type = 'goods',
                         verbose = F,
                         primary_token = get_primary_comtrade_key(),
                         mode_of_transport = '0',
-                        partner_2 = '0',
+                        partner_2 = 'World',
                         customs_code ='C00',
                         update = F,
                         ...) {
