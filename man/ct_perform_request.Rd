@@ -4,7 +4,7 @@
 \alias{ct_perform_request}
 \title{Performs the request to the Comtrade API}
 \usage{
-ct_perform_request(req, requests_per_second = 10/60, verbose = F)
+ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
 }
 \arguments{
 \item{req}{a valid comtrade request built by the \code{ct_build_request()} function}

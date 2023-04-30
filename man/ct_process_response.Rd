@@ -4,7 +4,7 @@
 \alias{ct_process_response}
 \title{Processes the response object}
 \usage{
-ct_process_response(resp, verbose = F)
+ct_process_response(resp, verbose = FALSE)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function \code{ct_perform_request()}}

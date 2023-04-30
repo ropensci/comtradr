@@ -35,7 +35,7 @@ get_primary_comtrade_key <- function() {
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #' @inheritParams ct_get_data
 #' @export
-ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
+ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 
   ## make switch to the name of the datasets, which are slightly different to the dataset_ids
   switch_list <- c(
@@ -125,8 +125,13 @@ ct_get_ref_table <- function(dataset_id, update = F, verbose = F) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
-  iso_3 <- id <- group <- category <- text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
-  entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
+  iso_3 <-
+    id <-
+    group <-
+    category <-
+    text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+  entryExpiredDate <-
+    isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get('list_of_datasets', envir = ct_env)
@@ -147,7 +152,7 @@ ct_download_ref_table <- function(ref_table_id) {
 
   ## parse response
   data <- response |>
-    httr2::resp_body_json(simplifyVector = T)
+    httr2::resp_body_json(simplifyVector = TRUE)
 
   ## get date of last modification from headers
   last_modified <-

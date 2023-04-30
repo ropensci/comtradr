@@ -4,7 +4,7 @@
 \alias{ct_get_ref_table}
 \title{Get reference table from package data}
 \usage{
-ct_get_ref_table(dataset_id, update = F, verbose = F)
+ct_get_ref_table(dataset_id, update = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{dataset_id}{The dataset ID, which is either partner, reporter or a valid classification scheme.}

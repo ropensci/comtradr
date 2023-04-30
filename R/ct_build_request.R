@@ -11,7 +11,7 @@
 #' @return a httr2 request object
 ct_build_request <- function(params,
                                    primary_token = NULL,
-                                   verbose = F) {
+                                   verbose = FALSE) {
   query_params <- params$query_params
 
   type <- params$url_params$type

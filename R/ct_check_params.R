@@ -192,7 +192,7 @@ check_flowCode <- function(flow_direction) {
   rlang::arg_match(
     flow_direction,
     values = c('import', 'export', 're-export', 're-import', 'all'),
-    multiple = T
+    multiple = TRUE
   )
   # check that flow_direction code is not null
   if (!is.null(flow_direction)) {
@@ -232,8 +232,12 @@ check_flowCode <- function(flow_direction) {
 #' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
 #'
 #' @noRd
-check_cmdCode <- function(commodity_classification,commodity_code, update = F, verbose = F) {
-  # check that commodity_code code is not null
+check_cmdCode <-
+  function(commodity_classification,
+           commodity_code,
+           update = FALSE,
+           verbose = FALSE) {
+    # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
     commodity_code <- as.character(commodity_code)
   } else{
@@ -244,7 +248,10 @@ check_cmdCode <- function(commodity_classification,commodity_code, update = F, v
   commodity_code <- stringr::str_squish(commodity_code)
 
   # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = commodity_classification, update = update, verbose = verbose)$id
+  valid_codes <-
+    ct_get_ref_table(dataset_id = commodity_classification,
+                     update = update,
+                     verbose = verbose)$id
 
   # if one of the codes is not in the list of valid codes send stop signal and list problems
   if (!all(commodity_code %in% valid_codes)) {
@@ -274,7 +281,7 @@ check_cmdCode <- function(commodity_classification,commodity_code, update = F, v
 #' check_reporterCode("all") # returns all country codes, excluding any country groupings
 #'
 #' @noRd
-check_reporterCode <- function(reporter, update = F, verbose = F) {
+check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
   iso_3 <- id <- group <- NULL
   # check that reporter code is valid
   if (!is.null(reporter)) {
@@ -286,7 +293,10 @@ check_reporterCode <- function(reporter, update = F, verbose = F) {
   ## check if valid reporter code length and type
   reporter <- stringr::str_squish(reporter)
 
-  reporter_codes <- ct_get_ref_table(dataset_id = 'reporter', update = update, verbose = verbose)
+  reporter_codes <-
+    ct_get_ref_table(dataset_id = 'reporter',
+                     update = update,
+                     verbose = verbose)
 
   ## get multiple values or single values that are not 'all'
   if (length(reporter) > 1 | !any(reporter == 'all')) {
@@ -310,7 +320,7 @@ check_reporterCode <- function(reporter, update = F, verbose = F) {
       paste(collapse = ",")
   } else if (reporter == 'all') {
     reporter <- reporter_codes |>
-      poorman::filter(group == F) |>
+      poorman::filter(group == FALSE) |>
       poorman::pull(id) |>
       paste(collapse = ',')
   }
@@ -334,7 +344,7 @@ check_reporterCode <- function(reporter, update = F, verbose = F) {
 #' check_partnerCode("all") # returns all partner codes, excluding country groupings
 #'
 #' @noRd
-check_partnerCode <- function(partner, update = F, verbose = F) {
+check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
   ## evade checks in RMD Check about 'no visible binding...'
   iso_3 <- id <- group <- NULL
 
@@ -370,7 +380,7 @@ check_partnerCode <- function(partner, update = F, verbose = F) {
       paste(collapse = ",")
   } else if (partner == 'all') {
     partner <- partner_codes |>
-      poorman::filter(group == F) |>
+      poorman::filter(group == FALSE) |>
       poorman::pull(id) |>
       paste(collapse = ",")
   }
@@ -394,7 +404,7 @@ check_partnerCode <- function(partner, update = F, verbose = F) {
 #' check_partner2Code("all") # returns all partner codes, excluding country groupings
 #'
 #' @noRd
-check_partner2Code <- function(partner, update = F, verbose = F) {
+check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
   iso_3 <- id <- group <- NULL
 
   # check that partner code is valid
@@ -429,7 +439,7 @@ check_partner2Code <- function(partner, update = F, verbose = F) {
       paste(collapse = ",")
   } else if (partner == 'all') {
     partner <- partner_codes |>
-      poorman::filter(group == F) |>
+      poorman::filter(group == FALSE) |>
       poorman::pull(id) |>
       paste(collapse = ",")
   }
@@ -445,7 +455,7 @@ check_partner2Code <- function(partner, update = F, verbose = F) {
 #' @return A character vector specifying the modes of transport requested.
 #'
 #' @noRd
-check_motCode <- function(mode_of_transport, update = F, verbose = F) {
+check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(mode_of_transport)) {
     mode_of_transport <- as.character(mode_of_transport)
@@ -481,7 +491,7 @@ check_motCode <- function(mode_of_transport, update = F, verbose = F) {
 #' @return A character vector specifying the custom codes requested.
 #'
 #' @noRd
-check_customsCode <- function(customs_code, update = F, verbose = F) {
+check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(customs_code)) {
     customs_code <- as.character(customs_code)

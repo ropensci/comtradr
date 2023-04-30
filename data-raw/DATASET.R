@@ -34,7 +34,7 @@ save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 i <- 1
 ## loop over all datasets (for loop, because it is readable,
 ## no need for speeding this up with more complicated lapply or more dependencies)
-for(i in 1:nrow(list_of_datasets)){
+for(i in seq_along(list_of_datasets$category)){
   ## define the valid commodity codes that we need
   valid_cmd_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4',
                       'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10',

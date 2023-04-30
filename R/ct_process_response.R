@@ -6,9 +6,9 @@
 #' @param verbose whether the function sends status updates to the console
 #'
 #' @return a data.frame object with the results
-ct_process_response <- function(resp, verbose = F) {
+ct_process_response <- function(resp, verbose = FALSE) {
   result <- resp |>
-    httr2::resp_body_json(simplifyVector = T)
+    httr2::resp_body_json(simplifyVector = TRUE)
 
   if (length(result$data) > 0) {
     if(nrow(result$data)>249999){

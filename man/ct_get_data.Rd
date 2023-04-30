@@ -14,13 +14,13 @@ ct_get_data(
   partner = "World",
   start_date = NULL,
   end_date = NULL,
-  process = T,
-  verbose = F,
+  process = TRUE,
+  verbose = FALSE,
   primary_token = get_primary_comtrade_key(),
   mode_of_transport = "0",
   partner_2 = "World",
   customs_code = "C00",
-  update = F,
+  update = FALSE,
   ...
 )
 }
@@ -49,7 +49,7 @@ ct_get_data(
 
 \item{primary_token}{Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the \code{comtradr::set_primary_comtrade_key} function.}
 
-\item{mode_of_transport}{The Mode of Transport is set to \code{0}, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.}
+\item{mode_of_transport}{The Mode of Transport is set to \code{0}, which is the default for TOTAL across all modes of transportation.}
 
 \item{partner_2}{This value is set as a default to \code{0}, which is most likely the most general value and also the default on the Comtrade website.}
 
@@ -67,14 +67,15 @@ Get trade data from the UN Comtrade API
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-ct_get_data(frequency = 'A',
+ct_get_data(type = 'goods',
 commodity_classification = 'HS',
-commodity_code = c('2204','2203'),
-flow_direction = 'export',
-reporter = c("ARG","GBR"),
-partner = 'World',
-start_date = "2018",
-end_date = "2019",
-process = T)
+commodity_code = 'TOTAL',
+reporter = 'CHN',
+partner = c('ARG','DEU'),
+start_date = '2019',
+end_date = '2019',
+flow_direction = 'all',
+partner_2 = 'World',
+verbose = TRUE)
 \dontshow{\}) # examplesIf}
 }

@@ -15,21 +15,22 @@
 #' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
 #' @param update A logical value. If TRUE, will download the possibly updated reference tables from the UN.
 #' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
-#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. This parameter is so far not being validated.
+#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation.
 #' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
 #' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
 #' @param customs_code The update parameter takes the value TRUE or FALSE and lets you check, whether the reference tables with the valid commodity codes or reporter codes need to be updated for the session. The update is not persistent.
 #'
 #' @examplesIf interactive()
-#' ct_get_data(frequency = 'A',
+#' ct_get_data(type = 'goods',
 #' commodity_classification = 'HS',
-#' commodity_code = c('2204','2203'),
-#' flow_direction = 'export',
-#' reporter = c("ARG","GBR"),
-#' partner = 'World',
-#' start_date = "2018",
-#' end_date = "2019",
-#' process = T)
+#' commodity_code = 'TOTAL',
+#' reporter = 'CHN',
+#' partner = c('ARG','DEU'),
+#' start_date = '2019',
+#' end_date = '2019',
+#' flow_direction = 'all',
+#' partner_2 = 'World',
+#' verbose = TRUE)
 #'
 #' @export
 #' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
@@ -42,13 +43,13 @@ ct_get_data <- function(type = 'goods',
                         partner = 'World',
                         start_date = NULL,
                         end_date = NULL,
-                        process = T,
-                        verbose = F,
+                        process = TRUE,
+                        verbose = FALSE,
                         primary_token = get_primary_comtrade_key(),
                         mode_of_transport = '0',
                         partner_2 = 'World',
                         customs_code ='C00',
-                        update = F,
+                        update = FALSE,
                         ...) {
   ## compile codes
   params <- ct_check_params(
@@ -70,7 +71,8 @@ ct_get_data <- function(type = 'goods',
     ...
   )
 
-  req <- ct_build_request(params, verbose = verbose, primary_token = primary_token)
+  req <-
+    ct_build_request(params, verbose = verbose, primary_token = primary_token)
 
   resp <- ct_perform_request(req, verbose = verbose)
 

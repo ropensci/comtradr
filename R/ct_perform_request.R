@@ -8,7 +8,7 @@
 #' @param verbose whether the function sends status updates to the console
 #'
 #' @return json data from comtrade and possible error codes
-ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = F) {
+ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = FALSE) {
 
     if (verbose) {
       cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried"))
@@ -27,23 +27,31 @@ ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = F) 
   }
 
 comtrade_error_body <- function(resp) {
-
-  if(stringr::str_detect(httr2::resp_header(resp,'Content-Type'),'json')){
-    body <- httr2::resp_body_json(resp, simplifyVector = T)
+  if (stringr::str_detect(httr2::resp_header(resp, 'Content-Type'), 'json')) {
+    body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
 
     message <- body$errorObject$errorMessage
     if (!is.null(message)) {
       message <- c(message)
     }
     return(message)
-  } else if(stringr::str_detect(httr2::resp_header(resp,'Content-Type'),'text')) {
+  } else if (stringr::str_detect(httr2::resp_header(resp,
+                                                    'Content-Type'),
+                                 'text')) {
     body <- httr2::resp_body_string(resp)
 
     if (stringr::str_detect(body, 'Request URL Too Long')) {
-      message <- c('You might have provided too many parameters and the URL got too long.')
+      message <-
+        c('You might have provided too many parameters and the URL got too long.')
       return(message)
-    } else if(stringr::str_detect(body, 'The resource you are looking for has been removed')){
-      message <- c('The original message is: ',body,'But most likely you have exceeded the character value for the api.')
+    } else if (stringr::str_detect(body,
+                                   'The resource you are looking for has been removed')) {
+      message <-
+        c(
+          'The original message is: ',
+          body,
+          'But most likely you have exceeded the character value for the api.'
+        )
       return(message)
     }
   }
