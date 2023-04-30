@@ -158,8 +158,8 @@ check_freq <- function(type, frequency) {
 #' @return A character string specifying the selected classification code.
 #'
 #' @examplesIf interactive()
-#' untrader:::check_clCode("HS") # returns "HS"
-#' untrader:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
+#' comtradr:::check_clCode("HS") # returns "HS"
+#' comtradr:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
 #'
 #' @noRd
 check_clCode <- function(type,commodity_classification) {
@@ -194,12 +194,6 @@ check_flowCode <- function(flow_direction) {
     values = c('import', 'export', 're-export', 're-import', 'all'),
     multiple = TRUE
   )
-  # check that flow_direction code is not null
-  if (!is.null(flow_direction)) {
-    flow_direction <- as.character(flow_direction)
-  } else{
-    rlang::abort("You need to provide at least one flow_direction reference.")
-  }
 
   if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
     rlang::abort("You can only provide 'all' as a single argument.")
