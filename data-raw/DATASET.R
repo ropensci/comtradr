@@ -36,6 +36,7 @@ for(i in 1:nrow(list_of_datasets)){
                       'cmd_eb10s', 'cmd_eb')
 
   valid_country_datasets <- c('reporter','partner')
+  valid_other_datasets <- c('mot','customs')
 
   ## if it is a valid dataset that we need, download it
   if(list_of_datasets$category[i] %in% valid_cmd_datasets){
@@ -86,9 +87,26 @@ for(i in 1:nrow(list_of_datasets)){
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup
         ) |>
-        mutate(iso_3 = ifelse(country=='World','World',iso_3))
+        poorman::mutate(iso_3 = ifelse(country=='World','World',iso_3))
 
     }
+
+    result$last_modified <- last_modified
+
+    readr::write_rds(result, "xz",
+                     file = paste0('inst/extdata/',list_of_datasets$category[i],'.rds'))
+  } else if(list_of_datasets$category[i] %in% valid_other_datasets) {
+    response <- httr2::request(list_of_datasets$fileuri[i]) |>
+      httr2::req_perform()
+
+    data <- response |>
+      httr2::resp_body_json(simplifyVector = T)
+
+    last_modified <- httr2::resp_header(header = "Last-Modified", resp = response) |>
+      stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
+      as.Date(format = "%d %b %Y")
+
+    result <- data$results
 
     result$last_modified <- last_modified
 
