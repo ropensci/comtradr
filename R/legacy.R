@@ -12,18 +12,6 @@ ct_commodity_db_type <- function(...) {
     lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()")
 }
 
-#' @title ct_commodity_lookup
-#' @description This function is deprecated. Please use  `xyz()` instead.
-#' `r lifecycle::badge("superseded")`
-#'
-#' @inheritParams ct_search
-#'
-#' @export
-#'
-ct_commodity_lookup <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_commodity_lookup()")
-}
 
 #' @title ct_country_lookup
 #' @description This function is deprecated. You can `use country_codes` to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.

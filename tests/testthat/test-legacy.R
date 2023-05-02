@@ -2,9 +2,6 @@ test_that('ct_commodity_db_type is defunct', {
   expect_defunct(ct_commodity_db_type())
 })
 
-test_that('ct_commodity_lookup is defunct', {
-  expect_defunct(ct_commodity_lookup())
-})
 
 test_that('ct_country_lookup is defunct', {
   expect_defunct(ct_country_lookup())

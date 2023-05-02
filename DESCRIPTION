@@ -33,7 +33,8 @@ Imports:
     rlang,
     stringr,
     poorman,
-    lubridate
+    lubridate,
+    purrr
 RoxygenNote: 7.2.3
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
