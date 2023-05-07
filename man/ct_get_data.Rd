@@ -53,7 +53,7 @@ ct_get_data(
 
 \item{partner_2}{This value is set as a default to \code{0}, which is most likely the most general value and also the default on the Comtrade website.}
 
-\item{customs_code}{The update parameter takes the value TRUE or FALSE and lets you check, whether the reference tables with the valid commodity codes or reporter codes need to be updated for the session. The update is not persistent.}
+\item{customs_code}{The customs code is set to the default of \code{C00} which is the default for TOTAL across all customs procedures.}
 
 \item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
 

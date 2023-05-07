@@ -18,7 +18,6 @@
 #' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation.
 #' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
 #' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
-#' @param customs_code The update parameter takes the value TRUE or FALSE and lets you check, whether the reference tables with the valid commodity codes or reporter codes need to be updated for the session. The update is not persistent.
 #'
 #' @examplesIf interactive()
 #' ct_get_data(type = 'goods',
