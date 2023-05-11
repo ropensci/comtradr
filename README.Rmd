@@ -26,11 +26,13 @@ comtradr
 <!-- [here](https://comtrade.un.org/data/doc/api/). -->
 
 
-## Currently re-launching 
+## 🚧 Currently re-launching Comtradr 🚧
 
-See #44 for the discussion around it. 
+The Comtrade API has been undergoing extensive updates. At this point the legacy API has been taken offline (see [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
 
-Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests.
+In order to accomodate the new syntax, as well as adding the new functionality, the `comtradr` package has been undergoing an extensive re-write. Additionally, it is not possible anymore to query the API without an API token. There still is a free version, but unlike before you need to be a registered user to obtain the token. See the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the new access tokens. 
+
+Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests. We are very much looking for feedback on the useability of the new functions. 
 
 Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
@@ -38,57 +40,83 @@ For information on citation of this package, use `citation("comtradr")`
 
 ## Installation
 
-<!-- Install from CRAN: -->
-<!-- ```{r eval=FALSE} -->
-<!-- install.packages("comtradr") -->
-<!-- ``` -->
+Currently, the package is not on CRAN, but we plan on publishing to CRAN in the near future. Install the current development version from this repo:
 
-Install the current development version from this repo:
 ```{r eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("ropensci/comtradr@api-update")
+devtools::install_github("ropensci/comtradr@main")
 ```
 
-<!-- ## Example Usage -->
+## Usage
 
-<!-- **Example 1**: Return all exports from China to South Korea, United States and Mexico, for all years -->
+### Authentication
 
-<!-- ```{r, eval = F} -->
-<!-- library(comtradr) -->
+If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 
-<!-- # Country names passed to the API query function must be spelled as they appear  -->
-<!-- # in the Comtrade DB. Use "ct_country_lookup" to query the country DB and  -->
-<!-- #return the exact spelling of specific countries. -->
-<!-- ct_country_lookup("korea") -->
+```{r, eval = F}
+library(comtradr)
 
-<!-- # Since we want South Korea, we'll use "Rep. of Korea" within the API query. -->
-<!-- example1 <- ct_search(reporters = "China",  -->
-<!--                       partners = c("Rep. of Korea", "USA", "Mexico"),  -->
-<!--                       trade_direction = "exports") -->
+set_primary_comtrade_key()
+```
 
-<!-- # Inspect the return data -->
-<!-- str(example1) -->
-<!-- ``` -->
+If you are not in an interactive session, you can register the token once in your session using the following base-r function.
 
-<!-- **Example 2**: Return all exports related to shrimp from Thailand to all other countries, for years 2007 thru 2011 -->
+```{r, eval = F}
+Sys.setenv('COMTRADE_PRIMARY' = 'xxxxxxxxxxxxxxxxx')
+```
 
-<!-- ```{r, eval = F} -->
-<!-- library(comtradr) -->
+If you would like to set the comtrade key permanently, we recommend editing the project `.Renviron` file, where you need to add a line with `COMTRADE_PRIMARY = xxxx-your-key-xxxx`. 
+ℹ️ Do not forget the line break after the last entry. This is the easiest by taking advantage of the great `usethis` package. 
 
-<!-- # Fetch all shrimp related commodity codes from the Comtrade commodities DB.  -->
-<!-- # This vector of codes will get passed to the API query. -->
-<!-- shrimp_codes <- ct_commodity_lookup("shrimp", return_code = TRUE, return_char = TRUE) -->
+```{r, eval = F}
+usethis::edit_r_environ(scope = 'project')
+``` 
 
-<!-- # API query. -->
-<!-- example2 <- ct_search(reporters = "Thailand",  -->
-<!--                       partners = "All",  -->
-<!--                       trade_direction = "exports",  -->
-<!--                       start_date = 2007,  -->
-<!--                       end_date = 2011,  -->
-<!--                       commod_codes = shrimp_codes) -->
+### Example 1
 
-<!-- # Inspect the output -->
-<!-- str(example2) -->
-<!-- ``` -->
+Now we can get to actually request some data. Let us query the total trade between China and Germany and Argentina, as reported by China. 
+
+
+
+```{r, eval = F}
+
+# Country names passed to the API query function must be spelled in ISO3 format. 
+# For details see: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3 
+
+# You can request a maximum interval of twelve years from the API
+example1 <- comtradr::ct_get_data(
+  reporter = 'CHN',
+  partner = c('ARG', 'DEU'),
+  start_date = 2010,
+  end_date = 2012
+)
+
+# Inspect the return data
+str(example1)
+```
+
+
+**Example 2**: Return all exports related to Wine from Argentina to all other countries, for years 2007 through 2011.
+
+```{r, eval = F}
+library(comtradr)
+
+# Fetch all shrimp related commodity codes from the Comtrade commodities DB.
+# This vector of codes will get passed to the API query.
+wine_codes <- ct_commodity_lookup("wine", return_code = TRUE, return_char = TRUE)
+
+# API query.
+example2 <- ct_get_data(
+  reporter =  "ARG",
+  flow_direction = "export",
+  partner = "all",
+  start_date = 2007,
+  end_date = 2011,
+  commodity_code = wine_codes
+)
+
+# Inspect the output
+str(example2)
+```
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

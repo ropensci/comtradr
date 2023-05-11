@@ -12,7 +12,7 @@ ct_commodity_lookup(
   return_char = FALSE,
   verbose = TRUE,
   ignore.case = TRUE,
-  update = F,
+  update = FALSE,
   ...
 )
 }
