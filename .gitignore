@@ -7,3 +7,4 @@ TODO.md
 .DS_Store
 R/test_package.R
 test_package.R
+inst/doc

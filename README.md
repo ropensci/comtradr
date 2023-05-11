@@ -14,9 +14,12 @@
 coverage](https://codecov.io/gh/ropensci/comtradr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
 <!-- badges: end -->
 
-<!-- R package for interacting with the [UN Comtrade Database](https://comtrade.un.org/data/) public API. UN Comtrade provides historical data on the weights and value of  -->
-<!-- specific goods shipped between countries, more info can be found [here](https://comtrade.un.org/). Full API documentation can be found  -->
-<!-- [here](https://comtrade.un.org/data/doc/api/). -->
+R package for interacting with the [UN Comtrade
+Database](https://comtradeplus.un.org/) public API. UN Comtrade provides
+historical data on the weights and value of specific goods shipped
+between countries, more info can be found
+[here](https://unstats.un.org/wiki/display/comtrade). Full API
+documentation can be found [here](https://comtradedeveloper.un.org/).
 
 ## 🚧 Currently re-launching Comtradr 🚧
 
@@ -42,7 +45,7 @@ project, you agree to abide by its terms.
 
 For information on citation of this package, use `citation("comtradr")`
 
-## Installation
+## 🛠️ Installation 🛠️
 
 Currently, the package is not on CRAN, but we plan on publishing to CRAN
 in the near future. Install the current development version from this
@@ -55,7 +58,7 @@ devtools::install_github("ropensci/comtradr@main")
 
 ## Usage
 
-### Authentication
+### 🔐 Authentication 🔐
 
 If you are in an interactive session, you can call the following
 function to save your API token to the environment file for the current
@@ -84,7 +87,7 @@ great `usethis` package.
 usethis::edit_r_environ(scope = 'project')
 ```
 
-### Example 1
+### ⛴️ Example 1 ⛴️
 
 Now we can get to actually request some data. Let us query the total
 trade between China and Germany and Argentina, as reported by China.
@@ -106,8 +109,10 @@ example1 <- comtradr::ct_get_data(
 str(example1)
 ```
 
-**Example 2**: Return all exports related to Wine from Argentina to all
-other countries, for years 2007 through 2011.
+### ⛴️ Example 2 ⛴️
+
+Return all exports related to Wine from Argentina to all other
+countries, for years 2007 through 2011.
 
 ``` r
 library(comtradr)

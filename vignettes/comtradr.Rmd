@@ -1,0 +1,24 @@
+---
+title: "comtradr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{comtradr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(comtradr)
+```
+
+
+## data availablility
+
+See here for an overview of available commodity classifications:  https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png
