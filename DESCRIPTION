@@ -41,6 +41,7 @@ BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
 Suggests: 
+    covr,
     dplyr,
     ggplot2,
     httptest2,
