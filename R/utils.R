@@ -260,7 +260,8 @@ ct_commodity_lookup <- function(search_terms,
                                 return_char = FALSE,
                                 verbose = TRUE,
                                 ignore.case = TRUE,
-                                update = F,...) {
+                                update = FALSE,
+                                ...) {
   stopifnot(mode(search_terms) %in% c("numeric", "character"))
   search_terms <- as.character(search_terms)
 
