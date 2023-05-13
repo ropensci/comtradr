@@ -11,7 +11,7 @@
 [![](https://badges.ropensci.org/141_status.svg)](https://github.com/ropensci/software-review/issues/141)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/ropensci/comtradr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
+coverage](https://codecov.io/gh/ropensci/comtradr/branch/api-update/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
 <!-- badges: end -->
 
 R package for interacting with the [UN Comtrade
