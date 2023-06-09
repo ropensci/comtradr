@@ -15,19 +15,23 @@ ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = FAL
     }
 
     comtrade_is_transient <- function(resp) {
-      httr2::resp_status(resp) == 403 &&
-        httr2::resp_header(resp, "Retry-After") != "0"
+      (httr2::resp_status(resp) == 403 &&
+        httr2::resp_header(resp, "Retry-After") != "0") ||
+      (httr2::resp_status(resp) == 429 &&
+        httr2::resp_header(resp, "Retry-After") != "0")
     }
 
     comtrade_after <- function(resp) {
       time <- as.numeric(httr2::resp_header(resp, "Retry-After"))
+      time
     }
 
     resp <- req |>
       httr2::req_error(body = comtrade_error_body) |>
       httr2::req_throttle(rate = requests_per_second) |>
       httr2::req_retry(is_transient = comtrade_is_transient,
-                       after = comtrade_after) |>
+                       after = comtrade_after,
+                       max_tries = 2) |>
       httr2::req_perform()
 
     if (verbose) {
@@ -38,32 +42,35 @@ ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = FAL
   }
 
 comtrade_error_body <- function(resp) {
-  if (stringr::str_detect(httr2::resp_header(resp, 'Content-Type'), 'json')) {
-    body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  if (!is.null(httr2::resp_header(resp, 'Content-Type'))) {
+    if (stringr::str_detect(httr2::resp_header(resp, 'Content-Type'), 'json')) {
+      body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
 
-    message <- body$errorObject$errorMessage
-    if (!is.null(message)) {
-      message <- c(message)
-    }
-    return(message)
-  } else if (stringr::str_detect(httr2::resp_header(resp,
-                                                    'Content-Type'),
-                                 'text')) {
-    body <- httr2::resp_body_string(resp)
+      message <- body$errorObject$errorMessage
+      if (!is.null(message)) {
+        message <- c(message)
+      }
+      return(message)
+    } else if (stringr::str_detect(httr2::resp_header(resp,
+                                                      'Content-Type'),
+                                   'text')) {
+      body <- httr2::resp_body_string(resp)
 
-    if (stringr::str_detect(body, 'Request URL Too Long')) {
-      message <-
-        c('You might have provided too many parameters and the URL got too long.')
-      return(message)
-    } else if (stringr::str_detect(body,
-                                   'The resource you are looking for has been removed')) {
-      message <-
-        c(
-          'The original message is: ',
-          body,
-          'But most likely you have exceeded the character value for the api.'
-        )
-      return(message)
+      if (stringr::str_detect(body, 'Request URL Too Long')) {
+        message <-
+          c('You might have provided too many parameters and the URL got too long.')
+        return(message)
+      } else if (stringr::str_detect(body,
+                                     'The resource you are looking for has been removed')) {
+        message <-
+          c(
+            'The original message is: ',
+            body,
+            'But most likely you have exceeded the character value for the api.'
+          )
+        return(message)
+      }
     }
   }
+
 }
