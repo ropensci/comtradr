@@ -23,7 +23,7 @@ R package for interacting with the [UN Comtrade Database](https://comtradeplus.u
 [here](https://comtradedeveloper.un.org/).
 
 
-## 🚧 Currently re-launching Comtradr 🚧
+## Currently re-launching Comtradr 🚧
 
 The Comtrade API has been undergoing extensive updates. At this point the legacy API has been taken offline (see [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
 
@@ -35,7 +35,7 @@ Please note that this package is released with a [Contributor Code of Conduct](h
 
 For information on citation of this package, use `citation("comtradr")`
 
-## 🛠️ Installation 🛠️
+## Installation 🛠️
 
 Currently, the package is not on CRAN, but we plan on publishing to CRAN in the near future. Install the current development version from this repo:
 
@@ -46,7 +46,7 @@ devtools::install_github("ropensci/comtradr@main")
 
 ## Usage
 
-### 🔐 Authentication 🔐
+### Authentication 🔐
 
 If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 
@@ -69,7 +69,7 @@ If you would like to set the comtrade key permanently, we recommend editing the 
 usethis::edit_r_environ(scope = 'project')
 ``` 
 
-### ⛴️ Example 1 ⛴️
+### Example 1 ⛴️
 
 Now we can get to actually request some data. Let us query the total trade between China and Germany and Argentina, as reported by China. 
 
@@ -92,7 +92,7 @@ str(example1)
 ```
 
 
-### ⛴️ Example 2 ⛴️
+### Example 2 ⛴️
 Return all exports related to Wine from Argentina to all other countries, for years 2007 through 2011.
 
 ```{r, eval = F}
