@@ -555,8 +555,10 @@ check_date <- function(start_date, end_date, frequency) {
       # If start_date and end_date are both years ("yyyy") and are identical,
       # return the single year as the date range.
       if (identical(start_date, end_date)) {
-        return(start_date)
-      } else {
+        start_date <- convert_to_date(start_date)
+        date_range <- seq.Date(start_date, by = "month",length.out = 12) |>
+          format(format = "%Y%m")
+        } else {
         rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.")
       }
     } else if (!sd_year && !ed_year) {
@@ -573,8 +575,8 @@ check_date <- function(start_date, end_date, frequency) {
   }
 
   # If the derived date range is longer than five elements, throw an error.
-  if (length(date_range) > 12) {
-    stop("If specifying years/months, cannot search more than five consecutive years/months in a single query.")
+  if (length(date_range) > 12 ) {
+    rlang::abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.")
   }
 
   return(paste(date_range, collapse = ","))
