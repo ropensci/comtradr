@@ -135,3 +135,58 @@ usethis::use_data(country_codes, overwrite = TRUE)
 
 
 
+
+
+# Data for vignette -------------------------------------------------------
+
+example_1 <- comtradr::ct_get_data(
+  reporter = 'USA',
+  partner = c('DEU', 'FRA','JPN','MEX'),
+  commodity_code = 'TOTAL',
+  start_date = 2018,
+  end_date = 2023,
+  flow_direction = 'import'
+)
+save(example_1, file = 'inst/extdata/vignette_data_1.rda')
+
+#
+# #
+# example_2 <- comtradr::ct_get_data(
+#   reporter = 'USA',
+#   partner = c('DEU', 'FRA','JPN','MEX'),
+#   commodity_code = ct_commodity_lookup("tomato",
+#                                                        return_code = TRUE,
+#                                                        return_char = TRUE),
+#   start_date = "2012",
+#   end_date = "2013",
+#   flow_direction = 'import'
+# )
+#
+# ct_get_data(
+#   reporter = 'USA',
+#   partner = c('DEU', 'FRA','JPN','MEX'),
+#   commod_codes = c("0702", "070200", "2002", "200210", "200290"),
+#   start_date = "2012",
+#   end_date = "2013",
+#   flow_direction = 'import'
+# )
+#
+# save(example_2, file = 'inst/extdata/vignette_data_2.rda')
+#
+#
+# comtradr:::ct_check_params(
+#   type = 'goods',
+#   reporter = 'USA',
+#   partner = c('DEU', 'FRA', 'JPN', 'MEX'),
+#   commodity_code = 'TOTAL',
+#   commodity_classification = 'HS',
+#   start_date = "2012",
+#   end_date = "2012",
+#   frequency = 'M',
+#   flow_direction = 'import',
+#   mode_of_transport = '0',
+#   customs_code = 'C00',
+#   partner_2 = 'World',
+#   verbose = T,
+#   update = F
+# )
