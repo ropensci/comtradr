@@ -163,7 +163,7 @@ The API also limits the amount of times it can be queried per minute, but we cou
 In addition to these rate limits, the API imposes some limits on parameter combinations.
 
 * The arguments `reporters`, `partners` do not have an `All` value specified natively anymore, we have implemented it in R for convenience reasons on our side. 
-* For the same group of three (`reporters`, `partners`, date range), if the input is not "All", then the maximum number of input values for each is five. For date range the `start_date` and `end_date` must not span more than twelve months or twelve years. There is no more parameter to specify `All` years.
+* For date range the `start_date` and `end_date` must not span more than twelve months or twelve years. There is no more parameter to specify `All` years.
 * For arg `commodity_codes`, the maximum number of input values is dependent on the maximum length of the request. Hence, if specifying `reporters` or `partners`, this value might be shorter. 
 
 
@@ -183,118 +183,102 @@ If any updates are found, the message will state which reference table(s) were u
 
 Additionally, the Comtrade API features a number of different commodity reference tables, based on different trade data classification schemes (for more details, see [this](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png) page from the API docs). `comtradr` ships with all available commodity reference tables. The user may return and access any of the available commodity tables by specifying arg `commodity_type` within function `ct_get_ref_table` (e.g., `ct_get_ref_table(commodity_type = "S1")` will return the commodity table that follows the "S1" scheme). 
 
-**"Polished" Column Headers**
 
-`ct_pretty_cols` is a named vector of column header values that provide the option of using column headers that are more polished and human-friendly than those returned by the API function `ct_search`. The polished column headers may be useful when plotting the Comtrade data, or for use in publication tables. The data can be accessed directly by using `data("ct_pretty_cols")`, but there is also a function for applying the polished headers to `comtradr` data frames, `ct_use_pretty_cols`. Below is a quick demonstration.
 
-```{r}
-# Column headers returned from function ct_search
-colnames(q)
+## Visualize
+
+Once the data is collected, we can use it to create some basic visualizations.
+
+**Plot 1**: Plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year.
+
+```{r, echo = FALSE}
+v_data_2 <- system.file("extdata", "vignette_data_2.rda", package = "comtradr")
+if (!file.exists(v_data_2)) {
+  stop("internal vignette data set '~/extdata/vignette_data_2.rda' not found", call. = FALSE)
+}
+load(v_data_2)
 ```
 
-```{r}
-# Apply polished column headers
-q <- ct_use_pretty_cols(q)
-
-# Print new column headers.
-colnames(q)
+```{r, eval = FALSE}
+# Comtrade api query.
+example_2 <- ct_get_data(
+  reporter = 'CHN',
+  partner = c('KOR', 'USA','MEX'),
+  commodity_code = 'TOTAL',
+  start_date = 2012,
+  end_date = 2023,
+  flow_direction = 'export'
+)
 ```
 
-<!-- ## Visualize -->
+```{r, warning = FALSE, message = FALSE}
+library(ggplot2)
 
-<!-- Once the data is collected, we can use it to create some basic visualizations. -->
+# Apply polished col headers.
+# Create plot.
+ggplot(example_2, aes(period, primaryValue/1000000000, color = partnerDesc, group = partnerDesc)) +
+  geom_point(size = 2) +
+  geom_line(size = 1) +
+  scale_color_manual( values = c("darkgreen","red","grey30"),name = "Destination\nCountry") +
+  ylab('Export Value in billions') +
+  xlab('Year') +
+  labs(title = "Total Value (USD) of Chinese Exports", subtitle = 'by year') +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  theme_minimal()
+```
 
-<!-- **Plot 1**: Plot total value (USD) of Chinese exports to Mexico, South Korea and the United States, by year. -->
+**Plot 2**: Plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011.
 
-<!-- ```{r, echo = FALSE} -->
-<!-- v_data_2 <- system.file("extdata", "vignette_data_2.rda", package = "comtradr") -->
-<!-- if (!file.exists(v_data_2)) { -->
-<!--   stop("internal vignette data set '~/extdata/vignette_data_2.rda' not found", call. = FALSE) -->
-<!-- } -->
-<!-- load(v_data_2) -->
-<!-- ``` -->
-<!-- ```{r, eval = FALSE} -->
-<!-- # Comtrade api query. -->
-<!-- df <- ct_search(reporters = "China", -->
-<!--                 partners = c("Rep. of Korea", "USA", "Mexico"), -->
-<!--                 trade_direction = "exports") -->
-<!-- ``` -->
+```{r, echo = FALSE}
+v_data_3 <- system.file("extdata", "vignette_data_3.rda", package = "comtradr")
+if (!file.exists(v_data_3)) {
+  stop("internal vignette data set '~/extdata/vignette_data_3.rda' not found", call. = FALSE)
+}
+load(v_data_3)
+```
+```{r, eval = FALSE}
+# First, collect commodity codes related to shrimp.
+shrimp_codes <- ct_commodity_lookup("shrimp",
+                                    return_code = TRUE,
+                                    return_char = TRUE)
 
-<!-- ```{r, warning = FALSE, message = FALSE} -->
-<!-- library(ggplot2) -->
+# Comtrade api query.
+example_3 <- ct_get_data(reporter = "THA",
+                partner = "all",
+                trade_direction = "exports",
+                start_date = 2007,
+                end_date = 2011,
+                commodity_code = shrimp_codes)
+```
 
-<!-- # Apply polished col headers. -->
-<!-- df <- ct_use_pretty_cols(df) -->
+```{r, warning = FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
 
-<!-- # Create plot. -->
-<!-- ggplot(df, aes(Year, `Trade Value usd`, color = factor(`Partner Country`), -->
-<!--                shape = factor(`Partner Country`))) + -->
-<!--   geom_point(size = 2) + -->
-<!--   geom_line(size = 1) + -->
-<!--   scale_x_continuous(limits = c(min(df$Year), max(df$Year)), -->
-<!--                      breaks = seq.int(min(df$Year), max(df$Year), 2)) + -->
-<!--   scale_color_manual(values = c("orange", "blue", "red"), -->
-<!--                      name = "Destination\nCountry") + -->
-<!--   scale_shape_discrete(name = "Destination\nCountry") + -->
-<!--   labs(title = "Total Value (USD) of Chinese Exports, by Year") + -->
-<!--   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) -->
-<!-- ``` -->
 
-<!-- **Plot 2**: Plot the top eight destination countries/areas of Thai shrimp exports, by weight (KG), for 2007 - 2011. -->
+# Create country specific "total weight per year" dataframe for plotting.
+plotdf <- example_3 %>%
+  group_by(partnerDesc, period) %>%
+  summarise(kg = as.numeric(sum(netWgt, na.rm = TRUE))) 
 
-<!-- ```{r, echo = FALSE} -->
-<!-- v_data_3 <- system.file("extdata", "vignette_data_3.rda", package = "comtradr") -->
-<!-- if (!file.exists(v_data_3)) { -->
-<!--   stop("internal vignette data set '~/extdata/vignette_data_3.rda' not found", call. = FALSE) -->
-<!-- } -->
-<!-- load(v_data_3) -->
-<!-- ``` -->
-<!-- ```{r, eval = FALSE} -->
-<!-- # First, collect commodity codes related to shrimp. -->
-<!-- shrimp_codes <- ct_commodity_lookup("shrimp", -->
-<!--                                     return_code = TRUE, -->
-<!--                                     return_char = TRUE) -->
+# Get vector of the top 8 destination countries/areas by total weight shipped
+# across all years, then subset plotdf to only include observations related
+# to those countries/areas.
+top8 <- plotdf |> 
+  group_by(partnerDesc) |> 
+  summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) |> 
+  slice_max(n = 8, order_by = kg) |> 
+  arrange(desc(kg)) |> 
+  pull(partnerDesc)
+plotdf <- plotdf %>% filter(partnerDesc %in% top8)
 
-<!-- # Comtrade api query. -->
-<!-- df <- ct_search(reporters = "Thailand", -->
-<!--                 partners = "All", -->
-<!--                 trade_direction = "exports", -->
-<!--                 start_date = 2007, -->
-<!--                 end_date = 2011, -->
-<!--                 commod_codes = shrimp_codes) -->
-<!-- ``` -->
-
-<!-- ```{r, warning = FALSE, message = FALSE} -->
-<!-- library(ggplot2) -->
-<!-- library(dplyr) -->
-
-<!-- # Apply polished col headers. -->
-<!-- df <- ct_use_pretty_cols(df) -->
-
-<!-- # Create country specific "total weight per year" dataframe for plotting. -->
-<!-- plotdf <- df %>% -->
-<!--   group_by_(.dots = c("`Partner Country`", "Year")) %>% -->
-<!--   summarise(kg = as.numeric(sum(`Net Weight kg`, na.rm = TRUE))) %>% -->
-<!--   as_data_frame() -->
-
-<!-- # Get vector of the top 8 destination countries/areas by total weight shipped -->
-<!-- # across all years, then subset plotdf to only include observations related -->
-<!-- # to those countries/areas. -->
-<!-- top8 <- plotdf %>% -->
-<!--   group_by(`Partner Country`) %>% -->
-<!--   summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) %>% -->
-<!--   top_n(8, kg) %>% -->
-<!--   arrange(desc(kg)) %>% -->
-<!--   .[["Partner Country"]] -->
-<!-- plotdf <- plotdf %>% filter(`Partner Country` %in% top8) -->
-
-<!-- # Create plots (y-axis is NOT fixed across panels, this will allow us to ID -->
-<!-- # trends over time within each country/area individually). -->
-<!-- qplot(Year, kg, data = plotdf) + -->
-<!--   geom_line(data = plotdf[plotdf$`Partner Country` %in% names(which(table(plotdf$`Partner Country`) > 1)), ]) + -->
-<!--   xlim(min(plotdf$Year), max(plotdf$Year)) + -->
-<!--   labs(title = "Weight (KG) of Thai Shrimp Exports, by Destination Area, 2007 - 2011") + -->
-<!--   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1), -->
-<!--         axis.text = element_text(size = 7)) + -->
-<!--   facet_wrap(~factor(`Partner Country`, levels = top8), scales = "free", nrow = 2, ncol = 4) -->
-<!-- ``` -->
+# Create plots (y-axis is NOT fixed across panels, this will allow us to ID
+# trends over time within each country/area individually).
+ggplot(plotdf,aes(period,kg/1000, group = partnerDesc))+
+  geom_line() + 
+  geom_point() + 
+  facet_wrap(.~partnerDesc, nrow = 2, ncol = 4,scales = 'free_y')+
+  labs(title = "Weight (KG in tons) of Thai Shrimp Exports", 
+       subtitle ="by Destination Area, 2007 - 2011")+
+  theme_minimal()
+```
