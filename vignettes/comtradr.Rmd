@@ -280,5 +280,6 @@ ggplot(plotdf,aes(period,kg/1000, group = partnerDesc))+
   facet_wrap(.~partnerDesc, nrow = 2, ncol = 4,scales = 'free_y')+
   labs(title = "Weight (KG in tons) of Thai Shrimp Exports", 
        subtitle ="by Destination Area, 2007 - 2011")+
-  theme_minimal()
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45,hjust = 1, vjust = 1))
 ```
