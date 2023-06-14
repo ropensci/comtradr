@@ -149,6 +149,31 @@ example_1 <- comtradr::ct_get_data(
 )
 save(example_1, file = 'inst/extdata/vignette_data_1.rda')
 
+example_2 <- comtradr::ct_get_data(
+  reporter = 'CHN',
+  partner = c('KOR', 'USA','MEX'),
+  commodity_code = 'TOTAL',
+  start_date = 2012,
+  end_date = 2023,
+  flow_direction = 'export'
+)
+save(example_2, file = 'inst/extdata/vignette_data_2.rda')
+
+
+shrimp_codes <- ct_commodity_lookup("shrimp",
+                                    return_code = TRUE,
+                                    return_char = TRUE)
+
+# Comtrade api query.
+example_3 <- ct_get_data(reporter = "THA",
+                partner = "all",
+                trade_direction = "exports",
+                start_date = 2007,
+                end_date = 2011,
+                commodity_code = shrimp_codes)
+
+save(example_3, file = 'inst/extdata/vignette_data_3.rda')
+
 #
 # #
 # example_2 <- comtradr::ct_get_data(
