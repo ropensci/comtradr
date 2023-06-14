@@ -31,6 +31,8 @@ In order to accomodate the new syntax, as well as adding the new functionality, 
 
 Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests. We are very much looking for feedback on the useability of the new functions. 
 
+The package in its old version is still available from the `legacy-0-3-0` branch.
+
 Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 For information on citation of this package, use `citation("comtradr")`
