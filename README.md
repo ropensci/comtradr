@@ -4,14 +4,12 @@
 # comtradr <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-<!-- [![Travis-CI Build Status](https://travis-ci.org/ropensci/comtradr.svg?branch=master)](https://travis-ci.org/ropensci/comtradr) -->
-<!-- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/comtradr?branch=master&svg=true)](https://ci.appveyor.com/project/ropensci/comtradr) -->
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
 [![](https://badges.ropensci.org/141_status.svg)](https://github.com/ropensci/software-review/issues/141)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/ropensci/comtradr/branch/api-update/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
+coverage](https://codecov.io/gh/ropensci/comtradr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
 <!-- badges: end -->
 
 R package for interacting with the [UN Comtrade
@@ -21,7 +19,7 @@ between countries, more info can be found
 [here](https://unstats.un.org/wiki/display/comtrade). Full API
 documentation can be found [here](https://comtradedeveloper.un.org/).
 
-## 🚧 Currently re-launching Comtradr 🚧
+## Currently re-launching Comtradr 🚧
 
 The Comtrade API has been undergoing extensive updates. At this point
 the legacy API has been taken offline (see
@@ -39,13 +37,16 @@ Please [report](https://github.com/ropensci/comtradr/issues) issues,
 comments, or feature requests. We are very much looking for feedback on
 the useability of the new functions.
 
+The package in its old version is still available from the
+`legacy-0-3-0` branch.
+
 Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
 For information on citation of this package, use `citation("comtradr")`
 
-## 🛠️ Installation 🛠️
+## Installation 🛠️
 
 Currently, the package is not on CRAN, but we plan on publishing to CRAN
 in the near future. Install the current development version from this
@@ -58,7 +59,7 @@ devtools::install_github("ropensci/comtradr@main")
 
 ## Usage
 
-### 🔐 Authentication 🔐
+### Authentication 🔐
 
 If you are in an interactive session, you can call the following
 function to save your API token to the environment file for the current
@@ -87,7 +88,7 @@ great `usethis` package.
 usethis::edit_r_environ(scope = 'project')
 ```
 
-### ⛴️ Example 1 ⛴️
+### Example 1 ⛴️
 
 Now we can get to actually request some data. Let us query the total
 trade between China and Germany and Argentina, as reported by China.
@@ -109,7 +110,7 @@ example1 <- comtradr::ct_get_data(
 str(example1)
 ```
 
-### ⛴️ Example 2 ⛴️
+### Example 2 ⛴️
 
 Return all exports related to Wine from Argentina to all other
 countries, for years 2007 through 2011.
