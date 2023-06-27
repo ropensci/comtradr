@@ -12,6 +12,7 @@
 #' @param end_date The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.
 #' @param primary_token Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.
 #' @param process A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.
+#' @param tidy_cols A logical value. If TRUE, returns a data.frame with tidy column names. If FALSE, returns the raw column names Defaults to TRUE.
 #' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
 #' @param update A logical value. If TRUE, will download the possibly updated reference tables from the UN.
 #' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation. All possible values are provided in the function `ct_get_ref_table(dataset_id = 'mot')`. If you provide `NULL`, all possible values are queried
@@ -43,6 +44,7 @@ ct_get_data <- function(type = 'goods',
                         start_date = NULL,
                         end_date = NULL,
                         process = TRUE,
+                        tidy_cols = TRUE,
                         verbose = FALSE,
                         primary_token = get_primary_comtrade_key(),
                         mode_of_transport = '0',
@@ -76,7 +78,7 @@ ct_get_data <- function(type = 'goods',
   resp <- ct_perform_request(req, verbose = verbose)
 
   if (process) {
-    result <- ct_process_response(resp, verbose = verbose)
+    result <- ct_process_response(resp, verbose = verbose, tidy_cols = tidy_cols)
     return(result)
   } else{
     return(resp)

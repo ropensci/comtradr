@@ -4,12 +4,14 @@
 \alias{ct_process_response}
 \title{Processes the response object}
 \usage{
-ct_process_response(resp, verbose = FALSE)
+ct_process_response(resp, verbose = FALSE, tidy_cols)
 }
 \arguments{
 \item{resp}{a valid httr2 response object created from the function \code{ct_perform_request()}}
 
 \item{verbose}{whether the function sends status updates to the console}
+
+\item{tidy_cols}{A logical value. If TRUE, returns a data.frame with tidy column names. If FALSE, returns the raw column names Defaults to TRUE.}
 }
 \value{
 a data.frame object with the results
