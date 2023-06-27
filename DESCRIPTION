@@ -19,23 +19,35 @@ Description: Interface with and extract data from the United Nations Comtrade
   API <https://comtrade.un.org/data/>. Comtrade provides country level shipping 
   data for a variety of commodities, these functions allow for easy API query 
   and data returned as a tidy data frame.
-Depends: R (>= 3.0.0)
+Depends: R (>= 4.1.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports:
-        httr, 
-        jsonlite, 
-        magrittr (>= 1.5), 
-        purrr
-RoxygenNote: 7.1.1
+Imports: 
+    lifecycle,
+    fs,
+    readr,
+    askpass,
+    cli,
+    httr2,
+    rlang,
+    stringr,
+    poorman,
+    lubridate,
+    purrr
+RoxygenNote: 7.2.3
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
 Maintainer: Chris Muir <chrismuirRVA@gmail.com>
-Suggests: testthat,
+Suggests: 
+    covr,
+    dplyr,
+    ggplot2,
+    httptest2,
     knitr,
     rmarkdown,
-    ggplot2,
-    dplyr
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

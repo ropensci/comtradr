@@ -4,3 +4,7 @@
 ^cran-comments\.md$
 TODO.md
 /revdep/.cache.rds
+.DS_Store
+R/test_package.R
+test_package.R
+inst/doc

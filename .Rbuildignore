@@ -7,3 +7,6 @@
 ^CONDUCT\.md$
 ^appveyor\.yml$
 ^revdep$
+^data-raw$
+^\.github$
+^codecov\.yml$
