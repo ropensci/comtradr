@@ -15,6 +15,7 @@ ct_get_data(
   start_date = NULL,
   end_date = NULL,
   process = TRUE,
+  tidy_cols = TRUE,
   verbose = FALSE,
   primary_token = get_primary_comtrade_key(),
   mode_of_transport = "0",
@@ -44,6 +45,8 @@ ct_get_data(
 \item{end_date}{The end date of the query. A character value. Yearly values should be in the format: \code{yyyy}. Monthly values should be in the format: \code{yyyy-mm}. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.}
 
 \item{process}{A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.}
+
+\item{tidy_cols}{A logical value. If TRUE, returns a data.frame with tidy column names. If FALSE, returns the raw column names Defaults to TRUE.}
 
 \item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
 

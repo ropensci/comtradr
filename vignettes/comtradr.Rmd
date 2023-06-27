@@ -216,7 +216,7 @@ library(ggplot2)
 
 # Apply polished col headers.
 # Create plot.
-ggplot(example_2, aes(period, primaryValue/1000000000, color = partnerDesc, group = partnerDesc)) +
+ggplot(example_2, aes(period, primary_value/1000000000, color = partner_desc, group = partner_desc)) +
   geom_point(size = 2) +
   geom_line(size = 1) +
   scale_color_manual( values = c("darkgreen","red","grey30"),name = "Destination\nCountry") +
@@ -258,26 +258,26 @@ library(dplyr)
 
 # Create country specific "total weight per year" dataframe for plotting.
 plotdf <- example_3 %>%
-  group_by(partnerDesc, period) %>%
-  summarise(kg = as.numeric(sum(netWgt, na.rm = TRUE))) 
+  group_by(partner_desc, period) %>%
+  summarise(kg = as.numeric(sum(net_wgt, na.rm = TRUE))) 
 
 # Get vector of the top 8 destination countries/areas by total weight shipped
 # across all years, then subset plotdf to only include observations related
 # to those countries/areas.
 top8 <- plotdf |> 
-  group_by(partnerDesc) |> 
+  group_by(partner_desc) |> 
   summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) |> 
   slice_max(n = 8, order_by = kg) |> 
   arrange(desc(kg)) |> 
-  pull(partnerDesc)
-plotdf <- plotdf %>% filter(partnerDesc %in% top8)
+  pull(partner_desc)
+plotdf <- plotdf %>% filter(partner_desc %in% top8)
 
 # Create plots (y-axis is NOT fixed across panels, this will allow us to ID
 # trends over time within each country/area individually).
-ggplot(plotdf,aes(period,kg/1000, group = partnerDesc))+
+ggplot(plotdf,aes(period,kg/1000, group = partner_desc))+
   geom_line() + 
   geom_point() + 
-  facet_wrap(.~partnerDesc, nrow = 2, ncol = 4,scales = 'free_y')+
+  facet_wrap(.~partner_desc, nrow = 2, ncol = 4,scales = 'free_y')+
   labs(title = "Weight (KG in tons) of Thai Shrimp Exports", 
        subtitle ="by Destination Area, 2007 - 2011")+
   theme_minimal()+
