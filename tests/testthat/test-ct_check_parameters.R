@@ -137,6 +137,7 @@ testthat::test_that("check_date works correctly", {
   testthat::expect_equal(check_date(2010, 2011, "A"), "2010,2011")
   testthat::expect_equal(check_date(2010, 2010, "A"), "2010")
   testthat::expect_equal(check_date("2010-01", "2010-07", "M"), "201001,201002,201003,201004,201005,201006,201007")
+  testthat::expect_error(check_date("2010-01", "2011-07", "M"), "If specifying years/months, cannot search more than twelve consecutive years/months in a single query.")
   testthat::expect_error(check_date("2010-01", "2011-07", "M"))
   testthat::expect_error(check_date("2010-01", "2011", "M"),"If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.")
 })
