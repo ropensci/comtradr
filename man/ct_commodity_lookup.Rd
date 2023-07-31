@@ -25,7 +25,7 @@ set of commodity descriptions along with commodity codes (as a single
 string for each match found), if set to TRUE it will return only the
 commodity codes. Default value is FALSE.}
 
-\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
+\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The possible values are \code{c('HS','S1','S2','S3','S4','SS')} for goods and \code{c('B4','B5','EB02','EB10','EB10S','EB')} for services.}
 
 \item{type}{The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.}
 

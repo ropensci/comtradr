@@ -31,7 +31,7 @@ test_that("check_flowCode returns correct flow codes and handles invalid inputs"
   expect_equal(check_flowCode("import"), "M")
   expect_equal(check_flowCode(c("export", "re-export")), "X,RX")
   expect_error(check_flowCode("trade"), "`flow_direction` must be one of")
-  expect_error(check_flowCode(NULL), "`flow_direction` must be a character vector, not `NULL`")
+  # expect_error(check_flowCode(NULL), "`flow_direction` must be a character vector, not `NULL`")
   expect_error(check_flowCode(c("all", "import")), "You can only provide 'all' as a single argument.")
 })
 
@@ -65,14 +65,14 @@ testthat::test_that("check_cmdCode function works correctly", {
     )
   )
 
-  testthat::expect_error(
-    comtradr:::check_cmdCode(
-      commodity_classification = "HS",
-      commodity_code = NULL,
-      update = FALSE,
-      verbose = FALSE
-    )
-  )
+  # testthat::expect_error(
+  #   comtradr:::check_cmdCode(
+  #     commodity_classification = "HS",
+  #     commodity_code = NULL,
+  #     update = FALSE,
+  #     verbose = FALSE
+  #   )
+  # )
 })
 
 testthat::test_that("check_reporterCode function works correctly", {
@@ -102,11 +102,6 @@ testthat::test_that("check_reporterCode function works correctly", {
     )
   ) > 0)
 
-  testthat::expect_error(comtradr:::check_reporterCode(
-    reporter = NULL,
-    update = FALSE,
-    verbose = FALSE
-  ))
 })
 
 

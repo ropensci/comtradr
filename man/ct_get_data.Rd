@@ -30,15 +30,15 @@ ct_get_data(
 
 \item{frequency}{The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.}
 
-\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
+\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The possible values are \code{c('HS','S1','S2','S3','S4','SS')} for goods and \code{c('B4','B5','EB02','EB10','EB10S','EB')} for services.}
 
-\item{commodity_code}{The commodity code(s). A character vector. All possible values are provided in the \code{comtradr::ct_get_ref_table()} function. You should use the relevant value from the \code{id} column. The default value is 'TOTAL': the sum of all commodities.}
+\item{commodity_code}{The commodity code(s). A character vector or \code{NULL}. All possible values are provided in the \code{comtradr::ct_get_ref_table('HS')} function (here for the HS commodity classification). You should use the relevant value from the \code{id} column. The default value is 'TOTAL': the sum of all commodities. If you provide \code{NULL}, all possible values are queried.}
 
-\item{flow_direction}{The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.}
+\item{flow_direction}{The direction of trade flows. A character vector or \code{NULL}. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'. If you provide \code{NULL}, all possible values are queried.}
 
-\item{reporter}{Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.}
+\item{reporter}{Reporter ISO3 code(s). A character vector or \code{NULL}. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'. If you provide \code{NULL}, all possible values are queried.}
 
-\item{partner}{Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World' which returns the trade with all partner countries as an aggregate.}
+\item{partner}{Partner ISO3 code(s). A character vector or \code{NULL}. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World' which returns the trade with all partner countries as an aggregate. If you provide \code{NULL}, all possible values are queried.}
 
 \item{start_date}{The start date of the query. A character value. Yearly values should be in the format: \code{yyyy}. Monthly values should be in the format: \code{yyyy-mm}.}
 
@@ -52,18 +52,18 @@ ct_get_data(
 
 \item{primary_token}{Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the \code{comtradr::set_primary_comtrade_key} function.}
 
-\item{mode_of_transport}{The Mode of Transport is set to \code{0}, which is the default for TOTAL across all modes of transportation.}
+\item{mode_of_transport}{The Mode of Transport is set to \code{0}, which is the default for TOTAL across all modes of transportation. All possible values are provided in the function \code{ct_get_ref_table(dataset_id = 'mot')}. If you provide \code{NULL}, all possible values are queried}
 
-\item{partner_2}{This value is set as a default to \code{0}, which is most likely the most general value and also the default on the Comtrade website.}
+\item{partner_2}{Partner ISO3 code(s). A character vector or \code{NULL}. This value is set as a default to \code{World}, which is most likely the most general value and also the default on the Comtrade website. If you provide \code{NULL}, all possible values are queried}
 
-\item{customs_code}{The customs code is set to the default of \code{C00} which is the default for TOTAL across all customs procedures.}
+\item{customs_code}{The customs code is set to the default of \code{C00} which is the default for TOTAL across all customs procedures. All possible values are provided in the function \verb{ct_get_ref_table(dataset_id = 'customs'}. If you provide \code{NULL}, all possible values are queried.}
 
 \item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
 
 \item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
 }
 \value{
-returns a data.frame with trade data or if \code{process = F} returns a httr2response object.
+returns a data.frame with trade data or if \code{process = F} a httr2response object.
 }
 \description{
 Get trade data from the UN Comtrade API
