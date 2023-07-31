@@ -403,39 +403,39 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
-  } else{
-    rlang::abort("You need to provide at least one partner 2.")
-  }
-
-  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
 
 
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- stringr::str_squish(partner)
-    if (any(partner == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+
+
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- stringr::str_squish(partner)
+      if (any(partner == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      if (!all(partner %in% partner_codes$iso_3)) {
+        rlang::abort(paste(
+          "The following partner_2 you provided are invalid: ",
+          setdiff(partner, partner_codes$iso_3), collapse = ", ")
+        )
+      }
     }
-    # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partner %in% partner_codes$iso_3)) {
-      rlang::abort(paste(
-        "The following partner_2 you provided are invalid: ",
-        setdiff(partner, partner_codes$iso_3), collapse = ", ")
-      )
+
+    # create proper ids for partner
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- partner_codes |>
+        poorman::filter(iso_3 %in% partner) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (partner == 'all') {
+      partner <- partner_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
     }
   }
 
-  # create proper ids for partner
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- partner_codes |>
-      poorman::filter(iso_3 %in% partner) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (partner == 'all') {
-    partner <- partner_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  }
   return(partner)
 }
 
@@ -452,27 +452,26 @@ check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(mode_of_transport)) {
     mode_of_transport <- as.character(mode_of_transport)
-  } else{
-    rlang::abort("You need to provide at least one mode_of_transport reference.")
+
+    # remove any white space from cmd codes provided
+    mode_of_transport <- stringr::str_squish(mode_of_transport)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <- ct_get_ref_table(dataset_id = 'mot',
+                                    update = update,
+                                    verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(mode_of_transport %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following mode_of_transport codes you provided are invalid: ",
+        paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
+      ))
+    } else {
+      mode_of_transport <- paste0(mode_of_transport, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  mode_of_transport <- stringr::str_squish(mode_of_transport)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = 'mot',
-                                  update = update,
-                                  verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(mode_of_transport %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following mode_of_transport codes you provided are invalid: ",
-      paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
-    ))
-  } else {
-    mode_of_transport <- paste0(mode_of_transport, collapse = ',')
-  }
   return(mode_of_transport)
 }
 
@@ -488,27 +487,26 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(customs_code)) {
     customs_code <- as.character(customs_code)
-  } else{
-    rlang::abort("You need to provide at least one customs_code reference.")
+
+    # remove any white space from cmd codes provided
+    customs_code <- stringr::str_squish(customs_code)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <- ct_get_ref_table(dataset_id = 'customs',
+                                    update = update,
+                                    verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(customs_code %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following customs_code codes you provided are invalid: ",
+        paste0(setdiff(customs_code, valid_codes), collapse = ", ")
+      ))
+    } else {
+      customs_code <- paste0(customs_code, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  customs_code <- stringr::str_squish(customs_code)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = 'customs',
-                                  update = update,
-                                  verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(customs_code %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following customs_code codes you provided are invalid: ",
-      paste0(setdiff(customs_code, valid_codes), collapse = ", ")
-    ))
-  } else {
-    customs_code <- paste0(customs_code, collapse = ',')
-  }
   return(customs_code)
 }
 
