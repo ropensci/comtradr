@@ -189,24 +189,26 @@ check_clCode <- function(type,commodity_classification) {
 #'
 #' @noRd
 check_flowCode <- function(flow_direction) {
-  rlang::arg_match(
-    flow_direction,
-    values = c('import', 'export', 're-export', 're-import', 'all'),
-    multiple = TRUE
-  )
+  if(!is.null(flow_direction)){
+    rlang::arg_match(
+      flow_direction,
+      values = c('import', 'export', 're-export', 're-import', 'all'),
+      multiple = TRUE
+    )
 
-  if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
-    rlang::abort("You can only provide 'all' as a single argument.")
-  }
+    if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
+      rlang::abort("You can only provide 'all' as a single argument.")
+    }
 
-  if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
-    flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
-    flow_direction <- flow_direction |> paste0(collapse = ',')
-  } else if (flow_direction == 'all') {
-    flow_direction <- 'M,X,RM,RX'
+    if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
+      flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
+      flow_direction <- flow_direction |> paste0(collapse = ',')
+    } else if (flow_direction == 'all') {
+      flow_direction <- 'M,X,RM,RX'
+    }
   }
   return(flow_direction)
 }
@@ -231,31 +233,30 @@ check_cmdCode <-
            commodity_code,
            update = FALSE,
            verbose = FALSE) {
-    # check that commodity_code code is not null
+  # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
     commodity_code <- as.character(commodity_code)
-  } else{
-    rlang::abort("You need to provide at least one commodity_code reference.")
+
+    # remove any white space from cmd codes provided
+    commodity_code <- stringr::str_squish(commodity_code)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <-
+      ct_get_ref_table(dataset_id = commodity_classification,
+                       update = update,
+                       verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(commodity_code %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following services/commodity codes you provided are invalid: ",
+        paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
+      ))
+    } else {
+      commodity_code <- paste0(commodity_code, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  commodity_code <- stringr::str_squish(commodity_code)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <-
-    ct_get_ref_table(dataset_id = commodity_classification,
-                     update = update,
-                     verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(commodity_code %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following services/commodity codes you provided are invalid: ",
-      paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
-    ))
-  } else {
-    commodity_code <- paste0(commodity_code, collapse = ',')
-  }
   return(commodity_code)
 }
 
@@ -280,43 +281,42 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
   # check that reporter code is valid
   if (!is.null(reporter)) {
     reporter <- as.character(reporter)
-  } else {
-    rlang::abort("You need to provide at least one reporter.")
-  }
 
-  ## check if valid reporter code length and type
-  reporter <- stringr::str_squish(reporter)
+    ## check if valid reporter code length and type
+    reporter <- stringr::str_squish(reporter)
 
-  reporter_codes <-
-    ct_get_ref_table(dataset_id = 'reporter',
-                     update = update,
-                     verbose = verbose)
+    reporter_codes <-
+      ct_get_ref_table(dataset_id = 'reporter',
+                       update = update,
+                       verbose = verbose)
 
-  ## get multiple values or single values that are not 'all'
-  if (length(reporter) > 1 | !any(reporter == 'all')) {
-    if (any(reporter == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    ## get multiple values or single values that are not 'all'
+    if (length(reporter) > 1 | !any(reporter == 'all')) {
+      if (any(reporter == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
+      if (!all(reporter %in% reporter_codes$iso_3)) {
+        rlang::abort(paste0(
+          "The following reporter(s) you provided are invalid: ",
+          paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
+        ))
+      }
     }
-    # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
-    if (!all(reporter %in% reporter_codes$iso_3)) {
-      rlang::abort(paste0(
-        "The following reporter(s) you provided are invalid: ",
-        paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
-      ))
-    }
-  }
 
-  # create proper ids for reporter Code
-  if (length(reporter) > 1 | !any(reporter == 'all')) {
-    reporter <- reporter_codes |>
-      poorman::filter(iso_3 %in% reporter) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (reporter == 'all') {
-    reporter <- reporter_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ',')
+    # create proper ids for reporter Code
+    if (length(reporter) > 1 | !any(reporter == 'all')) {
+      reporter <- reporter_codes |>
+        poorman::filter(iso_3 %in% reporter) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (reporter == 'all') {
+      reporter <- reporter_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ',')
+    }
+
   }
 
   return(reporter)
@@ -345,39 +345,38 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
-  } else{
-    rlang::abort("You need to provide at least one partner.")
-  }
 
-  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
 
 
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- stringr::str_squish(partner)
-    if (any(partner == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- stringr::str_squish(partner)
+      if (any(partner == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      if (!all(partner %in% partner_codes$iso_3)) {
+        rlang::abort(paste(
+          "The following partner you provided are invalid: ",
+          setdiff(partner, partner_codes$iso_3), collapse = ", ")
+        )
+      }
     }
-    # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partner %in% partner_codes$iso_3)) {
-      rlang::abort(paste(
-        "The following partner you provided are invalid: ",
-        setdiff(partner, partner_codes$iso_3), collapse = ", ")
-      )
+
+    # create proper ids for partner
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- partner_codes |>
+        poorman::filter(iso_3 %in% partner) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (partner == 'all') {
+      partner <- partner_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
     }
   }
 
-  # create proper ids for partner
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- partner_codes |>
-      poorman::filter(iso_3 %in% partner) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (partner == 'all') {
-    partner <- partner_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  }
   return(partner)
 }
 
