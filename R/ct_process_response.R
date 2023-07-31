@@ -13,8 +13,8 @@ ct_process_response <- function(resp, verbose = FALSE) {
 
 
   if (length(result$data) > 0) {
-    if(nrow(result$data)>249999){
-      rlang::abort('Your request returns more than 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.')
+    if(nrow(result$data)==250000){
+      cli::cli_warn(c("x" ='Your request returns exactly 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.'))
     } else if(nrow(result$data)>200000){
       cli::cli_inform(c("i" = "Your request has passed 200k rows. If you exceed 250k rows Comtrade will not return all data. You will have to slice your request in smaller parts."))
     }
