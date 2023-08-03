@@ -11,7 +11,7 @@ ct_process_response(resp, verbose = FALSE, tidy_cols)
 
 \item{verbose}{whether the function sends status updates to the console}
 
-\item{tidy_cols}{A logical value. If TRUE, returns a data.frame with tidy column names. If FALSE, returns the raw column names Defaults to TRUE.}
+\item{tidy_cols}{If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.}
 }
 \value{
 a data.frame object with the results
