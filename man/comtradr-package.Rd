@@ -20,7 +20,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Chris Muir \email{chrismuirRVA@gmail.com}
+\strong{Maintainer}: Paul Bochtler \email{paulbochtler.gh@gmail.com} (\href{https://orcid.org/0000-0002-9146-6185}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Harriet Goers \email{hgoers@umd.edu}
+  \item Chris Muir \email{chrismuirRVA@gmail.com}
+}
 
 Other contributors:
 \itemize{

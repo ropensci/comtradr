@@ -9,6 +9,9 @@ ct_register_token(...)
 \arguments{
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
+\value{
+depreciation error
+}
 \description{
 This function is deprecated. Please use  \code{set_primary_comtrade_key()} instead.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
