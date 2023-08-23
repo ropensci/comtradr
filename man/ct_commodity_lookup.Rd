@@ -55,7 +55,7 @@ Comtrade commodity database. It takes as input a vector of
 commodities or commodity codes. Output is a list or vector of commodity
 descriptions or codes associated with the input search_terms. For use with
 the UN Comtrade API, full API docs can be found at
-\url{https://comtrade.un.org/data/doc/api/}
+\url{https://unstats.un.org/wiki/display/comtrade/}
 }
 \details{
 This function uses regular expressions (regex) to find matches
@@ -65,17 +65,9 @@ within R, see
 \url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html}
 }
 \examples{
-# Look up commodity descriptions related to "halibut"
-ct_commodity_lookup("halibut",
-                    return_code = FALSE,
-                    return_char = FALSE,
-                    verbose = TRUE)
-
-# Look up commodity codes related to "shrimp".
-ct_commodity_lookup("shrimp",
-                    return_code = TRUE,
-                    return_char = FALSE,
-                    verbose = TRUE)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+comtradr::ct_commodity_lookup('wine')
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{grepl}}

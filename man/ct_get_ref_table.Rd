@@ -13,6 +13,9 @@ ct_get_ref_table(dataset_id, update = FALSE, verbose = FALSE)
 
 \item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
 }
+\value{
+a tidy dataset with a reference table
+}
 \description{
 The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
 }

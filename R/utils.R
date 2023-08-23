@@ -4,7 +4,7 @@
 #'
 #' @param key Provide your primary comtrade key
 #'
-#' @return Saves your comtrade primary key in the environment.
+#' @returns Saves your comtrade primary key in the environment.
 #' @export
 set_primary_comtrade_key <- function(key = NULL) {
   if (is.null(key)) {
@@ -17,7 +17,7 @@ set_primary_comtrade_key <- function(key = NULL) {
 #'
 #' If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
 #'
-#' @return Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
+#' @returns Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
 #' @export
 get_primary_comtrade_key <- function() {
   key <- Sys.getenv("COMTRADE_PRIMARY")
@@ -241,7 +241,8 @@ ct_download_ref_table <- function(ref_table_id) {
 #'
 #' @seealso \code{\link{grepl}}
 #'
-#' @examples
+#' @examplesIf interactive()
+#' comtradr::ct_commodity_lookup('wine')
 
 
 ct_commodity_lookup <- function(search_terms,

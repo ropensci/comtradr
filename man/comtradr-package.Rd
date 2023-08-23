@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Interface with and extract data from the United Nations Comtrade API \url{https://comtrade.un.org/data/}. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame.
+Interface with and extract data from the United Nations Comtrade API \url{https://comtradeplus.un.org/}. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame.
 }
 \seealso{
 Useful links:
