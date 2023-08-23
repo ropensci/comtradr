@@ -57,6 +57,12 @@ repo:
 devtools::install_github("ropensci/comtradr@main")
 ```
 
+Once it is on CRAN, you can install with:
+
+``` r
+install.packages("comtradr")
+```
+
 ## Usage
 
 ### Authentication 🔐
