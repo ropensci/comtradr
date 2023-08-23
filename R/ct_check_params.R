@@ -2,7 +2,7 @@
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return Returns a list of named parameters for building a request.
+#' @returns Returns a list of named parameters for building a request.
 #'
 #' @noRd
 ct_check_params <- function(type,
@@ -105,7 +105,7 @@ ct_check_params <- function(type,
 #'
 #' @inheritParams get_comtrade_data
 #'
-#' @return A character string specifying the type parameter of the data.
+#' @returns A character string specifying the type parameter of the data.
 #'
 #' @examplesIf interactive()
 #' check_freq("goods") # returns "C"
@@ -130,7 +130,7 @@ check_type <- function(type) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character string specifying the frequency of the data.
+#' @returns A character string specifying the frequency of the data.
 #'
 #' @examplesIf interactive()
 #' check_freq("A") # returns "A"
@@ -155,7 +155,7 @@ check_freq <- function(type, frequency) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character string specifying the selected classification code.
+#' @returns A character string specifying the selected classification code.
 #'
 #' @examplesIf interactive()
 #' comtradr:::check_clCode("HS") # returns "HS"
@@ -179,7 +179,7 @@ check_clCode <- function(type,commodity_classification) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the trade flow codes.
+#' @returns A character vector specifying the trade flow codes.
 #'
 #' @examplesIf interactive()
 #' check_flowCode("import") # returns "M"
@@ -219,7 +219,7 @@ check_flowCode <- function(flow_direction) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the commodity codes requested.
+#' @returns A character vector specifying the commodity codes requested.
 #'
 #' @examplesIf interactive()
 #' check_cmdCode("01") # returns "01"
@@ -268,7 +268,7 @@ check_cmdCode <-
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid reporter IDs.
+#' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
 #' check_reporterCode("USA") # returns "842,841"
@@ -330,7 +330,7 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid partner IDs.
+#' @returns A character vector of valid partner IDs.
 #'
 #' @examplesIf interactive()
 #' check_partnerCode("CAN") # returns "124"
@@ -389,7 +389,7 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid partner_2 IDs.
+#' @returns A character vector of valid partner_2 IDs.
 #'
 #' @examplesIf interactive()
 #' check_partner2Code("CAN") # returns "124"
@@ -445,7 +445,7 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the modes of transport requested.
+#' @returns A character vector specifying the modes of transport requested.
 #'
 #' @noRd
 check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
@@ -480,7 +480,7 @@ check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the custom codes requested.
+#' @returns A character vector specifying the custom codes requested.
 #'
 #' @noRd
 check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
@@ -521,7 +521,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid reporter IDs.
+#' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
 #' check_date(2010, 2011, 'A') # returns "2010,2011"
@@ -582,7 +582,7 @@ check_date <- function(start_date, end_date, frequency) {
 
 #' Given a numeric or character date, convert to an object with class "Date".
 #'
-#' @return Object of class "Date" (using base::as.Date()).
+#' @returns Object of class "Date" (using base::as.Date()).
 #' @noRd
 convert_to_date <- function(date_obj) {
   # Convert to Date.

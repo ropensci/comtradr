@@ -7,7 +7,7 @@
 #' @param ...  Used to catch all possible arguments that users have supplied to this function.
 #'
 #' @export
-#'
+#' @returns depreciation error
 ct_commodity_db_type <- function(...) {
     lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()")
 }
@@ -19,7 +19,7 @@ ct_commodity_db_type <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_country_lookup <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_country_lookup()")
@@ -31,7 +31,7 @@ ct_country_lookup <- function(...) {
 #' @param ...  Used to catch all possible arguments that users have supplied to this function.
 #'
 #' @export
-#'
+#' @returns depreciation error
 ct_search <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_search()",
@@ -44,7 +44,7 @@ ct_search <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_update_databases <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_update_databases()")
@@ -56,7 +56,7 @@ ct_update_databases <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_use_pretty_cols <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_use_pretty_cols()")
@@ -68,7 +68,7 @@ ct_use_pretty_cols <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_get_reset_time <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_get_reset_time()")
@@ -80,7 +80,7 @@ ct_get_reset_time <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_get_remaining_hourly_queries <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_get_remaining_hourly_queries()")
@@ -92,7 +92,7 @@ ct_get_remaining_hourly_queries <- function(...) {
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_register_token <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_register_token()",
