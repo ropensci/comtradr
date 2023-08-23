@@ -1,9 +1,17 @@
 Package: comtradr
 Title: Interface with the United Nations Comtrade API
-Version: 0.3.0.09000
-Authors@R: c(person("Chris", "Muir", 
+Version: 0.4.0.0
+Authors@R: c(
+            person("Paul", "Bochtler", 
+              email = "paulbochtler.gh@gmail.com", 
+              role = c("aut", "cre","cph"),
+              comment = c(ORCID = "0000-0002-9146-6185")), 
+            person("Harriet", "Goers", 
+              email = "hgoers@umd.edu", 
+              role = c("aut")), 
+            person("Chris", "Muir", 
               email = "chrismuirRVA@gmail.com", 
-              role = c("aut", "cre")), 
+              role = c("aut")), 
             person("Alicia", "Schep", 
                   role = "rev", 
                   comment = c(ORCID = "0000-0002-3915-0618", 
@@ -16,7 +24,7 @@ Authors@R: c(person("Chris", "Muir",
                               see https://github.com/ropensci/onboarding/issues/141")),
             person("Juergen", "Amann", role=c("ctb")))
 Description: Interface with and extract data from the United Nations Comtrade 
-  API <https://comtrade.un.org/data/>. Comtrade provides country level shipping 
+  API <https://comtradeplus.un.org/>. Comtrade provides country level shipping 
   data for a variety of commodities, these functions allow for easy API query 
   and data returned as a tidy data frame.
 Depends: R (>= 4.1.0)
@@ -39,7 +47,7 @@ RoxygenNote: 7.2.3
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
-Maintainer: Chris Muir <chrismuirRVA@gmail.com>
+Maintainer: Paul Bochtler <paulbochtler.gh@gmail.com>
 Suggests: 
     covr,
     dplyr,
