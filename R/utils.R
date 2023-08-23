@@ -35,6 +35,7 @@ get_primary_comtrade_key <- function() {
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #' @inheritParams ct_get_data
 #' @export
+#' @returns a tidy dataset with a reference table
 ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 
   ## make switch to the name of the datasets, which are slightly different to the dataset_ids
@@ -208,7 +209,7 @@ ct_download_ref_table <- function(ref_table_id) {
 #' commodities or commodity codes. Output is a list or vector of commodity
 #' descriptions or codes associated with the input search_terms. For use with
 #' the UN Comtrade API, full API docs can be found at
-#' \url{https://comtrade.un.org/data/doc/api/}
+#' \url{https://unstats.un.org/wiki/display/comtrade/}
 #' @inheritParams ct_get_data
 #' @param search_terms Commodity names or commodity codes, as a char or numeric
 #'  vector.
@@ -241,17 +242,7 @@ ct_download_ref_table <- function(ref_table_id) {
 #' @seealso \code{\link{grepl}}
 #'
 #' @examples
-#' # Look up commodity descriptions related to "halibut"
-#' ct_commodity_lookup("halibut",
-#'                     return_code = FALSE,
-#'                     return_char = FALSE,
-#'                     verbose = TRUE)
-#'
-#' # Look up commodity codes related to "shrimp".
-#' ct_commodity_lookup("shrimp",
-#'                     return_code = TRUE,
-#'                     return_char = FALSE,
-#'                     verbose = TRUE)
+
 
 ct_commodity_lookup <- function(search_terms,
                                 return_code = FALSE,
