@@ -244,7 +244,6 @@ ct_download_ref_table <- function(ref_table_id) {
 #' @examplesIf interactive()
 #' comtradr::ct_commodity_lookup('wine')
 
-
 ct_commodity_lookup <- function(search_terms,
                                 return_code = FALSE,
                                 commodity_classification = 'HS',

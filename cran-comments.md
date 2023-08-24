@@ -1,9 +1,9 @@
 ## Test environments
 
-* local OS X install, R 4.1.1
+* local OS X x86_64-apple-darwin21.6.0 (64-bit), R 4.3.1
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC (Rhub)
 * Fedora Linux, R-devel, clang, gfortran (Rhub)
-* Windows (devel and release)
+* Windows Server 2022, R-devel, 64 bit
 
 ## R CMD check results
 
@@ -11,7 +11,7 @@ This is a re-release. The Comtrade API has been rewritten entirely. This re-rele
 
 There were no ERRORs or WARNINGs. 
 
-There are 4 NOTES.
+There are 5 NOTES.
 
 
 1. One related to the archival of this package:
@@ -58,10 +58,23 @@ As noted in [R-hub issue #560](https://github.com/r-hub/rhub/issues/560), this s
 Skipping checking HTML validation: no command 'tidy' found
 ```
 
-This also seems to be a recurring issue on Rhub [R-hub issue #560](https://github.com/r-hub/rhub/issues/548) and so can likely be ignored.
+5. A fifth that is found with *Fedora Linux, R-devel, clang, gfortran* and *Ubuntu Linux 20.04.1 LTS, R-release, GCC*
+
+```
+Found the following (possibly) invalid URLs:
+  URL: https://comtradeplus.un.org/
+    From: DESCRIPTION
+          man/comtradr-package.Rd
+    Status: Error
+    Message: libcurl error code 60:
+      	SSL certificate problem: unable to get local issuer certificate
+      	(Status without verification: OK)
+```
+
+Unfortunately this is the official webpage for the UN Comtrade API, but we have no control over their SSL certificates, so cannot fix this error. 
 
 
+----
 
-
-Thanks!
+Thanks and looking forward to the review!
 Paul Bochtler
