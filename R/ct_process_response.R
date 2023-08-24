@@ -34,7 +34,7 @@ ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
     processed <- result$data
 
     new_cols <- comtradr::ct_pretty_cols
-    if(tidy_cols == T){
+    if(tidy_cols == TRUE){
 
       # Input validation and check to make sure the col headers are found in the
       # package data obj ct_pretty_cols.

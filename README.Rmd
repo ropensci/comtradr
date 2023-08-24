@@ -46,6 +46,12 @@ Currently, the package is not on CRAN, but we plan on publishing to CRAN in the 
 devtools::install_github("ropensci/comtradr@main")
 ```
 
+Once it is on CRAN, you can install with:
+
+```{r eval=FALSE}
+install.packages("comtradr")
+```
+
 ## Usage
 
 ### Authentication 🔐

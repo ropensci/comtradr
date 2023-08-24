@@ -39,7 +39,7 @@ get_primary_comtrade_key <- function() {
 #' Get reference table from package data
 #'
 #' The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
-#'
+#' You can use this table to look at the reference tables and if necessary extract respective classification codes by hand. In general we would recommend the function `ct_commodity_lookup` for this purpose. It uses the present function in the backend.
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #' @inheritParams ct_get_data
 #' @export
@@ -146,9 +146,13 @@ ct_download_ref_table <- function(ref_table_id) {
     id <-
     group <-
     category <-
-    text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+    text <-
+    reporterCodeIsoAlpha3 <-
+    entryEffectiveDate <-  NULL
   entryExpiredDate <-
-    isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
+    isGroup <-
+    PartnerCodeIsoAlpha3 <-
+    country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get('list_of_datasets', envir = ct_env)

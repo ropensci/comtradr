@@ -8,3 +8,5 @@ TODO.md
 R/test_package.R
 test_package.R
 inst/doc
+/doc/
+/Meta/
