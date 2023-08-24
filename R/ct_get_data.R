@@ -55,8 +55,16 @@
 #'             end_date = '2019',
 #'             flow_direction = 'import')
 #'
+#' # Query all commodity codes for China's imports from Germany from January to June of 2019
+#' ct_get_data(commodity_code = NULL,
+#'             reporter = 'CHN',
+#'             partner = 'DEU',
+#'             start_date = '2019',
+#'             end_date = '2019',
+#'             flow_direction = 'import')
+#'
 #' @export
-#' @return A data.frame with trade data or, if `process = F`, a httr2 response object.
+#' @returns A data.frame with trade data or, if `process = F`, a httr2 response object.
 
 ct_get_data <- function(type = 'goods',
                         frequency = 'A',

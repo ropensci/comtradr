@@ -8,7 +8,7 @@
 #'
 #' @param verbose whether the function sends status updates to the console
 #'
-#' @return a httr2 request object
+#' @returns a httr2 request object
 ct_build_request <- function(params,
                                    primary_token = NULL,
                                    verbose = FALSE) {

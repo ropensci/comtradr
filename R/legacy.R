@@ -1,6 +1,3 @@
-## add roxygen comments to below functions
-
-
 #' @title ct_commodity_db_type
 #' @description This function is deprecated. There is currently no alternative for this function.
 #' `r lifecycle::badge("superseded")`

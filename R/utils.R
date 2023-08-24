@@ -6,6 +6,10 @@
 #'
 #' @returns Saves your comtrade primary key in the environment.
 #' @export
+#' @examplesIf interactive()
+#' ## set API key
+#' set_primary_comtrade_key('xxxxxc678ca4dbxxxxxxxx8285r3')
+#'
 set_primary_comtrade_key <- function(key = NULL) {
   if (is.null(key)) {
     key <- askpass::askpass("Please enter your API key")
@@ -19,6 +23,10 @@ set_primary_comtrade_key <- function(key = NULL) {
 #'
 #' @returns Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
 #' @export
+#' @examplesIf interactive()
+#' ## get API key
+#' get_primary_comtrade_key()
+#'
 get_primary_comtrade_key <- function() {
   key <- Sys.getenv("COMTRADE_PRIMARY")
   if (!identical(key, "")) {
@@ -36,6 +44,14 @@ get_primary_comtrade_key <- function() {
 #' @inheritParams ct_get_data
 #' @export
 #' @returns a tidy dataset with a reference table
+#'
+#' @examplesIf interactive()
+#' ## get HS commodity table
+#' ct_get_ref_table("HS")
+#'
+#' ## get reporter table
+#' ct_get_ref_table("reporter")
+#'
 ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 
   ## make switch to the name of the datasets, which are slightly different to the dataset_ids
@@ -210,7 +226,9 @@ ct_download_ref_table <- function(ref_table_id) {
 #' descriptions or codes associated with the input search_terms. For use with
 #' the UN Comtrade API, full API docs can be found at
 #' \url{https://unstats.un.org/wiki/display/comtrade/}
+#'
 #' @inheritParams ct_get_data
+#'
 #' @param search_terms Commodity names or commodity codes, as a char or numeric
 #'  vector.
 #'
@@ -260,7 +278,9 @@ ct_commodity_lookup <- function(search_terms,
                                            commodity_classification)
 
   # Fetch the commodity database from ct_env.
-  commodity_df <- ct_get_ref_table(dataset_id = commodity_classification, update, verbose)
+  commodity_df <- ct_get_ref_table(dataset_id = commodity_classification,
+                                   update,
+                                   verbose)
 
 
   # transform input arg "return_code" to match the col name indicated
