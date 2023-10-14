@@ -128,11 +128,11 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
       ## save in env variable, that update has been checked in this session
       ct_env$updated <- c(ct_env$updated,dataset_id)
 
-      return(data)
+      return(as.data.frame(data))
     }
   } else {
     ## if no update parameter passed on, just return the data read from disk or the env
-      return(data)
+      return(as.data.frame(data))
     }
   }
 
@@ -142,17 +142,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
-  iso_3 <-
-    id <-
-    group <-
-    category <-
-    text <-
-    reporterCodeIsoAlpha3 <-
-    entryEffectiveDate <-  NULL
-  entryExpiredDate <-
-    isGroup <-
-    PartnerCodeIsoAlpha3 <-
-    country <-  NULL
+  iso_3 <- id <- group <- category <- text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+  entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get('list_of_datasets', envir = ct_env)

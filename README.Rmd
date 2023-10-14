@@ -16,7 +16,7 @@ comtradr <img src="man/figures/logo.png" align="right" height="139" />
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
 [![](https://badges.ropensci.org/141_status.svg)](https://github.com/ropensci/software-review/issues/141)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
+[![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
 <!-- badges: end -->
 
 R package for interacting with the [UN Comtrade Database](https://comtradeplus.un.org/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found
