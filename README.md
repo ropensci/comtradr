@@ -67,6 +67,10 @@ install.packages("comtradr")
 
 ### Authentication 🔐
 
+As stated above, you need an API token, see the
+[FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement)
+for details on how to obtain the access tokens.
+
 If you are in an interactive session, you can call the following
 function to save your API token to the environment file for the current
 session.
@@ -86,9 +90,10 @@ Sys.setenv('COMTRADE_PRIMARY' = 'xxxxxxxxxxxxxxxxx')
 
 If you would like to set the comtrade key permanently, we recommend
 editing the project `.Renviron` file, where you need to add a line with
-`COMTRADE_PRIMARY = xxxx-your-key-xxxx`. ℹ️ Do not forget the line break
-after the last entry. This is the easiest by taking advantage of the
-great `usethis` package.
+`COMTRADE_PRIMARY = xxxx-your-key-xxxx`.
+
+ℹ️ Do not forget the line break after the last entry. This is the
+easiest by taking advantage of the great `usethis` package.
 
 ``` r
 usethis::edit_r_environ(scope = 'project')

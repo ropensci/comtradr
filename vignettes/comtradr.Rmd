@@ -40,6 +40,33 @@ Load comtradr
 library(comtradr)
 ```
 
+## Authentication 
+
+As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
+
+If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
+
+```{r, eval = F}
+library(comtradr)
+
+set_primary_comtrade_key()
+```
+
+If you are not in an interactive session, you can register the token once in your session using the following base-r function.
+
+```{r, eval = F}
+Sys.setenv('COMTRADE_PRIMARY' = 'xxxxxxxxxxxxxxxxx')
+```
+
+If you would like to set the comtrade key permanently, we recommend editing the project `.Renviron` file, where you need to add a line with `COMTRADE_PRIMARY = xxxx-your-key-xxxx`. 
+
+ℹ️ Do not forget the line break after the last entry. This is the easiest by taking advantage of the great `usethis` package. 
+
+```{r, eval = F}
+usethis::edit_r_environ(scope = 'project')
+``` 
+
+
 ## Making API calls
 Lets say we want to get data on the total imports into the United States from Germany, France, Japan, and Mexico, for the last five years.
 
