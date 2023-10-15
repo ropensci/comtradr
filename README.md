@@ -6,8 +6,7 @@
 <!-- badges: start -->
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
-[![Status at rOpenSci Software Peer
-Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
