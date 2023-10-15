@@ -2,7 +2,7 @@
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return Returns a list of named parameters for building a request.
+#' @returns Returns a list of named parameters for building a request.
 #'
 #' @noRd
 ct_check_params <- function(type,
@@ -105,7 +105,7 @@ ct_check_params <- function(type,
 #'
 #' @inheritParams get_comtrade_data
 #'
-#' @return A character string specifying the type parameter of the data.
+#' @returns A character string specifying the type parameter of the data.
 #'
 #' @examplesIf interactive()
 #' check_freq("goods") # returns "C"
@@ -130,7 +130,7 @@ check_type <- function(type) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character string specifying the frequency of the data.
+#' @returns A character string specifying the frequency of the data.
 #'
 #' @examplesIf interactive()
 #' check_freq("A") # returns "A"
@@ -155,7 +155,7 @@ check_freq <- function(type, frequency) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character string specifying the selected classification code.
+#' @returns A character string specifying the selected classification code.
 #'
 #' @examplesIf interactive()
 #' comtradr:::check_clCode("HS") # returns "HS"
@@ -179,7 +179,7 @@ check_clCode <- function(type,commodity_classification) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the trade flow codes.
+#' @returns A character vector specifying the trade flow codes.
 #'
 #' @examplesIf interactive()
 #' check_flowCode("import") # returns "M"
@@ -189,24 +189,26 @@ check_clCode <- function(type,commodity_classification) {
 #'
 #' @noRd
 check_flowCode <- function(flow_direction) {
-  rlang::arg_match(
-    flow_direction,
-    values = c('import', 'export', 're-export', 're-import', 'all'),
-    multiple = TRUE
-  )
+  if(!is.null(flow_direction)){
+    rlang::arg_match(
+      flow_direction,
+      values = c('import', 'export', 're-export', 're-import', 'all'),
+      multiple = TRUE
+    )
 
-  if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
-    rlang::abort("You can only provide 'all' as a single argument.")
-  }
+    if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
+      rlang::abort("You can only provide 'all' as a single argument.")
+    }
 
-  if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
-    flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
-    flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
-    flow_direction <- flow_direction |> paste0(collapse = ',')
-  } else if (flow_direction == 'all') {
-    flow_direction <- 'M,X,RM,RX'
+    if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
+      flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
+      flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
+      flow_direction <- flow_direction |> paste0(collapse = ',')
+    } else if (flow_direction == 'all') {
+      flow_direction <- 'M,X,RM,RX'
+    }
   }
   return(flow_direction)
 }
@@ -217,7 +219,7 @@ check_flowCode <- function(flow_direction) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the commodity codes requested.
+#' @returns A character vector specifying the commodity codes requested.
 #'
 #' @examplesIf interactive()
 #' check_cmdCode("01") # returns "01"
@@ -231,31 +233,30 @@ check_cmdCode <-
            commodity_code,
            update = FALSE,
            verbose = FALSE) {
-    # check that commodity_code code is not null
+  # check that commodity_code code is not null
   if (!is.null(commodity_code)) {
     commodity_code <- as.character(commodity_code)
-  } else{
-    rlang::abort("You need to provide at least one commodity_code reference.")
+
+    # remove any white space from cmd codes provided
+    commodity_code <- stringr::str_squish(commodity_code)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <-
+      ct_get_ref_table(dataset_id = commodity_classification,
+                       update = update,
+                       verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(commodity_code %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following services/commodity codes you provided are invalid: ",
+        paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
+      ))
+    } else {
+      commodity_code <- paste0(commodity_code, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  commodity_code <- stringr::str_squish(commodity_code)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <-
-    ct_get_ref_table(dataset_id = commodity_classification,
-                     update = update,
-                     verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(commodity_code %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following services/commodity codes you provided are invalid: ",
-      paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
-    ))
-  } else {
-    commodity_code <- paste0(commodity_code, collapse = ',')
-  }
   return(commodity_code)
 }
 
@@ -267,7 +268,7 @@ check_cmdCode <-
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid reporter IDs.
+#' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
 #' check_reporterCode("USA") # returns "842,841"
@@ -280,43 +281,42 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
   # check that reporter code is valid
   if (!is.null(reporter)) {
     reporter <- as.character(reporter)
-  } else {
-    rlang::abort("You need to provide at least one reporter.")
-  }
 
-  ## check if valid reporter code length and type
-  reporter <- stringr::str_squish(reporter)
+    ## check if valid reporter code length and type
+    reporter <- stringr::str_squish(reporter)
 
-  reporter_codes <-
-    ct_get_ref_table(dataset_id = 'reporter',
-                     update = update,
-                     verbose = verbose)
+    reporter_codes <-
+      ct_get_ref_table(dataset_id = 'reporter',
+                       update = update,
+                       verbose = verbose)
 
-  ## get multiple values or single values that are not 'all'
-  if (length(reporter) > 1 | !any(reporter == 'all')) {
-    if (any(reporter == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    ## get multiple values or single values that are not 'all'
+    if (length(reporter) > 1 | !any(reporter == 'all')) {
+      if (any(reporter == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
+      if (!all(reporter %in% reporter_codes$iso_3)) {
+        rlang::abort(paste0(
+          "The following reporter(s) you provided are invalid: ",
+          paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
+        ))
+      }
     }
-    # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
-    if (!all(reporter %in% reporter_codes$iso_3)) {
-      rlang::abort(paste0(
-        "The following reporter(s) you provided are invalid: ",
-        paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
-      ))
-    }
-  }
 
-  # create proper ids for reporter Code
-  if (length(reporter) > 1 | !any(reporter == 'all')) {
-    reporter <- reporter_codes |>
-      poorman::filter(iso_3 %in% reporter) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (reporter == 'all') {
-    reporter <- reporter_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ',')
+    # create proper ids for reporter Code
+    if (length(reporter) > 1 | !any(reporter == 'all')) {
+      reporter <- reporter_codes |>
+        poorman::filter(iso_3 %in% reporter) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (reporter == 'all') {
+      reporter <- reporter_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ',')
+    }
+
   }
 
   return(reporter)
@@ -330,7 +330,7 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid partner IDs.
+#' @returns A character vector of valid partner IDs.
 #'
 #' @examplesIf interactive()
 #' check_partnerCode("CAN") # returns "124"
@@ -345,39 +345,38 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
-  } else{
-    rlang::abort("You need to provide at least one partner.")
-  }
 
-  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
 
 
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- stringr::str_squish(partner)
-    if (any(partner == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- stringr::str_squish(partner)
+      if (any(partner == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      if (!all(partner %in% partner_codes$iso_3)) {
+        rlang::abort(paste(
+          "The following partner you provided are invalid: ",
+          setdiff(partner, partner_codes$iso_3), collapse = ", ")
+        )
+      }
     }
-    # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partner %in% partner_codes$iso_3)) {
-      rlang::abort(paste(
-        "The following partner you provided are invalid: ",
-        setdiff(partner, partner_codes$iso_3), collapse = ", ")
-      )
+
+    # create proper ids for partner
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- partner_codes |>
+        poorman::filter(iso_3 %in% partner) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (partner == 'all') {
+      partner <- partner_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
     }
   }
 
-  # create proper ids for partner
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- partner_codes |>
-      poorman::filter(iso_3 %in% partner) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (partner == 'all') {
-    partner <- partner_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  }
   return(partner)
 }
 
@@ -390,7 +389,7 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid partner_2 IDs.
+#' @returns A character vector of valid partner_2 IDs.
 #'
 #' @examplesIf interactive()
 #' check_partner2Code("CAN") # returns "124"
@@ -404,39 +403,39 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
   # check that partner code is valid
   if (!is.null(partner)) {
     partner <- as.character(partner)
-  } else{
-    rlang::abort("You need to provide at least one partner 2.")
-  }
-
-  partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
 
 
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- stringr::str_squish(partner)
-    if (any(partner == 'all')) {
-      rlang::abort('"all" can only be provided as a single argument.')
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+
+
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- stringr::str_squish(partner)
+      if (any(partner == 'all')) {
+        rlang::abort('"all" can only be provided as a single argument.')
+      }
+      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      if (!all(partner %in% partner_codes$iso_3)) {
+        rlang::abort(paste(
+          "The following partner_2 you provided are invalid: ",
+          setdiff(partner, partner_codes$iso_3), collapse = ", ")
+        )
+      }
     }
-    # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
-    if (!all(partner %in% partner_codes$iso_3)) {
-      rlang::abort(paste(
-        "The following partner_2 you provided are invalid: ",
-        setdiff(partner, partner_codes$iso_3), collapse = ", ")
-      )
+
+    # create proper ids for partner
+    if (length(partner) > 1 | !any(partner == 'all')) {
+      partner <- partner_codes |>
+        poorman::filter(iso_3 %in% partner) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
+    } else if (partner == 'all') {
+      partner <- partner_codes |>
+        poorman::filter(group == FALSE) |>
+        poorman::pull(id) |>
+        paste(collapse = ",")
     }
   }
 
-  # create proper ids for partner
-  if (length(partner) > 1 | !any(partner == 'all')) {
-    partner <- partner_codes |>
-      poorman::filter(iso_3 %in% partner) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  } else if (partner == 'all') {
-    partner <- partner_codes |>
-      poorman::filter(group == FALSE) |>
-      poorman::pull(id) |>
-      paste(collapse = ",")
-  }
   return(partner)
 }
 
@@ -446,34 +445,33 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the modes of transport requested.
+#' @returns A character vector specifying the modes of transport requested.
 #'
 #' @noRd
 check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(mode_of_transport)) {
     mode_of_transport <- as.character(mode_of_transport)
-  } else{
-    rlang::abort("You need to provide at least one mode_of_transport reference.")
+
+    # remove any white space from cmd codes provided
+    mode_of_transport <- stringr::str_squish(mode_of_transport)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <- ct_get_ref_table(dataset_id = 'mot',
+                                    update = update,
+                                    verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(mode_of_transport %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following mode_of_transport codes you provided are invalid: ",
+        paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
+      ))
+    } else {
+      mode_of_transport <- paste0(mode_of_transport, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  mode_of_transport <- stringr::str_squish(mode_of_transport)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = 'mot',
-                                  update = update,
-                                  verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(mode_of_transport %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following mode_of_transport codes you provided are invalid: ",
-      paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
-    ))
-  } else {
-    mode_of_transport <- paste0(mode_of_transport, collapse = ',')
-  }
   return(mode_of_transport)
 }
 
@@ -482,34 +480,33 @@ check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector specifying the custom codes requested.
+#' @returns A character vector specifying the custom codes requested.
 #'
 #' @noRd
 check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
   if (!is.null(customs_code)) {
     customs_code <- as.character(customs_code)
-  } else{
-    rlang::abort("You need to provide at least one customs_code reference.")
+
+    # remove any white space from cmd codes provided
+    customs_code <- stringr::str_squish(customs_code)
+
+    # get the list of valid parameters from inst/extdata
+    valid_codes <- ct_get_ref_table(dataset_id = 'customs',
+                                    update = update,
+                                    verbose = verbose)$id
+
+    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    if (!all(customs_code %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following customs_code codes you provided are invalid: ",
+        paste0(setdiff(customs_code, valid_codes), collapse = ", ")
+      ))
+    } else {
+      customs_code <- paste0(customs_code, collapse = ',')
+    }
   }
 
-  # remove any white space from cmd codes provided
-  customs_code <- stringr::str_squish(customs_code)
-
-  # get the list of valid parameters from inst/extdata
-  valid_codes <- ct_get_ref_table(dataset_id = 'customs',
-                                  update = update,
-                                  verbose = verbose)$id
-
-  # if one of the codes is not in the list of valid codes send stop signal and list problems
-  if (!all(customs_code %in% valid_codes)) {
-    rlang::abort(paste0(
-      "The following customs_code codes you provided are invalid: ",
-      paste0(setdiff(customs_code, valid_codes), collapse = ", ")
-    ))
-  } else {
-    customs_code <- paste0(customs_code, collapse = ',')
-  }
   return(customs_code)
 }
 
@@ -524,7 +521,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #'
 #' @inheritParams ct_get_data
 #'
-#' @return A character vector of valid reporter IDs.
+#' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
 #' check_date(2010, 2011, 'A') # returns "2010,2011"
@@ -585,7 +582,7 @@ check_date <- function(start_date, end_date, frequency) {
 
 #' Given a numeric or character date, convert to an object with class "Date".
 #'
-#' @return Object of class "Date" (using base::as.Date()).
+#' @returns Object of class "Date" (using base::as.Date()).
 #' @noRd
 convert_to_date <- function(date_obj) {
   # Convert to Date.

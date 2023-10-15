@@ -25,9 +25,9 @@ set of commodity descriptions along with commodity codes (as a single
 string for each match found), if set to TRUE it will return only the
 commodity codes. Default value is FALSE.}
 
-\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
+\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS')}; for services: \code{c('B4','B5','EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
-\item{type}{The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.}
+\item{type}{The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.}
 
 \item{return_char}{Logical, if set to FALSE, the function will return the
 matches as a named list, if set to TRUE it will return them as a character
@@ -40,7 +40,7 @@ console if any of the elements of input "search_terms" returned no matches
 \item{ignore.case}{logical, to be passed along to arg ignore.case within
 \code{\link{grepl}}. Default value is TRUE.}
 
-\item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
+\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
 
 \item{...}{additional args to be passed along to \code{\link{grepl}}.}
 }
@@ -55,7 +55,7 @@ Comtrade commodity database. It takes as input a vector of
 commodities or commodity codes. Output is a list or vector of commodity
 descriptions or codes associated with the input search_terms. For use with
 the UN Comtrade API, full API docs can be found at
-\url{https://comtrade.un.org/data/doc/api/}
+\url{https://unstats.un.org/wiki/display/comtrade/}
 }
 \details{
 This function uses regular expressions (regex) to find matches
@@ -65,17 +65,9 @@ within R, see
 \url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html}
 }
 \examples{
-# Look up commodity descriptions related to "halibut"
-ct_commodity_lookup("halibut",
-                    return_code = FALSE,
-                    return_char = FALSE,
-                    verbose = TRUE)
-
-# Look up commodity codes related to "shrimp".
-ct_commodity_lookup("shrimp",
-                    return_code = TRUE,
-                    return_char = FALSE,
-                    verbose = TRUE)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+comtradr::ct_commodity_lookup('wine')
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{grepl}}

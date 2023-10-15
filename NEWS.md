@@ -1,3 +1,8 @@
+comtradr 0.4
+====================
+
+Comtradr has received a complete overhaul. Please reference the Readme for all new functions and use-cases.
+
 comtradr 0.3.0.09000
 ====================
 

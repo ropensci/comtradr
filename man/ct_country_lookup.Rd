@@ -9,7 +9,15 @@ ct_country_lookup(...)
 \arguments{
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
+\value{
+depreciation error
+}
 \description{
 This function is deprecated. You can \verb{use country_codes} to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# no examples because only legacy function
+\dontshow{\}) # examplesIf}
 }

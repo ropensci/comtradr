@@ -10,3 +10,6 @@
 ^data-raw$
 ^\.github$
 ^codecov\.yml$
+^codemeta\.json$
+^doc$
+^Meta$

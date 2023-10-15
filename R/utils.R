@@ -4,8 +4,12 @@
 #'
 #' @param key Provide your primary comtrade key
 #'
-#' @return Saves your comtrade primary key in the environment.
+#' @returns Saves your comtrade primary key in the environment.
 #' @export
+#' @examplesIf interactive()
+#' ## set API key
+#' set_primary_comtrade_key('xxxxxc678ca4dbxxxxxxxx8285r3')
+#'
 set_primary_comtrade_key <- function(key = NULL) {
   if (is.null(key)) {
     key <- askpass::askpass("Please enter your API key")
@@ -17,8 +21,12 @@ set_primary_comtrade_key <- function(key = NULL) {
 #'
 #' If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
 #'
-#' @return Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
+#' @returns Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
 #' @export
+#' @examplesIf interactive()
+#' ## get API key
+#' get_primary_comtrade_key()
+#'
 get_primary_comtrade_key <- function() {
   key <- Sys.getenv("COMTRADE_PRIMARY")
   if (!identical(key, "")) {
@@ -31,10 +39,19 @@ get_primary_comtrade_key <- function() {
 #' Get reference table from package data
 #'
 #' The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
-#'
+#' You can use this table to look at the reference tables and if necessary extract respective classification codes by hand. In general we would recommend the function `ct_commodity_lookup` for this purpose. It uses the present function in the backend.
 #' @param dataset_id The dataset ID, which is either partner, reporter or a valid classification scheme.
 #' @inheritParams ct_get_data
 #' @export
+#' @returns a tidy dataset with a reference table
+#'
+#' @examplesIf interactive()
+#' ## get HS commodity table
+#' ct_get_ref_table("HS")
+#'
+#' ## get reporter table
+#' ct_get_ref_table("reporter")
+#'
 ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 
   ## make switch to the name of the datasets, which are slightly different to the dataset_ids
@@ -111,11 +128,11 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
       ## save in env variable, that update has been checked in this session
       ct_env$updated <- c(ct_env$updated,dataset_id)
 
-      return(data)
+      return(as.data.frame(data))
     }
   } else {
     ## if no update parameter passed on, just return the data read from disk or the env
-      return(data)
+      return(as.data.frame(data))
     }
   }
 
@@ -125,13 +142,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
-  iso_3 <-
-    id <-
-    group <-
-    category <-
-    text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
-  entryExpiredDate <-
-    isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
+  iso_3 <- id <- group <- category <- text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+  entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get('list_of_datasets', envir = ct_env)
@@ -208,8 +220,10 @@ ct_download_ref_table <- function(ref_table_id) {
 #' commodities or commodity codes. Output is a list or vector of commodity
 #' descriptions or codes associated with the input search_terms. For use with
 #' the UN Comtrade API, full API docs can be found at
-#' \url{https://comtrade.un.org/data/doc/api/}
+#' \url{https://unstats.un.org/wiki/display/comtrade/}
+#'
 #' @inheritParams ct_get_data
+#'
 #' @param search_terms Commodity names or commodity codes, as a char or numeric
 #'  vector.
 #'
@@ -240,18 +254,8 @@ ct_download_ref_table <- function(ref_table_id) {
 #'
 #' @seealso \code{\link{grepl}}
 #'
-#' @examples
-#' # Look up commodity descriptions related to "halibut"
-#' ct_commodity_lookup("halibut",
-#'                     return_code = FALSE,
-#'                     return_char = FALSE,
-#'                     verbose = TRUE)
-#'
-#' # Look up commodity codes related to "shrimp".
-#' ct_commodity_lookup("shrimp",
-#'                     return_code = TRUE,
-#'                     return_char = FALSE,
-#'                     verbose = TRUE)
+#' @examplesIf interactive()
+#' comtradr::ct_commodity_lookup('wine')
 
 ct_commodity_lookup <- function(search_terms,
                                 return_code = FALSE,
@@ -269,7 +273,9 @@ ct_commodity_lookup <- function(search_terms,
                                            commodity_classification)
 
   # Fetch the commodity database from ct_env.
-  commodity_df <- ct_get_ref_table(dataset_id = commodity_classification, update, verbose)
+  commodity_df <- ct_get_ref_table(dataset_id = commodity_classification,
+                                   update,
+                                   verbose)
 
 
   # transform input arg "return_code" to match the col name indicated

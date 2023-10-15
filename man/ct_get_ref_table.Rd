@@ -9,10 +9,23 @@ ct_get_ref_table(dataset_id, update = FALSE, verbose = FALSE)
 \arguments{
 \item{dataset_id}{The dataset ID, which is either partner, reporter or a valid classification scheme.}
 
-\item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
+\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
 
-\item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
+\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+}
+\value{
+a tidy dataset with a reference table
 }
 \description{
 The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
+You can use this table to look at the reference tables and if necessary extract respective classification codes by hand. In general we would recommend the function \code{ct_commodity_lookup} for this purpose. It uses the present function in the backend.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+## get HS commodity table
+ct_get_ref_table("HS")
+
+## get reporter table
+ct_get_ref_table("reporter")
+\dontshow{\}) # examplesIf}
 }

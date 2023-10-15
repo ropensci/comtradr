@@ -1,13 +1,13 @@
-## add roxygen comments to below functions
-
-
 #' @title ct_commodity_db_type
 #' @description This function is deprecated. There is currently no alternative for this function.
 #' `r lifecycle::badge("superseded")`
 #' @param ...  Used to catch all possible arguments that users have supplied to this function.
 #'
-#' @export
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
+#' @export
+#' @returns depreciation error
 ct_commodity_db_type <- function(...) {
     lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()")
 }
@@ -18,8 +18,11 @@ ct_commodity_db_type <- function(...) {
 #' `r lifecycle::badge("superseded")`
 #'
 #' @inheritParams ct_search
-#' @export
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
+#' @export
+#' @returns depreciation error
 ct_country_lookup <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_country_lookup()")
@@ -29,9 +32,11 @@ ct_country_lookup <- function(...) {
 #' @description This function is deprecated Please use  `ct_get_data()` instead.
 #' `r lifecycle::badge("superseded")`
 #' @param ...  Used to catch all possible arguments that users have supplied to this function.
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @export
-#'
+#' @returns depreciation error
 ct_search <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_search()",
@@ -41,10 +46,12 @@ ct_search <- function(...) {
 #' @title ct_update_databases
 #' @description This function is deprecated. Please use  `update` parameter in the main `ct_get_data` function instead.
 #' `r lifecycle::badge("superseded")`
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_update_databases <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_update_databases()")
@@ -53,10 +60,12 @@ ct_update_databases <- function(...) {
 #' @title ct_use_pretty_cols
 #' @description This function is deprecated. Please use the `process` argument in the main function instead.
 #' `r lifecycle::badge("superseded")`
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_use_pretty_cols <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_use_pretty_cols()")
@@ -65,10 +74,12 @@ ct_use_pretty_cols <- function(...) {
 #' @title ct_get_reset_time
 #' @description This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
 #' `r lifecycle::badge("superseded")`
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_get_reset_time <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_get_reset_time()")
@@ -77,10 +88,12 @@ ct_get_reset_time <- function(...) {
 #' @title ct_get_remaining_hourly_queries
 #' @description This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
 #' `r lifecycle::badge("superseded")`
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_get_remaining_hourly_queries <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_get_remaining_hourly_queries()")
@@ -89,10 +102,12 @@ ct_get_remaining_hourly_queries <- function(...) {
 #' @title ct_register_token
 #' @description This function is deprecated. Please use  `set_primary_comtrade_key()` instead.
 #' `r lifecycle::badge("superseded")`
+#' @examplesIf interactive()
+#' # no examples because only legacy function
 #'
 #' @inheritParams ct_search
 #' @export
-#'
+#' @returns depreciation error
 ct_register_token <- function(...) {
     lifecycle::deprecate_stop("1.0.0",
                               "ct_register_token()",

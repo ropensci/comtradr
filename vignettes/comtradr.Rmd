@@ -40,6 +40,33 @@ Load comtradr
 library(comtradr)
 ```
 
+## Authentication 
+
+As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
+
+If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
+
+```{r, eval = F}
+library(comtradr)
+
+set_primary_comtrade_key()
+```
+
+If you are not in an interactive session, you can register the token once in your session using the following base-r function.
+
+```{r, eval = F}
+Sys.setenv('COMTRADE_PRIMARY' = 'xxxxxxxxxxxxxxxxx')
+```
+
+If you would like to set the comtrade key permanently, we recommend editing the project `.Renviron` file, where you need to add a line with `COMTRADE_PRIMARY = xxxx-your-key-xxxx`. 
+
+ℹ️ Do not forget the line break after the last entry. This is the easiest by taking advantage of the great `usethis` package. 
+
+```{r, eval = F}
+usethis::edit_r_environ(scope = 'project')
+``` 
+
+
 ## Making API calls
 Lets say we want to get data on the total imports into the United States from Germany, France, Japan, and Mexico, for the last five years.
 
@@ -216,7 +243,7 @@ library(ggplot2)
 
 # Apply polished col headers.
 # Create plot.
-ggplot(example_2, aes(period, primaryValue/1000000000, color = partnerDesc, group = partnerDesc)) +
+ggplot(example_2, aes(period, primary_value/1000000000, color = partner_desc, group = partner_desc)) +
   geom_point(size = 2) +
   geom_line(size = 1) +
   scale_color_manual( values = c("darkgreen","red","grey30"),name = "Destination\nCountry") +
@@ -258,28 +285,65 @@ library(dplyr)
 
 # Create country specific "total weight per year" dataframe for plotting.
 plotdf <- example_3 %>%
-  group_by(partnerDesc, period) %>%
-  summarise(kg = as.numeric(sum(netWgt, na.rm = TRUE))) 
+  group_by(partner_desc, period) %>%
+  summarise(kg = as.numeric(sum(net_wgt, na.rm = TRUE))) 
 
 # Get vector of the top 8 destination countries/areas by total weight shipped
 # across all years, then subset plotdf to only include observations related
 # to those countries/areas.
 top8 <- plotdf |> 
-  group_by(partnerDesc) |> 
+  group_by(partner_desc) |> 
   summarise(kg = as.numeric(sum(kg, na.rm = TRUE))) |> 
   slice_max(n = 8, order_by = kg) |> 
   arrange(desc(kg)) |> 
-  pull(partnerDesc)
-plotdf <- plotdf %>% filter(partnerDesc %in% top8)
+  pull(partner_desc)
+plotdf <- plotdf %>% filter(partner_desc %in% top8)
 
 # Create plots (y-axis is NOT fixed across panels, this will allow us to ID
 # trends over time within each country/area individually).
-ggplot(plotdf,aes(period,kg/1000, group = partnerDesc))+
+ggplot(plotdf,aes(period,kg/1000, group = partner_desc))+
   geom_line() + 
   geom_point() + 
-  facet_wrap(.~partnerDesc, nrow = 2, ncol = 4,scales = 'free_y')+
+  facet_wrap(.~partner_desc, nrow = 2, ncol = 4,scales = 'free_y')+
   labs(title = "Weight (KG in tons) of Thai Shrimp Exports", 
        subtitle ="by Destination Area, 2007 - 2011")+
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45,hjust = 1, vjust = 1))
 ```
+
+## Handling NULL Parameters
+
+In the `comtradr` package, several function parameters can accept `NULL` as a valid input. Using `NULL` for these parameters has specific meanings and can be a powerful tool for querying data. Here's a breakdown of how `NULL` is handled for different parameters:
+
+### `commodity_code`
+
+Setting `commodity_code` to `NULL` will query all possible commodity values. This can be useful if you want to retrieve data for all commodities without specifying individual codes.
+
+### `flow_direction`
+
+If `flow_direction` is set to `NULL`, all possible values for trade flow directions are queried. This includes imports, exports, re-imports, and re-exports.
+
+### `reporter` and `partner`
+
+Using `NULL` for `reporter` or `partner` will query all possible values for reporter and partner countries. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
+
+### `mode_of_transport`, `partner_2`, and `customs_code`
+
+Setting these parameters to `NULL` will query all possible values related to the mode of transport, secondary partner, and customs procedures. This provides a comprehensive view of the data across different transportation modes and customs categories.
+
+### Example Usage
+
+Here's an example of how you might use `NULL` parameters to query comprehensive data:
+
+```{r, warning = FALSE, message = FALSE, eval = F}
+# Querying all commodities and flow directions for USA and Germany from 2010 to 2011
+data <- ct_get_data(
+  reporter = c('USA', 'DEU'),
+  commodity_code = NULL,
+  flow_direction = NULL,
+  start_date = '2010',
+  end_date = '2011'
+)
+```
+
+Using `NULL` parameters can lead to large datasets, as they often remove specific filters on the data. It's essential to be mindful of the size of the data being queried, especially when using multiple `NULL` parameters simultaneously.

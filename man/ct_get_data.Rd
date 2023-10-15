@@ -15,6 +15,7 @@ ct_get_data(
   start_date = NULL,
   end_date = NULL,
   process = TRUE,
+  tidy_cols = TRUE,
   verbose = FALSE,
   primary_token = get_primary_comtrade_key(),
   mode_of_transport = "0",
@@ -25,57 +26,89 @@ ct_get_data(
 )
 }
 \arguments{
-\item{type}{The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.}
+\item{type}{The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.}
 
-\item{frequency}{The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.}
+\item{frequency}{The frequency of returned trade data. Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
 
-\item{commodity_classification}{The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.}
+\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS')}; for services: \code{c('B4','B5','EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
-\item{commodity_code}{The commodity code(s). A character vector. All possible values are provided in the \code{comtradr::ct_get_ref_table()} function. You should use the relevant value from the \code{id} column. The default value is 'TOTAL': the sum of all commodities.}
+\item{commodity_code}{The commodity code(s) or \code{NULL}. See \code{comtradr::ct_get_ref_table('HS')} for possible values. Default: 'TOTAL' (sum of all commodities).}
 
-\item{flow_direction}{The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.}
+\item{flow_direction}{The direction of trade flows or \code{NULL}. Possible values: 'import', 'export', 're-import', 're-export', 'all'. Default: 'all'.}
 
-\item{reporter}{Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.}
+\item{reporter}{Reporter ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes} for possible values. Default: 'all'.}
 
-\item{partner}{Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the \code{comtradr::country_codes} dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World' which returns the trade with all partner countries as an aggregate.}
+\item{partner}{Partner ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes} for possible values. Default: 'World' (all partners as an aggregate).}
 
-\item{start_date}{The start date of the query. A character value. Yearly values should be in the format: \code{yyyy}. Monthly values should be in the format: \code{yyyy-mm}.}
+\item{start_date}{The start date of the query. Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
 
-\item{end_date}{The end date of the query. A character value. Yearly values should be in the format: \code{yyyy}. Monthly values should be in the format: \code{yyyy-mm}. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.}
+\item{end_date}{The end date of the query. Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly. Max: 12 years after start date for annual data, one year for monthly data.}
 
-\item{process}{A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.}
+\item{process}{If TRUE, returns a data.frame with results. If FALSE, returns the raw httr2 request. Default: TRUE.}
 
-\item{verbose}{A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.}
+\item{tidy_cols}{If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.}
 
-\item{primary_token}{Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the \code{comtradr::set_primary_comtrade_key} function.}
+\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
 
-\item{mode_of_transport}{The Mode of Transport is set to \code{0}, which is the default for TOTAL across all modes of transportation.}
+\item{primary_token}{Your primary UN Comtrade API token. Default: stored token from \code{comtradr::set_primary_comtrade_key}.}
 
-\item{partner_2}{This value is set as a default to \code{0}, which is most likely the most general value and also the default on the Comtrade website.}
+\item{mode_of_transport}{Mode of Transport, default '0' (TOTAL). See \code{ct_get_ref_table(dataset_id = 'mot')} for possible values.}
 
-\item{customs_code}{The customs code is set to the default of \code{C00} which is the default for TOTAL across all customs procedures.}
+\item{partner_2}{Partner ISO3 code(s) or \code{NULL}. Default: 'World'.}
 
-\item{update}{A logical value. If TRUE, will download the possibly updated reference tables from the UN.}
+\item{customs_code}{Customs code, default 'C00' (TOTAL). See \code{ct_get_ref_table(dataset_id = 'customs')} for possible values.}
 
-\item{...}{You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.}
+\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+
+\item{...}{Additional parameters to the API, passed as query parameters without checking.}
 }
 \value{
-returns a data.frame with trade data or if \code{process = F} returns a httr2response object.
+A data.frame with trade data or, if \code{process = F}, a httr2 response object.
 }
 \description{
-Get trade data from the UN Comtrade API
+This function queries the UN Comtrade API to retrieve international trade data.
+It allows for detailed specification of the query, including the type of data (goods or services),
+frequency (annual or monthly), commodity classification, flow direction, and more.
+By providing \code{NULL} for certain parameters, you can query all possible values.
+The function is opinionated in that it already verifies certain parameters for you and
+is more than a pure wrapper around the API.
+}
+\details{
+The UN Comtrade database provides a repository of official international trade statistics
+and relevant analytical tables. It contains annual trade statistics starting from 1988
+and monthly trade statistics since 2000 for goods data
+
+Parameters that accept \code{NULL} will query all possible values. For example, setting \code{commodity_code = NULL}
+will retrieve data for all commodity codes. This can be useful for broad queries but may result in large datasets.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Query goods data for China's trade with Argentina and Germany in 2019
 ct_get_data(type = 'goods',
-commodity_classification = 'HS',
-commodity_code = 'TOTAL',
-reporter = 'CHN',
-partner = c('ARG','DEU'),
-start_date = '2019',
-end_date = '2019',
-flow_direction = 'all',
-partner_2 = 'World',
-verbose = TRUE)
+            commodity_classification = 'HS',
+            commodity_code = 'TOTAL',
+            reporter = 'CHN',
+            partner = c('ARG','DEU'),
+            start_date = '2019',
+            end_date = '2019',
+            flow_direction = 'all',
+            partner_2 = 'World',
+            verbose = TRUE)
+
+# Query all commodity codes for China's imports from Germany in 2019
+ct_get_data(commodity_code = NULL,
+            reporter = 'CHN',
+            partner = 'DEU',
+            start_date = '2019',
+            end_date = '2019',
+            flow_direction = 'import')
+
+# Query all commodity codes for China's imports from Germany from January to June of 2019
+ct_get_data(commodity_code = NULL,
+            reporter = 'CHN',
+            partner = 'DEU',
+            start_date = '2019',
+            end_date = '2019',
+            flow_direction = 'import')
 \dontshow{\}) # examplesIf}
 }

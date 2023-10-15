@@ -9,7 +9,15 @@ ct_search(...)
 \arguments{
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
+\value{
+depreciation error
+}
 \description{
 This function is deprecated Please use  \code{ct_get_data()} instead.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# no examples because only legacy function
+\dontshow{\}) # examplesIf}
 }

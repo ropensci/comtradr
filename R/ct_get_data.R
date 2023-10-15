@@ -1,38 +1,71 @@
 #' Get trade data from the UN Comtrade API
 #'
+#' This function queries the UN Comtrade API to retrieve international trade data.
+#' It allows for detailed specification of the query, including the type of data (goods or services),
+#' frequency (annual or monthly), commodity classification, flow direction, and more.
+#' By providing `NULL` for certain parameters, you can query all possible values.
+#' The function is opinionated in that it already verifies certain parameters for you and
+#' is more than a pure wrapper around the API.
 #'
-#' @param frequency The frequency of returned trade data. A character value. Possible values are: 'A' for annual data and 'M' for monthly data. The default value is 'A'.
-#' @param type The type of returned trade data. A character value. Possible values are: 'goods' for trade in goods and 'services' for trade in services. The default value is 'goods'.
-#' @param commodity_classification The trade (IMTS) classification scheme. A character value. The only possible value is 'HS'. This is the default.
-#' @param commodity_code The commodity code(s). A character vector. All possible values are provided in the `comtradr::ct_get_ref_table()` function. You should use the relevant value from the `id` column. The default value is 'TOTAL': the sum of all commodities.
-#' @param flow_direction The direction of trade flows. A character vector. Possible values are: 'import' for imports, 'export' for exports, 're-import' for re-imports, 're-export' for re-exports, or 'all' for imports, exports, re-imports, and re-exports. The default value is 'all'.
-#' @param reporter Reporter ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'all'.
-#' @param partner Partner ISO3 code(s). A character vector. Possible values include the desired country's ISO3 code. A full list of these can be found in the `comtradr::country_codes` dataset. 'all' can be supplied to return values for all reporter countries that are not labelled as 'group' by the UN (e.g. ASEAN countries). The default value is 'World' which returns the trade with all partner countries as an aggregate.
-#' @param start_date The start date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`.
-#' @param end_date The end date of the query. A character value. Yearly values should be in the format: `yyyy`. Monthly values should be in the format: `yyyy-mm`. This can be a maximum of 12 years after the start date for the annual data or one year after the start date for monthly data.
-#' @param primary_token Your primary UN Comtrade API token. A character value. Default is to check in environment for stored token, if not passed through the `comtradr::set_primary_comtrade_key` function.
-#' @param process A logical value. If TRUE, returns a data.frame with the results. If FALSE, returns the raw httr2 request. Defaults to TRUE.
-#' @param verbose A logical value. If TRUE, sends status updates to the console. If FALSE, runs functions quietly.
-#' @param update A logical value. If TRUE, will download the possibly updated reference tables from the UN.
-#' @param ... You can pass in further parameters to the API that will not be checked and passed on as query parameters as is.
-#' @param mode_of_transport The Mode of Transport is set to `0`, which is the default for TOTAL across all modes of transportation.
-#' @param partner_2 This value is set as a default to `0`, which is most likely the most general value and also the default on the Comtrade website.
-#' @param customs_code The customs code is set to the default of `C00` which is the default for TOTAL across all customs procedures.
+#' @details
+#' The UN Comtrade database provides a repository of official international trade statistics
+#' and relevant analytical tables. It contains annual trade statistics starting from 1988
+#' and monthly trade statistics since 2000 for goods data
+#'
+#' Parameters that accept `NULL` will query all possible values. For example, setting `commodity_code = NULL`
+#' will retrieve data for all commodity codes. This can be useful for broad queries but may result in large datasets.
+#'
+#' @param frequency The frequency of returned trade data. Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.
+#' @param type The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.
+#' @param commodity_classification The trade classification scheme. Possible values for goods: `c('HS','S1','S2','S3','S4','SS')`; for services: `c('B4','B5','EB02','EB10','EB10S','EB')`. Default: 'HS'.
+#' @param commodity_code The commodity code(s) or `NULL`. See `comtradr::ct_get_ref_table('HS')` for possible values. Default: 'TOTAL' (sum of all commodities).
+#' @param flow_direction The direction of trade flows or `NULL`. Possible values: 'import', 'export', 're-import', 're-export', 'all'. Default: 'all'.
+#' @param reporter Reporter ISO3 code(s) or `NULL`. See `comtradr::country_codes` for possible values. Default: 'all'.
+#' @param partner Partner ISO3 code(s) or `NULL`. See `comtradr::country_codes` for possible values. Default: 'World' (all partners as an aggregate).
+#' @param start_date The start date of the query. Format: `yyyy` for yearly, `yyyy-mm` for monthly.
+#' @param end_date The end date of the query. Format: `yyyy` for yearly, `yyyy-mm` for monthly. Max: 12 years after start date for annual data, one year for monthly data.
+#' @param primary_token Your primary UN Comtrade API token. Default: stored token from `comtradr::set_primary_comtrade_key`.
+#' @param process If TRUE, returns a data.frame with results. If FALSE, returns the raw httr2 request. Default: TRUE.
+#' @param tidy_cols If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.
+#' @param verbose If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.
+#' @param mode_of_transport Mode of Transport, default '0' (TOTAL). See `ct_get_ref_table(dataset_id = 'mot')` for possible values.
+#' @param partner_2 Partner ISO3 code(s) or `NULL`. Default: 'World'.
+#' @param customs_code Customs code, default 'C00' (TOTAL). See `ct_get_ref_table(dataset_id = 'customs')` for possible values.
+#' @param update If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.
+#' @param ... Additional parameters to the API, passed as query parameters without checking.
 #'
 #' @examplesIf interactive()
+#' # Query goods data for China's trade with Argentina and Germany in 2019
 #' ct_get_data(type = 'goods',
-#' commodity_classification = 'HS',
-#' commodity_code = 'TOTAL',
-#' reporter = 'CHN',
-#' partner = c('ARG','DEU'),
-#' start_date = '2019',
-#' end_date = '2019',
-#' flow_direction = 'all',
-#' partner_2 = 'World',
-#' verbose = TRUE)
+#'             commodity_classification = 'HS',
+#'             commodity_code = 'TOTAL',
+#'             reporter = 'CHN',
+#'             partner = c('ARG','DEU'),
+#'             start_date = '2019',
+#'             end_date = '2019',
+#'             flow_direction = 'all',
+#'             partner_2 = 'World',
+#'             verbose = TRUE)
+#'
+#' # Query all commodity codes for China's imports from Germany in 2019
+#' ct_get_data(commodity_code = NULL,
+#'             reporter = 'CHN',
+#'             partner = 'DEU',
+#'             start_date = '2019',
+#'             end_date = '2019',
+#'             flow_direction = 'import')
+#'
+#' # Query all commodity codes for China's imports from Germany from January to June of 2019
+#' ct_get_data(commodity_code = NULL,
+#'             reporter = 'CHN',
+#'             partner = 'DEU',
+#'             start_date = '2019',
+#'             end_date = '2019',
+#'             flow_direction = 'import')
 #'
 #' @export
-#' @return returns a data.frame with trade data or if `process = F` returns a httr2response object.
+#' @returns A data.frame with trade data or, if `process = F`, a httr2 response object.
+
 ct_get_data <- function(type = 'goods',
                         frequency = 'A',
                         commodity_classification = 'HS',
@@ -43,6 +76,7 @@ ct_get_data <- function(type = 'goods',
                         start_date = NULL,
                         end_date = NULL,
                         process = TRUE,
+                        tidy_cols = TRUE,
                         verbose = FALSE,
                         primary_token = get_primary_comtrade_key(),
                         mode_of_transport = '0',
@@ -76,7 +110,7 @@ ct_get_data <- function(type = 'goods',
   resp <- ct_perform_request(req, verbose = verbose)
 
   if (process) {
-    result <- ct_process_response(resp, verbose = verbose)
+    result <- ct_process_response(resp, verbose = verbose, tidy_cols = tidy_cols)
     return(result)
   } else{
     return(resp)

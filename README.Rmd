@@ -16,7 +16,7 @@ comtradr <img src="man/figures/logo.png" align="right" height="139" />
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
 [![](https://badges.ropensci.org/141_status.svg)](https://github.com/ropensci/software-review/issues/141)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=api-update)
+[![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
 <!-- badges: end -->
 
 R package for interacting with the [UN Comtrade Database](https://comtradeplus.un.org/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found
@@ -46,9 +46,17 @@ Currently, the package is not on CRAN, but we plan on publishing to CRAN in the 
 devtools::install_github("ropensci/comtradr@main")
 ```
 
+Once it is on CRAN, you can install with:
+
+```{r eval=FALSE}
+install.packages("comtradr")
+```
+
 ## Usage
 
 ### Authentication 🔐
+
+As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
 
 If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 
@@ -65,6 +73,7 @@ Sys.setenv('COMTRADE_PRIMARY' = 'xxxxxxxxxxxxxxxxx')
 ```
 
 If you would like to set the comtrade key permanently, we recommend editing the project `.Renviron` file, where you need to add a line with `COMTRADE_PRIMARY = xxxx-your-key-xxxx`. 
+
 ℹ️ Do not forget the line break after the last entry. This is the easiest by taking advantage of the great `usethis` package. 
 
 ```{r, eval = F}

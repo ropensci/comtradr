@@ -9,7 +9,15 @@ ct_get_reset_time(...)
 \arguments{
 \item{...}{Used to catch all possible arguments that users have supplied to this function.}
 }
+\value{
+depreciation error
+}
 \description{
 This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# no examples because only legacy function
+\dontshow{\}) # examplesIf}
 }
