@@ -12,7 +12,7 @@ on:
   push:
     branches:
       - main
-      - api-update
+      - dev
 
 jobs:
   pkgcheck:
