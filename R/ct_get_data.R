@@ -32,6 +32,7 @@
 #' @param partner_2 Partner ISO3 code(s) or `NULL`. Default: 'World'.
 #' @param customs_code Customs code, default 'C00' (TOTAL). See `ct_get_ref_table(dataset_id = 'customs')` for possible values.
 #' @param update If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.
+#' @param requests_per_second rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see `req_throttle()` for details.
 #' @param ... Additional parameters to the API, passed as query parameters without checking.
 #'
 #' @examplesIf interactive()
@@ -83,6 +84,7 @@ ct_get_data <- function(type = 'goods',
                         partner_2 = 'World',
                         customs_code ='C00',
                         update = FALSE,
+                        requests_per_second = 10 / 60,
                         ...) {
   ## compile codes
   params <- ct_check_params(
@@ -105,9 +107,12 @@ ct_get_data <- function(type = 'goods',
   )
 
   req <-
-    ct_build_request(params, verbose = verbose, primary_token = primary_token)
+    ct_build_request(params, verbose = verbose,
+                     primary_token = primary_token)
 
-  resp <- ct_perform_request(req, verbose = verbose)
+  resp <- ct_perform_request(req,
+                             requests_per_second = requests_per_second,
+                             verbose = verbose)
 
   if (process) {
     result <- ct_process_response(resp, verbose = verbose, tidy_cols = tidy_cols)

@@ -3,7 +3,7 @@
 #' Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.
 #'
 #' @param req a valid comtrade request built by the `ct_build_request()` function
-#' @param requests_per_second rate at which throttling is done
+#' @param requests_per_second rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \link[httr2]{req_throttle()} for details.
 #'
 #' @param verbose whether the function sends status updates to the console
 #'
@@ -17,7 +17,7 @@
 #'             flow_direction = 'import')
 #' req <- httr2::last_request()
 #' resp <- ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
-ct_perform_request <- function(req, requests_per_second = 10 / 60, verbose = FALSE) {
+ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
 
     if (verbose) {
       cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried."))

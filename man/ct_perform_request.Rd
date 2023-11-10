@@ -4,12 +4,12 @@
 \alias{ct_perform_request}
 \title{Performs the request to the Comtrade API}
 \usage{
-ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
+ct_perform_request(req, requests_per_second, verbose = FALSE)
 }
 \arguments{
 \item{req}{a valid comtrade request built by the \code{ct_build_request()} function}
 
-\item{requests_per_second}{rate at which throttling is done}
+\item{requests_per_second}{rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \link[httr2]{req_throttle()} for details.}
 
 \item{verbose}{whether the function sends status updates to the console}
 }
