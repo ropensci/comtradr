@@ -18,10 +18,7 @@ comtradr <img src="man/figures/logo.png" align="right" height="139" />
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
 <!-- badges: end -->
-
-R package for interacting with the [UN Comtrade Database](https://comtradeplus.un.org/) public API. UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found
-[here](https://comtradedeveloper.un.org/).
-
+Interface with and extract data from the United Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame. More info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found [here](https://comtradedeveloper.un.org/).
 
 ## Currently re-launching Comtradr 🚧
 
