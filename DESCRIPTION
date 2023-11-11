@@ -1,6 +1,7 @@
 Package: comtradr
 Title: Interface with the United Nations Comtrade API
 Version: 0.4.0.0
+Maintainer: Paul Bochtler <paulbochtler.gh@gmail.com>
 Authors@R: c(
             person("Paul", "Bochtler", 
               email = "paulbochtler.gh@gmail.com", 
@@ -28,9 +29,6 @@ Description: Interface with and extract data from the United Nations Comtrade
   data for a variety of commodities, these functions allow for easy API query 
   and data returned as a tidy data frame.
 Depends: R (>= 4.1.0)
-License: GPL-3
-Encoding: UTF-8
-LazyData: true
 Imports: 
     lifecycle,
     fs,
@@ -43,11 +41,6 @@ Imports:
     poorman,
     lubridate,
     purrr
-RoxygenNote: 7.2.3
-URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
-BugReports: https://github.com/ropensci/comtradr/issues
-NeedsCompilation: no
-Maintainer: Paul Bochtler <paulbochtler.gh@gmail.com>
 Suggests: 
     covr,
     dplyr,
@@ -57,6 +50,13 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     vcr
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
+BugReports: https://github.com/ropensci/comtradr/issues
+NeedsCompilation: no
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
