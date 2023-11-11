@@ -1,10 +1,12 @@
 #' Check that input parameters are valid and in compliance with UN Comtrade APIs.
 #'
-#' @inheritParams ct_get_data
+#' This is an internal function that is called by `ct_get_data()` and processes
+#' most arguments that are passed to it according to the relevant limitations of the
+#' official Comtrade API.
 #'
 #' @returns Returns a list of named parameters for building a request.
 #'
-#' @noRd
+#' @inheritParams ct_get_data
 ct_check_params <- function(type,
                             frequency,
                             commodity_classification,

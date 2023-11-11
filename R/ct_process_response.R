@@ -1,11 +1,9 @@
 #' Processes the response object
 #'
-#' The function processes the httr2response object, parses the json and adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
+#' The function is internally called by `ct_get_data()` and processes the httr2response object returned by `ct_perform_request()`, it parses the JSON and adds the respective ISO codes for the reporter and partner countries, as well as the commodity code description.
 #'
 #' @param resp a valid httr2 response object created from the function `ct_perform_request()`
-#' @param verbose whether the function sends status updates to the console
 #'
-#' @inheritParams ct_get_data
 #' @returns a data.frame object with the results
 #'
 #' @examplesIf interactive()
@@ -18,6 +16,7 @@
 #' req <- httr2::last_request()
 #' resp <- ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
 #' data <- ct_process_response(resp)
+#' @inheritParams ct_get_data
 ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
   result <- resp |>
     httr2::resp_body_json(simplifyVector = TRUE)

@@ -1,12 +1,10 @@
 #' Build a valid request object from the checked parameters
 #'
-#' This function takes the necessary parameters and creates a httr2 request to be performed this request can then be used in a second function, to actually return the data
+#' This is an internal function takes the necessary parameters from `ct_check_params()`
+#' and creates a httr2 request to be performed. This request can then be used in a second function, `ct_perform_request()` to actually return the data.
+#' It is called internally ct `ct_get_data()`
 #'
-#' @param params a named vector of parameters for the comtrade request
-#'
-#' @param primary_token Your primary token. Default is to check in environment for stored token, if not passed through the `set_primary_comtrade_key` function
-#'
-#' @param verbose whether the function sends status updates to the console
+#' @param params a named vector of parameters for the comtrade request, result from `ct_check_params()`.
 #'
 #' @examplesIf interactive()
 #' # Build request from checked parameters
@@ -29,6 +27,7 @@
 #'                                             update = FALSE ))
 #'
 #' @returns a httr2 request object
+#' @inheritParams ct_get_data
 ct_build_request <- function(params,
                                    primary_token = NULL,
                                    verbose = FALSE) {

@@ -9,7 +9,7 @@ ct_process_response(resp, verbose = FALSE, tidy_cols)
 \arguments{
 \item{resp}{a valid httr2 response object created from the function \code{ct_perform_request()}}
 
-\item{verbose}{whether the function sends status updates to the console}
+\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
 
 \item{tidy_cols}{If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.}
 }
@@ -17,7 +17,7 @@ ct_process_response(resp, verbose = FALSE, tidy_cols)
 a data.frame object with the results
 }
 \description{
-The function processes the httr2response object, parses the json and adds the respective iso codes for the reporter and partner countries, as well as the commodity code description.
+The function is internally called by \code{ct_get_data()} and processes the httr2response object returned by \code{ct_perform_request()}, it parses the JSON and adds the respective ISO codes for the reporter and partner countries, as well as the commodity code description.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

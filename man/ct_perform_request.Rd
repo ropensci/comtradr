@@ -9,15 +9,17 @@ ct_perform_request(req, requests_per_second, verbose = FALSE)
 \arguments{
 \item{req}{a valid comtrade request built by the \code{ct_build_request()} function}
 
-\item{requests_per_second}{rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \link[httr2]{req_throttle()} for details.}
+\item{requests_per_second}{rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \code{req_throttle()} for details.}
 
-\item{verbose}{whether the function sends status updates to the console}
+\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
-json data from comtrade and possible error codes
+JSON data from comtrade, data.frame with results or error codes.
 }
 \description{
-Performs the request and returns an error body with the respective error returned by the Comtrade API. Also throttles all requests to 1 request per 6 seconds, or 10 requests per minute.
+This function is internally called by \code{ct_get_data()} and performs the request constructed by \code{ct_build_request()} and returns an error body with the respective error returned by the Comtrade API.
+By default throttles all requests to 1 request per 6 seconds, or 10 requests per minute, but it adjusts automatically if the
+API asks for longer waiting times.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
