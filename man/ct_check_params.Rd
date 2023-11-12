@@ -61,3 +61,26 @@ This is an internal function that is called by \code{ct_get_data()} and processe
 most arguments that are passed to it according to the relevant limitations of the
 official Comtrade API.
 }
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Build request from checked parameters
+comtradr:::ct_check_params(type = 'goods',
+                frequency = 'A',
+                commodity_classification = 'HS',
+                commodity_code = 'TOTAL',
+                flow_direction = 'all',
+                reporter = 'all',
+                partner = 'World',
+                start_date = 2020,
+                end_date = 2022,
+                process = TRUE,
+                tidy_cols = TRUE,
+                verbose = FALSE,
+                primary_token = 'xxxx',
+                mode_of_transport = '0',
+                partner_2 = 'World',
+                customs_code = 'C00',
+                update = FALSE
+                )
+\dontshow{\}) # examplesIf}
+}

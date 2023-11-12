@@ -8,7 +8,7 @@
 #'
 #' @examplesIf interactive()
 #' # Build request from checked parameters
-#' ct_build_request(comtradr:::ct_check_params(type = 'goods',
+#' comtradr:::ct_build_request(comtradr:::ct_check_params(type = 'goods',
 #'                                             frequency = 'A',
 #'                                             commodity_classification = 'HS',
 #'                                             commodity_code = 'TOTAL',

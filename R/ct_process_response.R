@@ -14,8 +14,8 @@
 #'             end_date = '2019',
 #'             flow_direction = 'import')
 #' req <- httr2::last_request()
-#' resp <- ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
-#' data <- ct_process_response(resp)
+#' resp <- comtradr:::ct_perform_request(req, requests_per_second = 10/60, verbose = FALSE)
+#' data <- comtradr:::ct_process_response(resp)
 #' @inheritParams ct_get_data
 ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
   result <- resp |>

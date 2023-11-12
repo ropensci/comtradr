@@ -24,7 +24,7 @@ It is called internally ct \code{ct_get_data()}
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Build request from checked parameters
-ct_build_request(comtradr:::ct_check_params(type = 'goods',
+comtradr:::ct_build_request(comtradr:::ct_check_params(type = 'goods',
                                             frequency = 'A',
                                             commodity_classification = 'HS',
                                             commodity_code = 'TOTAL',

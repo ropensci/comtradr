@@ -5,7 +5,26 @@
 #' official Comtrade API.
 #'
 #' @returns Returns a list of named parameters for building a request.
-#'
+#' @examplesIf interactive()
+#' # Build request from checked parameters
+#' comtradr:::ct_check_params(type = 'goods',
+#'                 frequency = 'A',
+#'                 commodity_classification = 'HS',
+#'                 commodity_code = 'TOTAL',
+#'                 flow_direction = 'all',
+#'                 reporter = 'all',
+#'                 partner = 'World',
+#'                 start_date = 2020,
+#'                 end_date = 2022,
+#'                 process = TRUE,
+#'                 tidy_cols = TRUE,
+#'                 verbose = FALSE,
+#'                 primary_token = 'xxxx',
+#'                 mode_of_transport = '0',
+#'                 partner_2 = 'World',
+#'                 customs_code = 'C00',
+#'                 update = FALSE
+#'                 )
 #' @inheritParams ct_get_data
 ct_check_params <- function(type,
                             frequency,
@@ -623,3 +642,6 @@ is_year <- function(x) {
 is_year_month <- function(x) {
   grepl("^\\d{4}-\\d{2}", x)
 }
+
+
+
