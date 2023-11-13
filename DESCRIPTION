@@ -48,6 +48,7 @@ Suggests:
     httptest2,
     knitr,
     rmarkdown,
+    spelling,
     testthat (>= 3.0.0),
     vcr
 License: GPL-3
@@ -60,3 +61,4 @@ NeedsCompilation: no
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
+Language: en-US
