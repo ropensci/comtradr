@@ -20,7 +20,7 @@
 ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
 
     if (verbose) {
-      cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried."))
+      cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
     }
 
     comtrade_is_transient <- function(resp) {
@@ -44,7 +44,7 @@ ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
       httr2::req_perform()
 
     if (verbose) {
-      cli::cli_inform(c("v" = "Got a response object from UN Comtrade. Use `process = F` if there is an error after this step to find issues with the response object."))
+      cli::cli_inform(c("v" = "Got a response object from UN Comtrade. Use `process = F` if there is an error after this step to find issues with the response object.")) # nolint
     }
 
     return(resp)
@@ -67,10 +67,10 @@ comtrade_error_body <- function(resp) {
 
       if (stringr::str_detect(body, 'Request URL Too Long')) {
         message <-
-          c('You might have provided too many parameters and the URL got too long.')
+          c('You might have provided too many parameters and the URL got too long.') # nolint
         return(message)
       } else if (stringr::str_detect(body,
-                                     'The resource you are looking for has been removed')) {
+                                     'The resource you are looking for has been removed')) { # nolint
         message <-
           c(
             'The original message is: ',

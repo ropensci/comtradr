@@ -1,26 +1,41 @@
-test_that("ct_commodity_lookup returns correct values for commodity codes", {
-  results <- ct_commodity_lookup(c("020820"), return_code = TRUE)
-  expect_equal(results, list("020820" = "020820"))
-})
+test_that("ct_commodity_lookup returns correct values for commodity codes",
+          {
+            results <- ct_commodity_lookup(c("020820"), return_code = TRUE)
+            expect_equal(results, list("020820" = "020820"))
+          })
 
-test_that("ct_commodity_lookup returns correct values for commodity names", {
-  results <- ct_commodity_lookup(c("Frog legs"), return_code = FALSE)
-  expect_equal(results, list("Frog legs" = "020820 - Frog legs, fresh, chilled or frozen"))
-})
+test_that("ct_commodity_lookup returns correct values for commodity names",
+          {
+            results <- ct_commodity_lookup(c("Frog legs"), return_code = FALSE)
+            expect_equal(results,
+                         list("Frog legs" = "020820 - Frog legs, fresh, chilled or frozen")) # nolint
+          })
 
-test_that("ct_commodity_lookup returns correct values when return_char = TRUE", {
-  results <- ct_commodity_lookup(c("frog legs"), return_code = FALSE, return_char = TRUE)
-  expect_equal(results, c("020820 - Frog legs, fresh, chilled or frozen"))
-})
+test_that("ct_commodity_lookup returns correct values when return_char = TRUE",
+          {
+            results <-
+              ct_commodity_lookup(c("frog legs"),
+                                  return_code = FALSE,
+                                  return_char = TRUE)
+            expect_equal(results, c("020820 - Frog legs, fresh, chilled or frozen")) # nolint
+          })
 
 test_that("ct_commodity_lookup warns when no matching results are found", {
-  expect_warning(ct_commodity_lookup(c("Nonexistent"), return_code = FALSE, verbose = TRUE))
+  expect_warning(ct_commodity_lookup(
+    c("Nonexistent"),
+    return_code = FALSE,
+    verbose = TRUE
+  ))
 })
 
-test_that("ct_commodity_lookup returns empty result for non-matching search term", {
-  results <- ct_commodity_lookup(c("Nonexistent"), return_code = FALSE, verbose = FALSE)
-  expect_equal(results, list("Nonexistent" = character(0)))
-})
+test_that("ct_commodity_lookup returns empty result for non-matching search term", # nolint
+          {
+            results <-
+              ct_commodity_lookup(c("Nonexistent"),
+                                  return_code = FALSE,
+                                  verbose = FALSE)
+            expect_equal(results, list("Nonexistent" = character(0)))
+          })
 
 test_that("ct_get_ref_table works correctly", {
   ct_env <- new.env()
@@ -41,7 +56,10 @@ test_that("ct_get_ref_table works correctly", {
   # Test 4: Valid dataset_id, update = TRUE, previously updated
   test_data_updated_again <- ct_get_ref_table("HS", update = TRUE)
   expect_equal(test_data_updated, test_data_updated_again)
-  expect_message(ct_get_ref_table("HS", update = TRUE, verbose = T),'Already checked for updates for HS in this session.')
+  expect_message(
+    ct_get_ref_table("HS", update = TRUE, verbose = T),
+    'Already checked for updates for HS in this session.'
+  )
 
   # Test 5: Verbose mode
   test_data_verbose <- ct_get_ref_table("HS", verbose = TRUE)
@@ -50,6 +68,7 @@ test_that("ct_get_ref_table works correctly", {
 })
 
 test_that("ct_search", {
-  expect_warning(ct_commodity_lookup(c('cyber','tomato')), 'There were no matching results found for inputs: cyber')
+  expect_warning(ct_commodity_lookup(c('cyber', 'tomato')),
+                 'There were no matching results found for inputs: cyber')
 
 })

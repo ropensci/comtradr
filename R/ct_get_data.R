@@ -115,7 +115,8 @@ ct_get_data <- function(type = 'goods',
                              verbose = verbose)
 
   if (process) {
-    result <- ct_process_response(resp, verbose = verbose, tidy_cols = tidy_cols)
+    result <- ct_process_response(resp, verbose = verbose,
+                                  tidy_cols = tidy_cols)
     return(result)
   } else{
     return(resp)

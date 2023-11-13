@@ -48,7 +48,7 @@ ct_build_request <- function(params,
     httr2::req_url_query(!!!query_params)
 
   if(stringr::str_length(res$url)>4095){
-    rlang::abort("Your request exceeds 4KB or 4096 characters, which is the upper limit of the Comtrade API.")
+    rlang::abort("Your request exceeds 4KB or 4096 characters, which is the upper limit of the Comtrade API.") # nolint
   }
 
   if (verbose) {

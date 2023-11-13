@@ -85,12 +85,14 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of partner_2."))
   }
 
-  mode_of_transport <- check_motCode(mode_of_transport,update = update, verbose = verbose)
+  mode_of_transport <- check_motCode(mode_of_transport,update = update,
+                                     verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of mode_of_transport."))
   }
 
-  customs_code <- check_customsCode(customs_code ,update = update, verbose = verbose)
+  customs_code <- check_customsCode(customs_code ,update = update,
+                                    verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of customs_code."))
   }
@@ -172,15 +174,18 @@ check_freq <- function(type, frequency) {
 
 #' Check validity of classification parameter.
 #'
-#' Trade (IMTS) classifications: HS, SITC, BEC or EBOPS. Currently, we only support the HS classification.
+#' Trade (IMTS) classifications: HS, SITC, BEC or EBOPS.
+#' Currently, we only support the HS classification.
 #'
 #' @inheritParams ct_get_data
 #'
 #' @returns A character string specifying the selected classification code.
 #'
 #' @examplesIf interactive()
-#' comtradr:::check_clCode("HS") # returns "HS"
-#' comtradr:::check_clCode("ISIC") # throws an error because "ISIC" is not a valid classification code
+#' comtradr:::check_clCode("HS")
+#' # returns "HS"
+#' comtradr:::check_clCode("ISIC")
+#' # throws an error because "ISIC" is not a valid classification code
 #'
 #' @noRd
 check_clCode <- function(type,commodity_classification) {
@@ -222,10 +227,14 @@ check_flowCode <- function(flow_direction) {
     }
 
     if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
-      flow_direction <- stringr::str_replace_all(flow_direction, '^import$', "M")
-      flow_direction <- stringr::str_replace_all(flow_direction, '^export$', "X")
-      flow_direction <- stringr::str_replace_all(flow_direction, '^re-import$', "RM")
-      flow_direction <- stringr::str_replace_all(flow_direction, '^re-export$', "RX")
+      flow_direction <- stringr::str_replace_all(flow_direction,
+                                                 '^import$', "M")
+      flow_direction <- stringr::str_replace_all(flow_direction,
+                                                 '^export$', "X")
+      flow_direction <- stringr::str_replace_all(flow_direction,
+                                                 '^re-import$', "RM")
+      flow_direction <- stringr::str_replace_all(flow_direction,
+                                                 '^re-export$', "RX")
       flow_direction <- flow_direction |> paste0(collapse = ',')
     } else if (flow_direction == 'all') {
       flow_direction <- 'M,X,RM,RX'
@@ -267,7 +276,8 @@ check_cmdCode <-
                        update = update,
                        verbose = verbose)$id
 
-    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    # if one of the codes is not in the list of valid codes
+    # send stop signal and list problems
     if (!all(commodity_code %in% valid_codes)) {
       rlang::abort(paste0(
         "The following services/commodity codes you provided are invalid: ",
@@ -316,7 +326,8 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
       if (any(reporter == 'all')) {
         rlang::abort('"all" can only be provided as a single argument.')
       }
-      # if one of the reporter codes is not in the list of valid reporter codes send stop signal and list problems
+      # if one of the reporter codes is not in the list of valid reporter codes
+      # send stop signal and list problems
       if (!all(reporter %in% reporter_codes$iso_3)) {
         rlang::abort(paste0(
           "The following reporter(s) you provided are invalid: ",
@@ -367,7 +378,8 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
   if (!is.null(partner)) {
     partner <- as.character(partner)
 
-    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner',
+                                      update = update, verbose = verbose)
 
 
     if (length(partner) > 1 | !any(partner == 'all')) {
@@ -426,7 +438,8 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
     partner <- as.character(partner)
 
 
-    partner_codes <- ct_get_ref_table(dataset_id = 'partner', update = update, verbose = verbose)
+    partner_codes <- ct_get_ref_table(dataset_id = 'partner',
+                                      update = update, verbose = verbose)
 
 
     if (length(partner) > 1 | !any(partner == 'all')) {
@@ -482,7 +495,8 @@ check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
                                     update = update,
                                     verbose = verbose)$id
 
-    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    # if one of the codes is not in the list of valid codes
+    # send stop signal and list problems
     if (!all(mode_of_transport %in% valid_codes)) {
       rlang::abort(paste0(
         "The following mode_of_transport codes you provided are invalid: ",
@@ -517,7 +531,8 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
                                     update = update,
                                     verbose = verbose)$id
 
-    # if one of the codes is not in the list of valid codes send stop signal and list problems
+    # if one of the codes is not in the list of valid codes
+    # send stop signal and list problems
     if (!all(customs_code %in% valid_codes)) {
       rlang::abort(paste0(
         "The following customs_code codes you provided are invalid: ",
@@ -532,7 +547,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 }
 
 
-## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R
+## the get date range function was taken from https://github.com/ropensci/comtradr/blob/master/tests/testthat/test-ct_search.R # nolint
 
 #' Check validity of date parameter.
 #'
@@ -577,7 +592,7 @@ check_date <- function(start_date, end_date, frequency) {
         date_range <- seq.Date(start_date, by = "month",length.out = 12) |>
           format(format = "%Y%m")
         } else {
-        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.")
+        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.") # nolint
       }
     } else if (!sd_year && !ed_year) {
       # If neither start_date nor end_date are years, get date range by month.
@@ -588,13 +603,13 @@ check_date <- function(start_date, end_date, frequency) {
     } else {
       # Between start_date and end_date, if one is a year and the other isn't,
       # throw an error.
-      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.")
+      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.") # nolint
     }
   }
 
   # If the derived date range is longer than five elements, throw an error.
   if (length(date_range) > 12 ) {
-    rlang::abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.")
+    rlang::abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.") # nolint
   }
 
   return(paste(date_range, collapse = ","))

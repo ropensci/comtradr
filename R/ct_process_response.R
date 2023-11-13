@@ -25,9 +25,9 @@ ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
 
   if (length(result$data) > 0) {
     if(nrow(result$data)==250000){
-      cli::cli_warn(c("x" ='Your request returns exactly 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.'))
+      cli::cli_warn(c("x" ='Your request returns exactly 250k rows. This means that most likely not all the data you queried has been returned, as the upper limit is 250k. Please partition your API call, e.g. by using only half the period in the first call.')) # nolint
     } else if(nrow(result$data)>200000){
-      cli::cli_inform(c("i" = "Your request has passed 200k rows. If you exceed 250k rows Comtrade will not return all data. You will have to slice your request in smaller parts."))
+      cli::cli_inform(c("i" = "Your request has passed 200k rows. If you exceed 250k rows Comtrade will not return all data. You will have to slice your request in smaller parts.")) # nolint
     }
 
     processed <- result$data
@@ -45,7 +45,7 @@ ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
           curr_cols[!curr_cols %in% new_cols$from],
           collapse = ", "
         )
-        rlang::abort(paste("The following col headers within input df are not found in",
+        rlang::abort(paste("The following col headers within input df are not found in", # nolint
                    "the pkg data obj 'ct_pretty_cols':", err))
       }
 
