@@ -1,5 +1,5 @@
 
-httptest2::with_mock_dir("goods", {
+httptest2::with_mock_dir("goods",simplify = F, {
   test_that("We can get goods data", {
     expect_s3_class(comtradr::ct_get_data(type = 'goods',
                                         commodity_classification = 'HS',
@@ -14,7 +14,7 @@ httptest2::with_mock_dir("goods", {
   })
 })
 
-httptest2::with_mock_dir("services", {
+httptest2::with_mock_dir("services",simplify = F, {
   test_that("We can get services data", {
     expect_s3_class(comtradr::ct_get_data(type = 'services',
                                         commodity_classification = 'EB',
@@ -45,7 +45,7 @@ without_internet({
                   flow_direction = 'all',
                   primary_token = 'test',
                   partner_2 = 'World'                )
-              ,'https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=TOTAL&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE')
+              ,'https://comtradeapi.un.org/data/v1/get/C/A/HS?cmdCode=TOTAL&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE') # nolint
             })
 })
 
@@ -64,7 +64,7 @@ without_internet({
                   flow_direction = 'all',
                   primary_token = 'test',
                   partner_2 = 'World',verbose = T)
-              ,'https://comtradeapi.un.org/data/v1/get/S/A/EB?cmdCode=200&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE')
+              ,'https://comtradeapi.un.org/data/v1/get/S/A/EB?cmdCode=200&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE') # nolint
             })
 })
 
@@ -83,7 +83,7 @@ without_internet({
                   flow_direction = 'all',
                   primary_token = 'test',
                   partner_2 = 'World',verbose = T)
-                ,'https://comtradeapi.un.org/data/v1/get/S/A/EB?cmdCode=200&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE')
+                ,'https://comtradeapi.un.org/data/v1/get/S/A/EB?cmdCode=200&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE') # nolint
             })
 })
 
@@ -99,23 +99,8 @@ httptest2::with_mock_dir("goods", {
                                           verbose = T,
                                           flow_direction = 'all',
                                           primary_token = 'test',
-                                          partner_2 = 'World'),'Got a response object from UN Comtrade. Use `process = F` if there is an error' )
+                                          partner_2 = 'World'),'Got a response object from UN Comtrade. Use `process = F` if there is an error' ) # nolint
   })
 })
 
-# httptest2::with_mock_dir("goods_250k_warning", {
-#   test_that("We get a warning, if too many rows", {
-#     expect_warning(comtradr::ct_get_data(type = 'goods',
-#                                           commodity_classification = 'HS',
-#                                           commodity_code = NULL,
-#                                           reporter = NULL,
-#                                           partner = NULL,
-#                                           start_date = '2010',
-#                                           end_date = '2010',
-#                                           verbose = T,
-#                                           flow_direction = 'all',
-#                                           primary_token = 'test',
-#                                           partner_2 = 'World'),'Your request returns exactly 250k rows. This means that most likely' )
-#   })
-# })
-#
+

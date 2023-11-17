@@ -84,23 +84,28 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
   ## attempt to return the data from the environment first
   data <- get(dataset_id, envir = ct_env)
 
-  ## if the dataset is not yet loaded into the environment read it from disk and save to environment
+  ## if the dataset is not yet loaded into the environment
+  ## read it from disk and save to environment
   if(is.null(data)){
-    data <- fs::path_package(paste0('extdata/',ref_table_id,'.rds'),package = 'comtradr') |>
+    data <- fs::path_package(paste0('extdata/',ref_table_id,'.rds'),
+                             package = 'comtradr') |>
       readr::read_rds()
     assign(dataset_id,data,envir = ct_env)
   }
 
   if(update & any(dataset_id %in% ct_env$updated)){
-    ## if update is true, but dataset_id has already been updated once only return message
+    ## if update is true, but dataset_id has already been updated once
+    ## only return message
     if (verbose) {
-      cli::cli_inform(c("i" = paste0("Already checked for updates for ",dataset_id,' in this session.')))
+      cli::cli_inform(c("i" = paste0("Already checked for updates for ",
+                                     dataset_id,' in this session.')))
     }
     return(data)
   } else if(update){
     ## if update is true and not yet updated in this session inform user that update process is starting
     if (verbose) {
-      cli::cli_inform(c("i" = paste0("Attempting to update reference table: ",dataset_id)))
+      cli::cli_inform(c("i" = paste0("Attempting to update reference table: ",
+                                     dataset_id)))
     }
 
     ## download new reference table from the UN
@@ -109,7 +114,10 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     if(unique(data_new$last_modified)>unique(data$last_modified)){
       ## if the date last modified, returned in the header is newer than the old data
       if (verbose) {
-        cli::cli_inform(c("i" = paste0("Updated reference tables ",dataset_id," with new data, last modified on: ",unique(data_new$last_modified))))
+        cli::cli_inform(c("i" = paste0("Updated reference tables ",
+                                       dataset_id,
+                                       " with new data, last modified on: ",
+                                       unique(data_new$last_modified)))) # nolint
       }
 
       ## write to environment and overwrite old data
@@ -122,7 +130,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     } else {
       ## if last_modified is not newer, let user know that datasets are up to date.
       if (verbose) {
-        cli::cli_inform(c("i" = paste0('No update necessary for table ',dataset_id,'.')))
+        cli::cli_inform(c("i" = paste0('No update necessary for table ',
+                                       dataset_id,'.')))
       }
 
       ## save in env variable, that update has been checked in this session
@@ -142,7 +151,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
-  iso_3 <- id <- group <- category <- text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
+  iso_3 <- id <- group <- category <-
+    text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <-  NULL
   entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <-  NULL
 
   ## attempt to get list of datasets of the UN from the env

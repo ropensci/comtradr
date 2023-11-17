@@ -7,22 +7,24 @@
 ct_build_request(params, primary_token = NULL, verbose = FALSE)
 }
 \arguments{
-\item{params}{a named vector of parameters for the comtrade request}
+\item{params}{a named vector of parameters for the comtrade request, result from \code{ct_check_params()}.}
 
-\item{primary_token}{Your primary token. Default is to check in environment for stored token, if not passed through the \code{set_primary_comtrade_key} function}
+\item{primary_token}{Your primary UN Comtrade API token. Default: stored token from \code{comtradr::set_primary_comtrade_key}.}
 
-\item{verbose}{whether the function sends status updates to the console}
+\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
 a httr2 request object
 }
 \description{
-This function takes the necessary parameters and creates a httr2 request to be performed this request can then be used in a second function, to actually return the data
+This is an internal function takes the necessary parameters from \code{ct_check_params()}
+and creates a httr2 request to be performed. This request can then be used in a second function, \code{ct_perform_request()} to actually return the data.
+It is called internally ct \code{ct_get_data()}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Build request from checked parameters
-ct_build_request(comtradr:::ct_check_params(type = 'goods',
+comtradr:::ct_build_request(comtradr:::ct_check_params(type = 'goods',
                                             frequency = 'A',
                                             commodity_classification = 'HS',
                                             commodity_code = 'TOTAL',

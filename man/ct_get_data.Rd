@@ -22,6 +22,7 @@ ct_get_data(
   partner_2 = "World",
   customs_code = "C00",
   update = FALSE,
+  requests_per_second = 10/60,
   ...
 )
 }
@@ -59,6 +60,8 @@ ct_get_data(
 \item{customs_code}{Customs code, default 'C00' (TOTAL). See \code{ct_get_ref_table(dataset_id = 'customs')} for possible values.}
 
 \item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+
+\item{requests_per_second}{rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \code{req_throttle()} for details.}
 
 \item{...}{Additional parameters to the API, passed as query parameters without checking.}
 }

@@ -4,7 +4,7 @@ library(tidyverse)
 
 # Get HS codes ------------------------------------------------------------
 
-hs_cmd_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/HS.json")$results
+hs_cmd_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/HS.json")$results # nolint
 
 hs_cmd_codes <- hs_cmd_codes_raw |>
   transmute(

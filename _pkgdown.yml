@@ -1,0 +1,35 @@
+reference:
+- title: Get data
+  desc:  Workhorse function of the package
+  contents:
+  - ct_get_data
+
+- title: Internal functions
+  desc: These functions are called internally by `ct_get_data` and do the heavy lifting.
+  contents:
+  - ct_check_params
+  - ct_build_request
+  - ct_perform_request
+  - ct_process_response
+  - get_primary_comtrade_key
+  - set_primary_comtrade_key
+
+- title: Access package data
+  desc: These functions allow you to access internal reference tables, such as possible ISO codes and commodity codes.
+  contents:
+  - country_codes
+  - ct_commodity_lookup
+  - ct_get_ref_table
+
+- title: Deprecated functions
+  desc: These functions were part of the previous iteration of the package and are now deprecated.
+  contents:
+  - ct_commodity_db_type
+  - ct_country_lookup
+  - ct_get_remaining_hourly_queries
+  - ct_get_reset_time
+  - ct_pretty_cols
+  - ct_register_token
+  - ct_search
+  - ct_update_databases
+  - ct_use_pretty_cols

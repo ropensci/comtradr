@@ -4,7 +4,7 @@ library(tidyverse)
 
 # Get reporter codes ------------------------------------------------------
 
-reporter_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/Reporters.json")$results
+reporter_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/Reporters.json")$results # nolint
 
 reporter_codes <- reporter_codes_raw |>
   transmute(
@@ -19,7 +19,7 @@ reporter_codes <- reporter_codes_raw |>
 
 # Get partner codes -------------------------------------------------------
 
-partner_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/partnerAreas.json")$results
+partner_codes_raw <- jsonlite::fromJSON("https://comtradeapi.un.org/files/v1/app/reference/partnerAreas.json")$results # nolint
 
 partner_codes <- partner_codes_raw |>
   transmute(
@@ -46,8 +46,10 @@ partner_codes <- country_codes |>
 
 # Save external datasets --------------------------------------------------
 
-usethis::use_data(country_codes, overwrite = TRUE)
+# usethis::use_data(country_codes, overwrite = TRUE)
 
 # Save internal datasets --------------------------------------------------
-
-# usethis::use_data(reporter_codes, partner_codes, internal = TRUE, overwrite = TRUE)
+#
+# usethis::use_data(reporter_codes,
+#                   partner_codes,
+#                   internal = TRUE, overwrite = TRUE)
