@@ -189,8 +189,8 @@ check_freq <- function(type, frequency) {
 #'
 #' @noRd
 check_clCode <- function(type,commodity_classification) {
-  cmd_list_goods <- c('HS','S1','S2','S3','S4','SS')
-  cmd_list_services <- c('B4','B5','EB02','EB10','EB10S','EB')
+  cmd_list_goods <- c('HS','S1','S2','S3','S4','SS',"B4","B5")
+  cmd_list_services <- c('EB02','EB10','EB10S','EB')
   if(type == 'C'){
     rlang::arg_match(commodity_classification, values = cmd_list_goods)
   } else {

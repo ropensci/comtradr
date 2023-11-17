@@ -17,7 +17,7 @@
 #'
 #' @param frequency The frequency of returned trade data. Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.
 #' @param type The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.
-#' @param commodity_classification The trade classification scheme. Possible values for goods: `c('HS','S1','S2','S3','S4','SS')`; for services: `c('B4','B5','EB02','EB10','EB10S','EB')`. Default: 'HS'.
+#' @param commodity_classification The trade classification scheme. Possible values for goods: `c('HS','S1','S2','S3','S4','SS','B4','B5')`; for services: `c('EB02','EB10','EB10S','EB')`. Default: 'HS'.
 #' @param commodity_code The commodity code(s) or `NULL`. See `comtradr::ct_get_ref_table('HS')` for possible values. Default: 'TOTAL' (sum of all commodities).
 #' @param flow_direction The direction of trade flows or `NULL`. Possible values: 'import', 'export', 're-import', 're-export', 'all'. Default: 'all'.
 #' @param reporter Reporter ISO3 code(s) or `NULL`. See `comtradr::country_codes` for possible values. Default: 'all'.
