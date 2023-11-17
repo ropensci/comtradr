@@ -31,7 +31,7 @@ ct_get_data(
 
 \item{frequency}{The frequency of returned trade data. Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
 
-\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS')}; for services: \code{c('B4','B5','EB02','EB10','EB10S','EB')}. Default: 'HS'.}
+\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')}; for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
 \item{commodity_code}{The commodity code(s) or \code{NULL}. See \code{comtradr::ct_get_ref_table('HS')} for possible values. Default: 'TOTAL' (sum of all commodities).}
 

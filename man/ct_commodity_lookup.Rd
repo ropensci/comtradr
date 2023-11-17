@@ -25,7 +25,7 @@ set of commodity descriptions along with commodity codes (as a single
 string for each match found), if set to TRUE it will return only the
 commodity codes. Default value is FALSE.}
 
-\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS')}; for services: \code{c('B4','B5','EB02','EB10','EB10S','EB')}. Default: 'HS'.}
+\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')}; for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
 \item{type}{The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.}
 
