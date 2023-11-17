@@ -14,7 +14,7 @@ httptest2::with_mock_dir("goods",simplify = F, {
   })
 })
 
-httptest2::with_mock_dir("services", {
+httptest2::with_mock_dir("services",simplify = F, {
   test_that("We can get services data", {
     expect_s3_class(comtradr::ct_get_data(type = 'services',
                                         commodity_classification = 'EB',
