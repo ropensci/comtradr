@@ -189,7 +189,7 @@ The API also limits the amount of times it can be queried per minute, but we cou
 
 In addition to these rate limits, the API imposes some limits on parameter combinations.
 
-* The arguments `reporter`, `partner`, and `partner2` do not have an `All` value specified natively anymore, but we have implemented it as `all` in R for convenience reasons on our side. 
+* The arguments `reporter`, `partner`, and `partner_2` do not have an `All` value specified natively anymore, but we have implemented it as `all` in R for convenience reasons on our side. 
 * For date range the `start_date` and `end_date` must not span more than twelve months or twelve years. There is no more parameter to specify `All` years.
 * For arg `commodity_codes`, the maximum number of input values is dependent on the maximum length of the request. Hence, if specifying `reporters` or `partners`, this value might be shorter. 
 
