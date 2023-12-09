@@ -54,7 +54,7 @@ install.packages("comtradr")
 
 ### Authentication 🔐
 
-As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
+As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. If you are just getting started, typing the "comtradr-v1" into the subscribe field under the Free APIs list is a good place to start.
 
 If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 

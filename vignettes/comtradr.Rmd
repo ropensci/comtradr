@@ -42,7 +42,7 @@ library(comtradr)
 
 ## Authentication 
 
-As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
+As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. If you are just getting started, typing the "comtradr-v1" into the subscribe field under the Free APIs list is a good place to start.
 
 If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 
@@ -114,7 +114,7 @@ q <- ct_search(reporters = "USA",
                freq = "monthly")
 ```
 
-Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the official ISO 3 character code convention. 
+Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the official ISO 3 character code convention. A list of valid codes can be found in `comtradr::country_codes$iso_3`.
 
 Search trade related to specific commodities (say, tomatoes). We can query the Comtrade commodity reference table to see all of the different commodity descriptions available for tomatoes.
 ```{r}
@@ -189,7 +189,7 @@ The API also limits the amount of times it can be queried per minute, but we cou
 
 In addition to these rate limits, the API imposes some limits on parameter combinations.
 
-* The arguments `reporters`, `partners` do not have an `All` value specified natively anymore, we have implemented it in R for convenience reasons on our side. 
+* The arguments `reporter`, `partner`, and `partner2` do not have an `All` value specified natively anymore, but we have implemented it as `all` in R for convenience reasons on our side. 
 * For date range the `start_date` and `end_date` must not span more than twelve months or twelve years. There is no more parameter to specify `All` years.
 * For arg `commodity_codes`, the maximum number of input values is dependent on the maximum length of the request. Hence, if specifying `reporters` or `partners`, this value might be shorter. 
 
@@ -323,13 +323,18 @@ Setting `commodity_code` to `NULL` will query all possible commodity values. Thi
 
 If `flow_direction` is set to `NULL`, all possible values for trade flow directions are queried. This includes imports, exports, re-imports, and re-exports.
 
-### `reporter` and `partner`
+### `reporter`
 
-Using `NULL` for `reporter` or `partner` will query all possible values for reporter and partner countries. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
+Using `NULL` for `reporter` will query all possible values for reporter countries. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
 
-### `mode_of_transport`, `partner_2`, and `customs_code`
+###  `partner` and `partner_2`
 
-Setting these parameters to `NULL` will query all possible values related to the mode of transport, secondary partner, and customs procedures. This provides a comprehensive view of the data across different transportation modes and customs categories.
+Using `NULL` for `partner` will query the aggregate `World` partner. Using `all` will query for all partners. This allows you to retrieve trade data for the world in aggregate or for all countries without specifying individual ISO3 codes.
+
+
+### `mode_of_transport`,  and `customs_code`
+
+Setting these parameters to `NULL` will query the aggregate of all possible values related to the mode of transport and customs procedures.
 
 ### Example Usage
 

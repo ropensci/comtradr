@@ -20,15 +20,15 @@
 #' @param commodity_classification The trade classification scheme. Possible values for goods: `c('HS','S1','S2','S3','S4','SS','B4','B5')`; for services: `c('EB02','EB10','EB10S','EB')`. Default: 'HS'.
 #' @param commodity_code The commodity code(s) or `NULL`. See `comtradr::ct_get_ref_table('HS')` for possible values. Default: 'TOTAL' (sum of all commodities).
 #' @param flow_direction The direction of trade flows or `NULL`. Possible values: 'import', 'export', 're-import', 're-export', 'all'. Default: 'all'.
-#' @param reporter Reporter ISO3 code(s) or `NULL`. See `comtradr::country_codes` for possible values. Default: 'all'.
-#' @param partner Partner ISO3 code(s) or `NULL`. See `comtradr::country_codes` for possible values. Default: 'World' (all partners as an aggregate).
+#' @param reporter Reporter ISO3 code(s), `all`, or `NULL`. See `comtradr::country_codes` for possible values. Default: 'all'.
+#' @param partner Partner ISO3 code(s), `all`, or `NULL`. See `comtradr::country_codes` for possible values. Default: 'World' (all partners as an aggregate).
 #' @param start_date The start date of the query. Format: `yyyy` for yearly, `yyyy-mm` for monthly.
 #' @param end_date The end date of the query. Format: `yyyy` for yearly, `yyyy-mm` for monthly. Max: 12 years after start date for annual data, one year for monthly data.
 #' @param primary_token Your primary UN Comtrade API token. Default: stored token from `comtradr::set_primary_comtrade_key`.
 #' @param process If TRUE, returns a data.frame with results. If FALSE, returns the raw httr2 request. Default: TRUE.
 #' @param tidy_cols If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.
 #' @param verbose If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.
-#' @param mode_of_transport Mode of Transport, default '0' (TOTAL). See `ct_get_ref_table(dataset_id = 'mot')` for possible values.
+#' @param mode_of_transport Mode of Transport ID code, default '0' (TOTAL). See `ct_get_ref_table(dataset_id = 'mot')` for possible values.
 #' @param partner_2 Partner ISO3 code(s) or `NULL`. Default: 'World'.
 #' @param customs_code Customs code, default 'C00' (TOTAL). See `ct_get_ref_table(dataset_id = 'customs')` for possible values.
 #' @param update If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.
