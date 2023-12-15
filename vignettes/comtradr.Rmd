@@ -208,8 +208,32 @@ ct_commodity_lookup('tomato',update = T)
 ```
 If any updates are found, the message will state which reference table(s) were updated.
 
-Additionally, the Comtrade API features a number of different commodity reference tables, based on different trade data classification schemes (for more details, see [this](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png) page from the API docs). `comtradr` ships with all available commodity reference tables. The user may return and access any of the available commodity tables by specifying arg `commodity_type` within function `ct_get_ref_table` (e.g., `ct_get_ref_table(commodity_type = "S1")` will return the commodity table that follows the "S1" scheme). 
+Additionally, the Comtrade API features a number of different commodity reference tables, based on different trade data classification schemes (for more details, see [this](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png) page from the API docs). `comtradr` ships with all available commodity reference tables. The user may return and access any of the available commodity tables by specifying arg `commodity_type` within function `ct_get_ref_table` (e.g., `ct_get_ref_table(dataset_id = "S1")` will return the commodity table that follows the "S1" scheme). 
 
+The `dataset_id`´s are listed in the help page of the function `ct_get_ref_table()`. They are as follows: 
+
+* Datasets that contain codes for the `commodity_code` argument. The name is
+the same as you would provide under `commodity_classification`.
+ * 'HS' This is probably the most common classification for goods.
+ * 'B4'
+ * 'B5'
+ * 'EB02'
+ * 'EB10'
+ * 'EB10S'
+ * 'EB'
+ * 'S1'
+ * 'S2'
+ * 'S3'
+ * 'S4'
+ * 'SS'
+* Datasets that are related to other arguments, can be queried directly with the name of the argument in the `ct_get_data()`-function.
+ * 'reporter'
+ * 'partner'
+ * 'mode_of_transport'
+ * 'customs_code'
+
+
+Furthermore, there is a dataset readily available, with the iso3c-codes for the respective partner and reporter countries `country_codes$iso_3`, but I would recommend using the `ct_get_ref_table()` function, as it allows to update to the latest values on the fly. 
 
 
 ## Visualize
