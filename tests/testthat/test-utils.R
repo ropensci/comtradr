@@ -37,7 +37,7 @@ test_that("ct_commodity_lookup returns empty result for non-matching search term
             expect_equal(results, list("Nonexistent" = character(0)))
           })
 
-with_mock_api({
+with_mock_dir("ref_table",
 test_that("ct_get_ref_table works correctly", {
   ct_env <- new.env()
   assign('updated', 'init', envir = ct_env)
@@ -77,7 +77,6 @@ test_that("ct_get_ref_table works correctly", {
 
   })
 })
-
-})
+)
 
 

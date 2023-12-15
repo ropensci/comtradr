@@ -11,10 +11,11 @@ test_that('test that build returns a httr2 request',{
       start_date = '2020',
       end_date = '2021',
       partner_2 = 'World',
-      mode_of_transport = '0',
+      mode_of_transport = 'Air',
       customs_code = 'C00',
       verbose = FALSE,
-      update = FALSE
+      update = FALSE,
+      extra_params = NULL
     ) |>
     comtradr:::ct_build_request(primary_token = 'test_token')
   expect_equal(class(req),'httr2_request')

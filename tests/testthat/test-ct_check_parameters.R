@@ -108,8 +108,8 @@ test_that("check_partner2Code works correctly", {
 })
 
 test_that("check_motCode works correctly", {
-  expect_equal(check_motCode("2000"), "2000")
-  expect_equal(check_motCode(c("9000", "9100")), "9000,9100")
+  expect_equal(check_motCode("TOTAL modes of transport"), "0")
+  expect_equal(check_motCode(c("Air", "Water")), "1000,2000")
   expect_error(check_motCode("INVALID"))
 })
 
