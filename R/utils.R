@@ -204,12 +204,13 @@ ct_download_ref_table <- function(ref_table_id) {
   data <- response |>
     httr2::resp_body_json(simplifyVector = TRUE)
 
-  ## get date of last modification from headers
+    ## get date of last modification from headers
   last_modified <-
     httr2::resp_header(header = "Last-Modified", resp = response) |>
     stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
     replace_month() |>
     as.Date(format = "%d %m %Y")
+
 
   ## get results from json file
   data <- data$results
@@ -366,7 +367,9 @@ ct_commodity_lookup <- function(search_terms,
   return(ans)
 }
 
-
+#' replacing month with numbers locale unspecific
+#'
+#' @noRd
 replace_month <- function(date_str) {
   months <- c("Jan" = "01", "Feb" = "02", "Mar" = "03", "Apr" = "04", "May" = "05", "Jun" = "06",
               "Jul" = "07", "Aug" = "08", "Sep" = "09", "Oct" = "10", "Nov" = "11", "Dec" = "12")
