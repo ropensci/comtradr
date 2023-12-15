@@ -54,7 +54,7 @@
 #' If FALSE, returns raw column names. Default: TRUE.
 #' @param verbose If TRUE, sends status updates to the console.
 #' If FALSE, runs functions quietly. Default: FALSE.
-#' @param mode_of_transport Mode of Transport, default '0' (TOTAL).
+#' @param mode_of_transport Mode of Transport, default 'TOTAL modes of transport' (TOTAL).
 #' See `ct_get_ref_table(dataset_id = 'mode_of_transport')` for possible values.
 #' @param partner_2 Partner ISO3 code(s) or `NULL`. Default: 'World'.
 #' @param customs_code Customs code, default 'C00' (TOTAL).
@@ -64,8 +64,9 @@
 #' @param requests_per_second rate of requests per second executed,
 #' usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
 #' see `req_throttle()` for details.
-#' @param ... Additional parameters to the API, passed as query
-#' parameters without checking.
+#' @param extra_params Additional parameters to the API, passed as query
+#' parameters without checking. Please provide a named list to this parameter.
+#' Default: NULL.
 #'
 #' @examplesIf interactive()
 #' # Query goods data for China's trade with Argentina and Germany in 2019
