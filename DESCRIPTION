@@ -49,8 +49,7 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0),
-    vcr
+    testthat (>= 3.0.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
