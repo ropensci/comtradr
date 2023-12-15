@@ -33,6 +33,11 @@ ct_build_request <- function(params,
                                    verbose = FALSE) {
   query_params <- params$query_params
 
+  extra_params <- params$extra_params |>
+    purrr::map(unlist) |>
+    purrr::pluck(1) |>
+    as.list()
+  query_params <- c(query_params, extra_params)
   type <- params$url_params$type
 
   freq <- params$url_params$freq
