@@ -489,6 +489,7 @@ check_motCode <-
            update = FALSE,
            verbose = FALSE) {
     # check that commodity_code code is not null
+    id <- text <- NA
     if (!is.null(mode_of_transport)) {
       valid_codes <-
         ct_get_ref_table(dataset_id = 'mode_of_transport',
