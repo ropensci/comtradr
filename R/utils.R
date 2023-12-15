@@ -208,7 +208,8 @@ ct_download_ref_table <- function(ref_table_id) {
   last_modified <-
     httr2::resp_header(header = "Last-Modified", resp = response) |>
     stringr::str_extract(pattern = '(\\d{2} [a-zA-Z]+ \\d{4})') |>
-    as.Date(format = "%d %b %Y")
+    replace_month() |>
+    as.Date(format = "%d %m %Y")
 
   ## get results from json file
   data <- data$results
@@ -363,4 +364,11 @@ ct_commodity_lookup <- function(search_terms,
     names(ans) <- search_terms
   }
   return(ans)
+}
+
+
+replace_month <- function(date_str) {
+  months <- c("Jan" = "01", "Feb" = "02", "Mar" = "03", "Apr" = "04", "May" = "05", "Jun" = "06",
+              "Jul" = "07", "Aug" = "08", "Sep" = "09", "Oct" = "10", "Nov" = "11", "Dec" = "12")
+  stringr::str_replace_all(date_str, months)
 }
