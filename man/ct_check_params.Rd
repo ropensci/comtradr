@@ -19,39 +19,60 @@ ct_check_params(
   customs_code,
   update,
   verbose,
-  ...
+  extra_params
 )
 }
 \arguments{
-\item{type}{The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.}
+\item{type}{The type of returned trade data.
+Possible values: 'goods' for trade in goods,
+'services' for trade in services. Default: 'goods'.}
 
-\item{frequency}{The frequency of returned trade data. Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
+\item{frequency}{The frequency of returned trade data.
+Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
 
-\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')}; for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
+\item{commodity_classification}{The trade classification scheme.
+Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')};
+for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
-\item{commodity_code}{The commodity code(s) or \code{NULL}. See \code{comtradr::ct_get_ref_table('HS')} for possible values. Default: 'TOTAL' (sum of all commodities).}
+\item{commodity_code}{The commodity code(s) or \code{NULL}.
+See \code{comtradr::ct_get_ref_table('HS')} for possible values.
+Default: 'TOTAL' (sum of all commodities).}
 
-\item{flow_direction}{The direction of trade flows or \code{NULL}. Possible values: 'import', 'export', 're-import', 're-export', 'all'. Default: 'all'.}
+\item{flow_direction}{The direction of trade flows or \code{NULL}.
+Possible values: 'import', 'export', 're-import',
+'re-export', 'all'. Default: 'all'.}
 
-\item{reporter}{Reporter ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes} for possible values. Default: 'all'.}
+\item{reporter}{Reporter ISO3 code(s) or \code{NULL}.
+See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}
+for possible values. Default: 'all'.}
 
-\item{partner}{Partner ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes} for possible values. Default: 'World' (all partners as an aggregate).}
+\item{partner}{Partner ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes}
+for possible values. Default: 'World' (all partners as an aggregate).}
 
-\item{start_date}{The start date of the query. Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
+\item{start_date}{The start date of the query.
+Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
 
-\item{end_date}{The end date of the query. Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly. Max: 12 years after start date for annual data, one year for monthly data.}
+\item{end_date}{The end date of the query.
+Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.
+Max: 12 years after start date for annual data, one year for monthly data.}
 
-\item{mode_of_transport}{Mode of Transport, default '0' (TOTAL). See \code{ct_get_ref_table(dataset_id = 'mot')} for possible values.}
+\item{mode_of_transport}{Mode of Transport, default 'TOTAL modes of transport' (TOTAL).
+See \code{ct_get_ref_table(dataset_id = 'mode_of_transport')} for possible values.}
 
 \item{partner_2}{Partner ISO3 code(s) or \code{NULL}. Default: 'World'.}
 
-\item{customs_code}{Customs code, default 'C00' (TOTAL). See \code{ct_get_ref_table(dataset_id = 'customs')} for possible values.}
+\item{customs_code}{Customs code, default 'C00' (TOTAL).
+See \code{ct_get_ref_table(dataset_id = 'customs_code')} for possible values.}
 
-\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+\item{update}{If TRUE, downloads possibly updated reference tables
+from the UN. Default: FALSE.}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 
-\item{...}{Additional parameters to the API, passed as query parameters without checking.}
+\item{extra_params}{Additional parameters to the API, passed as query
+parameters without checking. Please provide a named list to this parameter.
+Default: NULL.}
 }
 \value{
 Returns a list of named parameters for building a request.
@@ -73,8 +94,6 @@ comtradr:::ct_check_params(type = 'goods',
                 partner = 'World',
                 start_date = 2020,
                 end_date = 2022,
-                process = TRUE,
-                tidy_cols = TRUE,
                 verbose = FALSE,
                 primary_token = 'xxxx',
                 mode_of_transport = '0',

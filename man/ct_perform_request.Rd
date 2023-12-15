@@ -9,9 +9,12 @@ ct_perform_request(req, requests_per_second, verbose = FALSE)
 \arguments{
 \item{req}{a valid comtrade request built by the \code{ct_build_request()} function}
 
-\item{requests_per_second}{rate of requests per second executed, usually specified as a fraction, e.g. 10/60 for 10 requests per minute, see \code{req_throttle()} for details.}
+\item{requests_per_second}{rate of requests per second executed,
+usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
+see \code{req_throttle()} for details.}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
 JSON data from comtrade, data.frame with results or error codes.

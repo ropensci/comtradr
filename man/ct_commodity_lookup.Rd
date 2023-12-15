@@ -25,9 +25,13 @@ set of commodity descriptions along with commodity codes (as a single
 string for each match found), if set to TRUE it will return only the
 commodity codes. Default value is FALSE.}
 
-\item{commodity_classification}{The trade classification scheme. Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')}; for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
+\item{commodity_classification}{The trade classification scheme.
+Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')};
+for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
-\item{type}{The type of returned trade data. Possible values: 'goods' for trade in goods, 'services' for trade in services. Default: 'goods'.}
+\item{type}{The type of returned trade data.
+Possible values: 'goods' for trade in goods,
+'services' for trade in services. Default: 'goods'.}
 
 \item{return_char}{Logical, if set to FALSE, the function will return the
 matches as a named list, if set to TRUE it will return them as a character
@@ -40,7 +44,8 @@ console if any of the elements of input "search_terms" returned no matches
 \item{ignore.case}{logical, to be passed along to arg ignore.case within
 \code{\link{grepl}}. Default value is TRUE.}
 
-\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+\item{update}{If TRUE, downloads possibly updated reference tables
+from the UN. Default: FALSE.}
 
 \item{...}{additional args to be passed along to \code{\link{grepl}}.}
 }

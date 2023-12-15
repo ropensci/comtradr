@@ -10,9 +10,11 @@ ct_get_ref_table(dataset_id, update = FALSE, verbose = FALSE)
 \item{dataset_id}{The dataset ID, which is either partner,
 reporter or a valid classification scheme.}
 
-\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+\item{update}{If TRUE, downloads possibly updated reference tables
+from the UN. Default: FALSE.}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
 a tidy dataset with a reference table

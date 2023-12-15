@@ -9,9 +9,11 @@ ct_process_response(resp, verbose = FALSE, tidy_cols)
 \arguments{
 \item{resp}{a valid httr2 response object created from the function \code{ct_perform_request()}}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 
-\item{tidy_cols}{If TRUE, returns tidy column names. If FALSE, returns raw column names. Default: TRUE.}
+\item{tidy_cols}{If TRUE, returns tidy column names.
+If FALSE, returns raw column names. Default: TRUE.}
 }
 \value{
 a data.frame object with the results
