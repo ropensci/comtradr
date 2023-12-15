@@ -4,6 +4,7 @@
 #' most arguments that are passed to it according to the relevant limitations of the
 #' official Comtrade API.
 #'
+#'
 #' @returns Returns a list of named parameters for building a request.
 #' @examplesIf interactive()
 #' # Build request from checked parameters
@@ -16,8 +17,6 @@
 #'                 partner = 'World',
 #'                 start_date = 2020,
 #'                 end_date = 2022,
-#'                 process = TRUE,
-#'                 tidy_cols = TRUE,
 #'                 verbose = FALSE,
 #'                 primary_token = 'xxxx',
 #'                 mode_of_transport = '0',
@@ -40,7 +39,7 @@ ct_check_params <- function(type,
                             customs_code,
                             update,
                             verbose,
-                            ...) {
+                            extra_params) {
 
   type <- check_type(type)
   if (verbose) {
@@ -112,11 +111,14 @@ ct_check_params <- function(type,
       motCode = mode_of_transport,
       partner2Code = partner_2,
       customsCode = customs_code,
-      ...
-    ),
+      includeDesc = "TRUE"
+      ),
     url_params = list(type = type,
                       freq = frequency,
-                      clCode = commodity_classification)
+                      clCode = commodity_classification),
+    extra_params = list(
+      extra_params = extra_params
+    )
   )
 
   return(params)
@@ -482,33 +484,53 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
 #' @returns A character vector specifying the modes of transport requested.
 #'
 #' @noRd
-check_motCode <- function(mode_of_transport, update = FALSE, verbose = FALSE) {
-  # check that commodity_code code is not null
-  if (!is.null(mode_of_transport)) {
-    mode_of_transport <- as.character(mode_of_transport)
+check_motCode <-
+  function(mode_of_transport,
+           update = FALSE,
+           verbose = FALSE) {
+    # check that commodity_code code is not null
+    if (!is.null(mode_of_transport)) {
+      valid_codes <-
+        ct_get_ref_table(dataset_id = 'mode_of_transport',
+                         update = update,
+                         verbose = verbose)
+      ## check whether "everything" is selected
+      if (any(mode_of_transport %in% "everything")) {
+        mode_of_transport <- valid_codes |>
+          poorman::summarise(id = paste0(id, collapse = ","))
+      } else {
+        mode_of_transport <- as.character(mode_of_transport)
 
-    # remove any white space from cmd codes provided
-    mode_of_transport <- stringr::str_squish(mode_of_transport)
+        # remove any white space from cmd codes provided
+        mode_of_transport <- stringr::str_squish(mode_of_transport)
 
-    # get the list of valid parameters from inst/extdata
-    valid_codes <- ct_get_ref_table(dataset_id = 'mot',
-                                    update = update,
-                                    verbose = verbose)$id
+        # get the list of valid parameters from inst/extdata
 
-    # if one of the codes is not in the list of valid codes
-    # send stop signal and list problems
-    if (!all(mode_of_transport %in% valid_codes)) {
-      rlang::abort(paste0(
-        "The following mode_of_transport codes you provided are invalid: ",
-        paste0(setdiff(mode_of_transport, valid_codes), collapse = ", ")
-      ))
-    } else {
-      mode_of_transport <- paste0(mode_of_transport, collapse = ',')
+
+        # if one of the codes is not in the list of valid codes
+        # send stop signal and list problems
+        if (!all(mode_of_transport %in% valid_codes$text)) {
+          rlang::abort(
+            paste0(
+              "The following mode_of_transport codes you provided are invalid: ",
+              paste0(
+                setdiff(mode_of_transport, valid_codes$text),
+                collapse = ", "
+              )
+            )
+          )
+        } else {
+          mode_of_transport <- valid_codes |>
+            poorman::filter(text %in% mode_of_transport) |>
+            poorman::summarise(id = paste0(id, collapse = ","))
+
+        }
+      }
     }
-  }
+    mode_of_transport <- mode_of_transport$id
 
-  return(mode_of_transport)
-}
+    return(mode_of_transport)
+  }
 
 #' Check validity of customs parameter.
 #'
@@ -527,7 +549,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
     customs_code <- stringr::str_squish(customs_code)
 
     # get the list of valid parameters from inst/extdata
-    valid_codes <- ct_get_ref_table(dataset_id = 'customs',
+    valid_codes <- ct_get_ref_table(dataset_id = 'customs_code',
                                     update = update,
                                     verbose = verbose)$id
 
