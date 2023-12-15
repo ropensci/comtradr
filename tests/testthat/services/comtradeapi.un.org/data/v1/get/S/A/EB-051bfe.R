@@ -6,5 +6,6 @@ structure(list(method = "GET", url = "https://comtradeapi.un.org/data/v1/get/S/A
         `X-XSS-Protection` = "1;mode=block", `strict-transport-security` = "max-age=31536000;includeSubDomains", 
         `content-security-policy` = "frame-src 'self'", `x-permitted-cross-domain-policies` = "none", 
         `Referrer-Policy` = "no-referrer-when-downgrade", `Permissions-Policy` = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()", 
-        Date = "Fri, 17 Nov 2023 10:50:31 GMT"), class = "httr2_headers"), 
-    body = charToRaw("{\"elapsedTime\":\"6.69 secs\",\"count\":0,\"data\":[],\"error\":\"\"}")), class = "httr2_response")
+        Date = "Fri, 15 Dec 2023 16:26:30 GMT"), class = "httr2_headers"), 
+    body = charToRaw("{\"elapsedTime\":\"0.19 secs\",\"count\":0,\"data\":[],\"error\":\"\"}"), 
+    cache = new.env(parent = emptyenv())), class = "httr2_response")
