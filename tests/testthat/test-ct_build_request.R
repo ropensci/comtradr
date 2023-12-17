@@ -5,7 +5,7 @@ test_that('test that build returns a httr2 request',{
       freq = 'A',
       commodity_classification = 'HS',
       commodity_code = "01",
-      flow_direction = "import",
+      flow_direction = "Import",
       reporter = "USA",
       partner = "CAN",
       start_date = '2020',

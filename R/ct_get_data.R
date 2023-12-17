@@ -33,9 +33,9 @@
 #' @param commodity_code The commodity code(s) or `NULL`.
 #' See `comtradr::ct_get_ref_table('HS')` for possible values.
 #' Default: 'TOTAL' (sum of all commodities).
-#' @param flow_direction The direction of trade flows or `NULL`.
-#' Possible values: 'import', 'export', 're-import',
-#' 're-export', 'all'. Default: 'all'.
+#' @param flow_direction The direction of trade flows or `everything`.
+#' Possible values can be found in `ct_get_ref_table('flow_direction')`.
+#' Default: c('Import','Export','Re-export','Re-import').
 #' @param reporter Reporter ISO3 code(s) or `NULL`.
 #' See `comtradr::country_codes` or `comtradr::ct_get_ref_table('reporter')`
 #' for possible values. Default: 'all'.
@@ -77,7 +77,7 @@
 #'             partner = c('ARG','DEU'),
 #'             start_date = '2019',
 #'             end_date = '2019',
-#'             flow_direction = 'all',
+#'             flow_direction = 'Import',
 #'             partner_2 = 'World',
 #'             verbose = TRUE)
 #'
@@ -87,7 +87,7 @@
 #'             partner = 'DEU',
 #'             start_date = '2019',
 #'             end_date = '2019',
-#'             flow_direction = 'import')
+#'             flow_direction = 'Import')
 #'
 #' # Query all commodity codes for China's imports from Germany
 #' # from January to June of 2019
@@ -106,7 +106,8 @@ ct_get_data <- function(type = 'goods',
                         frequency = 'A',
                         commodity_classification = 'HS',
                         commodity_code = 'TOTAL',
-                        flow_direction = 'all',
+                        flow_direction = c('Import','Export',
+                                           'Re-export','Re-import'),
                         reporter = 'all',
                         partner = 'World',
                         start_date = NULL,

@@ -38,9 +38,9 @@ for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 See \code{comtradr::ct_get_ref_table('HS')} for possible values.
 Default: 'TOTAL' (sum of all commodities).}
 
-\item{flow_direction}{The direction of trade flows or \code{NULL}.
-Possible values: 'import', 'export', 're-import',
-'re-export', 'all'. Default: 'all'.}
+\item{flow_direction}{The direction of trade flows or \code{everything}.
+Possible values can be found in \code{ct_get_ref_table('flow_direction')}.
+Default: c('Import','Export','Re-export','Re-import').}
 
 \item{reporter}{Reporter ISO3 code(s) or \code{NULL}.
 See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}

@@ -43,7 +43,7 @@ for(i in seq_along(list_of_datasets$category)){
                       'cmd_eb10s', 'cmd_eb')
 
   valid_country_datasets <- c('reporter','partner')
-  valid_other_datasets <- c('mot','customs')
+  valid_other_datasets <- c('mot','customs','flow')
 
   ## if it is a valid dataset that we need, download it
   if(list_of_datasets$category[i] %in% valid_cmd_datasets){

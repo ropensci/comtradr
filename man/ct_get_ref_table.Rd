@@ -52,6 +52,7 @@ the same as you would provide under \code{commodity_classification}.
 \item 'partner'
 \item 'mode_of_transport'
 \item 'customs_code'
+\item 'flow_direction'
 }
 }
 \examples{

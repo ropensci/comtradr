@@ -9,7 +9,7 @@ ct_get_data(
   frequency = "A",
   commodity_classification = "HS",
   commodity_code = "TOTAL",
-  flow_direction = "all",
+  flow_direction = c("Import", "Export", "Re-export", "Re-import"),
   reporter = "all",
   partner = "World",
   start_date = NULL,
@@ -42,9 +42,9 @@ for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 See \code{comtradr::ct_get_ref_table('HS')} for possible values.
 Default: 'TOTAL' (sum of all commodities).}
 
-\item{flow_direction}{The direction of trade flows or \code{NULL}.
-Possible values: 'import', 'export', 're-import',
-'re-export', 'all'. Default: 'all'.}
+\item{flow_direction}{The direction of trade flows or \code{everything}.
+Possible values can be found in \code{ct_get_ref_table('flow_direction')}.
+Default: c('Import','Export','Re-export','Re-import').}
 
 \item{reporter}{Reporter ISO3 code(s) or \code{NULL}.
 See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}
@@ -128,7 +128,7 @@ ct_get_data(type = 'goods',
             partner = c('ARG','DEU'),
             start_date = '2019',
             end_date = '2019',
-            flow_direction = 'all',
+            flow_direction = 'Import',
             partner_2 = 'World',
             verbose = TRUE)
 
@@ -138,7 +138,7 @@ ct_get_data(commodity_code = NULL,
             partner = 'DEU',
             start_date = '2019',
             end_date = '2019',
-            flow_direction = 'import')
+            flow_direction = 'Import')
 
 # Query all commodity codes for China's imports from Germany
 # from January to June of 2019

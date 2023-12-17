@@ -67,6 +67,7 @@ get_primary_comtrade_key <- function() {
 #' * 'partner'
 #' * 'mode_of_transport'
 #' * 'customs_code'
+#' * 'flow_direction'
 #'
 #' @param dataset_id The dataset ID, which is either partner,
 #' reporter or a valid classification scheme.
@@ -100,6 +101,7 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     'reporter'    = 'reporter'   ,
     'partner'    = 'partner',
     'mode_of_transport'    = 'mot',
+    'flow_direction'    = 'flow',
     'customs_code'    = 'customs'
   )
 

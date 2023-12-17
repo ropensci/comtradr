@@ -136,7 +136,7 @@ wine_codes <- ct_commodity_lookup("wine", return_code = TRUE, return_char = TRUE
 # API query.
 example2 <- ct_get_data(
   reporter =  "ARG",
-  flow_direction = "export",
+  flow_direction = "Export",
   partner = "all",
   start_date = 2007,
   end_date = 2011,

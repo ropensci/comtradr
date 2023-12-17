@@ -56,7 +56,7 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
   }
 
-  flow_direction <- check_flowCode(flow_direction)
+  flow_direction <- check_flowCode(flow_direction, update, verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of flow_direction."))
   }
@@ -216,31 +216,39 @@ check_clCode <- function(type,commodity_classification) {
 #' check_flowCode(NULL) # throws an error because at least one flow code must be provided
 #'
 #' @noRd
-check_flowCode <- function(flow_direction) {
-  if(!is.null(flow_direction)){
-    rlang::arg_match(
-      flow_direction,
-      values = c('import', 'export', 're-export', 're-import', 'all'),
-      multiple = TRUE
-    )
+check_flowCode <- function(flow_direction, update, verbose) {
+  id <- text <- NULL
+  # if 'everything' is selected, return NULL, which in the API
+  # equals to all possible values
+  if(!any(flow_direction %in% 'everything')){
+    flow_direction <- as.character(flow_direction)
 
-    if (length(flow_direction) > 1 & any(flow_direction == 'all')) {
-      rlang::abort("You can only provide 'all' as a single argument.")
-    }
+    # remove any white space from cmd codes provided
+    flow_direction <- stringr::str_squish(flow_direction)
 
-    if (length(flow_direction) > 1 | !any(flow_direction == 'all')) {
-      flow_direction <- stringr::str_replace_all(flow_direction,
-                                                 '^import$', "M")
-      flow_direction <- stringr::str_replace_all(flow_direction,
-                                                 '^export$', "X")
-      flow_direction <- stringr::str_replace_all(flow_direction,
-                                                 '^re-import$', "RM")
-      flow_direction <- stringr::str_replace_all(flow_direction,
-                                                 '^re-export$', "RX")
-      flow_direction <- flow_direction |> paste0(collapse = ',')
-    } else if (flow_direction == 'all') {
-      flow_direction <- 'M,X,RM,RX'
+    # get the list of valid parameters from inst/extdata
+    valid_codes <-
+      ct_get_ref_table(dataset_id = 'flow_direction',
+                       update = update,
+                       verbose = verbose)
+
+    rlang::arg_match(flow_direction, values = valid_codes$text, multiple = T)
+
+    # if one of the codes is not in the list of valid codes
+    # send stop signal and list problems
+    if (!all(flow_direction %in% valid_codes$text)) {
+      rlang::abort(paste0(
+        "The following services/commodity codes you provided are invalid: ",
+        paste0(setdiff(flow_direction, valid_codes$text), collapse = ", ")
+      ))
+    } else {
+      flow_direction <- valid_codes |>
+        poorman::filter(text %in% flow_direction) |>
+        poorman::pull(id) |>
+        paste0(collapse = ',')
     }
+  } else {
+    flow_direction <- NULL
   }
   return(flow_direction)
 }

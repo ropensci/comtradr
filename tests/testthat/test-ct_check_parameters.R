@@ -24,11 +24,10 @@ test_that("check_clCode returns correct classification codes and handles invalid
 
 # Test 'check_flowCode' function
 test_that("check_flowCode returns correct flow codes and handles invalid inputs", {
-  expect_equal(check_flowCode("import"), "M")
-  expect_equal(check_flowCode(c("export", "re-export")), "X,RX")
-  expect_error(check_flowCode("trade"), "`flow_direction` must be one of")
-  # expect_error(check_flowCode(NULL), "`flow_direction` must be a character vector, not `NULL`")
-  expect_error(check_flowCode(c("all", "import")), "You can only provide 'all' as a single argument.")
+  expect_equal(comtradr:::check_flowCode("Import", update = F, verbose = F), "M")
+  expect_equal(comtradr:::check_flowCode(c("Export", "Re-export"), update = F, verbose = F), "X,RX")
+  expect_error(comtradr:::check_flowCode("trade", update = F, verbose = F), "`flow_direction` must be one of")
+  expect_equal(comtradr:::check_flowCode('everything', update = F, verbose = F),NULL)
 })
 
 test_that("check_cmdCode function works correctly", {
