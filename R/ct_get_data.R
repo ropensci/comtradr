@@ -34,8 +34,9 @@
 #' See `comtradr::ct_get_ref_table('HS')` for possible values.
 #' Default: 'TOTAL' (sum of all commodities).
 #' @param flow_direction The direction of trade flows or `everything`.
-#' Possible values can be found in `ct_get_ref_table('flow_direction')`.
-#' Default: c('Import','Export','Re-export','Re-import').
+#' Possible values can be found in `ct_get_ref_table('flow_direction')`. These
+#' are implemented case-insensitive, 'import' and 'Import' are equivalent.
+#' Default: c('import','export','re-export','re-import').
 #' @param reporter Reporter ISO3 code(s) or `NULL`.
 #' See `comtradr::country_codes` or `comtradr::ct_get_ref_table('reporter')`
 #' for possible values. Default: 'all'.

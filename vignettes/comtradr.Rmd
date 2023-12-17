@@ -85,7 +85,7 @@ example_1 <- ct_get_data(
   commodity_code = 'TOTAL',
   start_date = 2018,
   end_date = 2023,
-  flow_direction = 'Import'
+  flow_direction = 'import'
 )
 ```
 API calls return a tidy data frame.
@@ -100,7 +100,7 @@ By default, the return data is in yearly amounts. We can pass `"monthly"` to arg
 # Get all monthly data for a single year (API max of 12 months per call).
 q <- ct_search(reporters = "USA",
                partners = c("Germany", "France", "Japan", "Mexico"),
-               flow_direction = "Import",
+               flow_direction = "import",
                start_date = 2012,
                end_date = 2012,
                freq = "monthly")
@@ -108,7 +108,7 @@ q <- ct_search(reporters = "USA",
 # Get monthly data for a specific span of months (API max of twelve months per call).
 q <- ct_search(reporters = "USA",
                partners = c("Germany", "France", "Japan", "Mexico"),
-               flow_direction = "Import",
+               flow_direction = "import",
                start_date = "2012-03",
                end_date = "2012-07",
                freq = "monthly")
@@ -133,7 +133,7 @@ q <- ct_get_data(
   commodity_code = tomato_codes,
   start_date = "2012",
   end_date = "2013",
-  flow_direction = 'Import'
+  flow_direction = 'import'
 )
 ```
 On the other hand, if we wanted to exclude juices and sauces from our search, we can pass a vector of the relevant codes to the API call.
@@ -144,7 +144,7 @@ q <- ct_get_data(
   commodity_code  = c("0702", "070200", "2002", "200210", "200290"),
   start_date = "2012",
   end_date = "2013",
-  flow_direction = 'Import'
+  flow_direction = 'import'
 )
                
 ```
@@ -258,7 +258,7 @@ example_2 <- ct_get_data(
   commodity_code = 'TOTAL',
   start_date = 2012,
   end_date = 2023,
-  flow_direction = 'Export'
+  flow_direction = 'export'
 )
 ```
 

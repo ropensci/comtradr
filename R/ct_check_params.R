@@ -224,13 +224,14 @@ check_flowCode <- function(flow_direction, update, verbose) {
     flow_direction <- as.character(flow_direction)
 
     # remove any white space from cmd codes provided
-    flow_direction <- stringr::str_squish(flow_direction)
+    flow_direction <- stringr::str_squish(flow_direction) |> tolower()
 
     # get the list of valid parameters from inst/extdata
     valid_codes <-
       ct_get_ref_table(dataset_id = 'flow_direction',
                        update = update,
-                       verbose = verbose)
+                       verbose = verbose) |>
+      poorman::mutate(text = tolower(text))
 
     rlang::arg_match(flow_direction, values = valid_codes$text, multiple = T)
 

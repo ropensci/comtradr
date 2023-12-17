@@ -43,8 +43,9 @@ See \code{comtradr::ct_get_ref_table('HS')} for possible values.
 Default: 'TOTAL' (sum of all commodities).}
 
 \item{flow_direction}{The direction of trade flows or \code{everything}.
-Possible values can be found in \code{ct_get_ref_table('flow_direction')}.
-Default: c('Import','Export','Re-export','Re-import').}
+Possible values can be found in \code{ct_get_ref_table('flow_direction')}. These
+are implemented case-insensitive, 'import' and 'Import' are equivalent.
+Default: c('import','export','re-export','re-import').}
 
 \item{reporter}{Reporter ISO3 code(s) or \code{NULL}.
 See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}
