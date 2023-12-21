@@ -335,13 +335,13 @@ ggplot(plotdf,aes(period,kg/1000, group = partner_desc))+
   theme(axis.text.x = element_text(angle = 45,hjust = 1, vjust = 1))
 ```
 
-## Handling NULL Parameters
+## Handling large amounts of Parameters
 
-In the `comtradr` package, several function parameters can accept `NULL` as a valid input. Using `NULL` for these parameters has specific meanings and can be a powerful tool for querying data. Here's a breakdown of how `NULL` is handled for different parameters:
+In the `comtradr` package, several function parameters can accept `everything` as a valid input. Using `everything` for these parameters has specific meanings and can be a powerful tool for querying data. Internally, these values are set to `NULL` and the parameter is omitted entirely in the request to the API, the API then by default returns all possible values. Here's a breakdown of how `everything` is handled for different parameters:
 
 ### `commodity_code`
 
-Setting `commodity_code` to `NULL` will query all possible commodity values. This can be useful if you want to retrieve data for all commodities without specifying individual codes.
+Setting `commodity_code` to `everything` will query all possible commodity values. This can be useful if you want to retrieve data for all commodities without specifying individual codes.
 
 ### `flow_direction`
 
@@ -349,25 +349,25 @@ If `flow_direction` is set to `everything`, all possible values for trade flow d
 
 ### `reporter` and `partner`
 
-Using `NULL` for `reporter` or `partner` will query all possible values for reporter and partner countries. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
+Using `everything` for `reporter` or `partner` will query all possible values for reporter and partner countries, but also includes aggregates like `World` or some miscellaneous like `ASEAN`. Be careful when aggregating these values, so as to not count trade values multiple times in different aggregates. Alterantively, specificely for these values, you can also use `all_countries`, which allows you to query all countries which are not aggregates of some kind of grouped parameters like `ASEAN`. These values can usually be safely aggregated. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
 
 ### `mode_of_transport`, `partner_2`, and `customs_code`
 
-Setting these parameters to `NULL` will query all possible values related to the mode of transport, secondary partner, and customs procedures. This provides a comprehensive view of the data across different transportation modes and customs categories.
+Setting these parameters to `everything` will query all possible values related to the mode of transport, secondary partner, and customs procedures. This provides a comprehensive view of the data across different transportation modes and customs categories.
 
 ### Example Usage
 
-Here's an example of how you might use `NULL` parameters to query comprehensive data:
+Here's an example of how you might use `everything` parameters to query comprehensive data:
 
 ```{r, warning = FALSE, message = FALSE, eval = F}
 # Querying all commodities and flow directions for USA and Germany from 2010 to 2011
 data <- ct_get_data(
   reporter = c('USA', 'DEU'),
-  commodity_code = NULL,
+  commodity_code = 'everything',
   flow_direction = 'everything',
   start_date = '2010',
   end_date = '2011'
 )
 ```
 
-Using `NULL` parameters can lead to large datasets, as they often remove specific filters on the data. It's essential to be mindful of the size of the data being queried, especially when using multiple `NULL` parameters simultaneously.
+Using `everything` parameters can lead to large datasets, as they often remove specific filters on the data. It's essential to be mindful of the size of the data being queried, especially when using multiple `everything` parameters simultaneously.

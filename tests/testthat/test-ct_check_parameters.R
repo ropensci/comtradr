@@ -24,8 +24,8 @@ test_that("check_clCode returns correct classification codes and handles invalid
 
 # Test 'check_flowCode' function
 test_that("check_flowCode returns correct flow codes and handles invalid inputs", {
-  expect_equal(comtradr:::check_flowCode("Import", update = F, verbose = F), "M")
   expect_equal(comtradr:::check_flowCode(c("Export", "Re-export"), update = F, verbose = F), "X,RX")
+  expect_equal(comtradr:::check_flowCode(c("export", "re-export"), update = F, verbose = F), "X,RX")
   expect_error(comtradr:::check_flowCode("trade", update = F, verbose = F), "`flow_direction` must be one of")
   expect_equal(comtradr:::check_flowCode('everything', update = F, verbose = F),NULL)
 })
@@ -59,6 +59,11 @@ test_that("check_cmdCode function works correctly", {
       verbose = FALSE
     )
   )
+  expect_equal(comtradr:::check_cmdCode(commodity_classification = "HS",
+                                        commodity_code = 'everything',
+                                        update = F, verbose = F),
+               NULL)
+
 })
 
 test_that("check_reporterCode function works correctly", {
@@ -69,6 +74,14 @@ test_that("check_reporterCode function works correctly", {
       verbose = FALSE
     ),
     "842,841"
+  )
+  expect_equal(
+    comtradr:::check_reporterCode(
+      reporter = "everything",
+      update = FALSE,
+      verbose = FALSE
+    ),
+    NULL
   )
 
   expect_equal(
@@ -82,7 +95,7 @@ test_that("check_reporterCode function works correctly", {
 
   expect_true(length(
     comtradr:::check_reporterCode(
-      reporter = "all",
+      reporter = "all_countries",
       update = FALSE,
       verbose = FALSE
     )
@@ -93,29 +106,37 @@ test_that("check_reporterCode function works correctly", {
 test_that("check_partnerCode works correctly", {
   expect_equal(check_partnerCode("CAN"), "124")
   expect_equal(check_partnerCode(c("CAN", "MEX")), "124,484")
+  expect_equal(check_partnerCode(c("everything", "MEX")), NULL)
   expect_error(check_partnerCode(c("CAN", "all")))
   expect_error(check_partnerCode("INVALID"))
-  expect_match(check_partnerCode("all"), "^\\d+(,\\d+)*$")
+  expect_match(check_partnerCode("all_countries"), "^\\d+(,\\d+)*$")
 })
 
 test_that("check_partner2Code works correctly", {
   expect_equal(check_partner2Code("CAN"), "124")
   expect_equal(check_partner2Code(c("CAN", "MEX")), "124,484")
+  expect_equal(check_partner2Code(c("everything", "MEX")), NULL)
   expect_error(check_partner2Code(c("CAN", "all")))
   expect_error(check_partner2Code("INVALID"))
-  expect_match(check_partner2Code("all"), "^\\d+(,\\d+)*$")
+  expect_match(check_partner2Code("all_countries"), "^\\d+(,\\d+)*$")
 })
 
 test_that("check_motCode works correctly", {
   expect_equal(check_motCode("TOTAL modes of transport"), "0")
+  expect_equal(check_motCode("everything"), NULL)
+  expect_equal(check_motCode("everything","Air"), NULL)
   expect_equal(check_motCode(c("Air", "Water")), "1000,2000")
   expect_error(check_motCode("INVALID"))
+  expect_error(check_motCode("INVALID"),"The following mode_of_transport codes you")
 })
 
 test_that("check_customsCode works correctly", {
   expect_equal(check_customsCode("C00"), "C00")
+  expect_equal(check_customsCode("everything"), NULL)
+  expect_equal(check_customsCode("everything",'C00'), NULL)
   expect_equal(check_customsCode(c("C01", "C00")), "C01,C00")
   expect_error(check_customsCode("INVALID"))
+  expect_error(check_customsCode("INVALID"),"The following customs_code codes you")
 })
 
 test_that("check_date works correctly", {

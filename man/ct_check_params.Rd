@@ -34,8 +34,8 @@ Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
 Possible values for goods: \code{c('HS','S1','S2','S3','S4','SS','B4','B5')};
 for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
-\item{commodity_code}{The commodity code(s) or \code{NULL}.
-See \code{comtradr::ct_get_ref_table('HS')} for possible values.
+\item{commodity_code}{The commodity code(s) or \code{everything} for all possible
+codes. See \code{comtradr::ct_get_ref_table('HS')} for possible values.
 Default: 'TOTAL' (sum of all commodities).}
 
 \item{flow_direction}{The direction of trade flows or \code{everything}.
@@ -43,12 +43,16 @@ Possible values can be found in \code{ct_get_ref_table('flow_direction')}. These
 are implemented case-insensitive, 'import' and 'Import' are equivalent.
 Default: c('import','export','re-export','re-import').}
 
-\item{reporter}{Reporter ISO3 code(s) or \code{NULL}.
+\item{reporter}{Reporter ISO3 code(s), \code{everything} or \code{all_countries}.
 See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}
-for possible values. Default: 'all'.}
+for possible values. \code{all_countries} returns all countries without aggregates
+\code{everything} returns all possible parameters. Default: 'all_countries'.}
 
-\item{partner}{Partner ISO3 code(s) or \code{NULL}. See \code{comtradr::country_codes}
-for possible values. Default: 'World' (all partners as an aggregate).}
+\item{partner}{Partner ISO3 code(s), \code{everything} or \code{all_countries}.
+See \code{comtradr::country_codes} for possible values.
+\code{all_countries} returns all countries without aggregates
+\code{everything} returns all possible parameters, incl. aggregates like World.
+Default: 'World' (all partners as an aggregate).}
 
 \item{start_date}{The start date of the query.
 Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
@@ -57,13 +61,21 @@ Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
 Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.
 Max: 12 years after start date for annual data, one year for monthly data.}
 
-\item{mode_of_transport}{Mode of Transport, default 'TOTAL modes of transport' (TOTAL).
-See \code{ct_get_ref_table(dataset_id = 'mode_of_transport')} for possible values.}
+\item{mode_of_transport}{Text code of mode of transport or \code{everything} for
+all possible parameters.
+See \code{ct_get_ref_table(dataset_id = 'mode_of_transport')} for possible values.
+Default: 'TOTAL modes of transport' (TOTAL).}
 
-\item{partner_2}{Partner ISO3 code(s) or \code{NULL}. Default: 'World'.}
+\item{partner_2}{Partner 2 ISO3 code(s), \code{everything} or \code{all_countries}.
+See \code{comtradr::country_codes} for possible values.
+\code{all_countries} returns all countries without aggregates
+\code{everything} returns all possible parameters, incl. aggregates like World.
+Default: 'World' (all partners as an aggregate).}
 
-\item{customs_code}{Customs code, default 'C00' (TOTAL).
-See \code{ct_get_ref_table(dataset_id = 'customs_code')} for possible values.}
+\item{customs_code}{Customs Code ID or \code{everything} for all possible
+parameters.
+See \code{ct_get_ref_table(dataset_id = 'customs_code')} for possible values.
+Default: 'C00' (TOTAL).}
 
 \item{update}{If TRUE, downloads possibly updated reference tables
 from the UN. Default: FALSE.}

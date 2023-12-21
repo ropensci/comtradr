@@ -30,18 +30,22 @@
 #' @param commodity_classification The trade classification scheme.
 #' Possible values for goods: `c('HS','S1','S2','S3','S4','SS','B4','B5')`;
 #' for services: `c('EB02','EB10','EB10S','EB')`. Default: 'HS'.
-#' @param commodity_code The commodity code(s) or `NULL`.
-#' See `comtradr::ct_get_ref_table('HS')` for possible values.
+#' @param commodity_code The commodity code(s) or `everything` for all possible
+#' codes. See `comtradr::ct_get_ref_table('HS')` for possible values.
 #' Default: 'TOTAL' (sum of all commodities).
 #' @param flow_direction The direction of trade flows or `everything`.
 #' Possible values can be found in `ct_get_ref_table('flow_direction')`. These
 #' are implemented case-insensitive, 'import' and 'Import' are equivalent.
 #' Default: c('import','export','re-export','re-import').
-#' @param reporter Reporter ISO3 code(s) or `NULL`.
+#' @param reporter Reporter ISO3 code(s), `everything` or `all_countries`.
 #' See `comtradr::country_codes` or `comtradr::ct_get_ref_table('reporter')`
-#' for possible values. Default: 'all'.
-#' @param partner Partner ISO3 code(s) or `NULL`. See `comtradr::country_codes`
-#' for possible values. Default: 'World' (all partners as an aggregate).
+#' for possible values. `all_countries` returns all countries without aggregates
+#' `everything` returns all possible parameters. Default: 'all_countries'.
+#' @param partner Partner ISO3 code(s), `everything` or `all_countries`.
+#' See `comtradr::country_codes` for possible values.
+#' `all_countries` returns all countries without aggregates
+#' `everything` returns all possible parameters, incl. aggregates like World.
+#' Default: 'World' (all partners as an aggregate).
 #' @param start_date The start date of the query.
 #' Format: `yyyy` for yearly, `yyyy-mm` for monthly.
 #' @param end_date The end date of the query.
@@ -55,14 +59,22 @@
 #' If FALSE, returns raw column names. Default: TRUE.
 #' @param verbose If TRUE, sends status updates to the console.
 #' If FALSE, runs functions quietly. Default: FALSE.
-#' @param mode_of_transport Mode of Transport, default 'TOTAL modes of transport' (TOTAL).
+#' @param mode_of_transport Text code of mode of transport or `everything` for
+#' all possible parameters.
 #' See `ct_get_ref_table(dataset_id = 'mode_of_transport')` for possible values.
-#' @param partner_2 Partner ISO3 code(s) or `NULL`. Default: 'World'.
-#' @param customs_code Customs code, default 'C00' (TOTAL).
+#' Default: 'TOTAL modes of transport' (TOTAL).
+#' @param partner_2 Partner 2 ISO3 code(s), `everything` or `all_countries`.
+#' See `comtradr::country_codes` for possible values.
+#' `all_countries` returns all countries without aggregates
+#' `everything` returns all possible parameters, incl. aggregates like World.
+#' Default: 'World' (all partners as an aggregate).
+#' @param customs_code Customs Code ID or `everything` for all possible
+#' parameters.
 #' See `ct_get_ref_table(dataset_id = 'customs_code')` for possible values.
+#' Default: 'C00' (TOTAL).
 #' @param update If TRUE, downloads possibly updated reference tables
 #' from the UN. Default: FALSE.
-#' @param requests_per_second rate of requests per second executed,
+#' @param requests_per_second Rate of requests per second executed,
 #' usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
 #' see `req_throttle()` for details.
 #' @param extra_params Additional parameters to the API, passed as query
@@ -83,7 +95,7 @@
 #'             verbose = TRUE)
 #'
 #' # Query all commodity codes for China's imports from Germany in 2019
-#' ct_get_data(commodity_code = NULL,
+#' ct_get_data(commodity_code = 'everything',
 #'             reporter = 'CHN',
 #'             partner = 'DEU',
 #'             start_date = '2019',
@@ -92,7 +104,7 @@
 #'
 #' # Query all commodity codes for China's imports from Germany
 #' # from January to June of 2019
-#' ct_get_data(commodity_code = NULL,
+#' ct_get_data(commodity_code = "everything",
 #'             reporter = 'CHN',
 #'             partner = 'DEU',
 #'             start_date = '2019',
@@ -109,7 +121,7 @@ ct_get_data <- function(type = 'goods',
                         commodity_code = 'TOTAL',
                         flow_direction = c('Import','Export',
                                            'Re-export','Re-import'),
-                        reporter = 'all',
+                        reporter = 'all_countries',
                         partner = 'World',
                         start_date = NULL,
                         end_date = NULL,

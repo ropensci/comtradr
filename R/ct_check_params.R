@@ -275,7 +275,7 @@ check_cmdCode <-
            update = FALSE,
            verbose = FALSE) {
   # check that commodity_code code is not null
-  if (!is.null(commodity_code)) {
+    if(!any(commodity_code %in% 'everything')){
     commodity_code <- as.character(commodity_code)
 
     # remove any white space from cmd codes provided
@@ -297,6 +297,8 @@ check_cmdCode <-
     } else {
       commodity_code <- paste0(commodity_code, collapse = ',')
     }
+    } else {
+    commodity_code <- NULL
   }
 
   return(commodity_code)
@@ -321,7 +323,7 @@ check_cmdCode <-
 check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
   iso_3 <- id <- group <- NULL
   # check that reporter code is valid
-  if (!is.null(reporter)) {
+  if (!any(reporter %in% 'everything')) {
     reporter <- as.character(reporter)
 
     ## check if valid reporter code length and type
@@ -332,10 +334,10 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
                        update = update,
                        verbose = verbose)
 
-    ## get multiple values or single values that are not 'all'
-    if (length(reporter) > 1 | !any(reporter == 'all')) {
-      if (any(reporter == 'all')) {
-        rlang::abort('"all" can only be provided as a single argument.')
+    ## get multiple values or single values that are not 'all_countries'
+    if (length(reporter) > 1 | !any(reporter == 'all_countries')) {
+      if (any(reporter == 'all_countries')) {
+        rlang::abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the reporter codes is not in the list of valid reporter codes
       # send stop signal and list problems
@@ -348,18 +350,20 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
     }
 
     # create proper ids for reporter Code
-    if (length(reporter) > 1 | !any(reporter == 'all')) {
+    if (length(reporter) > 1 | !any(reporter == 'all_countries')) {
       reporter <- reporter_codes |>
         poorman::filter(iso_3 %in% reporter) |>
         poorman::pull(id) |>
         paste(collapse = ",")
-    } else if (reporter == 'all') {
+    } else if (reporter == 'all_countries') {
       reporter <- reporter_codes |>
         poorman::filter(group == FALSE) |>
         poorman::pull(id) |>
         paste(collapse = ',')
     }
 
+  } else {
+    reporter <- NULL
   }
 
   return(reporter)
@@ -386,17 +390,17 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
   iso_3 <- id <- group <- NULL
 
   # check that partner code is valid
-  if (!is.null(partner)) {
+  if (!any(partner %in% 'everything')) {
     partner <- as.character(partner)
 
     partner_codes <- ct_get_ref_table(dataset_id = 'partner',
                                       update = update, verbose = verbose)
 
 
-    if (length(partner) > 1 | !any(partner == 'all')) {
+    if (length(partner) > 1 | !any(partner == 'all_countries')) {
       partner <- stringr::str_squish(partner)
-      if (any(partner == 'all')) {
-        rlang::abort('"all" can only be provided as a single argument.')
+      if (any(partner == 'all_countries')) {
+        rlang::abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
@@ -408,17 +412,19 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     }
 
     # create proper ids for partner
-    if (length(partner) > 1 | !any(partner == 'all')) {
+    if (length(partner) > 1 | !any(partner == 'all_countries')) {
       partner <- partner_codes |>
         poorman::filter(iso_3 %in% partner) |>
         poorman::pull(id) |>
         paste(collapse = ",")
-    } else if (partner == 'all') {
+    } else if (partner == 'all_countries') {
       partner <- partner_codes |>
         poorman::filter(group == FALSE) |>
         poorman::pull(id) |>
         paste(collapse = ",")
     }
+  } else {
+    partner <- NULL
   }
 
   return(partner)
@@ -445,7 +451,7 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
   iso_3 <- id <- group <- NULL
 
   # check that partner code is valid
-  if (!is.null(partner)) {
+  if (!any(partner %in% 'everything')) {
     partner <- as.character(partner)
 
 
@@ -453,10 +459,10 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
                                       update = update, verbose = verbose)
 
 
-    if (length(partner) > 1 | !any(partner == 'all')) {
+    if (length(partner) > 1 | !any(partner == 'all_countries')) {
       partner <- stringr::str_squish(partner)
-      if (any(partner == 'all')) {
-        rlang::abort('"all" can only be provided as a single argument.')
+      if (any(partner == 'all_countries')) {
+        rlang::abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
@@ -468,17 +474,19 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
     }
 
     # create proper ids for partner
-    if (length(partner) > 1 | !any(partner == 'all')) {
+    if (length(partner) > 1 | !any(partner == 'all_countries')) {
       partner <- partner_codes |>
         poorman::filter(iso_3 %in% partner) |>
         poorman::pull(id) |>
         paste(collapse = ",")
-    } else if (partner == 'all') {
+    } else if (partner == 'all_countries') {
       partner <- partner_codes |>
         poorman::filter(group == FALSE) |>
         poorman::pull(id) |>
         paste(collapse = ",")
     }
+  } else {
+    partner <- NULL
   }
 
   return(partner)
@@ -499,7 +507,7 @@ check_motCode <-
            verbose = FALSE) {
     # check that commodity_code code is not null
     id <- text <- NA
-    if (!is.null(mode_of_transport)) {
+    if (!any(mode_of_transport %in% 'everything')) {
       valid_codes <-
         ct_get_ref_table(dataset_id = 'mode_of_transport',
                          update = update,
@@ -536,8 +544,11 @@ check_motCode <-
 
         }
       }
+      mode_of_transport <- mode_of_transport$id
+
+    } else {
+      mode_of_transport <- NULL
     }
-    mode_of_transport <- mode_of_transport$id
 
     return(mode_of_transport)
   }
@@ -552,7 +563,7 @@ check_motCode <-
 #' @noRd
 check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
   # check that commodity_code code is not null
-  if (!is.null(customs_code)) {
+  if (!any(customs_code %in% 'everything')) {
     customs_code <- as.character(customs_code)
 
     # remove any white space from cmd codes provided
@@ -573,6 +584,8 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
     } else {
       customs_code <- paste0(customs_code, collapse = ',')
     }
+  } else {
+    customs_code <- NULL
   }
 
   return(customs_code)
