@@ -6,7 +6,7 @@
 #' including the type of data (goods or services),
 #' frequency (annual or monthly), commodity classification,
 #' flow direction, and more.
-#' By providing `NULL` for certain parameters,
+#' By providing `everything` for certain parameters,
 #' you can query all possible values.
 #' The function is opinionated in that it already verifies certain parameters
 #' for you and is more than a pure wrapper around the API.
@@ -17,8 +17,8 @@
 #' It contains annual trade statistics starting from 1988
 #' and monthly trade statistics since 2000 for goods data
 #'
-#' Parameters that accept `NULL` will query all possible values.
-#' For example, setting `commodity_code = NULL`
+#' Parameters that accept `everything` will query all possible values.
+#' For example, setting `commodity_code = 'everything'`
 #' will retrieve data for all commodity codes.
 #' This can be useful for broad queries but may result in large datasets.
 #'
