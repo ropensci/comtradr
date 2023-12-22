@@ -40,9 +40,23 @@ Load comtradr
 library(comtradr)
 ```
 
-## Authentication 
+## Authentication 🔐
 
-As stated above, you need an API token, see the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the access tokens. 
+**Do not be discouraged by the complicated access to the token 
+- you can do it! 💪**
+
+As stated above, you need an API token, see the FAQ of Comtrade for details
+on how to obtain it:
+
+➡️ https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement 
+
+You need to follow the detailed explanations,
+which include screenshots, in the Wiki of Comtrade to the letter. ☝️
+I am not writing them out here, because they might be updated regularly. 
+However, once you are signed up, select the `comtrade - v1` 
+product, which is the free API. 
+
+### Storing the API key
 
 If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
 

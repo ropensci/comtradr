@@ -6,16 +6,16 @@
 <!-- badges: start -->
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/comtradr)](https://cran.r-project.org/package=comtradr)
-[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
-<!-- badges: end -->
-
-R package for interacting with the [UN Comtrade
-Database](https://comtradeplus.un.org/) public API. UN Comtrade provides
-historical data on the weights and value of specific goods shipped
-between countries, more info can be found
+<!-- badges: end --> Interface with and extract data from the United
+Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides
+country level shipping data for a variety of commodities, these
+functions allow for easy API query and data returned as a tidy data
+frame. More info can be found
 [here](https://unstats.un.org/wiki/display/comtrade). Full API
 documentation can be found [here](https://comtradedeveloper.un.org/).
 
@@ -25,7 +25,7 @@ The Comtrade API has been undergoing extensive updates. At this point
 the legacy API has been taken offline (see
 [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
 
-In order to accomodate the new syntax, as well as adding the new
+In order to accommodate the new syntax, as well as adding the new
 functionality, the `comtradr` package has been undergoing an extensive
 re-write. Additionally, it is not possible anymore to query the API
 without an API token. There still is a free version, but unlike before
@@ -35,13 +35,13 @@ for details on how to obtain the new access tokens.
 
 Please [report](https://github.com/ropensci/comtradr/issues) issues,
 comments, or feature requests. We are very much looking for feedback on
-the useability of the new functions.
+the usability of the new functions.
 
 The package in its old version is still available from the
 `legacy-0-3-0` branch.
 
 Please note that this package is released with a [Contributor Code of
-Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
 For information on citation of this package, use `citation("comtradr")`
@@ -67,9 +67,21 @@ install.packages("comtradr")
 
 ### Authentication 🔐
 
-As stated above, you need an API token, see the
-[FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement)
-for details on how to obtain the access tokens.
+**Do not be discouraged by the complicated access to the token - you can
+do it! 💪**
+
+As stated above, you need an API token, see the FAQ of Comtrade for
+details on how to obtain it:
+
+➡️
+<https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement>
+
+You need to follow the detailed explanations, which include screenshots,
+in the Wiki of Comtrade to the letter. ☝️ I am not writing them out
+here, because they might be updated regularly. However, once you are
+signed up, select the `comtrade - v1` product, which is the free API.
+
+#### Storing the API key
 
 If you are in an interactive session, you can call the following
 function to save your API token to the environment file for the current
@@ -136,7 +148,7 @@ wine_codes <- ct_commodity_lookup("wine", return_code = TRUE, return_char = TRUE
 # API query.
 example2 <- ct_get_data(
   reporter =  "ARG",
-  flow_direction = "Export",
+  flow_direction = "export",
   partner = "all",
   start_date = 2007,
   end_date = 2011,
