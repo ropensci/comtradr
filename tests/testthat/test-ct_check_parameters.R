@@ -106,6 +106,10 @@ test_that("check_reporterCode function works correctly", {
       verbose = FALSE
     )
   ) > 0)
+  expect_error(check_reporterCode("INVALID"),
+               regexp = "The following reporter")
+  expect_error(check_reporterCode(c("all_countries","USA")),
+               "can only be provided")
 
 })
 
@@ -115,6 +119,8 @@ test_that("check_partnerCode works correctly", {
   expect_equal(check_partnerCode(c("everything", "MEX")), NULL)
   expect_error(check_partnerCode(c("CAN", "all")))
   expect_error(check_partnerCode("INVALID"))
+  expect_error(comtradr:::check_partnerCode(c("all_countries","USA")),
+               "can only be provided")
   expect_match(check_partnerCode("all_countries"), "^\\d+(,\\d+)*$")
 })
 
@@ -124,6 +130,8 @@ test_that("check_partner2Code works correctly", {
   expect_equal(check_partner2Code(c("everything", "MEX")), NULL)
   expect_error(check_partner2Code(c("CAN", "all")))
   expect_error(check_partner2Code("INVALID"))
+  expect_error(check_partner2Code(c("all_countries","USA")),
+               "can only be provided")
   expect_match(check_partner2Code("all_countries"), "^\\d+(,\\d+)*$")
 })
 
@@ -135,6 +143,9 @@ test_that("check_motCode works correctly", {
   expect_error(check_motCode("INVALID"))
   expect_error(check_motCode("INVALID"),
                "The following mode_of_transport codes you")
+  expect_equal(
+    comtradr:::check_motCode("everything")
+  , NULL)
 })
 
 test_that("check_customsCode works correctly", {

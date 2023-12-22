@@ -251,19 +251,12 @@ check_flowCode <- function(flow_direction, update, verbose) {
 
     rlang::arg_match(flow_direction, values = valid_codes$text, multiple = TRUE)
 
-    # if one of the codes is not in the list of valid codes
-    # send stop signal and list problems
-    if (!all(flow_direction %in% valid_codes$text)) {
-      rlang::abort(paste0(
-        "The following services/commodity codes you provided are invalid: ",
-        paste0(setdiff(flow_direction, valid_codes$text), collapse = ", ")
-      ))
-    } else {
+
       flow_direction <- valid_codes |>
         poorman::filter(text %in% flow_direction) |>
         poorman::pull(id) |>
         paste0(collapse = ",")
-    }
+
   } else {
     flow_direction <- NULL
   }
@@ -363,7 +356,7 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
       )
 
     ## get multiple values or single values that are not 'all_countries'
-    if (length(reporter) > 1 | !any(reporter == "all_countries")) {
+    if (length(reporter) > 1 | !any(reporter %in% "all_countries")) {
       if (any(reporter == "all_countries")) {
     rlang::abort('"all_countries" can only be provided as a single argument.')
       }
@@ -378,7 +371,7 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
     }
 
     # create proper ids for reporter Code
-    if (length(reporter) > 1 | !any(reporter == "all_countries")) {
+    if (length(reporter) > 1 | !any(reporter %in% "all_countries")) {
       reporter <- reporter_codes |>
         poorman::filter(iso_3 %in% reporter) |>
         poorman::pull(id) |>
@@ -430,9 +423,9 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     )
 
 
-    if (length(partner) > 1 | !any(partner == "all_countries")) {
+    if (length(partner) > 1 | !any(partner %in% "all_countries")) {
       partner <- stringr::str_squish(partner)
-      if (any(partner == "all_countries")) {
+      if (any(partner %in% "all_countries")) {
       rlang::abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the partnerCodes is not in the list of valid partnerCodes
@@ -447,7 +440,7 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     }
 
     # create proper ids for partner
-    if (length(partner) > 1 | !any(partner == "all_countries")) {
+    if (length(partner) > 1 | !any(partner %in% "all_countries")) {
       partner <- partner_codes |>
         poorman::filter(iso_3 %in% partner) |>
         poorman::pull(id) |>
@@ -558,10 +551,7 @@ check_motCode <-
           verbose = verbose
         )
       ## check whether "everything" is selected
-      if (any(mode_of_transport %in% "everything")) {
-        mode_of_transport <- valid_codes |>
-          poorman::summarise(id = paste0(id, collapse = ","))
-      } else {
+
         mode_of_transport <- as.character(mode_of_transport)
 
         # remove any white space from cmd codes provided
@@ -587,7 +577,6 @@ check_motCode <-
             poorman::filter(text %in% mode_of_transport) |>
             poorman::summarise(id = paste0(id, collapse = ","))
         }
-      }
       mode_of_transport <- mode_of_transport$id
     } else {
       mode_of_transport <- NULL
