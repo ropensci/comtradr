@@ -23,6 +23,16 @@ Authors@R: c(
                   comment = c(ORCID = "0000-0002-3092-3493", 
                               "Rafael reviewed the package for rOpenSci, 
                               see https://github.com/ropensci/onboarding/issues/141")),
+            person("Ernest", "Guevarra", 
+                  role = "rev", 
+                  comment = c(ORCID = "0000-0002-4887-4415", 
+                              "Ernest reviewed the package for rOpenSci, 
+                              see https://github.com/ropensci/software-review/issues/613")),
+            person("Nicholas", "Potter", 
+                  role = "rev", 
+                  comment = c(ORCID = "0000-0002-3410-3732", 
+                              "Nicholas reviewed the package for rOpenSci, 
+                              see https://github.com/ropensci/software-review/issues/613")),
             person("Juergen", "Amann", role=c("ctb")))
 Description: Interface with and extract data from the United Nations Comtrade 
   API <https://comtradeplus.un.org/>. Comtrade provides country level shipping 
