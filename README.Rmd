@@ -18,25 +18,39 @@ comtradr <img src="man/figures/logo.png" align="right" height="139" />
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
 <!-- badges: end -->
-Interface with and extract data from the United Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame. More info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found [here](https://comtradedeveloper.un.org/).
+Interface with and extract data from the United Nations Comtrade API 
+<https://comtradeplus.un.org/>. Comtrade provides country level shipping data
+for a variety of commodities, these functions allow for easy API query and data 
+returned as a tidy data frame. More info can be found 
+[here](https://unstats.un.org/wiki/display/comtrade). Full API documentation 
+can be found [here](https://comtradedeveloper.un.org/).
 
 ## Currently re-launching Comtradr 🚧
 
-The Comtrade API has been undergoing extensive updates. At this point the legacy API has been taken offline (see [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
+The Comtrade API has been undergoing extensive updates. At this point the legacy 
+API has been taken offline (see [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
 
-In order to accommodate the new syntax, as well as adding the new functionality, the `comtradr` package has been undergoing an extensive re-write. Additionally, it is not possible anymore to query the API without an API token. There still is a free version, but unlike before you need to be a registered user to obtain the token. See the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the new access tokens. 
+In order to accommodate the new syntax, as well as adding the new functionality, 
+the `comtradr` package has been undergoing an extensive re-write. Additionally, 
+it is not possible anymore to query the API without an API token. There still is 
+a free version, but unlike before you need to be a registered user to obtain the 
+token. See the [FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement) for details on how to obtain the new access tokens. 
 
-Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, or feature requests. We are very much looking for feedback on the usability of the new functions. 
+Please [report](https://github.com/ropensci/comtradr/issues) issues, comments, 
+or feature requests. We are very much looking for feedback on the usability 
+of the new functions. 
 
 The package in its old version is still available from the `legacy-0-3-0` branch.
 
-Please note that this package is released with a [Contributor Code of Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+Please note that this package is released with a [Contributor Code of Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this project, 
+you agree to abide by its terms.
 
 For information on citation of this package, use `citation("comtradr")`
 
 ## Installation 🛠️
 
-Currently, the package is not on CRAN, but we plan on publishing to CRAN in the near future. Install the current development version from this repo:
+Currently, the package is not on CRAN, but we plan on publishing to CRAN in the 
+near future. Install the current development version from this repo:
 
 ```{r eval=FALSE}
 # install.packages("devtools")
@@ -69,7 +83,8 @@ product, which is the free API.
 
 #### Storing the API key
 
-If you are in an interactive session, you can call the following function to save your API token to the environment file for the current session. 
+If you are in an interactive session, you can call the following function to 
+save your API token to the environment file for the current session. 
 
 ```{r, eval = F}
 library(comtradr)

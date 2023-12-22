@@ -56,7 +56,7 @@ q <- ct_search(reporters = "USA",
                end_date = 2012, 
                freq = "monthly")
 
-# Get monthly data for a specific span of months (API max of five months per call).
+# monthly data for a specific span of months (API max of five months per call).
 q <- ct_search(reporters = "USA", 
                partners = c("Germany", "France", "Japan", "Mexico"), 
                trade_direction = "imports", 
@@ -75,7 +75,7 @@ q <- ct_get_data(reporter = "USA",
                frequency = "M"
                )
 
-# Get monthly data for a specific span of months (API max of five months per call).
+# monthly data for a specific span of months (API max of five months per call).
 q <- ct_get_data(reporter = "USA", 
                partner = c("DEU", "FRA", "JPN", "MEX"), 
                flow_direction = "import",
@@ -90,7 +90,9 @@ q <- ct_get_data(reporter = "USA",
 ### Country Names 🌍
 
 #### Previously
-Countries passed to parameters `reporters` and `partners` must be spelled as they appear in the Comtrade country reference table. Function `ct_country_lookup` allows us to query the country reference table.
+Countries passed to parameters `reporters` and `partners` must be 
+spelled as they appear in the Comtrade country reference table.
+Function `ct_country_lookup` allows us to query the country reference table.
 ```{r, eval = F}
 ct_country_lookup("korea", "reporter")
 ct_country_lookup("bolivia", "partner")
@@ -100,11 +102,15 @@ q <- ct_search(reporters = "Rep. of Korea",
 ```
 
 #### Now
-No need to specify the Comtrade country name, just use iso3 codes, as you can extract them from a myriad of other packages, e.g. `countrycodes`, `rnaturalearth` or `giscoR`.
+No need to specify the Comtrade country name, just use iso3 codes, 
+as you can extract them from a myriad of other packages, e.g. 
+`countrycodes`, `rnaturalearth` or `giscoR`.
 
 ```{r, eval = F}
 
-asia <- countrycode::codelist |> poorman::filter(un.region.name == "Asia") |> poorman::pull(iso3c)
+asia <- countrycode::codelist |> 
+  poorman::filter(un.region.name == "Asia") |> 
+  poorman::pull(iso3c)
 
 q <- ct_get_data(reporter = asia, 
                partner = c("DEU", "FRA", "JPN", "MEX"), 
@@ -121,11 +127,16 @@ q <- ct_get_data(reporter = asia,
 
 This has not changed!
 
-Search trade related to specific commodities (say, tomatoes). We can query the Comtrade commodity reference table to see all of the different commodity descriptions available for tomatoes.
+Search trade related to specific commodities (say, tomatoes). We can 
+query the Comtrade commodity reference table to see all of the different 
+commodity descriptions available for tomatoes.
 ```{r, eval = F}
 ct_commodity_lookup("tomato")
 ```
-If we want to search for shipment data on all of the commodity descriptions listed, then we can simply adjust the parameters for `ct_commodity_lookup` so that it will return only the codes, which can then be passed along to `ct_search`.
+If we want to search for shipment data on all of the commodity descriptions 
+listed, then we can simply adjust the parameters for `ct_commodity_lookup` 
+so that it will return only the codes, which can then be passed 
+along to `ct_search`.
 ```{r, eval = FALSE}
 tomato_codes <- ct_commodity_lookup("tomato", 
                                     return_code = TRUE, 
@@ -157,11 +168,13 @@ attributes(q)$time
 
 ### Package Data 📦
 
-`comtradr` ships with a few different package data objects, and functions for interacting with and using the package data.
+`comtradr` ships with a few different package data objects, and functions for 
+interacting with and using the package data.
 
 #### Previously
 
-The package data was mostly stored in different databases and had to be queried and updated separately. See below:
+The package data was mostly stored in different databases and had to be 
+queried and updated separately. See below:
 
 ```{r, eval = FALSE}
 ct_update_databases()
@@ -171,7 +184,8 @@ ct_commodity_db_type()
 
 #### Now
 
-All package data can be referenced from one function, which automatically includes the `update` possibility. 
+All package data can be referenced from one function, which automatically 
+includes the `update` possibility. 
 
 ```{r, eval = F}
 ## to get the parameter values for the mode_of_transport argument

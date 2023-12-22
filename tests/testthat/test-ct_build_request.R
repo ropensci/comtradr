@@ -23,5 +23,5 @@ test_that('test that build returns a httr2 request',{
   expect_true(stringr::str_detect(req$url,
                                   '&partnerCode=124'))
   expect_true(stringr::str_detect(req$url,
-                                  'https://comtradeapi.un.org/data/v1/get/C/A/HS?'))
+                            'https://comtradeapi.un.org/data/v1/get/C/A/HS?'))
 })

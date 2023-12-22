@@ -1,7 +1,9 @@
 #' @title ct_commodity_db_type
-#' @description This function is deprecated. There is currently no alternative for this function.
+#' @description This function is deprecated. There is currently
+#' no alternative for this function.
 #' `r lifecycle::badge("superseded")`
-#' @param ...  Used to catch all possible arguments that users have supplied to this function.
+#' @param ...  Used to catch all possible arguments that users
+#' have supplied to this function.
 #'
 #' @examplesIf interactive()
 #' # no examples because only legacy function
@@ -14,7 +16,9 @@ ct_commodity_db_type <- function(...) {
 
 
 #' @title ct_country_lookup
-#' @description This function is deprecated. You can `use country_codes` to return a dataset with all possible country codes, but in general the specification of iso 3 codes makes a look-up unnecessary.
+#' @description This function is deprecated. You can `use country_codes`
+#' to return a dataset with all possible country codes, but in general the
+#' specification of iso 3 codes makes a look-up unnecessary.
 #' `r lifecycle::badge("superseded")`
 #'
 #' @inheritParams ct_search
@@ -33,7 +37,8 @@ ct_country_lookup <- function(...) {
 #' @title ct_search
 #' @description This function is deprecated Please use  `ct_get_data()` instead.
 #' `r lifecycle::badge("superseded")`
-#' @param ...  Used to catch all possible arguments that users have supplied to this function.
+#' @param ...  Used to catch all possible arguments that users
+#' have supplied to this function.
 #' @examplesIf interactive()
 #' # no examples because only legacy function
 #'
@@ -48,7 +53,8 @@ ct_search <- function(...) {
 }
 
 #' @title ct_update_databases
-#' @description This function is deprecated. Please use  `update` parameter in the main `ct_get_data` function instead.
+#' @description This function is deprecated. Please use  `update`
+#' parameter in the main `ct_get_data` function instead.
 #' `r lifecycle::badge("superseded")`
 #' @examplesIf interactive()
 #' # no examples because only legacy function
@@ -64,7 +70,8 @@ ct_update_databases <- function(...) {
 }
 
 #' @title ct_use_pretty_cols
-#' @description This function is deprecated. Please use the `process` argument in the main function instead.
+#' @description This function is deprecated. Please use the `process`
+#' argument in the main function instead.
 #' `r lifecycle::badge("superseded")`
 #' @examplesIf interactive()
 #' # no examples because only legacy function
@@ -80,7 +87,8 @@ ct_use_pretty_cols <- function(...) {
 }
 
 #' @title ct_get_reset_time
-#' @description This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
+#' @description This function is deprecated. There is no more reset
+#' time, as the upper limit of 250 calls per day is enforced daily.
 #' `r lifecycle::badge("superseded")`
 #' @examplesIf interactive()
 #' # no examples because only legacy function
@@ -96,7 +104,8 @@ ct_get_reset_time <- function(...) {
 }
 
 #' @title ct_get_remaining_hourly_queries
-#' @description This function is deprecated. There is no more reset time, as the upper limit of 250 calls per day is enforced daily.
+#' @description This function is deprecated. There is no more reset
+#' time, as the upper limit of 250 calls per day is enforced daily.
 #' `r lifecycle::badge("superseded")`
 #' @examplesIf interactive()
 #' # no examples because only legacy function
@@ -112,7 +121,8 @@ ct_get_remaining_hourly_queries <- function(...) {
 }
 
 #' @title ct_register_token
-#' @description This function is deprecated. Please use  `set_primary_comtrade_key()` instead.
+#' @description This function is deprecated.
+#' Please use  `set_primary_comtrade_key()` instead.
 #' `r lifecycle::badge("superseded")`
 #' @examplesIf interactive()
 #' # no examples because only legacy function

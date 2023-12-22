@@ -15,19 +15,25 @@ test_that("check_freq returns correct frequency codes and handles invalid inputs
 })
 
 # Test 'check_clCode' function
-test_that("check_clCode returns correct classification codes and handles invalid inputs", {
+test_that("check_clCode returns correct classification codes and handles invalid inputs", { #n olint
   expect_equal(check_clCode("C", "HS"), "HS")
   expect_equal(check_clCode("C", "B4"), "B4")
-  expect_error(check_clCode("C", "ISIC"), "`commodity_classification` must be one of")
-  expect_error(check_clCode("S", "HS"), "`commodity_classification` must be one of")
+  expect_error(check_clCode("C", "ISIC"),
+               "`commodity_classification` must be one of")
+  expect_error(check_clCode("S", "HS"),
+               "`commodity_classification` must be one of")
 })
 
 # Test 'check_flowCode' function
-test_that("check_flowCode returns correct flow codes and handles invalid inputs", {
-  expect_equal(comtradr:::check_flowCode(c("Export", "Re-export"), update = F, verbose = F), "X,RX")
-  expect_equal(comtradr:::check_flowCode(c("export", "re-export"), update = F, verbose = F), "X,RX")
-  expect_error(comtradr:::check_flowCode("trade", update = F, verbose = F), "`flow_direction` must be one of")
-  expect_equal(comtradr:::check_flowCode('everything', update = F, verbose = F),NULL)
+test_that("check_flowCode returns correct flow codes and handles invalid inputs", { # nolint
+  expect_equal(comtradr:::check_flowCode(c("Export", "Re-export"),
+                                         update = F, verbose = F), "X,RX")
+  expect_equal(comtradr:::check_flowCode(c("export", "re-export"),
+                                         update = F, verbose = F), "X,RX")
+  expect_error(comtradr:::check_flowCode("trade", update = F, verbose = F),
+               "`flow_direction` must be one of")
+  expect_equal(comtradr:::check_flowCode('everything', update = F,
+                                         verbose = F),NULL)
 })
 
 test_that("check_cmdCode function works correctly", {
@@ -127,7 +133,8 @@ test_that("check_motCode works correctly", {
   expect_equal(check_motCode("everything","Air"), NULL)
   expect_equal(check_motCode(c("Air", "Water")), "1000,2000")
   expect_error(check_motCode("INVALID"))
-  expect_error(check_motCode("INVALID"),"The following mode_of_transport codes you")
+  expect_error(check_motCode("INVALID"),
+               "The following mode_of_transport codes you")
 })
 
 test_that("check_customsCode works correctly", {
@@ -136,7 +143,8 @@ test_that("check_customsCode works correctly", {
   expect_equal(check_customsCode("everything",'C00'), NULL)
   expect_equal(check_customsCode(c("C01", "C00")), "C01,C00")
   expect_error(check_customsCode("INVALID"))
-  expect_error(check_customsCode("INVALID"),"The following customs_code codes you")
+  expect_error(check_customsCode("INVALID"),
+               "The following customs_code codes you")
 })
 
 test_that("check_date works correctly", {

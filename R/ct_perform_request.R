@@ -1,10 +1,14 @@
 #' Performs the request to the Comtrade API
 #'
-#' This function is internally called by `ct_get_data()` and performs the request constructed by `ct_build_request()` and returns an error body with the respective error returned by the Comtrade API.
-#' By default throttles all requests to 1 request per 6 seconds, or 10 requests per minute, but it adjusts automatically if the
+#' This function is internally called by `ct_get_data()` and performs the
+#' request constructed by `ct_build_request()` and returns an error body with
+#' the respective error returned by the Comtrade API.
+#' By default throttles all requests to 1 request per 6 seconds,
+#' or 10 requests per minute, but it adjusts automatically if the
 #' API asks for longer waiting times.
 #'
-#' @param req a valid comtrade request built by the `ct_build_request()` function
+#' @param req a valid comtrade request built by the `ct_build_request()`
+#' function
 #'
 #' @returns JSON data from comtrade, data.frame with results or error codes.
 #' @examplesIf interactive()
@@ -17,7 +21,8 @@
 #'   flow_direction = "import"
 #' )
 #' req <- httr2::last_request()
-#' resp <- comtradr:::ct_perform_request(req, requests_per_second = 10 / 60, verbose = FALSE)
+#' resp <- comtradr:::ct_perform_request(req,
+#' requests_per_second = 10 / 60, verbose = FALSE)
 #' @inheritParams ct_get_data
 ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
   if (verbose) {

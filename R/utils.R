@@ -1,6 +1,8 @@
 #' Set your primary Comtrade API key in the environment variable
 #'
-#' If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
+#' If you would like your Comtrade API key to persist in between sessions,
+#'  use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY
+#'  to your environment file.
 #'
 #' @param key Provide your primary comtrade key
 #'
@@ -19,9 +21,12 @@ set_primary_comtrade_key <- function(key = NULL) {
 
 #' get_primary_comtrade_key
 #'
-#' If you would like your Comtrade API key to persist in between sessions, use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY to your environment file.
+#' If you would like your Comtrade API key to persist in between sessions,
+#' use `usethis::edit_r_environ()` to add the env variable COMTRADE_PRIMARY
+#' to your environment file.
 #'
-#' @returns Gets your primary comtrade key from the environment var COMTRADE_PRIMARY
+#' @returns Gets your primary comtrade key from the environment
+#' var COMTRADE_PRIMARY
 #' @export
 #' @examplesIf interactive()
 #' ## get API key
@@ -32,7 +37,7 @@ get_primary_comtrade_key <- function() {
   if (!identical(key, "")) {
     return(key)
   } else {
-    rlang::abort("No API key found, please supply with `set_primary_comtrade_key` function or set COMTRADE_PRIMARY env var")
+    rlang::abort("No API key found, please supply with `set_primary_comtrade_key` function or set COMTRADE_PRIMARY env var") #nolint
   }
 }
 
@@ -83,7 +88,8 @@ get_primary_comtrade_key <- function() {
 #' ct_get_ref_table("reporter")
 #'
 ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
-  ## make switch to the name of the datasets, which are slightly different to the dataset_ids
+  ## make switch to the name of the datasets,
+  ## which are slightly different to the dataset_ids
   switch_list <- c(
     "B4" = "cmd_b4",
     "B5" = "cmd_b5",
@@ -134,7 +140,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     }
     return(data)
   } else if (update) {
-    ## if update is true and not yet updated in this session inform user that update process is starting
+    ## if update is true and not yet updated in this
+    ## session inform user that update process is starting
     if (verbose) {
       cli::cli_inform(c("i" = paste0(
         "Attempting to update reference table: ",
@@ -146,7 +153,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     data_new <- ct_download_ref_table(ref_table_id = ref_table_id)
 
     if (unique(data_new$last_modified) > unique(data$last_modified)) {
-      ## if the date last modified, returned in the header is newer than the old data
+      ## if the date last modified, returned in
+      ## the header is newer than the old data
       if (verbose) {
         cli::cli_inform(c("i" = paste0(
           "Updated reference tables ",
@@ -164,7 +172,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 
       return(data_new)
     } else {
-      ## if last_modified is not newer, let user know that datasets are up to date.
+      ## if last_modified is not newer,
+      ## let user know that datasets are up to date.
       if (verbose) {
         cli::cli_inform(c("i" = paste0(
           "No update necessary for table ",
@@ -178,7 +187,8 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
       return(as.data.frame(data))
     }
   } else {
-    ## if no update parameter passed on, just return the data read from disk or the env
+    ## if no update parameter passed on,
+    ## just return the data read from disk or the env
     return(as.data.frame(data))
   }
 }
@@ -386,8 +396,10 @@ ct_commodity_lookup <- function(search_terms,
 #' @noRd
 replace_month <- function(date_str) {
   months <- c(
-    "Jan" = "01", "Feb" = "02", "Mar" = "03", "Apr" = "04", "May" = "05", "Jun" = "06",
-    "Jul" = "07", "Aug" = "08", "Sep" = "09", "Oct" = "10", "Nov" = "11", "Dec" = "12"
+    "Jan" = "01", "Feb" = "02", "Mar" = "03",
+    "Apr" = "04", "May" = "05", "Jun" = "06",
+    "Jul" = "07", "Aug" = "08", "Sep" = "09",
+    "Oct" = "10", "Nov" = "11", "Dec" = "12"
   )
   stringr::str_replace_all(date_str, months)
 }

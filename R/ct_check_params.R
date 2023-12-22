@@ -1,8 +1,8 @@
-#' Check that input parameters are valid and in compliance with UN Comtrade APIs.
+#' Check input parameters are valid and in compliance with UN Comtrade APIs.
 #'
 #' This is an internal function that is called by `ct_get_data()` and processes
-#' most arguments that are passed to it according to the relevant limitations of the
-#' official Comtrade API.
+#' most arguments that are passed to it according to the relevant limitations
+#' of the official Comtrade API.
 #'
 #'
 #' @returns Returns a list of named parameters for building a request.
@@ -220,10 +220,14 @@ check_clCode <- function(type, commodity_classification) {
 #' @returns A character vector specifying the trade flow codes.
 #'
 #' @examplesIf interactive()
-#' check_flowCode("import") # returns "M"
-#' check_flowCode(c("export", "re-export")) # returns "X,RX"
-#' check_flowCode("trade") # throws an error because "trade" is not a valid flow code
-#' check_flowCode(NULL) # throws an error because at least one flow code must be provided
+#' check_flowCode("import")
+#' # returns "M"
+#' check_flowCode(c("export", "re-export"))
+#' # returns "X,RX"
+#' check_flowCode("trade")
+#' # throws an error because "trade" is not a valid flow code
+#' check_flowCode(NULL)
+#' # throws an error because at least one flow code must be provided
 #'
 #' @noRd
 check_flowCode <- function(flow_direction, update, verbose) {
@@ -245,7 +249,7 @@ check_flowCode <- function(flow_direction, update, verbose) {
       ) |>
       poorman::mutate(text = tolower(text))
 
-    rlang::arg_match(flow_direction, values = valid_codes$text, multiple = T)
+    rlang::arg_match(flow_direction, values = valid_codes$text, multiple = TRUE)
 
     # if one of the codes is not in the list of valid codes
     # send stop signal and list problems
@@ -275,10 +279,14 @@ check_flowCode <- function(flow_direction, update, verbose) {
 #' @returns A character vector specifying the commodity codes requested.
 #'
 #' @examplesIf interactive()
-#' check_cmdCode("01") # returns "01"
-#' check_cmdCode(c("01", "02")) # returns "01,02"
-#' check_cmdCode("ABC") # throws an error because "ABC" is not a valid HS code
-#' check_cmdCode(NULL) # throws an error because at least one HS code must be provided
+#' check_cmdCode("01")
+#' # returns "01"
+#' check_cmdCode(c("01", "02"))
+#' # returns "01,02"
+#' check_cmdCode("ABC")
+#' # throws an error because "ABC" is not a valid HS code
+#' check_cmdCode(NULL)
+#' # throws an error because at least one HS code must be provided
 #'
 #' @noRd
 check_cmdCode <-
@@ -320,18 +328,22 @@ check_cmdCode <-
 
 #' Check validity of reporter parameter.
 #'
-#' This function checks that the given reporter code is valid. If the code is not
-#' valid, the function throws an error message indicating which codes are invalid.
-#' It also converts the input to a proper format if necessary.
+#' This function checks that the given reporter code is valid.
+#' If the code is not valid, the function throws an error message
+#' indicating which codes are invalid. It also converts the input to a
+#' proper format if necessary.
 #'
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
-#' check_reporterCode("USA") # returns "842,841"
-#' check_reporterCode(c("USA", "FRA")) # returns "251,842,841"
-#' check_reporterCode("all") # returns all country codes, excluding any country groupings
+#' check_reporterCode("USA")
+#' # returns "842,841"
+#' check_reporterCode(c("USA", "FRA"))
+#' # returns "251,842,841"
+#' check_reporterCode("all")
+#' # returns all country codes, excluding any country groupings
 #'
 #' @noRd
 check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
@@ -353,7 +365,7 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
     ## get multiple values or single values that are not 'all_countries'
     if (length(reporter) > 1 | !any(reporter == "all_countries")) {
       if (any(reporter == "all_countries")) {
-        rlang::abort('"all_countries" can only be provided as a single argument.')
+    rlang::abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the reporter codes is not in the list of valid reporter codes
       # send stop signal and list problems
@@ -386,18 +398,22 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
 
 #' Check validity of partner parameter.
 #'
-#' This function checks that the given partner code is valid. If the code is not
-#' valid, the function throws an error message indicating which codes are invalid.
-#' It also converts the input to a proper format if necessary.
+#' This function checks that the given partner code is valid.
+#' If the code is not valid, the function throws an error message
+#' indicating which codes are invalid. It also converts the input to a
+#' proper format if necessary.
 #'
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid partner IDs.
 #'
 #' @examplesIf interactive()
-#' check_partnerCode("CAN") # returns "124"
-#' check_partnerCode(c("CAN", "MEX")) # returns "124,484"
-#' check_partnerCode("all") # returns all partner codes, excluding country groupings
+#' check_partnerCode("CAN")
+#' # returns "124"
+#' check_partnerCode(c("CAN", "MEX"))
+#' # returns "124,484"
+#' check_partnerCode("all")
+#' # returns all partner codes, excluding country groupings
 #'
 #' @noRd
 check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
@@ -417,9 +433,10 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     if (length(partner) > 1 | !any(partner == "all_countries")) {
       partner <- stringr::str_squish(partner)
       if (any(partner == "all_countries")) {
-        rlang::abort('"all_countries" can only be provided as a single argument.')
+      rlang::abort('"all_countries" can only be provided as a single argument.')
       }
-      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      # if one of the partnerCodes is not in the list of valid partnerCodes
+      # send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
         rlang::abort(paste(
           "The following partner you provided are invalid: ",
@@ -451,18 +468,22 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
 
 #' Check validity of partner_2 parameter.
 #'
-#' This function checks that the given partner_2 code is valid. If the code is not
-#' valid, the function throws an error message indicating which codes are invalid.
-#' It also converts the input to a proper format if necessary.
+#' This function checks that the given partner_2 code is valid.
+#' If the code is not valid, the function throws an error message
+#' indicating which codes are invalid. It also converts the input
+#' to a proper format if necessary.
 #'
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid partner_2 IDs.
 #'
 #' @examplesIf interactive()
-#' check_partner2Code("CAN") # returns "124"
-#' check_partner2Code(c("CAN", "MEX")) # returns "124,484"
-#' check_partner2Code("all") # returns all partner codes, excluding country groupings
+#' check_partner2Code("CAN")
+#' # returns "124"
+#' check_partner2Code(c("CAN", "MEX"))
+#' # returns "124,484"
+#' check_partner2Code("all")
+#' # returns all partner codes, excluding country groupings
 #'
 #' @noRd
 check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
@@ -482,9 +503,10 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
     if (length(partner) > 1 | !any(partner == "all_countries")) {
       partner <- stringr::str_squish(partner)
       if (any(partner == "all_countries")) {
-        rlang::abort('"all_countries" can only be provided as a single argument.')
+      rlang::abort('"all_countries" can only be provided as a single argument.')
       }
-      # if one of the partnerCodes is not in the list of valid partnerCodes send stop signal and list problems
+      # if one of the partnerCodes is not in the list
+      #of valid partnerCodes send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
         rlang::abort(paste(
           "The following partner_2 you provided are invalid: ",
@@ -553,7 +575,7 @@ check_motCode <-
         if (!all(mode_of_transport %in% valid_codes$text)) {
           rlang::abort(
             paste0(
-              "The following mode_of_transport codes you provided are invalid: ",
+            "The following mode_of_transport codes you provided are invalid: ",
               paste0(
                 setdiff(mode_of_transport, valid_codes$text),
                 collapse = ", "
@@ -621,21 +643,25 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #'
 #' This function checks that the given period code is valid. If the range or
 #' format is not valid, the function throws an error message indicating which
-#' codes are invalid. It also converts the input to the proper format if necessary.
+#' codes are invalid. It also converts the input to the proper format if
+#' necessary.
 #'
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid reporter IDs.
 #'
 #' @examplesIf interactive()
-#' check_date(2010, 2011, "A") # returns "2010,2011"
-#' check_date(2010, 2011, "A") # returns "2010"
-#' check_date("2010-01", "2010-07", "M") # returns "201001,201002,201003,201004,201005,201006,201007"
+#' check_date(2010, 2011, "A")
+#' # returns "2010,2011"
+#' check_date(2010, 2011, "A")
+#' # returns "2010"
+#' check_date("2010-01", "2010-07", "M")
+#' # returns "201001,201002,201003,201004,201005,201006,201007"
 #'
 #' @noRd
 check_date <- function(start_date, end_date, frequency) {
   if (is.null(start_date) | is.null(end_date)) {
-    rlang::abort("Please provide a start and end date for the period of interest.")
+rlang::abort("Please provide a start and end date for the period of interest.")
   }
 
   start_date <- as.character(start_date)

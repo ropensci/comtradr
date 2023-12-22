@@ -118,7 +118,8 @@ I use the `giscoR` package to get this information quickly.
 ```{r, echo = FALSE}
 v_data_6 <- system.file("extdata", "vignette_data_6.rda", package = "comtradr")
 if (!file.exists(v_data_6)) {
-  stop("internal vignette data set '~/extdata/vignette_data_6.rda' not found", call. = FALSE)
+  stop("internal vignette data set '~/extdata/vignette_data_6.rda' not found", 
+       call. = FALSE)
 }
 load(v_data_6)
 ```
@@ -175,7 +176,8 @@ Let's break this down into a simple loop. We could iterate over years, but that 
 ```{r, echo = FALSE}
 v_data_4 <- system.file("extdata", "vignette_data_4.rda", package = "comtradr")
 if (!file.exists(v_data_4)) {
-  stop("internal vignette data set '~/extdata/vignette_data_4.rda' not found", call. = FALSE)
+  stop("internal vignette data set '~/extdata/vignette_data_4.rda' not found", 
+       call. = FALSE)
 }
 load(v_data_4)
 ```
@@ -183,7 +185,8 @@ load(v_data_4)
 ```{r, echo = FALSE}
 v_data_5 <- system.file("extdata", "vignette_data_5.rda", package = "comtradr")
 if (!file.exists(v_data_5)) {
-  stop("internal vignette data set '~/extdata/vignette_data_5.rda' not found", call. = FALSE)
+  stop("internal vignette data set '~/extdata/vignette_data_5.rda' not found", 
+       call. = FALSE)
 }
 load(v_data_5)
 ```
@@ -282,7 +285,8 @@ data_eu_imports_world_clean <- data_eu_imports_world |>
     ref_year
   ) |>
     ## we now aggregate the imports by the product category and year 
-    ## over all reporters, since we are interested in the imports of the whole EU
+    ## over all reporters, since we are interested 
+    ## in the imports of the whole EU
   group_by(product_cat, ref_year) |>
   summarise(eu_import_product_cat_world = sum(primary_value)) |>
   ungroup()
@@ -294,12 +298,14 @@ data_eu_imports_world_clean <- data_eu_imports_world |>
 relevance <- data_eu_imports_clean |> 
   left_join(data_eu_imports_world_clean) |> 
   ## join the two datasets
-  mutate(relevance_eu = eu_import_product_cat/eu_import_product_cat_world*100) |> 
+  mutate(relevance_eu = eu_import_product_cat/
+           eu_import_product_cat_world*100) |> 
   ## calculate the ratio between world imports and imports from one partner |> 
   select( -flow_desc) |> ungroup()  
 ```
 
-Let's see who has the biggest share in the EU import market for wood (excluding EU countries). 
+Let's see who has the biggest share in the EU import market 
+for wood (excluding EU countries). 
 
 ```{r}
 top_10 <- relevance |> 
@@ -316,7 +322,9 @@ Let's also do a little sanity check. When summing up all the shares over one
 year, we should get to 100 %. This seems to hold. 
 
 ```{r}
-relevance |> ungroup() |> group_by(ref_year) |> summarise(sum = sum(relevance_eu))
+relevance |> ungroup() |> 
+  group_by(ref_year) |> 
+  summarise(sum = sum(relevance_eu))
 ```
 
 Maybe the last year was an outlier? We can calculate the mean relevante a 
@@ -333,10 +341,12 @@ average_share <- relevance |>
 
 ```{r,fig.width=10}
 ggplot(average_share) +
-  geom_col(aes(reorder(partner_desc,mean_relevance_eu), mean_relevance_eu), fill = 'brown') +
+  geom_col(aes(reorder(partner_desc,mean_relevance_eu), mean_relevance_eu), 
+           fill = 'brown') +
   coord_flip() + 
   theme_minimal() +
-  labs(title = 'Share of EU imports', subtitle = 'as average over last 4 years') +
+  labs(title = 'Share of EU imports', 
+       subtitle = 'as average over last 4 years') +
   xlab('average relevance in %')+
   ylab('')
 ```

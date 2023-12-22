@@ -1,10 +1,12 @@
 #' Build a valid request object from the checked parameters
 #'
-#' This is an internal function takes the necessary parameters from `ct_check_params()`
-#' and creates a httr2 request to be performed. This request can then be used in a second function, `ct_perform_request()` to actually return the data.
-#' It is called internally ct `ct_get_data()`
+#' This is an internal function takes the necessary parameters
+#' from `ct_check_params()` and creates a httr2 request to be performed.
+#' This request can then be used in a second function, `ct_perform_request()`
+#' to actually return the data. It is called internally ct `ct_get_data()`
 #'
-#' @param params a named vector of parameters for the comtrade request, result from `ct_check_params()`.
+#' @param params a named vector of parameters for the comtrade request,
+#' result from `ct_check_params()`.
 #'
 #' @examplesIf interactive()
 #' # Build request from checked parameters
