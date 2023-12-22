@@ -9,9 +9,11 @@ ct_build_request(params, primary_token = NULL, verbose = FALSE)
 \arguments{
 \item{params}{a named vector of parameters for the comtrade request, result from \code{ct_check_params()}.}
 
-\item{primary_token}{Your primary UN Comtrade API token. Default: stored token from \code{comtradr::set_primary_comtrade_key}.}
+\item{primary_token}{Your primary UN Comtrade API token.
+Default: stored token from \code{comtradr::set_primary_comtrade_key}.}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
 a httr2 request object
@@ -24,22 +26,24 @@ It is called internally ct \code{ct_get_data()}
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Build request from checked parameters
-comtradr:::ct_build_request(comtradr:::ct_check_params(type = 'goods',
-                                            frequency = 'A',
-                                            commodity_classification = 'HS',
-                                            commodity_code = 'TOTAL',
-                                            flow_direction = 'all',
-                                            reporter = 'all',
-                                            partner = 'World',
-                                            start_date = 2020,
-                                            end_date = 2022,
-                                            process = TRUE,
-                                            tidy_cols = TRUE,
-                                            verbose = FALSE,
-                                            primary_token = 'xxxx',
-                                            mode_of_transport = '0',
-                                            partner_2 = 'World',
-                                            customs_code ='C00',
-                                            update = FALSE ))
+comtradr:::ct_build_request(comtradr:::ct_check_params(
+  type = "goods",
+  frequency = "A",
+  commodity_classification = "HS",
+  commodity_code = "TOTAL",
+  flow_direction = "all",
+  reporter = "all",
+  partner = "World",
+  start_date = 2020,
+  end_date = 2022,
+  process = TRUE,
+  tidy_cols = TRUE,
+  verbose = FALSE,
+  primary_token = "xxxx",
+  mode_of_transport = "0",
+  partner_2 = "World",
+  customs_code = "C00",
+  update = FALSE
+))
 \dontshow{\}) # examplesIf}
 }

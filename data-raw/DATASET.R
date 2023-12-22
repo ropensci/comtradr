@@ -43,7 +43,7 @@ for(i in seq_along(list_of_datasets$category)){
                       'cmd_eb10s', 'cmd_eb')
 
   valid_country_datasets <- c('reporter','partner')
-  valid_other_datasets <- c('mot','customs')
+  valid_other_datasets <- c('mot','customs','flow')
 
   ## if it is a valid dataset that we need, download it
   if(list_of_datasets$category[i] %in% valid_cmd_datasets){
@@ -286,6 +286,72 @@ example_3 <- ct_get_data(reporter = "THA",
                 commodity_code = shrimp_codes)
 
 save(example_3, file = 'inst/extdata/vignette_data_3.rda')
+
+
+
+### vignette for large data files
+
+
+data_eu_imports <- data.frame()
+
+for(reporter in eu_countries){
+  ## for a simple status, print the country we are at
+  ## you can get a lot fancier with the library `progress` for progress bars
+  print(reporter)
+
+  ## assign the result into a temporary object
+  temp <- ct_get_data(
+    commodity_code = wood,
+    reporter = reporter,
+    partner = "all_countries",
+    flow_direction = "import",
+    start_date = 2018,
+    end_date = 2022
+  )
+
+  ## bind the subset to the complete data
+  data_eu_imports <- rbind(data_eu_imports, temp)
+
+  ## note that I did not include any sleep() command here to make the requests
+  ## wait for a specified amount of time, the package keeps track of that for
+  ## you automatically and backs off when needed
+}
+
+data_eu_imports <- data_eu_imports|>
+  select(
+    reporter_iso,
+    reporter_desc,
+    flow_desc,
+    partner_iso,
+    partner_desc,
+    cmd_code,
+    cmd_desc,
+    primary_value,
+    ref_year
+  )
+
+
+save(data_eu_imports, file = 'inst/extdata/vignette_data_4.rda')
+
+
+data_eu_imports_world <- ct_get_data(
+  commodity_code = wood,
+  reporter = eu_countries,
+  partner = "World",
+  flow_direction = "import",
+  start_date = 2018,
+  end_date = 2022
+)
+
+save(data_eu_imports_world, file = 'inst/extdata/vignette_data_5.rda')
+
+
+eu_countries <- giscoR::gisco_countrycode |>
+  filter(eu == T) |>
+  pull(ISO3_CODE)
+
+save(eu_countries, file = 'inst/extdata/vignette_data_6.rda')
+
 
 #
 # #

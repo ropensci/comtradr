@@ -7,18 +7,53 @@
 ct_get_ref_table(dataset_id, update = FALSE, verbose = FALSE)
 }
 \arguments{
-\item{dataset_id}{The dataset ID, which is either partner, reporter or a valid classification scheme.}
+\item{dataset_id}{The dataset ID, which is either partner,
+reporter or a valid classification scheme.}
 
-\item{update}{If TRUE, downloads possibly updated reference tables from the UN. Default: FALSE.}
+\item{update}{If TRUE, downloads possibly updated reference tables
+from the UN. Default: FALSE.}
 
-\item{verbose}{If TRUE, sends status updates to the console. If FALSE, runs functions quietly. Default: FALSE.}
+\item{verbose}{If TRUE, sends status updates to the console.
+If FALSE, runs functions quietly. Default: FALSE.}
 }
 \value{
 a tidy dataset with a reference table
 }
 \description{
-The first time, the function will read from disk, the second time from the environment. In the case of a necessary update the new data will be saved to the environment for the current session.
-You can use this table to look at the reference tables and if necessary extract respective classification codes by hand. In general we would recommend the function \code{ct_commodity_lookup} for this purpose. It uses the present function in the backend.
+The first time, the function will read from disk, the second time from the
+environment. In the case of a necessary update the new data will be saved
+to the environment for the current session.
+You can use this table to look at the reference tables and if necessary
+extract respective classification codes by hand. In general we would
+recommend the function \code{ct_commodity_lookup} for this purpose.
+It uses the present function in the backend.
+}
+\details{
+The function allows you to query most possible input parameters
+that are listed by the Comtrade API. The following dataset_ids are permitted:
+\itemize{
+\item Datasets that contain codes for the \code{commodity_code} argument. The name is
+the same as you would provide under \code{commodity_classification}.
+\itemize{
+\item 'HS' This is probably the most common classification for goods.
+\item 'B4'
+\item 'B5'
+\item 'EB02'
+\item 'EB10'
+\item 'EB10S'
+\item 'EB'
+\item 'S1'
+\item 'S2'
+\item 'S3'
+\item 'S4'
+\item 'SS'
+}
+\item 'reporter'
+\item 'partner'
+\item 'mode_of_transport'
+\item 'customs_code'
+\item 'flow_direction'
+}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

@@ -18,6 +18,6 @@ If you would like your Comtrade API key to persist in between sessions, use \cod
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 ## set API key
-set_primary_comtrade_key('xxxxxc678ca4dbxxxxxxxx8285r3')
+set_primary_comtrade_key("xxxxxc678ca4dbxxxxxxxx8285r3")
 \dontshow{\}) # examplesIf}
 }
