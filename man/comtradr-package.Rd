@@ -32,6 +32,8 @@ Other contributors:
 \itemize{
   \item Alicia Schep (\href{https://orcid.org/0000-0002-3915-0618}{ORCID}) (Alicia reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/141) [reviewer]
   \item Rafael Hellwig (\href{https://orcid.org/0000-0002-3092-3493}{ORCID}) (Rafael reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/141) [reviewer]
+  \item Ernest Guevarra (\href{https://orcid.org/0000-0002-4887-4415}{ORCID}) (Ernest reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/613) [reviewer]
+  \item Nicholas Potter (\href{https://orcid.org/0000-0002-3410-3732}{ORCID}) (Nicholas reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/613) [reviewer]
   \item Juergen Amann [contributor]
 }
 

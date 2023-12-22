@@ -349,7 +349,7 @@ If `flow_direction` is set to `everything`, all possible values for trade flow d
 
 ### `reporter` and `partner`
 
-Using `everything` for `reporter` or `partner` will query all possible values for reporter and partner countries, but also includes aggregates like `World` or some miscellaneous like `ASEAN`. Be careful when aggregating these values, so as to not count trade values multiple times in different aggregates. Alterantively, specificely for these values, you can also use `all_countries`, which allows you to query all countries which are not aggregates of some kind of grouped parameters like `ASEAN`. These values can usually be safely aggregated. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
+Using `everything` for `reporter` or `partner` will query all possible values for reporter and partner countries, but also includes aggregates like `World` or some miscellaneous like `ASEAN`. Be careful when aggregating these values, so as to not count trade values multiple times in different aggregates. Alternatively, specifically for these values, you can also use `all_countries`, which allows you to query all countries which are not aggregates of some kind of grouped parameters like `ASEAN`. These values can usually be safely aggregated. This allows you to retrieve trade data for all countries without specifying individual ISO3 codes.
 
 ### `mode_of_transport`, `partner_2`, and `customs_code`
 

@@ -1,5 +1,5 @@
 ---
-title: "Transition"
+title: "Transition from old comtradr"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{transition}
@@ -18,7 +18,7 @@ possible parameter values.
 With the below examples, we hope to make the transition a little easier. Most 
 of the design principles of the package have remained similar. 
 
-The most important changes can be summarised in that the package: 
+The most important changes can be summarized in that the package: 
 - extensively checks parameters for validity before submitting 
 them
 - allows iso3 standardized country codes as inputs
