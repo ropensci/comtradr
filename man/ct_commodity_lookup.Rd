@@ -71,7 +71,7 @@ within R, see
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-comtradr::ct_commodity_lookup('wine')
+comtradr::ct_commodity_lookup("wine")
 \dontshow{\}) # examplesIf}
 }
 \seealso{

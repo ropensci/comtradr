@@ -83,55 +83,63 @@
 #'
 #' @examplesIf interactive()
 #' # Query goods data for China's trade with Argentina and Germany in 2019
-#' ct_get_data(type = 'goods',
-#'             commodity_classification = 'HS',
-#'             commodity_code = 'TOTAL',
-#'             reporter = 'CHN',
-#'             partner = c('ARG','DEU'),
-#'             start_date = '2019',
-#'             end_date = '2019',
-#'             flow_direction = 'Import',
-#'             partner_2 = 'World',
-#'             verbose = TRUE)
+#' ct_get_data(
+#'   type = "goods",
+#'   commodity_classification = "HS",
+#'   commodity_code = "TOTAL",
+#'   reporter = "CHN",
+#'   partner = c("ARG", "DEU"),
+#'   start_date = "2019",
+#'   end_date = "2019",
+#'   flow_direction = "Import",
+#'   partner_2 = "World",
+#'   verbose = TRUE
+#' )
 #'
 #' # Query all commodity codes for China's imports from Germany in 2019
-#' ct_get_data(commodity_code = 'everything',
-#'             reporter = 'CHN',
-#'             partner = 'DEU',
-#'             start_date = '2019',
-#'             end_date = '2019',
-#'             flow_direction = 'Import')
+#' ct_get_data(
+#'   commodity_code = "everything",
+#'   reporter = "CHN",
+#'   partner = "DEU",
+#'   start_date = "2019",
+#'   end_date = "2019",
+#'   flow_direction = "Import"
+#' )
 #'
 #' # Query all commodity codes for China's imports from Germany
 #' # from January to June of 2019
-#' ct_get_data(commodity_code = "everything",
-#'             reporter = 'CHN',
-#'             partner = 'DEU',
-#'             start_date = '2019',
-#'             end_date = '2019',
-#'             flow_direction = 'import')
+#' ct_get_data(
+#'   commodity_code = "everything",
+#'   reporter = "CHN",
+#'   partner = "DEU",
+#'   start_date = "2019",
+#'   end_date = "2019",
+#'   flow_direction = "import"
+#' )
 #'
 #' @export
 #' @returns A data.frame with trade data or,
 #' if `process = F`, a httr2 response object.
 
-ct_get_data <- function(type = 'goods',
-                        frequency = 'A',
-                        commodity_classification = 'HS',
-                        commodity_code = 'TOTAL',
-                        flow_direction = c('Import','Export',
-                                           'Re-export','Re-import'),
-                        reporter = 'all_countries',
-                        partner = 'World',
+ct_get_data <- function(type = "goods",
+                        frequency = "A",
+                        commodity_classification = "HS",
+                        commodity_code = "TOTAL",
+                        flow_direction = c(
+                          "Import", "Export",
+                          "Re-export", "Re-import"
+                        ),
+                        reporter = "all_countries",
+                        partner = "World",
                         start_date = NULL,
                         end_date = NULL,
                         process = TRUE,
                         tidy_cols = TRUE,
                         verbose = FALSE,
                         primary_token = get_primary_comtrade_key(),
-                        mode_of_transport = 'TOTAL modes of transport',
-                        partner_2 = 'World',
-                        customs_code ='C00',
+                        mode_of_transport = "TOTAL modes of transport",
+                        partner_2 = "World",
+                        customs_code = "C00",
                         update = FALSE,
                         requests_per_second = 10 / 60,
                         extra_params = NULL) {
@@ -155,18 +163,23 @@ ct_get_data <- function(type = 'goods',
   )
 
   req <-
-    ct_build_request(params, verbose = verbose,
-                     primary_token = primary_token)
+    ct_build_request(params,
+      verbose = verbose,
+      primary_token = primary_token
+    )
 
   resp <- ct_perform_request(req,
-                             requests_per_second = requests_per_second,
-                             verbose = verbose)
+    requests_per_second = requests_per_second,
+    verbose = verbose
+  )
 
   if (process) {
-    result <- ct_process_response(resp, verbose = verbose,
-                                  tidy_cols = tidy_cols)
+    result <- ct_process_response(resp,
+      verbose = verbose,
+      tidy_cols = tidy_cols
+    )
     return(result)
-  } else{
+  } else {
     return(resp)
   }
 }

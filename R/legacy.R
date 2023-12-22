@@ -9,7 +9,7 @@
 #' @export
 #' @returns depreciation error
 ct_commodity_db_type <- function(...) {
-    lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()")
+  lifecycle::deprecate_stop("1.0.0", "ct_commodity_db_type()")
 }
 
 
@@ -24,8 +24,10 @@ ct_commodity_db_type <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_country_lookup <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_country_lookup()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_country_lookup()"
+  )
 }
 
 #' @title ct_search
@@ -38,9 +40,11 @@ ct_country_lookup <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_search <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_search()",
-                              "ct_get_data()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_search()",
+    "ct_get_data()"
+  )
 }
 
 #' @title ct_update_databases
@@ -53,8 +57,10 @@ ct_search <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_update_databases <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_update_databases()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_update_databases()"
+  )
 }
 
 #' @title ct_use_pretty_cols
@@ -67,8 +73,10 @@ ct_update_databases <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_use_pretty_cols <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_use_pretty_cols()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_use_pretty_cols()"
+  )
 }
 
 #' @title ct_get_reset_time
@@ -81,8 +89,10 @@ ct_use_pretty_cols <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_get_reset_time <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_get_reset_time()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_get_reset_time()"
+  )
 }
 
 #' @title ct_get_remaining_hourly_queries
@@ -95,8 +105,10 @@ ct_get_reset_time <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_get_remaining_hourly_queries <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_get_remaining_hourly_queries()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_get_remaining_hourly_queries()"
+  )
 }
 
 #' @title ct_register_token
@@ -109,7 +121,9 @@ ct_get_remaining_hourly_queries <- function(...) {
 #' @export
 #' @returns depreciation error
 ct_register_token <- function(...) {
-    lifecycle::deprecate_stop("1.0.0",
-                              "ct_register_token()",
-                              "set_primary_comtrade_key()")
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "ct_register_token()",
+    "set_primary_comtrade_key()"
+  )
 }

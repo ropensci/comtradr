@@ -28,4 +28,3 @@
 #'  \item{from}{original column names}
 #' }
 "ct_pretty_cols"
-

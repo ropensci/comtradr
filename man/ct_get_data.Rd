@@ -134,32 +134,38 @@ This can be useful for broad queries but may result in large datasets.
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Query goods data for China's trade with Argentina and Germany in 2019
-ct_get_data(type = 'goods',
-            commodity_classification = 'HS',
-            commodity_code = 'TOTAL',
-            reporter = 'CHN',
-            partner = c('ARG','DEU'),
-            start_date = '2019',
-            end_date = '2019',
-            flow_direction = 'Import',
-            partner_2 = 'World',
-            verbose = TRUE)
+ct_get_data(
+  type = "goods",
+  commodity_classification = "HS",
+  commodity_code = "TOTAL",
+  reporter = "CHN",
+  partner = c("ARG", "DEU"),
+  start_date = "2019",
+  end_date = "2019",
+  flow_direction = "Import",
+  partner_2 = "World",
+  verbose = TRUE
+)
 
 # Query all commodity codes for China's imports from Germany in 2019
-ct_get_data(commodity_code = 'everything',
-            reporter = 'CHN',
-            partner = 'DEU',
-            start_date = '2019',
-            end_date = '2019',
-            flow_direction = 'Import')
+ct_get_data(
+  commodity_code = "everything",
+  reporter = "CHN",
+  partner = "DEU",
+  start_date = "2019",
+  end_date = "2019",
+  flow_direction = "Import"
+)
 
 # Query all commodity codes for China's imports from Germany
 # from January to June of 2019
-ct_get_data(commodity_code = "everything",
-            reporter = 'CHN',
-            partner = 'DEU',
-            start_date = '2019',
-            end_date = '2019',
-            flow_direction = 'import')
+ct_get_data(
+  commodity_code = "everything",
+  reporter = "CHN",
+  partner = "DEU",
+  start_date = "2019",
+  end_date = "2019",
+  flow_direction = "import"
+)
 \dontshow{\}) # examplesIf}
 }
