@@ -2,7 +2,7 @@
 % Please edit documentation in R/ct_check_params.R
 \name{ct_check_params}
 \alias{ct_check_params}
-\title{Check that input parameters are valid and in compliance with UN Comtrade APIs.}
+\title{Check input parameters are valid and in compliance with UN Comtrade APIs.}
 \usage{
 ct_check_params(
   type,
@@ -92,8 +92,8 @@ Returns a list of named parameters for building a request.
 }
 \description{
 This is an internal function that is called by \code{ct_get_data()} and processes
-most arguments that are passed to it according to the relevant limitations of the
-official Comtrade API.
+most arguments that are passed to it according to the relevant limitations
+of the official Comtrade API.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

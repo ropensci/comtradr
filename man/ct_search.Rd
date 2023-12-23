@@ -7,7 +7,8 @@
 ct_search(...)
 }
 \arguments{
-\item{...}{Used to catch all possible arguments that users have supplied to this function.}
+\item{...}{Used to catch all possible arguments that users
+have supplied to this function.}
 }
 \value{
 depreciation error

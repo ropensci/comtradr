@@ -7,7 +7,8 @@
 ct_perform_request(req, requests_per_second, verbose = FALSE)
 }
 \arguments{
-\item{req}{a valid comtrade request built by the \code{ct_build_request()} function}
+\item{req}{a valid comtrade request built by the \code{ct_build_request()}
+function}
 
 \item{requests_per_second}{Rate of requests per second executed,
 usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
@@ -20,8 +21,11 @@ If FALSE, runs functions quietly. Default: FALSE.}
 JSON data from comtrade, data.frame with results or error codes.
 }
 \description{
-This function is internally called by \code{ct_get_data()} and performs the request constructed by \code{ct_build_request()} and returns an error body with the respective error returned by the Comtrade API.
-By default throttles all requests to 1 request per 6 seconds, or 10 requests per minute, but it adjusts automatically if the
+This function is internally called by \code{ct_get_data()} and performs the
+request constructed by \code{ct_build_request()} and returns an error body with
+the respective error returned by the Comtrade API.
+By default throttles all requests to 1 request per 6 seconds,
+or 10 requests per minute, but it adjusts automatically if the
 API asks for longer waiting times.
 }
 \examples{
@@ -35,6 +39,7 @@ ct_get_data(
   flow_direction = "import"
 )
 req <- httr2::last_request()
-resp <- comtradr:::ct_perform_request(req, requests_per_second = 10 / 60, verbose = FALSE)
+resp <- comtradr:::ct_perform_request(req,
+requests_per_second = 10 / 60, verbose = FALSE)
 \dontshow{\}) # examplesIf}
 }

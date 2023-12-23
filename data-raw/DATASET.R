@@ -280,7 +280,7 @@ shrimp_codes <- ct_commodity_lookup("shrimp",
 # Comtrade api query.
 example_3 <- ct_get_data(reporter = "THA",
                 partner = "all",
-                trade_direction = "exports",
+                flow_direction = "exports",
                 start_date = 2007,
                 end_date = 2011,
                 commodity_code = shrimp_codes)
@@ -290,8 +290,6 @@ save(example_3, file = 'inst/extdata/vignette_data_3.rda')
 
 
 ### vignette for large data files
-
-
 data_eu_imports <- data.frame()
 
 for(reporter in eu_countries){
@@ -351,6 +349,19 @@ eu_countries <- giscoR::gisco_countrycode |>
   pull(ISO3_CODE)
 
 save(eu_countries, file = 'inst/extdata/vignette_data_6.rda')
+
+
+
+
+#### vignette for transition
+
+q <- ct_get_data(reporter = 'USA',
+                 partner = c("DEU"),
+                 flow_direction = "import",
+                 start_date = 2012,
+                 end_date = 2012,
+                 frequency = "A")
+save(q, file = 'inst/extdata/vignette_data_7.rda')
 
 
 #

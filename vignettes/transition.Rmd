@@ -146,8 +146,16 @@ tomato_codes <- ct_commodity_lookup("tomato",
 
 ### API search metadata 📑
 
+```{r, echo = FALSE}
+v_data_7 <- system.file("extdata", "vignette_data_7.rda", package = "comtradr")
+if (!file.exists(v_data_7)) {
+  stop("internal vignette data set '~/extdata/vignette_data_7.rda' not found", 
+       call. = FALSE)
+}
+load(v_data_7)
+```
 
-```{r}
+```{r, eval = F}
 #### Previously
 # The url of the API call.
 attributes(q)$url
@@ -155,7 +163,9 @@ attributes(q)$url
 attributes(q)$time_stamp
 # The total duration of the API call, in seconds.
 attributes(q)$req_duration
+``` 
 
+``` {r}
 #### Now
 # The url of the API call.
 attributes(q)$url

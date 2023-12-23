@@ -16,6 +16,7 @@ A dataframe with 47 rows and twi columns:
 ct_pretty_cols
 }
 \description{
-A data.frame with a matched list of tidy and untidy column names for the results.
+A data.frame with a matched list of tidy and
+untidy column names for the results.
 }
 \keyword{datasets}
