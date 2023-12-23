@@ -7,7 +7,8 @@
 ct_build_request(params, primary_token = NULL, verbose = FALSE)
 }
 \arguments{
-\item{params}{a named vector of parameters for the comtrade request, result from \code{ct_check_params()}.}
+\item{params}{a named vector of parameters for the comtrade request,
+result from \code{ct_check_params()}.}
 
 \item{primary_token}{Your primary UN Comtrade API token.
 Default: stored token from \code{comtradr::set_primary_comtrade_key}.}
@@ -19,9 +20,10 @@ If FALSE, runs functions quietly. Default: FALSE.}
 a httr2 request object
 }
 \description{
-This is an internal function takes the necessary parameters from \code{ct_check_params()}
-and creates a httr2 request to be performed. This request can then be used in a second function, \code{ct_perform_request()} to actually return the data.
-It is called internally ct \code{ct_get_data()}
+This is an internal function takes the necessary parameters
+from \code{ct_check_params()} and creates a httr2 request to be performed.
+This request can then be used in a second function, \code{ct_perform_request()}
+to actually return the data. It is called internally ct \code{ct_get_data()}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

@@ -13,7 +13,9 @@ set_primary_comtrade_key(key = NULL)
 Saves your comtrade primary key in the environment.
 }
 \description{
-If you would like your Comtrade API key to persist in between sessions, use \code{usethis::edit_r_environ()} to add the env variable COMTRADE_PRIMARY to your environment file.
+If you would like your Comtrade API key to persist in between sessions,
+use \code{usethis::edit_r_environ()} to add the env variable COMTRADE_PRIMARY
+to your environment file.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

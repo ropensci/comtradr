@@ -115,7 +115,7 @@ It allows for detailed specification of the query,
 including the type of data (goods or services),
 frequency (annual or monthly), commodity classification,
 flow direction, and more.
-By providing \code{NULL} for certain parameters,
+By providing \code{everything} for certain parameters,
 you can query all possible values.
 The function is opinionated in that it already verifies certain parameters
 for you and is more than a pure wrapper around the API.
@@ -126,8 +126,8 @@ trade statistics and relevant analytical tables.
 It contains annual trade statistics starting from 1988
 and monthly trade statistics since 2000 for goods data
 
-Parameters that accept \code{NULL} will query all possible values.
-For example, setting \code{commodity_code = NULL}
+Parameters that accept \code{everything} will query all possible values.
+For example, setting \code{commodity_code = 'everything'}
 will retrieve data for all commodity codes.
 This can be useful for broad queries but may result in large datasets.
 }

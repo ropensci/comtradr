@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message = FALSE, warning=FALSE}
 library(comtradr)
 library(dplyr)
 library(ggplot2)
@@ -25,19 +25,24 @@ library(ggplot2)
 When you are on the free API tier, you will encounter two limits when wanting 
 to calculate on rather large datasets: 
 
-1) you can only make 250 calls per day, 
+1) you can only make 500 calls per day, 
 
 2) of which each can take up to 100.000 rows. 
 
+This information might be updated in the Comtrade API, check 
+the most up to date values [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+First+Time+Users#NewComtradeFAQforFirstTimeUsers-WhichsubscriptionscanIchoosefrom?).
+
 So when trying to fetch the maximum amount of data in the minimum amount of 
-days, you want to minimize the amount of requests you need by making them as comprehensive as possible, without ever exceeding the 100k row limit. 
+days, you want to minimize the amount of requests you need by making them 
+as comprehensive as possible, without ever exceeding the 100k row limit. 
 
 ### The example - Imports of the EU
 
 Let's say, we want to know which is the top exporter of the EU in each product 
 class of the Harmonic System. This could be useful, when thinking about 
-dependencies between countries, e.g. when evaluating the usefulness or impact of Regulation such as the 
-[EUDR Regulation](https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en). Quoting from the [ITC](https://tradebriefs.intracen.org/2023/11/spotlight): 
+dependencies between countries, e.g. when evaluating the usefulness or impact 
+of Regulation such as the [EUDR Regulation](https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en). 
+Quoting from the [ITC](https://tradebriefs.intracen.org/2023/11/spotlight): 
 "Under the regulation that entered into force on 29 June 2023, any 
 operator or trader placing [specific] commodities on the EU market or 
 exporting them from the EU, has to be able to prove that the goods do not 
@@ -57,9 +62,7 @@ the respective iso3 codes for the countries and a time frame.
 #### 1. What are the commodity codes?
 
 First we need to find out, which HS codes, or which goods are affected. 
-
 We look at Annex 1 of the [Regulation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R1115&qid=1687867231461). 
-
 This gives us more or less the following list of commodities for the 
 product class 'Wood'. 
 
@@ -136,29 +139,36 @@ the parameter to the partner argument.
 
 ### Getting the data
 
-To calculate the relevance of a product category to the EU, we need to calculate the following: 
+To calculate the relevance of a product category to the EU, we need to 
+calculate the following: 
 
-\[
-\text{Import Relevance to EU in %} = \frac{\sum_{c \in \text{EU27}} I_{c,p}}{\sum_{c \in \text{EU27}} W_{c,p}}
-\]
+
+$\text{Import Relevance to EU in %} = \frac{\sum_{c \in \text{EU27}} I_{c,p}}{\sum_{c \in \text{EU27}} W_{c,p}}$
+
 
 Where:
 
-- \( I_{c,p} \): Imports of EU country \( c \) in product category \( p \) from a specific non-EU country.
-
-- \( W_{c,p} \): Total imports of EU country \( c \) in product category \( p \) from the world.
-
-
-In plain English, we need to know how much of a given product comes from one country and which share of the total imports it has. 
+- $I_{c,p}$: Imports of EU country c in product category $p$ from 
+a specific non-EU country.
+- $W_{c,p}$: Total imports of EU country $c$ in product category $p$ 
+from the world.
 
 
-Let's get \( I_{c,p} \) first.
+In plain English, we need to know how much of a given product 
+comes from one country and which share of the total imports it has. 
+
+
+Let's get $I_{c,p}$ first.
 
 #### EU imports from all countries
 
-If you were to execute this query, you will get a return object that contains exactly 100k rows and a warning, that if you did not intend to get exactly 100k rows, you have most likely hit the limit. 
+If you were to execute this query, you will get a return object that 
+contains exactly 100k rows and a warning, that if you did not intend 
+to get exactly 100k rows, you have most likely hit the limit. 
 
-This seems natural in this case, as we are trying to get data on about 39 commodity classes for 27 EU countries as reporters and about 190 partners in 4 years. This equals to potentially 800k rows. 
+This seems natural in this case, as we are trying to get data on about 
+39 commodity classes for 27 EU countries as reporters and about 190 
+partners in 4 years. This equals to potentially 800k rows. 
 
 ```{r, eval = F}
 data_eu_imports <- ct_get_data(
@@ -227,7 +237,7 @@ nrow(data_eu_imports)
 
 Congratulations, you have now queried 170k rows of data, exceeding the limit of one call to the API! 
 
-Getting the data for imports from the World should be easy now! 
+Getting the data for imports from the World, $W_{c,p}$, should be easy now! 
 
 ```{r, eval = F}
 data_eu_imports_world <- ct_get_data(
