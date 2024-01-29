@@ -23,7 +23,8 @@ ct_get_data(
   customs_code = "C00",
   update = FALSE,
   requests_per_second = 10/60,
-  extra_params = NULL
+  extra_params = NULL,
+  cache = F
 )
 }
 \arguments{

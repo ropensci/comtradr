@@ -12,6 +12,15 @@ assign(
   envir = ct_env
 )
 
+.onLoad <- function() {
+  if(Sys.getenv('comtradr.cache_dir')==""){
+    cache <- cachem::cache_disk(dir = rappdirs::user_cache_dir(appname = 'comtradr'))
+  } else {
+    cache <- cachem::cache_disk(dir = Sys.getenv('comtradr.cache_dir'))
+  }
+  ct_perform_request_cache <<- memoise::memoise(ct_perform_request,cache = cache)
+}
+
 # Initialize placeholders for package data within ct_env.
 assign("B4", NULL, envir = ct_env)
 assign("B5", NULL, envir = ct_env)

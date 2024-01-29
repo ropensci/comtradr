@@ -142,7 +142,8 @@ ct_get_data <- function(type = "goods",
                         customs_code = "C00",
                         update = FALSE,
                         requests_per_second = 10 / 60,
-                        extra_params = NULL) {
+                        extra_params = NULL,
+                        cache = F) {
   ## compile codes
   params <- ct_check_params(
     type = type,
@@ -168,10 +169,17 @@ ct_get_data <- function(type = "goods",
       primary_token = primary_token
     )
 
-  resp <- ct_perform_request(req,
-    requests_per_second = requests_per_second,
-    verbose = verbose
-  )
+  if(cache){
+    resp <- ct_perform_request_cache(req,
+                               requests_per_second = requests_per_second,
+                               verbose = verbose
+    )
+  } else{
+    resp <- ct_perform_request(req,
+                               requests_per_second = requests_per_second,
+                               verbose = verbose
+    )
+  }
 
   if (process) {
     result <- ct_process_response(resp,
@@ -182,4 +190,8 @@ ct_get_data <- function(type = "goods",
   } else {
     return(resp)
   }
+}
+
+ct_get_data_cache <- function(){
+
 }
