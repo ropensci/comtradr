@@ -50,7 +50,10 @@ Imports:
     stringr,
     poorman,
     lubridate,
-    purrr
+    purrr,
+    rappdirs,
+    memoise,
+    cachem
 Suggests: 
     covr,
     dplyr,
