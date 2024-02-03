@@ -1,7 +1,5 @@
 
 testthat::test_that("ct_perform_request is cached", {
-  detach("package:comtradr", unload = TRUE)
-  library(comtradr)
   testthat::expect_true(memoise::is.memoised(
     comtradr:::ct_perform_request_cache))
   testthat::expect_equal(comtradr:::cache$info()$max_size, 1073741824)
