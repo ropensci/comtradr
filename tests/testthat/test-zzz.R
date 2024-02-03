@@ -25,3 +25,5 @@ testthat::test_that("ct_perform_request is cached", {
 #   testthat::expect_equal(comtradr:::cache$info()$max_n, 1)
 #   testthat::expect_true(dir.exists(rappdirs::user_cache_dir('comtradr')))
 # })
+
+
