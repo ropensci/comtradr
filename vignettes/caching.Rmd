@@ -1,5 +1,5 @@
 ---
-title: "Transition from old comtradr"
+title: "Caching requests from the UN Comtrade API"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{transition}
