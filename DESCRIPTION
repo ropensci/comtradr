@@ -53,8 +53,7 @@ Imports:
     purrr,
     rappdirs,
     memoise,
-    cachem,
-    options
+    cachem
 Suggests: 
     covr,
     dplyr,
