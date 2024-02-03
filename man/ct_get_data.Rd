@@ -104,6 +104,11 @@ see \code{req_throttle()} for details.}
 \item{extra_params}{Additional parameters to the API, passed as query
 parameters without checking. Please provide a named list to this parameter.
 Default: NULL.}
+
+\item{cache}{A logical value to determine, whether requests should be cached
+or not. If set to True, \code{rappdirs::user_cache_dir()} is used
+to determine the location of the cache. Use the .Renviron file to set the
+R_USER_CACHE_DIR in order to change this location. Default: False.}
 }
 \value{
 A data.frame with trade data or,
