@@ -26,35 +26,31 @@ testthat::test_that("ct_perform_request is cached", {
   }, stringr::str_c(getwd(), '/cache_test/comtradr'))
 })
 
-
 testthat::test_that("ct_perform_request cache parameters are set correctly", {
   script_content <- "
     library(comtradr)
     cache_info <- comtradr:::cache$info()
-    cache_info_list <- list(
-      max_size = cache_info$max_size,
-      max_age = cache_info$max_age,
-      max_n = cache_info$max_n
-    )
-    cat(jsonlite::toJSON(cache_info_list))
+    cat(paste(cache_info$max_size, cache_info$max_age, cache_info$max_n, sep = ','))
   "
 
   script_file <- tempfile()
   writeLines(script_content, script_file)
 
   output <- callr::rscript(script_file, env = c(
-    COMTRADR_CACHE_MAX_SIZE = "1",
-    COMTRADR_CACHE_MAX_AGE = "1",
-    COMTRADR_CACHE_MAX_N = "1",
-    R_USER_CACHE_DIR = "cache_test"
+    COMTRADR_CACHE_MAX_SIZE = '1',
+    COMTRADR_CACHE_MAX_AGE = '1',
+    COMTRADR_CACHE_MAX_N = '1',
+    R_USER_CACHE_DIR = 'cache_test'
   ))
 
-  cache_info <- jsonlite::fromJSON(output$stdout)
+  cache_values <- strsplit(output$stdout, ',')[[1]]
+  cache_values <- as.numeric(cache_values)
 
-  testthat::expect_equal(cache_info$max_size, 1)
-  testthat::expect_equal(cache_info$max_age, 1)
-  testthat::expect_equal(cache_info$max_n, 1)
+  testthat::expect_equal(cache_values[1], 1) # max_size
+  testthat::expect_equal(cache_values[2], 1) # max_age
+  testthat::expect_equal(cache_values[3], 1) # max_n
 })
+
 
 
 
