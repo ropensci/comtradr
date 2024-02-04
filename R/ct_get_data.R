@@ -77,6 +77,10 @@
 #' @param requests_per_second Rate of requests per second executed,
 #' usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
 #' see `req_throttle()` for details.
+#' @param cache A logical value to determine, whether requests should be cached
+#' or not. If set to True, `rappdirs::user_cache_dir()` is used
+#' to determine the location of the cache. Use the .Renviron file to set the
+#' R_USER_CACHE_DIR in order to change this location. Default: False.
 #' @param extra_params Additional parameters to the API, passed as query
 #' parameters without checking. Please provide a named list to this parameter.
 #' Default: NULL.
@@ -142,7 +146,8 @@ ct_get_data <- function(type = "goods",
                         customs_code = "C00",
                         update = FALSE,
                         requests_per_second = 10 / 60,
-                        extra_params = NULL) {
+                        extra_params = NULL,
+                        cache = F) {
   ## compile codes
   params <- ct_check_params(
     type = type,
@@ -168,10 +173,17 @@ ct_get_data <- function(type = "goods",
       primary_token = primary_token
     )
 
-  resp <- ct_perform_request(req,
-    requests_per_second = requests_per_second,
-    verbose = verbose
-  )
+  if(cache){
+    resp <- ct_perform_request_cache(req,
+                               requests_per_second = requests_per_second,
+                               verbose = verbose
+    )
+  } else{
+    resp <- ct_perform_request(req,
+                               requests_per_second = requests_per_second,
+                               verbose = verbose
+    )
+  }
 
   if (process) {
     result <- ct_process_response(resp,
@@ -183,3 +195,4 @@ ct_get_data <- function(type = "goods",
     return(resp)
   }
 }
+
