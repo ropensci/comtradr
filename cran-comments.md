@@ -59,9 +59,22 @@ Skipping checking HTML validation: no command 'tidy' found
 
 ```
 Found the following (possibly) invalid URLs:
+  URL: https://comtrade.un.org/data/doc/api/#Limits
+    From: NEWS.md
+    Status: Error
+    Message: libcurl error code 35:
+      	error:0A000152:SSL routines::unsafe legacy renegotiation disabled
   URL: https://comtradeplus.un.org/
     From: DESCRIPTION
           man/comtradr-package.Rd
+          inst/doc/comtradr.html
+          README.md
+    Status: Error
+    Message: libcurl error code 60:
+      	SSL certificate problem: unable to get local issuer certificate
+      	(Status without verification: OK)
+  URL: https://tradebriefs.intracen.org/2023/11/spotlight
+    From: inst/doc/large_data.html
     Status: Error
     Message: libcurl error code 60:
       	SSL certificate problem: unable to get local issuer certificate
