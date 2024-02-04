@@ -2,7 +2,7 @@
 title: "Caching requests from the UN Comtrade API"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{transition}
+  %\VignetteIndexEntry{caching}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
