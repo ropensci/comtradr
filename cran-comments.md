@@ -23,9 +23,6 @@ New submission
 
 Package was archived on CRAN
 
-Possibly misspelled words in DESCRIPTION:
-  Comtrade (2:42, 26:70, 27:39)
-
 CRAN repository db overrides:
   X-CRAN-Comment: Archived on 2023-04-12 at the request of the
     maintainer.
@@ -41,7 +38,7 @@ Found the following files/directories:
 ```
 As noted in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be due to a bug/crash in MiKTeX and can likely be ignored.
 
-3. The third is 
+3. The other is:
 
 ```
 * checking for non-standard things in the check directory ... NOTE
