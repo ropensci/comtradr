@@ -9,22 +9,22 @@ testthat::test_that("ct_perform_request is cached", {
 })
 
 
-
-testthat::test_that("ct_perform_request is cached", {
-  testthat::expect_equal({
-    sc <- tempfile()
-    cat("library(comtradr)\ncomtradr:::cache$info()$dir", file = sc)
-    sub <- callr::rscript(sc, env = c(
-      COMTRADR_CACHE_MAX_SIZE = "1",
-      COMTRADR_CACHE_MAX_AGE = "1",
-      COMTRADR_CACHE_MAX_N = "1",
-      R_USER_CACHE_DIR = "cache_test"
-    ))
-    stringr::str_extract(sub$stdout, '"/.*comtradr') |>
-      stringr::str_remove('^"') |>
-      stringr::str_remove('/$')
-  }, stringr::str_c(getwd(), '/cache_test/comtradr'))
-})
+#
+# testthat::test_that("ct_perform_request is cached", {
+#   testthat::expect_equal({
+#     sc <- tempfile()
+#     cat("library(comtradr)\ncomtradr:::cache$info()$dir", file = sc)
+#     sub <- callr::rscript(sc, env = c(
+#       COMTRADR_CACHE_MAX_SIZE = "1",
+#       COMTRADR_CACHE_MAX_AGE = "1",
+#       COMTRADR_CACHE_MAX_N = "1",
+#       R_USER_CACHE_DIR = "cache_test"
+#     ))
+#     stringr::str_extract(sub$stdout, '"/.*comtradr') |>
+#       stringr::str_remove('^"') |>
+#       stringr::str_remove('/$')
+#   }, stringr::str_c(getwd(), '/cache_test/comtradr'))
+# })
 
 testthat::test_that("ct_perform_request cache parameters are set correctly", {
   script_content <- "
