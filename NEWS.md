@@ -1,8 +1,41 @@
-comtradr 0.4
+comtradr 0.4.0
 ====================
 
-Comtradr has received a complete overhaul. Please reference the Readme for all new functions and use-cases.
+* comtradr has received a complete overhaul. Please reference the Readme for all new functions and use-cases.
 
+## NEW FEATURES
+
+- **Caching Functionality**: Implemented enhanced caching features, and added a dedicated vignette explaining caching concepts. Environment variables allow for configuration of some caching features.
+
+- **Functionality Updates**: Major updates to key functions such as `ct_get_data` and `ct_get_ref_table`, including parameter adjustments and usability improvements, mostly checks for all important parameters before the request is send out.
+
+### Deprecated in Version 0.4.0
+
+- **ct_commodity_db_type**
+  - Deprecated with no direct alternative.
+
+- **ct_country_lookup**
+  - Deprecated, use `country_codes` dataset for country codes.
+
+- **ct_search**
+  - Deprecated, use `ct_get_data()` as an alternative.
+
+- **ct_update_databases**
+  - Deprecated, utilize the `update` parameter in `ct_get_data`.
+
+- **ct_use_pretty_cols**
+  - Deprecated, replaced by the `process` argument in main functions.
+
+- **ct_get_reset_time**
+  - Deprecated, no longer relevant due to daily call limit enforcement.
+
+- **ct_get_remaining_hourly_queries**
+  - Deprecated, as hourly reset time no longer exists.
+
+- **ct_register_token**
+  - Deprecated, use `set_primary_comtrade_key()` instead.
+  
+  
 comtradr 0.3.0.09000
 ====================
 
