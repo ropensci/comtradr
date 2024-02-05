@@ -28,18 +28,3 @@ By default throttles all requests to 1 request per 6 seconds,
 or 10 requests per minute, but it adjusts automatically if the
 API asks for longer waiting times.
 }
-\examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-ct_get_data(
-  commodity_code = NULL,
-  reporter = "CHN",
-  partner = "DEU",
-  start_date = "2019",
-  end_date = "2019",
-  flow_direction = "import"
-)
-req <- httr2::last_request()
-resp <- comtradr:::ct_perform_request(req,
-requests_per_second = 10 / 60, verbose = FALSE)
-\dontshow{\}) # examplesIf}
-}

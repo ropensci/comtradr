@@ -25,27 +25,3 @@ from \code{ct_check_params()} and creates a httr2 request to be performed.
 This request can then be used in a second function, \code{ct_perform_request()}
 to actually return the data. It is called internally ct \code{ct_get_data()}
 }
-\examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# Build request from checked parameters
-comtradr:::ct_build_request(comtradr:::ct_check_params(
-  type = "goods",
-  frequency = "A",
-  commodity_classification = "HS",
-  commodity_code = "TOTAL",
-  flow_direction = "all",
-  reporter = "all",
-  partner = "World",
-  start_date = 2020,
-  end_date = 2022,
-  process = TRUE,
-  tidy_cols = TRUE,
-  verbose = FALSE,
-  primary_token = "xxxx",
-  mode_of_transport = "0",
-  partner_2 = "World",
-  customs_code = "C00",
-  update = FALSE
-))
-\dontshow{\}) # examplesIf}
-}

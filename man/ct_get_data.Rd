@@ -24,7 +24,7 @@ ct_get_data(
   update = FALSE,
   requests_per_second = 10/60,
   extra_params = NULL,
-  cache = F
+  cache = FALSE
 )
 }
 \arguments{
