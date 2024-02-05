@@ -10,19 +10,6 @@
 #'
 #' @returns a data.frame object with the results
 #'
-#' @examplesIf interactive()
-#' ct_get_data(
-#'   commodity_code = NULL,
-#'   reporter = "CHN",
-#'   partner = "DEU",
-#'   start_date = "2019",
-#'   end_date = "2019",
-#'   flow_direction = "import"
-#' )
-#' req <- httr2::last_request()
-#' resp <- comtradr:::ct_perform_request(req, requests_per_second = 10 / 60,
-#' verbose = FALSE)
-#' data <- comtradr:::ct_process_response(resp)
 #' @inheritParams ct_get_data
 ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
   result <- resp |>

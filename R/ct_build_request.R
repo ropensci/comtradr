@@ -8,28 +8,6 @@
 #' @param params a named vector of parameters for the comtrade request,
 #' result from `ct_check_params()`.
 #'
-#' @examplesIf interactive()
-#' # Build request from checked parameters
-#' comtradr:::ct_build_request(comtradr:::ct_check_params(
-#'   type = "goods",
-#'   frequency = "A",
-#'   commodity_classification = "HS",
-#'   commodity_code = "TOTAL",
-#'   flow_direction = "all",
-#'   reporter = "all",
-#'   partner = "World",
-#'   start_date = 2020,
-#'   end_date = 2022,
-#'   process = TRUE,
-#'   tidy_cols = TRUE,
-#'   verbose = FALSE,
-#'   primary_token = "xxxx",
-#'   mode_of_transport = "0",
-#'   partner_2 = "World",
-#'   customs_code = "C00",
-#'   update = FALSE
-#' ))
-#'
 #' @returns a httr2 request object
 #' @inheritParams ct_get_data
 ct_build_request <- function(params,
