@@ -10,6 +10,7 @@
 #'
 #' @returns a data.frame object with the results
 #'
+#' @noRd
 #' @inheritParams ct_get_data
 ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
   result <- resp |>

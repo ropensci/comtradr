@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Put all instances of 'Comtrade' in the title and description in single quotes
+
+* Changed F to FALSE in remaining instance
+
+* deleted examples for unexported functions
+
 ## Test environments
 
 * local OS X x86_64-apple-darwin21.6.0 (64-bit), R 4.3.1

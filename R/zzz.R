@@ -18,16 +18,19 @@ assign(
   max_age_env <- Sys.getenv("COMTRADR_CACHE_MAX_AGE")
   max_n_env <- Sys.getenv("COMTRADR_CACHE_MAX_N")
 
-  max_size <- ifelse(nzchar(max_size_env), eval(parse(text = max_size_env)), 1024 * 1024^2)
+  max_size <- ifelse(nzchar(max_size_env), eval(parse(text = max_size_env)),
+                     1024 * 1024^2)
   max_age <- ifelse(nzchar(max_age_env), eval(parse(text = max_age_env)), Inf)
   max_n <- ifelse(nzchar(max_n_env), eval(parse(text = max_n_env)), Inf)
 
-  cache <- cachem::cache_disk(dir = rappdirs::user_cache_dir(appname = 'comtradr'),
+  cache <- cachem::cache_disk(dir = rappdirs::user_cache_dir(
+    appname = 'comtradr'),
                               max_size = max_size,
                               max_age = max_age,
                               max_n = max_n)
 
-  ct_perform_request_cache <- memoise::memoise(ct_perform_request, cache = cache)
+  ct_perform_request_cache <- memoise::memoise(ct_perform_request,
+                                               cache = cache)
 
   assign(x = "ct_perform_request_cache",
          value = ct_perform_request_cache,

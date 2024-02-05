@@ -5,6 +5,7 @@
 #' of the official Comtrade API.
 #'
 #'
+#' @noRd
 #' @returns Returns a list of named parameters for building a request.
 #' @inheritParams ct_get_data
 ct_check_params <- function(type,

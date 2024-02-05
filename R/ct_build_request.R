@@ -8,6 +8,7 @@
 #' @param params a named vector of parameters for the comtrade request,
 #' result from `ct_check_params()`.
 #'
+#' @noRd
 #' @returns a httr2 request object
 #' @inheritParams ct_get_data
 ct_build_request <- function(params,

@@ -30,7 +30,8 @@ testthat::test_that("ct_perform_request cache parameters are set correctly", {
   script_content <- "
     library(comtradr)
     cache_info <- comtradr:::cache$info()
-    cat(paste(cache_info$max_size, cache_info$max_age, cache_info$max_n, sep = ','))
+    cat(paste(cache_info$max_size,
+              cache_info$max_age, cache_info$max_n, sep = ','))
   "
 
   script_file <- tempfile()
