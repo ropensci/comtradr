@@ -147,7 +147,7 @@ ct_get_data <- function(type = "goods",
                         update = FALSE,
                         requests_per_second = 10 / 60,
                         extra_params = NULL,
-                        cache = F) {
+                        cache = FALSE) {
   ## compile codes
   params <- ct_check_params(
     type = type,

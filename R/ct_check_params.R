@@ -5,26 +5,8 @@
 #' of the official Comtrade API.
 #'
 #'
+#' @noRd
 #' @returns Returns a list of named parameters for building a request.
-#' @examplesIf interactive()
-#' # Build request from checked parameters
-#' comtradr:::ct_check_params(
-#'   type = "goods",
-#'   frequency = "A",
-#'   commodity_classification = "HS",
-#'   commodity_code = "TOTAL",
-#'   flow_direction = "all",
-#'   reporter = "all",
-#'   partner = "World",
-#'   start_date = 2020,
-#'   end_date = 2022,
-#'   verbose = FALSE,
-#'   primary_token = "xxxx",
-#'   mode_of_transport = "0",
-#'   partner_2 = "World",
-#'   customs_code = "C00",
-#'   update = FALSE
-#' )
 #' @inheritParams ct_get_data
 ct_check_params <- function(type,
                             frequency,
@@ -139,10 +121,6 @@ ct_check_params <- function(type,
 #'
 #' @returns A character string specifying the type parameter of the data.
 #'
-#' @examplesIf interactive()
-#' check_freq("goods") # returns "C"
-#' check_freq("services") # returns "S"
-#' check_freq("Good") # throws an error because "Good" is not a valid type code
 #'
 #' @noRd
 check_type <- function(type) {
@@ -167,11 +145,6 @@ check_type <- function(type) {
 #'
 #' @returns A character string specifying the frequency of the data.
 #'
-#' @examplesIf interactive()
-#' check_freq("A") # returns "A"
-#' check_freq("Q") # returns "Q"
-#' check_freq("M") # returns "M"
-#' check_freq("D") # throws an error because "D" is not a valid frequency code
 #'
 #' @noRd
 check_freq <- function(type, frequency) {
@@ -193,11 +166,6 @@ check_freq <- function(type, frequency) {
 #'
 #' @returns A character string specifying the selected classification code.
 #'
-#' @examplesIf interactive()
-#' comtradr:::check_clCode("HS")
-#' # returns "HS"
-#' comtradr:::check_clCode("ISIC")
-#' # throws an error because "ISIC" is not a valid classification code
 #'
 #' @noRd
 check_clCode <- function(type, commodity_classification) {
@@ -219,15 +187,6 @@ check_clCode <- function(type, commodity_classification) {
 #'
 #' @returns A character vector specifying the trade flow codes.
 #'
-#' @examplesIf interactive()
-#' check_flowCode("import")
-#' # returns "M"
-#' check_flowCode(c("export", "re-export"))
-#' # returns "X,RX"
-#' check_flowCode("trade")
-#' # throws an error because "trade" is not a valid flow code
-#' check_flowCode(NULL)
-#' # throws an error because at least one flow code must be provided
 #'
 #' @noRd
 check_flowCode <- function(flow_direction, update, verbose) {
@@ -271,15 +230,6 @@ check_flowCode <- function(flow_direction, update, verbose) {
 #'
 #' @returns A character vector specifying the commodity codes requested.
 #'
-#' @examplesIf interactive()
-#' check_cmdCode("01")
-#' # returns "01"
-#' check_cmdCode(c("01", "02"))
-#' # returns "01,02"
-#' check_cmdCode("ABC")
-#' # throws an error because "ABC" is not a valid HS code
-#' check_cmdCode(NULL)
-#' # throws an error because at least one HS code must be provided
 #'
 #' @noRd
 check_cmdCode <-
@@ -329,14 +279,6 @@ check_cmdCode <-
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid reporter IDs.
-#'
-#' @examplesIf interactive()
-#' check_reporterCode("USA")
-#' # returns "842,841"
-#' check_reporterCode(c("USA", "FRA"))
-#' # returns "251,842,841"
-#' check_reporterCode("all")
-#' # returns all country codes, excluding any country groupings
 #'
 #' @noRd
 check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
@@ -400,13 +342,6 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
 #'
 #' @returns A character vector of valid partner IDs.
 #'
-#' @examplesIf interactive()
-#' check_partnerCode("CAN")
-#' # returns "124"
-#' check_partnerCode(c("CAN", "MEX"))
-#' # returns "124,484"
-#' check_partnerCode("all")
-#' # returns all partner codes, excluding country groupings
 #'
 #' @noRd
 check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
@@ -469,14 +404,6 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid partner_2 IDs.
-#'
-#' @examplesIf interactive()
-#' check_partner2Code("CAN")
-#' # returns "124"
-#' check_partner2Code(c("CAN", "MEX"))
-#' # returns "124,484"
-#' check_partner2Code("all")
-#' # returns all partner codes, excluding country groupings
 #'
 #' @noRd
 check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
@@ -638,14 +565,6 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #' @inheritParams ct_get_data
 #'
 #' @returns A character vector of valid reporter IDs.
-#'
-#' @examplesIf interactive()
-#' check_date(2010, 2011, "A")
-#' # returns "2010,2011"
-#' check_date(2010, 2011, "A")
-#' # returns "2010"
-#' check_date("2010-01", "2010-07", "M")
-#' # returns "201001,201002,201003,201004,201005,201006,201007"
 #'
 #' @noRd
 check_date <- function(start_date, end_date, frequency) {

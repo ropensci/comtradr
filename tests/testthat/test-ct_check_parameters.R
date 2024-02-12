@@ -15,7 +15,7 @@ test_that("check_freq returns correct frequency codes and handles invalid inputs
 })
 
 # Test 'check_clCode' function
-test_that("check_clCode returns correct classification codes and handles invalid inputs", { #n olint
+test_that("check_clCode returns correct classification codes and handles invalid inputs", { #nolint
   expect_equal(check_clCode("C", "HS"), "HS")
   expect_equal(check_clCode("C", "B4"), "B4")
   expect_error(check_clCode("C", "ISIC"),

@@ -69,7 +69,7 @@ The parameters are:
 
 -   `R_USER_CACHE_DIR` = Directory where the cached files will be saved.
 
-See here for the details on pruning and other functions of cachem:
+See here for the details on pruning and other functions of `cachem`:
 <https://cachem.r-lib.org/reference/cache_disk.html>
 
 

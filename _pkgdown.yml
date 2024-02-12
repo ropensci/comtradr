@@ -5,12 +5,8 @@ reference:
   - ct_get_data
 
 - title: Internal functions
-  desc: These functions are called internally by `ct_get_data` and do the heavy lifting.
+  desc: These functions are called internally by `ct_get_data` and set the comtrade keys.
   contents:
-  - ct_check_params
-  - ct_build_request
-  - ct_perform_request
-  - ct_process_response
   - get_primary_comtrade_key
   - set_primary_comtrade_key
 

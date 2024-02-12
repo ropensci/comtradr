@@ -10,19 +10,8 @@
 #' @param req a valid comtrade request built by the `ct_build_request()`
 #' function
 #'
+#' @noRd
 #' @returns JSON data from comtrade, data.frame with results or error codes.
-#' @examplesIf interactive()
-#' ct_get_data(
-#'   commodity_code = NULL,
-#'   reporter = "CHN",
-#'   partner = "DEU",
-#'   start_date = "2019",
-#'   end_date = "2019",
-#'   flow_direction = "import"
-#' )
-#' req <- httr2::last_request()
-#' resp <- comtradr:::ct_perform_request(req,
-#' requests_per_second = 10 / 60, verbose = FALSE)
 #' @inheritParams ct_get_data
 ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
   if (verbose) {

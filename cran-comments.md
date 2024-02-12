@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Put all instances of 'Comtrade' in the title and description in single quotes
+
+* Changed F to FALSE in remaining instance
+
+* deleted examples for unexported functions
+
 ## Test environments
 
 * local OS X x86_64-apple-darwin21.6.0 (64-bit), R 4.3.1
@@ -23,9 +32,6 @@ New submission
 
 Package was archived on CRAN
 
-Possibly misspelled words in DESCRIPTION:
-  Comtrade (2:42, 26:70, 27:39)
-
 CRAN repository db overrides:
   X-CRAN-Comment: Archived on 2023-04-12 at the request of the
     maintainer.
@@ -41,7 +47,7 @@ Found the following files/directories:
 ```
 As noted in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be due to a bug/crash in MiKTeX and can likely be ignored.
 
-3. The third is 
+3. The other is:
 
 ```
 * checking for non-standard things in the check directory ... NOTE
@@ -62,9 +68,22 @@ Skipping checking HTML validation: no command 'tidy' found
 
 ```
 Found the following (possibly) invalid URLs:
+  URL: https://comtrade.un.org/data/doc/api/#Limits
+    From: NEWS.md
+    Status: Error
+    Message: libcurl error code 35:
+      	error:0A000152:SSL routines::unsafe legacy renegotiation disabled
   URL: https://comtradeplus.un.org/
     From: DESCRIPTION
           man/comtradr-package.Rd
+          inst/doc/comtradr.html
+          README.md
+    Status: Error
+    Message: libcurl error code 60:
+      	SSL certificate problem: unable to get local issuer certificate
+      	(Status without verification: OK)
+  URL: https://tradebriefs.intracen.org/2023/11/spotlight
+    From: inst/doc/large_data.html
     Status: Error
     Message: libcurl error code 60:
       	SSL certificate problem: unable to get local issuer certificate

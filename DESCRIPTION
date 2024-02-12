@@ -34,8 +34,8 @@ Authors@R: c(
                               "Nicholas reviewed the package for rOpenSci, 
                   see https://github.com/ropensci/software-review/issues/613")),
             person("Juergen", "Amann", role=c("ctb")))
-Description: Interface with and extract data from the United Nations Comtrade 
-  API <https://comtradeplus.un.org/>. Comtrade provides country level shipping 
+Description: Interface with and extract data from the United Nations 'Comtrade' 
+  API <https://comtradeplus.un.org/>. 'Comtrade' provides country level shipping 
   data for a variety of commodities, these functions allow for easy API query 
   and data returned as a tidy data frame.
 Depends: R (>= 4.1.0)
