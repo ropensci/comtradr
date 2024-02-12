@@ -48,19 +48,17 @@ For information on citation of this package, use `citation("comtradr")`
 
 ## Installation 🛠️
 
-Currently, the package is not on CRAN, but we plan on publishing to CRAN
-in the near future. Install the current development version from this
-repo:
+You can install the package with:
+
+``` r
+install.packages("comtradr")
+```
+
+To install the dev version from github, use:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("ropensci/comtradr@main")
-```
-
-Once it is on CRAN, you can install with:
-
-``` r
-install.packages("comtradr")
 ```
 
 ## Usage
@@ -158,5 +156,11 @@ example2 <- ct_get_data(
 # Inspect the output
 str(example2)
 ```
+
+## Data availability
+
+See [here for an
+overview](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png)
+of available commodity classifications.
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
