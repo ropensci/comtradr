@@ -70,3 +70,23 @@ The parameters are:
 
 See here for the details on pruning and other functions of cachem:
 <https://cachem.r-lib.org/reference/cache_disk.html>
+
+
+### Careful with outdated data! ⚠️
+
+The current default for the cache age is set to `Inf`, hence when you have 
+requested data once, it will never de downloaded again. For recent data, this
+can be a very bad idea, as the United Nations might update their data and 
+you will only work with outdated data.
+
+The recommended way is to set the `COMTRADR_CACHE_MAX_AGE` environment variable
+as described above. E.g.: to `60*60*24*365` for one year. 
+
+To find your cache and empty it by yourself, you can do: 
+
+``` {r, eval = FALSE}
+## to delete all files in your cache
+rappdirs::user_cache_dir('comtradr') |> 
+  list.files(full.names = T) |> 
+  file.remove()
+``` 
