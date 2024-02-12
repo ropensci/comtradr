@@ -1,6 +1,6 @@
 Package: comtradr
 Title: Interface with the United Nations Comtrade API
-Version: 0.4.0.0
+Version: 0.4.0.9000
 Maintainer: Paul Bochtler <paulbochtler.gh@gmail.com>
 Authors@R: c(
             person("Paul", "Bochtler", 
