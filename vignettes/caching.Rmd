@@ -36,6 +36,7 @@ See here: <https://cachem.r-lib.org/reference/cache_disk.html>
 and here: <https://rappdirs.r-lib.org/reference/user_cache_dir.html>
 
 ```{r, eval = FALSE}
+library(comtradr)
 #### Now
 q <- ct_get_data(reporter = "USA", 
                partner = c("DEU", "FRA", "JPN", "MEX"), 
