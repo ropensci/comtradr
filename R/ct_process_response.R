@@ -12,21 +12,46 @@
 #'
 #' @noRd
 #' @inheritParams ct_get_data
-ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
-  result <- resp |>
-    httr2::resp_body_json(simplifyVector = TRUE)
+ct_process_response <-
+  function(resp, verbose = FALSE, tidy_cols, bulk) {
+    if (bulk) {
+      if (!dir.exists(rappdirs::user_cache_dir("comtradr_bulk"))) {
+        dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = T)
+      }
+      filename <- httr2::resp_header(resp, "Content-Disposition") |>
+        stringr::str_remove('.*filename="') |>
+        stringr::str_remove('".*') |>
+        stringr::str_replace_all("/", "_")
+
+      resp |>
+        httr2::resp_body_raw() |>
+        writeBin(con = file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+                                 filename))
 
 
+      processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+                                               filename), delim = "\t")
+    } else {
+      result <- resp |>
+        httr2::resp_body_json(simplifyVector = TRUE)
 
-  if (length(result$data) > 0) {
-    if (nrow(result$data) == 100000) {
-      cli::cli_warn(c("x" = "Your request returns exactly 100k rows. This means that most likely not all the data you queried has been returned, as the upper limit without subscription is 100k. Please partition your API call, e.g. by using only half the period in the first call.")) # nolint
-    } else if (nrow(result$data) > 90000) {
-      cli::cli_inform(c("i" = "Your request has passed 90k rows. If you exceed 100k rows Comtrade will not return all data. You will have to slice your request in smaller parts.")) # nolint
+      if (length(result$data) > 0) {
+        if (nrow(result$data) == 100000) {
+          cli::cli_warn(
+            c("x" = "Your request returns exactly 100k rows. This means that most likely not all the data you queried has been returned, as the upper limit without subscription is 100k. Please partition your API call, e.g. by using only half the period in the first call.")
+          ) # nolint
+        } else if (nrow(result$data) > 90000) {
+          cli::cli_inform(
+            c("i" = "Your request has passed 90k rows. If you exceed 100k rows Comtrade will not return all data. You will have to slice your request in smaller parts.")
+          ) # nolint
+        }
+
+        processed <- result$data
+
+      } else {
+        return(data.frame(count = 0))
+      }
     }
-
-    processed <- result$data
-
     new_cols <- comtradr::ct_pretty_cols
     if (tidy_cols == TRUE) {
       # Input validation and check to make sure the col headers are found in the
@@ -35,24 +60,23 @@ ct_process_response <- function(resp, verbose = FALSE, tidy_cols) {
       curr_cols <- colnames(processed)
 
       if (!all(curr_cols %in% new_cols$from)) {
-        err <- paste(
-          curr_cols[!curr_cols %in% new_cols$from],
-          collapse = ", "
+        err <- paste(curr_cols[!curr_cols %in% new_cols$from],
+                     collapse = ", ")
+        rlang::abort(
+          paste(
+            "The following col headers within input df are not found in",
+            # nolint
+            "the pkg data obj 'ct_pretty_cols':",
+            err
+          )
         )
-        rlang::abort(paste(
-          "The following col headers within input df are not found in", # nolint
-          "the pkg data obj 'ct_pretty_cols':", err
-        ))
       }
 
       colnames(processed) <- purrr::map_chr(curr_cols, function(x) {
         new_cols$to[which(new_cols$from == x)]
       })
-    }
     attributes(processed)$url <- resp$url
     attributes(processed)$time <- Sys.time()
     return(processed)
-  } else {
-    return(data.frame(count = 0))
   }
 }

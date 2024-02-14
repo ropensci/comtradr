@@ -330,7 +330,8 @@ ct_commodity_lookup <- function(search_terms,
 
   commodity_classification <- check_clCode(
     check_type(type),
-    commodity_classification
+    commodity_classification,
+    bulk = FALSE
   )
 
   # Fetch the commodity database from ct_env.
