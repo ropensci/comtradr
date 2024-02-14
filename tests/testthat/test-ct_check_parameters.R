@@ -16,11 +16,11 @@ test_that("check_freq returns correct frequency codes and handles invalid inputs
 
 # Test 'check_clCode' function
 test_that("check_clCode returns correct classification codes and handles invalid inputs", { #nolint
-  expect_equal(check_clCode("C", "HS"), "HS")
-  expect_equal(check_clCode("C", "B4"), "B4")
-  expect_error(check_clCode("C", "ISIC"),
+  expect_equal(check_clCode("C", "HS", bulk = FALSE), "HS")
+  expect_equal(check_clCode("C", "B4", bulk = FALSE), "B4")
+  expect_error(check_clCode("C", "ISIC", bulk = FALSE),
                "`commodity_classification` must be one of")
-  expect_error(check_clCode("S", "HS"),
+  expect_error(check_clCode("S", "HS", bulk = FALSE),
                "`commodity_classification` must be one of")
 })
 
@@ -159,14 +159,14 @@ test_that("check_customsCode works correctly", {
 })
 
 test_that("check_date works correctly", {
-  expect_equal(check_date(2010, 2011, "A"), "2010,2011")
-  expect_equal(check_date(2010, 2010, "A"), "2010")
-  expect_equal(check_date("2010-01", "2010-07", "M"),
+  expect_equal(check_date(2010, 2011, "A", bulk = FALSE), "2010,2011")
+  expect_equal(check_date(2010, 2010, "A", bulk = FALSE), "2010")
+  expect_equal(check_date("2010-01", "2010-07", "M", bulk = FALSE),
                "201001,201002,201003,201004,201005,201006,201007")
-  expect_error(check_date("2010-01", "2011-07", "M"),
+  expect_error(check_date("2010-01", "2011-07", "M", bulk = FALSE),
                "If specifying years/months, cannot search more than twelve consecutive years/months in a single query.") # nolint
-  expect_error(check_date("2010-01", "2011-07", "M"))
-  expect_error(check_date("2010-01", "2011", "M"),
+  expect_error(check_date("2010-01", "2011-07", "M", bulk = FALSE))
+  expect_error(check_date("2010-01", "2011", "M", bulk = FALSE),
                "If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.") # nolint
 })
 

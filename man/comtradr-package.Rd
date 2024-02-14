@@ -4,7 +4,7 @@
 \name{comtradr-package}
 \alias{comtradr}
 \alias{comtradr-package}
-\title{comtradr: Interface with the United Nations 'Comtrade' API}
+\title{comtradr: Interface with the United Nations Comtrade API}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

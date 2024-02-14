@@ -15,9 +15,9 @@ test_that('test that build returns a httr2 request',{
       customs_code = 'C00',
       verbose = FALSE,
       update = FALSE,
-      extra_params = NULL
+      extra_params = NULL, bulk = FALSE
     ) |>
-    comtradr:::ct_build_request(primary_token = 'test_token')
+    comtradr:::ct_build_request(primary_token = 'test_token', bulk = FALSE)
   expect_equal(class(req),'httr2_request')
 
   expect_true(stringr::str_detect(req$url,
@@ -43,9 +43,9 @@ test_that('test that build returns a httr2 request',{
     customs_code = 'C00',
     verbose = FALSE,
     update = FALSE,
-    extra_params = NULL
+    extra_params = NULL, bulk = FALSE
   ) |>
-    comtradr:::ct_build_request(primary_token = 'test_token'),
+    comtradr:::ct_build_request(primary_token = 'test_token', bulk = FALSE),
   'Your request exceeds 4KB or 4096 characters')
 
 })

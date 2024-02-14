@@ -191,7 +191,10 @@ ct_pretty_cols <- data.frame(
     'primary_value',
     'legacy_estimation_flag',
     'is_reported',
-    'is_aggregate'
+    'is_aggregate',
+    "dataset_code",
+    "cifvalue",
+    "fobvalue"
   ), from = c(
     "typeCode",
     "freqCode",
@@ -239,7 +242,10 @@ ct_pretty_cols <- data.frame(
     "primaryValue",
     "legacyEstimationFlag",
     "isReported",
-    "isAggregate"
+    "isAggregate",
+    "datasetCode",
+    "CIFValue",
+    "FOBValue"
   ))
 
 
