@@ -22,93 +22,117 @@ ct_check_params <- function(type,
                             customs_code,
                             update,
                             verbose,
-                            extra_params) {
+                            extra_params,
+                            bulk) {
+
   type <- check_type(type)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of type."))
   }
 
-  frequency <- check_freq(type, frequency)
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of frequency."))
-  }
-
-  commodity_classification <- check_clCode(type, commodity_classification)
+  commodity_classification <- check_clCode(type, commodity_classification,bulk)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
   }
 
-  flow_direction <- check_flowCode(flow_direction, update, verbose)
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of flow_direction."))
+  if(!bulk){
+    frequency <- check_freq(type, frequency)
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of frequency."))
+    }
+
+
+    flow_direction <- check_flowCode(flow_direction, update, verbose)
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of flow_direction."))
+    }
+
+    commodity_code <- check_cmdCode(commodity_classification,
+                                    commodity_code,
+                                    update = update,
+                                    verbose = verbose
+    )
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of commodity_code."))
+    }
+
+    partner <- check_partnerCode(partner, update = update, verbose = verbose)
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of partner."))
+    }
+    partner_2 <- check_partner2Code(partner_2, update = update, verbose = verbose)
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of partner_2."))
+    }
+
+    mode_of_transport <- check_motCode(mode_of_transport,
+                                       update = update,
+                                       verbose = verbose
+    )
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of mode_of_transport."))
+    }
+
+    customs_code <- check_customsCode(customs_code,
+                                      update = update,
+                                      verbose = verbose
+    )
+    if (verbose) {
+      cli::cli_inform(c("v" = "Checked validity of customs_code."))
+    }
   }
 
-  commodity_code <- check_cmdCode(commodity_classification,
-    commodity_code,
-    update = update,
-    verbose = verbose
-  )
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of commodity_code."))
-  }
+
+
 
   reporter <- check_reporterCode(reporter, update = update, verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of reporter."))
   }
 
-  partner <- check_partnerCode(partner, update = update, verbose = verbose)
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of partner."))
-  }
-
-  partner_2 <- check_partner2Code(partner_2, update = update, verbose = verbose)
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of partner_2."))
-  }
-
-  mode_of_transport <- check_motCode(mode_of_transport,
-    update = update,
-    verbose = verbose
-  )
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of mode_of_transport."))
-  }
-
-  customs_code <- check_customsCode(customs_code,
-    update = update,
-    verbose = verbose
-  )
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of customs_code."))
-  }
-
-  period <- check_date(start_date, end_date, frequency)
+  period <- check_date(start_date, end_date, frequency, bulk)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of start and end dates."))
   }
 
-  params <- list(
-    query_params = list(
-      cmdCode = commodity_code,
-      flowCode = flow_direction,
-      partnerCode = partner,
-      reporterCode = reporter,
-      period = period,
-      motCode = mode_of_transport,
-      partner2Code = partner_2,
-      customsCode = customs_code,
-      includeDesc = "TRUE"
-    ),
-    url_params = list(
-      type = type,
-      freq = frequency,
-      clCode = commodity_classification
-    ),
-    extra_params = list(
-      extra_params = extra_params
+  if(!bulk){
+    params <- list(
+      query_params = list(
+        cmdCode = commodity_code,
+        flowCode = flow_direction,
+        partnerCode = partner,
+        reporterCode = reporter,
+        period = period,
+        motCode = mode_of_transport,
+        partner2Code = partner_2,
+        customsCode = customs_code,
+        includeDesc = "TRUE"
+      ),
+      url_params = list(
+        type = type,
+        freq = frequency,
+        clCode = commodity_classification
+      ),
+      extra_params = list(
+        extra_params = extra_params
+      )
     )
-  )
+  } else {
+    params <- list(
+      query_params = list(
+        reporterCode = reporter,
+        period = period
+      ),
+      url_params = list(
+        type = type,
+        freq = frequency,
+        clCode = commodity_classification
+      ),
+      extra_params = list(
+        extra_params = extra_params
+      )
+    )
+  }
 
   return(params)
 }
@@ -168,9 +192,15 @@ check_freq <- function(type, frequency) {
 #'
 #'
 #' @noRd
-check_clCode <- function(type, commodity_classification) {
+check_clCode <- function(type, commodity_classification, bulk) {
+
   cmd_list_goods <- c("HS", "S1", "S2", "S3", "S4", "SS", "B4", "B5")
   cmd_list_services <- c("EB02", "EB10", "EB10S", "EB")
+
+  if(bulk){
+    cmd_list_goods <- c(cmd_list_goods,"H6","H5","H4","H3","H2","H1","H0")
+  }
+
   if (type == "C") {
     rlang::arg_match(commodity_classification, values = cmd_list_goods)
   } else {
@@ -567,7 +597,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #' @returns A character vector of valid reporter IDs.
 #'
 #' @noRd
-check_date <- function(start_date, end_date, frequency) {
+check_date <- function(start_date, end_date, frequency, bulk) {
   if (is.null(start_date) | is.null(end_date)) {
 rlang::abort("Please provide a start and end date for the period of interest.")
   }
@@ -609,7 +639,7 @@ rlang::abort("Please provide a start and end date for the period of interest.")
   }
 
   # If the derived date range is longer than five elements, throw an error.
-  if (length(date_range) > 12) {
+  if (!bulk && length(date_range) > 12) {
     rlang::abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.") # nolint
   }
 
