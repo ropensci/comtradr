@@ -3,7 +3,8 @@
 #' This is an internal function takes the necessary parameters
 #' from `ct_check_params()` and creates a httr2 request to be performed.
 #' This request can then be used in a second function, `ct_perform_request()`
-#' to actually return the data. It is called internally ct `ct_get_data()`
+#' to actually return the data. It is called internally ct `ct_get_data()` and
+#' `ct_get_bulk`.
 #'
 #' @param params a named vector of parameters for the comtrade request,
 #' result from `ct_check_params()`.
@@ -13,7 +14,8 @@
 #' @inheritParams ct_get_data
 ct_build_request <- function(params,
                              primary_token = NULL,
-                             verbose = FALSE) {
+                             verbose = FALSE,
+                             bulk) {
   query_params <- params$query_params
 
   extra_params <- params$extra_params |>
@@ -27,8 +29,14 @@ ct_build_request <- function(params,
 
   clCode <- params$url_params$clCode
 
+  if(bulk){
+    base_url <- "https://comtradeapi.un.org/bulk/v1/get/"
+  } else {
+    base_url <- "https://comtradeapi.un.org/data/v1/get/"
+  }
+
   res <-
-    httr2::request("https://comtradeapi.un.org/data/v1/get/") |>
+    httr2::request(base_url) |>
     httr2::req_url_path_append(type) |>
     httr2::req_url_path_append(freq) |>
     httr2::req_url_path_append(clCode) |>
