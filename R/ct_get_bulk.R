@@ -77,7 +77,8 @@ ct_get_bulk <- function(type = "goods",
                         update = FALSE,
                         requests_per_second = 10 / 60,
                         extra_params = NULL,
-                        cache = FALSE) {
+                        cache = FALSE,
+                        download_files = TRUE) {
 
   bulk <- TRUE
   ## compile codes
@@ -123,13 +124,22 @@ ct_get_bulk <- function(type = "goods",
   reporter_code <- parsed_response |>
     poorman::pull(reporterCode)
 
-  reqs <- purrr::pmap(list(reporter_code,filehash,
-                           primary_token),
-                      ct_build_bulk_file_request, verbose = verbose)
+  if(download_files){
 
-  resps <- purrr::map(reqs,~ct_perform_request(.x,
-                                                requests_per_second = 60/10,
-                                                 verbose = T))
+
+    reqs <- purrr::pmap(list(reporter_code,
+                             file_hash,
+                             primary_token),
+                        ct_build_bulk_file_request, verbose = verbose)
+
+    resps <- purrr::map(reqs,~ct_perform_request(.x,
+                                                 requests_per_second = 60/10,
+                                                 verbose = verbose))
+
+  } else {
+    return(parsed_response)
+  }
+
 
 
 

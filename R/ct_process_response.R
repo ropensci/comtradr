@@ -31,6 +31,8 @@ ct_process_response <-
 
       processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                                                filename), delim = "\t")
+      file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+                            filename))
     } else {
       result <- resp |>
         httr2::resp_body_json(simplifyVector = TRUE)

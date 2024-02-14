@@ -73,12 +73,12 @@ comtrade_error_body <- function(resp) {
       } else if (stringr::str_detect(
         body,
         "The resource you are looking for has been removed"
-      )) { # nolint
+      )) {
         message <-
           c(
             "The original message is: ",
             body,
-            "But most likely you have exceeded the character value for the api."
+            "But most likely you have exceeded the character value for the api." # nolint
           )
         return(message)
       }

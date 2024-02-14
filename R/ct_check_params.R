@@ -618,13 +618,23 @@ rlang::abort("Please provide a start and end date for the period of interest.")
     if (sd_year && ed_year) {
       # If start_date and end_date are both years ("yyyy") and are identical,
       # return the single year as the date range.
-      if (identical(start_date, end_date)) {
-        start_date <- convert_to_date(start_date)
-        date_range <- seq.Date(start_date, by = "month", length.out = 12) |>
-          format(format = "%Y%m")
+      start_date <- convert_to_date(start_date)
+      end_date <- convert_to_date(end_date)
+      if (!bulk) {
+
+        if (identical(start_date, end_date)) {
+          date_range <-
+            seq.Date(start_date, by = "month", length.out = 12) |>
+            format(format = "%Y%m")
+        } else {
+          rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.") # nolint
+        }
       } else {
-        rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.") # nolint
+        date_range <-
+          seq.Date(from = start_date, to = end_date, by = "month") |>
+          format(format = "%Y%m")
       }
+
     } else if (!sd_year && !ed_year) {
       # If neither start_date nor end_date are years, get date range by month.
       start_date <- convert_to_date(start_date)
