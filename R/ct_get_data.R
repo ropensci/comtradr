@@ -184,7 +184,8 @@ ct_get_data <- function(type = "goods",
   } else{
     resp <- ct_perform_request(req,
                                requests_per_second = requests_per_second,
-                               verbose = verbose
+                               verbose = verbose,
+                               bulk = bulk
     )
   }
 

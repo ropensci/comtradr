@@ -404,3 +404,30 @@ replace_month <- function(date_str) {
   )
   stringr::str_replace_all(date_str, months)
 }
+
+
+#' convert file size from comtrade
+#'
+#' @noRd
+convert_file_size <- function(file_sizes) {
+  units <- c(KB = 1024, MB = 1024^2, GB = 1024^3, TB = 1024^4)
+  sapply(file_sizes, function(x) {
+    parts <- strsplit(x, " ")[[1]]
+    number <- as.numeric(parts[1])
+    unit <- units[toupper(parts[2])]
+    number * unit
+  })
+}
+
+#' format file size from comtrade
+#'
+#' @noRd
+format_file_size <- function(size_in_bytes) {
+  units <- c("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  if (size_in_bytes == 0) {
+    return("0 B")
+  }
+  i <- floor(log(size_in_bytes, 1024))
+  p <- size_in_bytes / 1024^i
+  paste0(format(p, digits = 3, nsmall = 1), " ", units[i + 1])
+}
