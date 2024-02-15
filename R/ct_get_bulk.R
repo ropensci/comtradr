@@ -28,7 +28,9 @@
 #' Possible values: 'goods' for trade in goods,
 #' 'services' for trade in services. Default: 'goods'.
 #' @param commodity_classification The trade classification scheme.
-#' Possible values for goods: `c('HS','S1','S2','S3','S4','SS','B4','B5')`;
+#' Possible values for goods:
+#'  `c('HS','H0','H1','H2','H3','H4','H5','H6')`and
+#'  `c(S1','S2','S3','S4','SS','B4','B5')`;
 #' for services: `c('EB02','EB10','EB10S','EB')`. Default: 'HS'.
 #' @param reporter Reporter ISO3 code(s), `everything` or `all_countries`.
 #' See `comtradr::country_codes` or `comtradr::ct_get_ref_table('reporter')`

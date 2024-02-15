@@ -238,7 +238,9 @@ check_flowCode <- function(flow_direction, update, verbose) {
       ) |>
       poorman::mutate(text = tolower(text))
 
-    rlang::arg_match(flow_direction, values = valid_codes$text, multiple = TRUE)
+    rlang::arg_match(flow_direction,
+                     values = c(valid_codes$text,"everything"),
+                     multiple = TRUE)
 
 
       flow_direction <- valid_codes |>
