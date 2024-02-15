@@ -41,8 +41,6 @@
 #' Max: 12 years after start date for annual data, one year for monthly data.
 #' @param primary_token Your primary UN Comtrade API token.
 #' Default: stored token from `comtradr::set_primary_comtrade_key`.
-#' @param process If TRUE, returns a data.frame with results.
-#' If FALSE, returns the raw httr2 request. Default: TRUE.
 #' @param tidy_cols If TRUE, returns tidy column names.
 #' If FALSE, returns raw column names. Default: TRUE.
 #' @param verbose If TRUE, sends status updates to the console.
@@ -56,10 +54,9 @@
 #' or not. If set to True, `rappdirs::user_cache_dir()` is used
 #' to determine the location of the cache. Use the .Renviron file to set the
 #' R_USER_CACHE_DIR in order to change this location. Default: False.
-#' @param extra_params Additional parameters to the API, passed as query
-#' parameters without checking. Please provide a named list to this parameter.
-#' Default: NULL.
-#'
+#' @param download_bulk_files If TRUE downloads all files that are returned
+#' from the Comtrade API as a list for the specified parameters. This can
+#' result in large writing and reading operations from your file system.
 #' @export
 #' @returns A data.frame with trade data or,
 #' if `process = F`, a httr2 response object.
@@ -70,16 +67,13 @@ ct_get_bulk <- function(type = "goods",
                         reporter = "all_countries",
                         start_date = NULL,
                         end_date = NULL,
-                        process = TRUE,
                         tidy_cols = TRUE,
                         verbose = FALSE,
                         primary_token = get_primary_comtrade_key(),
                         update = FALSE,
                         requests_per_second = 10 / 60,
-                        extra_params = NULL,
                         cache = FALSE,
-                        download_files = TRUE) {
-
+                        download_bulk_files = TRUE) {
   bulk <- TRUE
   ## compile codes
   params <- ct_check_params(
@@ -91,28 +85,32 @@ ct_get_bulk <- function(type = "goods",
     end_date = end_date,
     verbose = verbose,
     update = update,
-    extra_params = extra_params,
+    extra_params = NULL,
     bulk = bulk
   )
 
+  ## this builds the request to get the list of bulk files to be downloaded
   req <-
     ct_build_request(params,
                      verbose = verbose,
                      primary_token = primary_token,
-                     bulk = bulk
-    )
+                     bulk = bulk)
 
-  if(cache){
+  ## if cache is TRUE this will cache the performed request and download the
+  ## list
+  if (cache) {
     resp <- ct_perform_request_cache(req,
                                      requests_per_second = requests_per_second,
-                                     verbose = verbose
-    )
+                                     verbose = verbose, bulk = bulk)
   } else{
     resp <- ct_perform_request(req,
                                requests_per_second = requests_per_second,
-                               verbose = verbose
-    )
+                               verbose = verbose, bulk = bulk)
   }
+
+  ## this will parse the response to return necessary parameters for actually
+  ## downloading the file list
+  reporterCode <- fileSize <- rowKey <- NULL
 
   parsed_response <- resp |>
     httr2::resp_body_json(simplifyVector = T) |>
@@ -124,35 +122,62 @@ ct_get_bulk <- function(type = "goods",
   reporter_code <- parsed_response |>
     poorman::pull(reporterCode)
 
-  if(download_files){
+  if (download_bulk_files) {
 
+    file_size <- parsed_response |>
+      poorman::pull(fileSize) |>
+      convert_file_size() |>
+      sum() |>
+      format_file_size()
 
-    reqs <- purrr::pmap(list(reporter_code,
-                             file_hash,
-                             primary_token),
-                        ct_build_bulk_file_request, verbose = verbose)
+    if (verbose) {
+      cli::cli_inform(c("i" = paste0("Will download files size of: ", file_size)))
+    }
 
-    resps <- purrr::map(reqs,~ct_perform_request(.x,
-                                                 requests_per_second = 60/10,
-                                                 verbose = verbose))
+    reqs <- purrr::pmap(
+      list(reporter_code,
+           file_hash),
+      ct_build_bulk_file_request,
+      primary_token = primary_token,
+      verbose = verbose
+    )
+
+    resps <- purrr::map(reqs,
+                        ~ ct_perform_request(
+                          .x,
+                          requests_per_second = 60 /
+                            10,
+                          verbose = verbose,
+                          bulk = bulk
+                        ), .progress = verbose)
+
+    if (cache) {
+      result <- purrr::map_dfr(
+        resps,
+        ~ ct_process_response(
+          .x,
+          verbose = verbose,
+          tidy_cols = tidy_cols,
+          bulk = TRUE
+        )
+      )
+    } else{
+      result <- purrr::map_dfr(
+        resps,
+        ~ ct_process_response_cache(
+          .x,
+          verbose = verbose,
+          tidy_cols = tidy_cols,
+          bulk = TRUE
+        )
+      )
+    }
+
+    return(result)
 
   } else {
     return(parsed_response)
   }
 
-
-
-
-  if (process) {
-    result <- purrr::map_dfr(
-      resps,
-      ~ ct_process_response(.x, verbose = verbose,
-                            tidy_cols = tidy_cols,
-                            bulk = TRUE)
-    )
-    return(result)
-  } else {
-    return(resp)
-  }
 }
 

@@ -15,6 +15,9 @@
 ct_process_response <-
   function(resp, verbose = FALSE, tidy_cols, bulk) {
     if (bulk) {
+      if (verbose) {
+        cli::cli_inform(c("i" = "Processing bulk file, this writes to your cache directory.")) # nolint
+      }
       if (!dir.exists(rappdirs::user_cache_dir("comtradr_bulk"))) {
         dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = T)
       }
@@ -30,7 +33,7 @@ ct_process_response <-
 
 
       processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
-                                               filename), delim = "\t")
+                                               filename), delim = "\t",show_col_types = FALSE,guess_max = 99999)
       file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                             filename))
     } else {
@@ -40,8 +43,8 @@ ct_process_response <-
       if (length(result$data) > 0) {
         if (nrow(result$data) == 100000) {
           cli::cli_warn(
-            c("x" = "Your request returns exactly 100k rows. This means that most likely not all the data you queried has been returned, as the upper limit without subscription is 100k. Please partition your API call, e.g. by using only half the period in the first call.")
-          ) # nolint
+            c("x" = "Your request returns exactly 100k rows. This means that most likely not all the data you queried has been returned, as the upper limit without subscription is 100k. Please partition your API call, e.g. by using only half the period in the first call.") # nolint
+          )
         } else if (nrow(result$data) > 90000) {
           cli::cli_inform(
             c("i" = "Your request has passed 90k rows. If you exceed 100k rows Comtrade will not return all data. You will have to slice your request in smaller parts.")

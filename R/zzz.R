@@ -36,6 +36,13 @@ assign(
          value = ct_perform_request_cache,
          envir = rlang::ns_env("comtradr"))
 
+  ct_process_response_cache <- memoise::memoise(ct_process_response,
+                                               cache = cache)
+
+  assign(x = "ct_process_response_cache",
+         value = ct_process_response_cache,
+         envir = rlang::ns_env("comtradr"))
+
   assign(x = "cache",
          value = cache,
          envir = rlang::ns_env("comtradr"))

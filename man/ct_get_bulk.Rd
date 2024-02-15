@@ -11,14 +11,13 @@ ct_get_bulk(
   reporter = "all_countries",
   start_date = NULL,
   end_date = NULL,
-  process = TRUE,
   tidy_cols = TRUE,
   verbose = FALSE,
   primary_token = get_primary_comtrade_key(),
   update = FALSE,
   requests_per_second = 10/60,
-  extra_params = NULL,
-  cache = FALSE
+  cache = FALSE,
+  download_bulk_files = TRUE
 )
 }
 \arguments{
@@ -45,9 +44,6 @@ Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.}
 Format: \code{yyyy} for yearly, \code{yyyy-mm} for monthly.
 Max: 12 years after start date for annual data, one year for monthly data.}
 
-\item{process}{If TRUE, returns a data.frame with results.
-If FALSE, returns the raw httr2 request. Default: TRUE.}
-
 \item{tidy_cols}{If TRUE, returns tidy column names.
 If FALSE, returns raw column names. Default: TRUE.}
 
@@ -64,14 +60,14 @@ from the UN. Default: FALSE.}
 usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
 see \code{req_throttle()} for details.}
 
-\item{extra_params}{Additional parameters to the API, passed as query
-parameters without checking. Please provide a named list to this parameter.
-Default: NULL.}
-
 \item{cache}{A logical value to determine, whether requests should be cached
 or not. If set to True, \code{rappdirs::user_cache_dir()} is used
 to determine the location of the cache. Use the .Renviron file to set the
 R_USER_CACHE_DIR in order to change this location. Default: False.}
+
+\item{download_bulk_files}{If TRUE downloads all files that are returned
+from the Comtrade API as a list for the specified parameters. This can
+result in large writing and reading operations from your file system.}
 }
 \value{
 A data.frame with trade data or,
