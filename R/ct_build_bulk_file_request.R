@@ -22,10 +22,6 @@ ct_build_bulk_file_request <- function(reporter_code,
     rlang::abort("Your request exceeds 4KB or 4096 characters, which is the upper limit of the Comtrade API.") # nolint
   }
 
-  if (verbose) {
-    cli::cli_inform(c("i" = paste0("URL that will be queried: ", req$url)))
-  }
-
   return(req)
 }
 
