@@ -179,7 +179,8 @@ ct_get_data <- function(type = "goods",
   if(cache){
     resp <- ct_perform_request_cache(req,
                                requests_per_second = requests_per_second,
-                               verbose = verbose
+                               verbose = verbose,
+                               bulk = bulk
     )
   } else{
     resp <- ct_perform_request(req,
