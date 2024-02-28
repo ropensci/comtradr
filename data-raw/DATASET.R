@@ -38,9 +38,28 @@ save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 ## or more dependencies)
 for(i in seq_along(list_of_datasets$category)){
   ## define the valid commodity codes that we need
-  valid_cmd_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4',
-                      'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10',
-                      'cmd_eb10s', 'cmd_eb')
+  valid_cmd_datasets <-
+    c(
+      'cmd_hs',
+      'cmd_h0',
+      'cmd_h1',
+      'cmd_h2',
+      'cmd_h3',
+      'cmd_h4',
+      'cmd_h5',
+      'cmd_h6',
+      'cmd_s1',
+      'cmd_s2',
+      'cmd_s3',
+      'cmd_s4',
+      'cmd_ss',
+      'cmd_b4',
+      'cmd_b5',
+      'cmd_eb02',
+      'cmd_eb10',
+      'cmd_eb10s',
+      'cmd_eb'
+    )
 
   valid_country_datasets <- c('reporter','partner')
   valid_other_datasets <- c('mot','customs','flow')
