@@ -33,7 +33,10 @@ ct_process_response <-
 
 
       processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
-                                               filename), delim = "\t",show_col_types = FALSE,guess_max = 99999)
+                                               filename),
+                                     delim = "\t",
+                                     show_col_types = FALSE,
+                                     guess_max = 99999,col_types = cols(.default = "c"))
       file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                             filename))
     } else {
