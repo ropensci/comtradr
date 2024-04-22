@@ -30,7 +30,7 @@ to calculate on rather large datasets:
 2) of which each can take up to 100.000 rows. 
 
 This information might be updated in the Comtrade API, check 
-the most up to date values [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+First+Time+Users#NewComtradeFAQforFirstTimeUsers-WhichsubscriptionscanIchoosefrom?).
+the most up to date values [here](https://uncomtrade.org/docs/subscriptions/).
 
 So when trying to fetch the maximum amount of data in the minimum amount of 
 days, you want to minimize the amount of requests you need by making them 
