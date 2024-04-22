@@ -21,12 +21,12 @@ library(comtradr)
 
 ## Data availability
 
-See [here for an overview](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png) of available commodity classifications.
+See [here for an overview](https://uncomtrade.org/docs/why-are-some-converted-datasets-not-accessible-in-the-ui/) of available commodity classifications.
 
 
 ## Package information
 
-API wrapper for the [UN Comtrade Database](https://comtradeplus.un.org/). UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://unstats.un.org/wiki/display/comtrade). Full API documentation can be found [here](https://comtradedeveloper.un.org/).
+API wrapper for the [UN Comtrade Database](https://comtradeplus.un.org/). UN Comtrade provides historical data on the weights and value of specific goods shipped between countries, more info can be found [here](https://uncomtrade.org/docs/welcome-to-un-comtrade/). Full API documentation can be found [here](https://comtradedeveloper.un.org/).
 
 ## Install and load comtradr
 
@@ -48,7 +48,7 @@ library(comtradr)
 As stated above, you need an API token, see the FAQ of Comtrade for details
 on how to obtain it:
 
-➡️ https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement 
+➡️ https://uncomtrade.org/docs/api-subscription-keys/
 
 You need to follow the detailed explanations,
 which include screenshots, in the Wiki of Comtrade to the letter. ☝️
@@ -212,12 +212,12 @@ ct_commodity_lookup(c("tomato", "sldfkjkfdsklsd"), verbose = TRUE)
 The Comtrade API imposes rate limits on users. `comtradr` features automated 
 throttling of API calls to ensure the user stays within the limits defined by 
 Comtrade. Below is a breakdown of those limits, API docs on these details can 
-be found [here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+First+Time+Users).
+be found [here](https://uncomtrade.org/docs/subscriptions/).
 
 * Without user token: unlimited calls/day, up to 500 records per call 
 (registration and API subscription key not required) -- this end-point is not 
 implemented here. 
-* With valid user token: 250 calls/day, up to 250,000 records per call 
+* With valid user token: 500 calls/day, up to 100,000 records per call 
 (free registration and API subscription key required).
 
 The API also limits the amount of times it can be queried per minute,
@@ -265,7 +265,7 @@ were updated.
 
 Additionally, the Comtrade API features a number of different commodity 
 reference tables, based on different trade data classification schemes 
-(for more details, see [this](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png) page from the API docs). 
+(for more details, see [this](https://uncomtrade.org/docs/list-of-references-parameter-codes/) page from the API docs). 
 `comtradr` ships with all available commodity reference tables. 
 The user may return and access any of the available commodity tables 
 by specifying arg `commodity_type` within function `ct_get_ref_table` 

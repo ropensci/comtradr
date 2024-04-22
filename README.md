@@ -16,13 +16,13 @@ Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides
 country level shipping data for a variety of commodities, these
 functions allow for easy API query and data returned as a tidy data
 frame. More info can be found
-[here](https://unstats.un.org/wiki/display/comtrade). Full API
+[here](https://uncomtrade.org/docs/welcome-to-un-comtrade/). Full API
 documentation can be found [here](https://comtradedeveloper.un.org/).
 
 The Comtrade API has been undergoing updates in 2023. At this point the
 legacy API has been taken offline (see
-[here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
-The `comtradr` package has accommodated these changes. Some premium
+[here](https://uncomtrade.org/docs/api-subscription-keys/)). The
+`comtradr` package has accommodated these changes. Some premium
 functions like bulk download are still not supported in the package, but
 we are working on it. See
 <https://github.com/ropensci/comtradr/issues/68> for details.
@@ -64,8 +64,7 @@ do it! 💪**
 As stated above, you need an API token, see the FAQ of Comtrade for
 details on how to obtain it:
 
-➡️
-<https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement>
+➡️ <https://uncomtrade.org/docs/api-subscription-keys/>
 
 You need to follow the detailed explanations, which include screenshots,
 in the Wiki of Comtrade to the letter. ☝️ I am not writing them out
@@ -140,7 +139,7 @@ wine_codes <- ct_commodity_lookup("wine", return_code = TRUE, return_char = TRUE
 example2 <- ct_get_data(
   reporter =  "ARG",
   flow_direction = "export",
-  partner = "all",
+  partner = "all_countries",
   start_date = 2007,
   end_date = 2011,
   commodity_code = wine_codes
