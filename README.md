@@ -23,9 +23,6 @@ Please [report](https://github.com/ropensci/comtradr/issues) issues,
 comments, or feature requests. We are very much looking for feedback on
 the usability of the new functions.
 
-The package in its old version is still available from the
-`legacy-0-3-0` branch.
-
 Please note that this package is released with a [Contributor Code of
 Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
@@ -44,8 +41,11 @@ To install the dev version from github, use:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ropensci/comtradr@main")
+devtools::install_github("ropensci/comtradr@dev")
 ```
+
+Note that the development version includes a preliminary way to query
+the bulk download, but it is undocumented and might break.
 
 ## Usage
 
