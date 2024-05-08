@@ -36,7 +36,7 @@ ct_process_response <-
                                                filename),
                                      delim = "\t",
                                      show_col_types = FALSE,
-                                     guess_max = 99999,col_types = cols(.default = "c"))
+                                     guess_max = 99999,col_types = readr::cols(.default = "c"))
       file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                             filename))
     } else {
