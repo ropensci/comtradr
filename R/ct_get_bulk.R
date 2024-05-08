@@ -139,7 +139,7 @@ ct_get_bulk <- function(type = "goods",
     reqs <- purrr::pmap(
       list(reporter_code,
            file_hash),
-      ct_build_bulk_file_request,
+      ct_build_request,
       primary_token = primary_token,
       verbose = verbose
     )
