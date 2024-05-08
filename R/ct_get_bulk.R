@@ -110,13 +110,17 @@ ct_get_bulk <- function(type = "goods",
                                verbose = verbose, bulk = bulk)
   }
 
-  ## this will parse the response to return necessary parameters for actually
+    ## this will parse the response to return necessary parameters for actually
   ## downloading the file list
   reporterCode <- fileSize <- rowKey <- NULL
 
   parsed_response <- resp |>
     httr2::resp_body_json(simplifyVector = T) |>
     purrr::pluck("data")
+
+  if(length(parsed_response)==0){
+    cli::cli_abort("Probably no data for this combination of parameters")
+  }
 
   file_hash <- parsed_response |>
     poorman::pull(rowKey)
@@ -137,8 +141,8 @@ ct_get_bulk <- function(type = "goods",
     }
 
     reqs <- purrr::pmap(
-      list(reporter_code,
-           file_hash),
+      list("reporter_code" = reporter_code,
+           "file_hash"=file_hash),
       ct_build_request,
       primary_token = primary_token,
       verbose = verbose
