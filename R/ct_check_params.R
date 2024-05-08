@@ -198,7 +198,7 @@ check_clCode <- function(type, commodity_classification, bulk) {
   cmd_list_services <- c("EB02", "EB10", "EB10S", "EB")
 
   if(bulk){
-    cmd_list_goods <- c(cmd_list_goods,"H6","H5","H4","H3","H2","H1","H0")
+    cmd_list_goods <- c(cmd_list_goods,cmd_list_services,"H6","H5","H4","H3","H2","H1","H0")
   }
 
   if (type == "C") {
