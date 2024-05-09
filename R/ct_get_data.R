@@ -176,6 +176,9 @@ ct_get_data <- function(type = "goods",
       bulk = bulk
     )
 
+  if (verbose) {
+    cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
+  }
   if(cache){
     resp <- ct_perform_request_cache(req,
                                requests_per_second = requests_per_second,
