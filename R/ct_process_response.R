@@ -15,9 +15,7 @@
 ct_process_response <-
   function(resp, verbose = FALSE, tidy_cols, bulk) {
     if (bulk) {
-      if (verbose) {
-        cli::cli_inform(c("i" = "Processing bulk file, this writes to your cache directory.")) # nolint
-      }
+
       if (!dir.exists(rappdirs::user_cache_dir("comtradr_bulk"))) {
         dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = T)
       }
@@ -35,7 +33,7 @@ ct_process_response <-
       processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                                                filename),
                                      delim = "\t",
-                                     show_col_types = FALSE,
+                                     show_col_types = FALSE,progress = FALSE,
                                      guess_max = 99999,col_types = readr::cols(.default = "c"))
       file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                             filename))
