@@ -77,6 +77,7 @@ ct_get_bulk <- function(type = "goods",
                         cache = FALSE,
                         download_bulk_files = TRUE) {
   bulk <- TRUE
+
   ## compile codes
   params <- ct_check_params(
     type = type,
@@ -100,6 +101,7 @@ ct_get_bulk <- function(type = "goods",
 
   ## if cache is TRUE this will cache the performed request and download the
   ## list
+
   if (cache) {
     resp <- ct_perform_request_cache(req,
                                      requests_per_second = requests_per_second,
@@ -137,16 +139,24 @@ ct_get_bulk <- function(type = "goods",
       format_file_size()
 
     if (verbose) {
-      cli::cli_inform(c("i" = paste0("Will download files size of: ", file_size)))
+      cli::cli_inform(c("i" = paste0("Will download files size of: ",
+                                     file_size)))
     }
+
 
     reqs <- purrr::pmap(
       list("reporter_code" = reporter_code,
            "file_hash"=file_hash),
       ct_build_request,
       primary_token = primary_token,
-      verbose = verbose
+      verbose = verbose,
+      .progress = verbose
     )
+
+    if (verbose) {
+      cli::cli_progress_step(
+        "Performing request, which can take a few seconds, depending on the amount of data queried.") # nolint
+    }
 
     resps <- purrr::map(reqs,
                         ~ ct_perform_request(
@@ -156,6 +166,9 @@ ct_get_bulk <- function(type = "goods",
                           verbose = verbose,
                           bulk = bulk
                         ), .progress = verbose)
+    if (verbose) {
+      cli::cli_progress_step("Processing bulk file, this writes to your cache directory.") #nolint
+    }
 
     if (cache) {
       result <- purrr::map_dfr(
@@ -165,7 +178,8 @@ ct_get_bulk <- function(type = "goods",
           verbose = verbose,
           tidy_cols = tidy_cols,
           bulk = TRUE
-        )
+        ),
+        .progress = verbose
       )
     } else{
       result <- purrr::map_dfr(
@@ -175,10 +189,9 @@ ct_get_bulk <- function(type = "goods",
           verbose = verbose,
           tidy_cols = tidy_cols,
           bulk = TRUE
-        )
+        ),.progress = verbose
       )
     }
-
     return(result)
 
   } else {
