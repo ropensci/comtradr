@@ -5,7 +5,8 @@ httptest2::with_mock_dir("goods_bulk_error", {
       ct_get_bulk(
         reporter = 'ARG',
         start_date = '1920',
-        end_date = "1920"
+        end_date = "1920",
+        primary_token = 'test',
       ),
       "Probably no data for this combination of parameters"
     )
@@ -19,6 +20,7 @@ without_internet({
                 comtradr::ct_get_bulk(reporter = 'ARG',
                                       start_date = '1962',
                                       end_date = "1962",
+                                      primary_token = 'test',
                                       verbose = T)
                 ,'https://comtradeapi.un.org/bulk/v1/get/C/A/HS?reporterCode=32&period=1962') # nolint
             })
@@ -29,6 +31,7 @@ httptest2::with_mock_dir("goods_bulk",{
     expect_s3_class(comtradr::ct_get_bulk(reporter = 'ARG',
                                           start_date = '1962',
                                           end_date = "1962",
+                                          primary_token = 'test',
                                           verbose = T), 'data.frame')
   })
 })
@@ -38,17 +41,20 @@ httptest2::with_mock_dir("goods_bulk", {
     expect_message(comtradr::ct_get_bulk(reporter = 'ARG',
                                          start_date = '1962',
                                          end_date = "1962",
+                                         primary_token = 'test',
                                          verbose = T),
                    'Processing bulk file, this writes to your cache directory') # nolint
     expect_message(comtradr::ct_get_bulk(reporter = 'ARG',
                                          start_date = '1962',
                                          end_date = "1962",
+                                         primary_token = 'test',
                                          verbose = T),
                    'Performing request, which can take a few seconds, depend') # nolint
 
     expect_message(comtradr::ct_get_bulk(reporter = 'ARG',
                                          start_date = '1962',
                                          end_date = "1962",
+                                         primary_token = 'test',
                                          verbose = T),
                    'Will download files size of: 183.3 KB') # nolint
   })
