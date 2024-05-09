@@ -30,7 +30,8 @@ Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.}
 
 \item{commodity_classification}{The trade classification scheme.
 Possible values for goods:
-\code{c('HS','H0','S1','S2','S3','S4','SS','B4','B5')};
+\code{c('HS','H0','H1','H2','H3','H4','H5','H6')}and
+\verb{c(S1','S2','S3','S4','SS','B4','B5')};
 for services: \code{c('EB02','EB10','EB10S','EB')}. Default: 'HS'.}
 
 \item{reporter}{Reporter ISO3 code(s), \code{everything} or \code{all_countries}.

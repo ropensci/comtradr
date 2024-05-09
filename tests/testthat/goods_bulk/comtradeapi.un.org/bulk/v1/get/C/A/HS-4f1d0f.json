@@ -1,0 +1,23 @@
+{
+    "elapsedTime": "0.1 secs",
+    "count": 1,
+    "data": [
+        {
+            "fileUrl": "https://comtradeapi.un.org/bulk/v1/file/32/b07f98ee4cfb477c5b86923bbf159d48ca519ccb35c35865b3578b075fc918fb",
+            "fileSize": "183.34 KB",
+            "isOriginalClassification": true,
+            "reporterCode": 32,
+            "freqCode": "A",
+            "typeCode": "C",
+            "classificationCode": "S1",
+            "refPeriodId": 196201,
+            "period": 1962,
+            "publicationDate": "2003-04-29T11:24:10Z",
+            "partitionKey": "32",
+            "rowKey": "b07f98ee4cfb477c5b86923bbf159d48ca519ccb35c35865b3578b075fc918fb",
+            "timestamp": "2024-03-10T04:54:11.8900761+00:00",
+            "eTag": "W/\"datetime'2024-03-10T04%3A54%3A11.8900761Z'\""
+        }
+    ],
+    "error": ""
+}
