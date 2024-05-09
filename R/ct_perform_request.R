@@ -14,9 +14,7 @@
 #' @returns JSON data from comtrade, data.frame with results or error codes.
 #' @inheritParams ct_get_data
 ct_perform_request <- function(req, requests_per_second, verbose = FALSE, bulk) {
-  if (verbose) {
-    cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
-  }
+
 
   comtrade_is_transient <- function(resp) {
     (httr2::resp_status(resp) == 403 &&
@@ -40,14 +38,8 @@ ct_perform_request <- function(req, requests_per_second, verbose = FALSE, bulk) 
     ) |>
     httr2::req_perform()
 
-  if(bulk){
-    if (verbose) {
-      cli::cli_inform(c("v" = "Got a response object from UN Comtrade."))
-    }
-  } else {
-    if (verbose) {
+  if(!bulk && verbose){
       cli::cli_inform(c("v" = "Got a response object from UN Comtrade. Use `process = F` if there is an error after this step to find issues with the response object.")) # nolint
-    }
   }
 
 
