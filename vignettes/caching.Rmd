@@ -76,7 +76,7 @@ See here for the details on pruning and other functions of `cachem`:
 ### Careful with outdated data! ⚠️
 
 The current default for the cache age is set to `Inf`, hence when you have 
-requested data once, it will never de downloaded again. For recent data, this
+requested data once, it will never downloaded again. For recent data, this
 can be a very bad idea, as the United Nations might update their data and 
 you will only work with outdated data.
 

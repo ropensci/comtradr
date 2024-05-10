@@ -374,21 +374,24 @@ all the complications that you would have to address for a valid analysis.
 
 1) Dependency on a certain country in terms of how much of a product 
 others import
-from them, does not equal dependency in terms of this product, as a country might have a substantial production of such
+from them, does not equal dependency in terms of this product, as a country 
+might have a substantial production of such
 items domestically. E.g. if (hypothetically) Argentina would import
 90% of its wine from Chile that would not imply that Argentina depends 
 on wine from Chile, if Argentina themselves produce a substantive 
 amount of wine. 
 
 2) We included in our calculation of the total imports of the EU,
-imports from other EU countries, a.k.a. intra-EU imports. That would mean we probably underestimate 
+imports from other EU countries, a.k.a. intra-EU imports. That would mean we 
+probably underestimate 
 how much of total EU imports really come from partner countries outside the EU. 
 
 3) Some of the HS codes for wood are not completely to be included per the 
 Regulation, but I have spared us the intricacies of which ones and how to 
 exclude them here. 
 
-4) Imports data is already better than exports data, because countries have an incentive 
+4) Imports data is already better than exports data, because countries 
+have an incentive 
 to get good data to charge tariffs, however
 the best data for the EU comes from Eurostat, not Comtrade. But since this is 
 about the Comtrade data, it will have to do. 
