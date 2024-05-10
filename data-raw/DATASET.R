@@ -388,6 +388,36 @@ q <- ct_get_data(reporter = 'USA',
                  frequency = "A")
 save(q, file = 'inst/extdata/vignette_data_7.rda')
 
+hs0 <- comtradr::ct_get_data(
+  reporter = c("DEU","FRA"), # only some examples here,
+  commodity_classification = 'HS',
+  commodity_code = '0306',
+  start_date = 1990, # only one year here
+  end_date = 1990)
+
+save(hs0, file = 'inst/extdata/vignette_data_8.rda')
+
+
+hs5 <- comtradr::ct_get_data(
+  reporter = c("DEU","FRA"), # only some examples here,
+  commodity_classification = 'HS',
+  commodity_code = '0306',
+  start_date = 2020, # only one year here
+  end_date = 2020)
+
+save(hs5, file = 'inst/extdata/vignette_data_9.rda')
+
+
+hs0_all <- comtradr::ct_get_bulk(
+  reporter = c("ARG"), # only some examples here,
+  commodity_classification = 'H0',
+  frequency = 'A',
+  verbose = T,
+  start_date = 2000, # only one year here
+  end_date = 2000) |>
+  poorman::slice(1:100)
+
+save(hs0_all, file = 'inst/extdata/vignette_data_10.rda')
 
 #
 # #
