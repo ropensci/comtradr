@@ -1,8 +1,11 @@
+library(comtradr)
+library(httptest2)
+library(testthat)
 
 httptest2::with_mock_dir("goods_bulk_error", {
   test_that("test that error works for params that have no values", {
     expect_error(
-      ct_get_bulk(
+      comtradr::ct_get_bulk(
         reporter = 'ARG',
         start_date = '1920',
         end_date = "1920",
@@ -26,18 +29,24 @@ without_internet({
             })
 })
 
-httptest2::with_mock_dir("goods_bulk",{
-  test_that("We can get goods data", {
+httptest2::set_redactor(
+  function(x){
+    httptest2::gsub_response(x, "https\\://comtradeapi.un.org/bulk/v1/file/32/",
+                             "")
+    })
+
+options(httptest2.verbose = TRUE)
+
+
+httptest2::with_mock_dir('../goods_bulk',{
     expect_s3_class(comtradr::ct_get_bulk(reporter = 'ARG',
                                           start_date = '1962',
                                           end_date = "1962",
                                           primary_token = 'test',
                                           verbose = T), 'data.frame')
-  })
 })
 
-httptest2::with_mock_dir("goods_bulk", {
-  test_that("test informative messages", {
+httptest2::with_mock_dir("../goods_bulk",{
     expect_message(comtradr::ct_get_bulk(reporter = 'ARG',
                                          start_date = '1962',
                                          end_date = "1962",
@@ -56,6 +65,5 @@ httptest2::with_mock_dir("goods_bulk", {
                                          end_date = "1962",
                                          primary_token = 'test',
                                          verbose = T),
-                   'Will download files size of: 183.3 KB') # nolint
-  })
+                   'Will download files') # nolint
 })

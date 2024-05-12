@@ -1,9 +1,9 @@
 {
-    "elapsedTime": "0.1 secs",
+    "elapsedTime": "0.07 secs",
     "count": 1,
     "data": [
         {
-            "fileUrl": "https://comtradeapi.un.org/bulk/v1/file/32/b07f98ee4cfb477c5b86923bbf159d48ca519ccb35c35865b3578b075fc918fb",
+            "fileUrl": "b07f98ee4cfb477c5b86923bbf159d48ca519ccb35c35865b3578b075fc918fb",
             "fileSize": "183.34 KB",
             "isOriginalClassification": true,
             "reporterCode": 32,

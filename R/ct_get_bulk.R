@@ -139,8 +139,8 @@ ct_get_bulk <- function(type = "goods",
       format_file_size()
 
     if (verbose) {
-      cli::cli_inform(c("i" = paste0("Will download files size of: ",
-                                     file_size)))
+      cli::cli_progress_step(paste0("Will download files size of: ",
+                                     file_size))
     }
 
 
