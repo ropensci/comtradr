@@ -1,97 +1,40 @@
-## Resubmission
-This is a resubmission. In this version I have:
+## New feature for bulk download
+This is an upgrade to version 1.0.0 because the suite is now a complete wrapper of all functions in the API. In this version I have:
 
-* Put all instances of 'Comtrade' in the title and description in single quotes
-
-* Changed F to FALSE in remaining instance
-
-* deleted examples for unexported functions
+* added `ct_get_bulk`, which allows for downloading bulk files from comtradr
 
 ## Test environments
 
-* local OS X x86_64-apple-darwin21.6.0 (64-bit), R 4.3.1
-* Ubuntu Linux 20.04.1 LTS, R-release, GCC (Rhub)
-* Fedora Linux, R-devel, clang, gfortran (Rhub)
+Rhub is currently not available due to a SSL certificate problem, I have used 
+github actions instead to test and the standard https://win-builder.r-project.org/ environment
+
+* local OS X x86_64-apple-darwin23.2.0(64-bit), R 4.3.3
+* Ubuntu 22.04.4 LTS-R version 4.4.0 (2024-04-24)
 * Windows Server 2022, R-devel, 64 bit
 
 ## R CMD check results
 
-This is a re-release. The Comtrade API has been rewritten entirely. This re-release reflects these changes. Package had been archived before at the request of previous maintainer. 
 
 There were no ERRORs or WARNINGs. 
 
-There are 5 NOTES.
+There is 1 NOTE.
 
-
-1. One related to the archival of this package:
-```
-* checking CRAN incoming feasibility ... [4s/25s] NOTE
-Maintainer: ‘Paul Bochtler <paulbochtler.gh@gmail.com>’
-
-New submission
-
-Package was archived on CRAN
-
-CRAN repository db overrides:
-  X-CRAN-Comment: Archived on 2023-04-12 at the request of the
-    maintainer.
-
-```
-
-2. Two that are only found on Windows (Server 2022, R-devel 64-bit): 
-
-```
-* checking for detritus in the temp directory ... NOTE
-Found the following files/directories:
-  'lastMiKTeXException'
-```
-As noted in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be due to a bug/crash in MiKTeX and can likely be ignored.
-
-3. The other is:
-
-```
-* checking for non-standard things in the check directory ... NOTE
-Found the following files/directories:
-  ''NULL''
-```
-
-As noted in [R-hub issue #560](https://github.com/r-hub/rhub/issues/560), this seems to be an Rhub issue and so can likely be ignored. 
-
-4. A fourth that is found with *Fedora Linux, R-devel, clang, gfortran* and *Ubuntu Linux 20.04.1 LTS, R-release, GCC*
-
-```
-* checking HTML version of manual ... NOTE
-Skipping checking HTML validation: no command 'tidy' found
-```
-
-5. A fifth that is found with *Fedora Linux, R-devel, clang, gfortran* and *Ubuntu Linux 20.04.1 LTS, R-release, GCC*
+1. One related to URLs: 
 
 ```
 Found the following (possibly) invalid URLs:
-  URL: https://comtrade.un.org/data/doc/api/#Limits
-    From: NEWS.md
-    Status: Error
-    Message: libcurl error code 35:
-      	error:0A000152:SSL routines::unsafe legacy renegotiation disabled
-  URL: https://comtradeplus.un.org/
-    From: DESCRIPTION
-          man/comtradr-package.Rd
-          inst/doc/comtradr.html
-          README.md
-    Status: Error
-    Message: libcurl error code 60:
-      	SSL certificate problem: unable to get local issuer certificate
-      	(Status without verification: OK)
-  URL: https://tradebriefs.intracen.org/2023/11/spotlight
-    From: inst/doc/large_data.html
-    Status: Error
-    Message: libcurl error code 60:
-      	SSL certificate problem: unable to get local issuer certificate
-      	(Status without verification: OK)
+  URL: https://comtradeapi.un.org/files/v1/app/reference/Reporters.json
+    From: man/country_codes.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://comtradeapi.un.org/files/v1/app/reference/partnerAreas.json
+    From: man/country_codes.Rd
+    Status: 404
+    Message: Not Found
 ```
-
-Unfortunately this is the official webpage for the UN Comtrade API, but we have no control over their SSL certificates, so cannot fix this error. 
-
+These URLs are online and working, I am not sure what causes this issue. 
+I can not see any redirects that may cause this. This is the URL provided by the 
+UN hence I cannot change it. 
 
 ----
 
