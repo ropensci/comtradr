@@ -23,9 +23,6 @@ Please [report](https://github.com/ropensci/comtradr/issues) issues,
 comments, or feature requests. We are very much looking for feedback on
 the usability of the new functions.
 
-The package in its old version is still available from the
-`legacy-0-3-0` branch.
-
 Please note that this package is released with a [Contributor Code of
 Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
@@ -46,9 +43,6 @@ To install the dev version from github, use:
 # install.packages("devtools")
 devtools::install_github("ropensci/comtradr@dev")
 ```
-
-Note that the development version includes a preliminary way to query
-the bulk download, but it is undocumented and might break.
 
 ## Usage
 
@@ -143,6 +137,24 @@ example2 <- ct_get_data(
 
 # Inspect the output
 str(example2)
+```
+
+### Bulk Example
+
+To download bulk files, use the function `ct_get_bulk`. Usage is
+documented in the package vignettes, see here for an example:
+
+Attention, this downloads large files (often more than one Gigabyte in
+size) and requires a premium key.
+
+``` r
+hs0_all <- comtradr::ct_get_bulk(
+  reporter = c("DEU"), # only some examples here,
+  commodity_classification = 'H0',
+  frequency = 'A',
+  verbose = T,
+  start_date = 2020, # only one year here
+  end_date = 2020)
 ```
 
 ## Data availability
