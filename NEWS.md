@@ -1,3 +1,20 @@
+# comtradr 1.0.0
+
+* with this update comtradr has reached full functionality, including bulk files
+
+## New features
+
+* **BULK DOWNLOAD ADDED:** the function `ct_get_bulk` has been added. 
+It enables the use of the bulk download facility from Comtrade. 
+
+* Please see the vignette 
+https://docs.ropensci.org/comtradr/articles/bulk_files.html for details
+
+
+
+
+
+
 # comtradr 0.4.0.0
 
 
@@ -104,7 +121,7 @@ the file `inst/extdata/country_table.rda`. ([#29](https://github.com/ropensci/co
 ## MINOR CHANGES
 
 * Added a vignette directory, with an "Intro to comtradr" vignette.
-* API requests are now throttled based on the [rate limits](https://comtrade.un.org/data/doc/api/#Limits) imposed by the UN Comtrade.
+* API requests are now throttled based on the [rate limits](https://uncomtrade.org/docs/subscriptions/) imposed by the UN Comtrade.
 * Added function for setting a valid API key/token (`ct_register_token`).
 * Appending API metadata to each returned data frame as attributes (url of the API call, date-time of the query, duration of the query in seconds).
 * Added package level man page.
