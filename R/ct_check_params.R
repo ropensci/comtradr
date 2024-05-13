@@ -60,7 +60,8 @@ ct_check_params <- function(type,
     if (verbose) {
       cli::cli_inform(c("v" = "Checked validity of partner."))
     }
-    partner_2 <- check_partner2Code(partner_2, update = update, verbose = verbose)
+    partner_2 <- check_partner2Code(partner_2, update = update,
+                                    verbose = verbose)
     if (verbose) {
       cli::cli_inform(c("v" = "Checked validity of partner_2."))
     }
@@ -198,7 +199,9 @@ check_clCode <- function(type, commodity_classification, bulk) {
   cmd_list_services <- c("EB02", "EB10", "EB10S", "EB")
 
   if(bulk){
-    cmd_list_goods <- c(cmd_list_goods,cmd_list_services,"H6","H5","H4","H3","H2","H1","H0")
+    cmd_list_goods <- c(cmd_list_goods,
+                        cmd_list_services,
+                        "H6","H5","H4","H3","H2","H1","H0")
   }
 
   if (type == "C") {

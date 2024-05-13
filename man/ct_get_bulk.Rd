@@ -73,7 +73,7 @@ result in large writing and reading operations from your file system.}
 }
 \value{
 A data.frame with trade data or,
-if \code{process = F}, a httr2 response object.
+if \code{process = FALSE}, a httr2 response object.
 }
 \description{
 This function queries the UN Comtrade API to retrieve

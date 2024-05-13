@@ -6,7 +6,8 @@ test_that("ct_commodity_lookup returns correct values for commodity codes",
 
 test_that("ct_commodity_lookup returns correct values for commodity names",
           {
-            results <- ct_commodity_lookup(c("frogs' legs"), return_code = FALSE)
+            results <- ct_commodity_lookup(c("frogs' legs"),
+                                           return_code = FALSE)
             expect_equal(results,
                          list("frogs' legs" = "020820 - - Frogs' legs")) # nolint
           })

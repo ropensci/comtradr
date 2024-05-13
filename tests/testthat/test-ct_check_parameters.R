@@ -162,7 +162,8 @@ test_that("check_customsCode works correctly", {
 test_that("check_date works correctly", {
   expect_equal(check_date(2010, 2011, "A", bulk = FALSE), "2010,2011")
   expect_equal(check_date(2010, 2011, "A", bulk = TRUE), "2010,2011")
-  expect_equal(check_date(2000, 2024, "A", bulk = TRUE), "2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024")
+  expect_equal(check_date(2000, 2024, "A", bulk = TRUE),
+               "2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024") # nolint
   expect_equal(check_date(2010, 2010, "A", bulk = FALSE), "2010")
   expect_equal(check_date("2010-01", "2010-07", "M", bulk = FALSE),
                "201001,201002,201003,201004,201005,201006,201007")

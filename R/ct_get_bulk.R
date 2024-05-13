@@ -61,7 +61,7 @@
 #' result in large writing and reading operations from your file system.
 #' @export
 #' @returns A data.frame with trade data or,
-#' if `process = F`, a httr2 response object.
+#' if `process = FALSE`, a httr2 response object.
 
 ct_get_bulk <- function(type = "goods",
                         frequency = "A",
@@ -117,7 +117,7 @@ ct_get_bulk <- function(type = "goods",
   reporterCode <- fileSize <- rowKey <- NULL
 
   parsed_response <- resp |>
-    httr2::resp_body_json(simplifyVector = T) |>
+    httr2::resp_body_json(simplifyVector = TRUE) |>
     purrr::pluck("data")
 
   if(length(parsed_response)==0){

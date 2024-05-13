@@ -17,7 +17,7 @@ ct_process_response <-
     if (bulk) {
 
       if (!dir.exists(rappdirs::user_cache_dir("comtradr_bulk"))) {
-        dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = T)
+        dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = TRUE)
       }
       filename <- httr2::resp_header(resp, "Content-Disposition") |>
         stringr::str_remove('.*filename="') |>
@@ -30,11 +30,13 @@ ct_process_response <-
                                  filename))
 
 
-      processed <- readr::read_delim(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+      processed <- readr::read_delim(file.path(
+        rappdirs::user_cache_dir("comtradr_bulk"),
                                                filename),
                                      delim = "\t",
                                      show_col_types = FALSE,progress = FALSE,
-                                     guess_max = 99999,col_types = readr::cols(.default = "c"))
+                                     guess_max = 99999,
+        col_types = readr::cols(.default = "c"))
       file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
                             filename))
     } else {
@@ -48,7 +50,7 @@ ct_process_response <-
           )
         } else if (nrow(result$data) > 90000) {
           cli::cli_inform(
-            c("i" = "Your request has passed 90k rows. If you exceed 100k rows Comtrade will not return all data. You will have to slice your request in smaller parts.")
+            c("i" = "Your request has passed 90k rows. If you exceed 100k rows Comtrade will not return all data. You will have to slice your request in smaller parts.") # nolint
           ) # nolint
         }
 
