@@ -10,6 +10,11 @@ It enables the use of the bulk download facility from Comtrade.
 * Please see the vignette 
 https://docs.ropensci.org/comtradr/articles/bulk_files.html for details
 
+## Bug fixes
+
+* The check for the parameter flowCode did not allow the value "everything"
+as it should. Now it does (commit 279cf03)
+
 
 
 
