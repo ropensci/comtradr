@@ -5,11 +5,26 @@ This is an upgrade to version 1.0.0 because the suite is now a complete wrapper 
 
 ## Test environments
 
-Rhub is currently not available due to a SSL certificate problem, I have used 
-github actions instead to test and the standard https://win-builder.r-project.org/ environment
-
 * local OS X x86_64-apple-darwin23.2.0(64-bit), R 4.3.3
-* Ubuntu 22.04.4 LTS-R version 4.4.0 (2024-04-24)
+*  1 🖥  linux          R-* (any version)                     ubuntu-latest on GitHub
+*  2 🖥  macos          R-* (any version)                     macos-13 on GitHub
+*  3 🖥  macos-arm64    R-* (any version)                     macos-latest on GitHub
+*  4 🖥  windows        R-* (any version)                     windows-latest on GitHub
+*  5 🐋 atlas          R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
+*  6 🐋 clang-asan     R-devel (2024-05-12 r86534)           Ubuntu 22.04.4 LTS
+*  7 🐋 clang16        R-devel (2024-05-11 r86532)           Ubuntu 22.04.4 LTS
+*  8 🐋 clang17        R-devel (2024-05-11 r86532)           Ubuntu 22.04.4 LTS
+*  9 🐋 clang18        R-devel (2024-05-11 r86532)           Ubuntu 22.04.4 LTS
+* 10 🐋 donttest       R-devel (2024-05-11 r86532)           Ubuntu 22.04.4 LTS
+* 11 🐋 gcc13          R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
+* 12 🐋 intel          R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
+* 13 🐋 mkl            R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
+* 14 🐋 nold           R-devel (2024-05-12 r86534)           Ubuntu 22.04.4 LTS
+* 16 🐋 ubuntu-clang   R-devel (2024-05-12 r86534)           Ubuntu 22.04.4 LTS
+* 17 🐋 ubuntu-gcc12   R-devel (2024-05-12 r86534)           Ubuntu 22.04.4 LTS
+* 18 🐋 ubuntu-next    R-4.4.0 (patched) (2024-05-12 r86534) Ubuntu 22.04.4 LTS
+* 19 🐋 ubuntu-release R-4.4.0 (2024-04-24)                  Ubuntu 22.04.4 LTS
+* 20 🐋 valgrind       R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
 * Windows Server 2022, R-devel, 64 bit
 
 ## R CMD check results
