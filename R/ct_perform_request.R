@@ -13,10 +13,10 @@
 #' @noRd
 #' @returns JSON data from comtrade, data.frame with results or error codes.
 #' @inheritParams ct_get_data
-ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
-  if (verbose) {
-    cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
-  }
+ct_perform_request <- function(req,
+                               requests_per_second,
+                               verbose = FALSE, bulk) {
+
 
   comtrade_is_transient <- function(resp) {
     (httr2::resp_status(resp) == 403 &&
@@ -40,9 +40,10 @@ ct_perform_request <- function(req, requests_per_second, verbose = FALSE) {
     ) |>
     httr2::req_perform()
 
-  if (verbose) {
-    cli::cli_inform(c("v" = "Got a response object from UN Comtrade. Use `process = F` if there is an error after this step to find issues with the response object.")) # nolint
+  if(!bulk && verbose){
+      cli::cli_inform(c("v" = "Got a response object from UN Comtrade. Use `process = F` if there is an error after this step to find issues with the response object.")) # nolint
   }
+
 
   return(resp)
 }
@@ -73,12 +74,12 @@ comtrade_error_body <- function(resp) {
       } else if (stringr::str_detect(
         body,
         "The resource you are looking for has been removed"
-      )) { # nolint
+      )) {
         message <-
           c(
             "The original message is: ",
             body,
-            "But most likely you have exceeded the character value for the api."
+            "But most likely you have exceeded the character value for the api." # nolint
           )
         return(message)
       }

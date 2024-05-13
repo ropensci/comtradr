@@ -23,6 +23,9 @@ Please [report](https://github.com/ropensci/comtradr/issues) issues,
 comments, or feature requests. We are very much looking for feedback on
 the usability of the new functions.
 
+The package in its old version is still available from the
+`legacy-0-3-0` branch.
+
 Please note that this package is released with a [Contributor Code of
 Conduct](https://rOpenSci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.

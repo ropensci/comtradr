@@ -98,6 +98,13 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     "EB10S" = "cmd_eb10s",
     "EB" = "cmd_eb",
     "HS" = "cmd_hs",
+    "H0" = "cmd_h0",
+    "H1" = "cmd_h1",
+    "H2" = "cmd_h2",
+    "H3" = "cmd_h3",
+    "H4" = "cmd_h4",
+    "H5" = "cmd_h5",
+    "H6" = "cmd_h6",
     "S1" = "cmd_s1",
     "S2" = "cmd_s2",
     "S3" = "cmd_s3",
@@ -330,7 +337,8 @@ ct_commodity_lookup <- function(search_terms,
 
   commodity_classification <- check_clCode(
     check_type(type),
-    commodity_classification
+    commodity_classification,
+    bulk = FALSE
   )
 
   # Fetch the commodity database from ct_env.
@@ -402,4 +410,31 @@ replace_month <- function(date_str) {
     "Oct" = "10", "Nov" = "11", "Dec" = "12"
   )
   stringr::str_replace_all(date_str, months)
+}
+
+
+#' convert file size from comtrade
+#'
+#' @noRd
+convert_file_size <- function(file_sizes) {
+  units <- c(KB = 1024, MB = 1024^2, GB = 1024^3, TB = 1024^4)
+  sapply(file_sizes, function(x) {
+    parts <- strsplit(x, " ")[[1]]
+    number <- as.numeric(parts[1])
+    unit <- units[toupper(parts[2])]
+    number * unit
+  })
+}
+
+#' format file size from comtrade
+#'
+#' @noRd
+format_file_size <- function(size_in_bytes) {
+  units <- c("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  if (size_in_bytes == 0) {
+    return("0 B")
+  }
+  i <- floor(log(size_in_bytes, 1024))
+  p <- size_in_bytes / 1024^i
+  paste0(format(p, digits = 3, nsmall = 1), " ", units[i + 1])
 }

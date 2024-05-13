@@ -148,6 +148,7 @@ ct_get_data <- function(type = "goods",
                         requests_per_second = 10 / 60,
                         extra_params = NULL,
                         cache = FALSE) {
+  bulk <- FALSE
   ## compile codes
   params <- ct_check_params(
     type = type,
@@ -164,31 +165,39 @@ ct_get_data <- function(type = "goods",
     partner_2 = partner_2,
     customs_code = customs_code,
     update = update,
-    extra_params = extra_params
+    extra_params = extra_params,
+    bulk = bulk
   )
 
   req <-
     ct_build_request(params,
       verbose = verbose,
-      primary_token = primary_token
+      primary_token = primary_token,
+      bulk = bulk
     )
 
+  if (verbose) {
+    cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
+  }
   if(cache){
     resp <- ct_perform_request_cache(req,
                                requests_per_second = requests_per_second,
-                               verbose = verbose
+                               verbose = verbose,
+                               bulk = bulk
     )
   } else{
     resp <- ct_perform_request(req,
                                requests_per_second = requests_per_second,
-                               verbose = verbose
+                               verbose = verbose,
+                               bulk = bulk
     )
   }
 
   if (process) {
     result <- ct_process_response(resp,
       verbose = verbose,
-      tidy_cols = tidy_cols
+      tidy_cols = tidy_cols,
+      bulk = bulk
     )
     return(result)
   } else {

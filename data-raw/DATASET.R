@@ -38,9 +38,28 @@ save(list_of_datasets, file = 'inst/extdata/list_of_datasets.rda')
 ## or more dependencies)
 for(i in seq_along(list_of_datasets$category)){
   ## define the valid commodity codes that we need
-  valid_cmd_datasets <- c('cmd_hs', 'cmd_s1', 'cmd_s2', 'cmd_s3', 'cmd_s4',
-                      'cmd_ss', 'cmd_b4', 'cmd_b5', 'cmd_eb02', 'cmd_eb10',
-                      'cmd_eb10s', 'cmd_eb')
+  valid_cmd_datasets <-
+    c(
+      'cmd_hs',
+      'cmd_h0',
+      'cmd_h1',
+      'cmd_h2',
+      'cmd_h3',
+      'cmd_h4',
+      'cmd_h5',
+      'cmd_h6',
+      'cmd_s1',
+      'cmd_s2',
+      'cmd_s3',
+      'cmd_s4',
+      'cmd_ss',
+      'cmd_b4',
+      'cmd_b5',
+      'cmd_eb02',
+      'cmd_eb10',
+      'cmd_eb10s',
+      'cmd_eb'
+    )
 
   valid_country_datasets <- c('reporter','partner')
   valid_other_datasets <- c('mot','customs','flow')
@@ -191,7 +210,10 @@ ct_pretty_cols <- data.frame(
     'primary_value',
     'legacy_estimation_flag',
     'is_reported',
-    'is_aggregate'
+    'is_aggregate',
+    "dataset_code",
+    "cifvalue",
+    "fobvalue"
   ), from = c(
     "typeCode",
     "freqCode",
@@ -239,7 +261,10 @@ ct_pretty_cols <- data.frame(
     "primaryValue",
     "legacyEstimationFlag",
     "isReported",
-    "isAggregate"
+    "isAggregate",
+    "datasetCode",
+    "CIFValue",
+    "FOBValue"
   ))
 
 
@@ -363,6 +388,36 @@ q <- ct_get_data(reporter = 'USA',
                  frequency = "A")
 save(q, file = 'inst/extdata/vignette_data_7.rda')
 
+hs0 <- comtradr::ct_get_data(
+  reporter = c("DEU","FRA"), # only some examples here,
+  commodity_classification = 'HS',
+  commodity_code = '0306',
+  start_date = 1990, # only one year here
+  end_date = 1990)
+
+save(hs0, file = 'inst/extdata/vignette_data_8.rda')
+
+
+hs5 <- comtradr::ct_get_data(
+  reporter = c("DEU","FRA"), # only some examples here,
+  commodity_classification = 'HS',
+  commodity_code = '0306',
+  start_date = 2020, # only one year here
+  end_date = 2020)
+
+save(hs5, file = 'inst/extdata/vignette_data_9.rda')
+
+
+hs0_all <- comtradr::ct_get_bulk(
+  reporter = c("ARG"), # only some examples here,
+  commodity_classification = 'H0',
+  frequency = 'A',
+  verbose = T,
+  start_date = 2000, # only one year here
+  end_date = 2000) |>
+  poorman::slice(1:100)
+
+save(hs0_all, file = 'inst/extdata/vignette_data_10.rda')
 
 #
 # #

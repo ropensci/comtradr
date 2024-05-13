@@ -6,18 +6,19 @@ test_that("ct_commodity_lookup returns correct values for commodity codes",
 
 test_that("ct_commodity_lookup returns correct values for commodity names",
           {
-            results <- ct_commodity_lookup(c("Frog legs"), return_code = FALSE)
+            results <- ct_commodity_lookup(c("frogs' legs"),
+                                           return_code = FALSE)
             expect_equal(results,
-                         list("Frog legs" = "020820 - Frog legs, fresh, chilled or frozen")) # nolint
+                         list("frogs' legs" = "020820 - - Frogs' legs")) # nolint
           })
 
 test_that("ct_commodity_lookup returns correct values when return_char = TRUE",
           {
             results <-
-              ct_commodity_lookup(c("frog legs"),
+              ct_commodity_lookup(c("frogs' legs"),
                                   return_code = FALSE,
                                   return_char = TRUE)
-            expect_equal(results, c("020820 - Frog legs, fresh, chilled or frozen")) # nolint
+            expect_equal(results, c("020820 - - Frogs' legs")) # nolint
           })
 
 test_that("ct_commodity_lookup warns when no matching results are found", {

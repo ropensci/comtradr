@@ -10,3 +10,8 @@ library(testthat)
 library(comtradr)
 
 test_check("comtradr")
+
+library(httptest2)
+
+.mockPaths('../')
+.mockPaths('tests/')

@@ -1,7 +1,6 @@
 ASEAN
 CMD
 COMTRADE
-Comtrade
 Codecov
 Comtrade
 EB
@@ -9,16 +8,17 @@ EU's
 EUDR
 Eurostat
 ITC
-JSON
 ORCID
 Readme
 Renviron
 arg
 args
 comtrade
+dev
 env
 eu
 frac
+fst
 func
 github
 https
@@ -30,7 +30,6 @@ natively
 onboarding
 rOpenSci
 relevante
-repo
 ropensci
 se
 stringified
