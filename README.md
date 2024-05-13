@@ -139,10 +139,12 @@ example2 <- ct_get_data(
 str(example2)
 ```
 
-### Bulk Example
+### Bulk Download Example 📦
 
 To download bulk files, use the function `ct_get_bulk`. Usage is
-documented in the package vignettes, see here for an example:
+documented in the package vignettes, see
+[here](https://docs.ropensci.org/comtradr/articles/bulk_files.html) for
+an example.
 
 Attention, this downloads large files (often more than one Gigabyte in
 size) and requires a premium key.
@@ -160,7 +162,7 @@ hs0_all <- comtradr::ct_get_bulk(
 ## Data availability
 
 See [here for an
-overview](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users?preview=/135004494/135004492/Picture1.png)
+overview](https://uncomtrade.org/docs/why-are-some-converted-datasets-not-accessible-in-the-ui/)
 of available commodity classifications.
 
 ## Comtradr has relaunched recently 🚧
