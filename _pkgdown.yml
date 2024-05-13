@@ -1,8 +1,9 @@
 reference:
 - title: Get data
-  desc:  Workhorse function of the package
+  desc:  Workhorse functions of the package
   contents:
   - ct_get_data
+  - ct_get_bulk
 
 - title: Internal functions
   desc: These functions are called internally by `ct_get_data` and set the comtrade keys.
