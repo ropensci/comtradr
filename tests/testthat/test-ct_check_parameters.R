@@ -1,27 +1,27 @@
 # Test 'check_type' function
 test_that("check_type returns correct type codes and handles invalid inputs", {
-  expect_equal(check_type("goods"), c(goods = "C"))
-  expect_equal(check_type("services"), c(services = "S"))
-  expect_error(check_type("Good"), 'must be one of "goods"')
+  expect_equal(comtradr:::check_type("goods"), c(goods = "C"))
+  expect_equal(comtradr:::check_type("services"), c(services = "S"))
+  expect_error(comtradr:::check_type("Good"), 'must be one of "goods"')
 })
 
 # Test 'check_freq' function
 test_that("check_freq returns correct frequency codes and handles invalid inputs", { # nolint
-  expect_equal(check_freq("C", "A"), "A")
-  expect_equal(check_freq("C", "M"), "M")
-  expect_equal(check_freq("S", "A"), "A")
-  expect_error(check_freq("C", "D"), "`frequency` must be one of")
-  expect_error(check_freq("S", "M"), "`frequency` must be one of")
+  expect_equal(comtradr:::check_freq("C", "A"), "A")
+  expect_equal(comtradr:::check_freq("C", "M"), "M")
+  expect_equal(comtradr:::check_freq("S", "A"), "A")
+  expect_error(comtradr:::check_freq("C", "D"), "`frequency` must be one of")
+  expect_error(comtradr:::check_freq("S", "M"), "`frequency` must be one of")
 })
 
 # Test 'check_clCode' function
 test_that("check_clCode returns correct classification codes and handles invalid inputs", { #nolint
-  expect_equal(check_clCode("C", "HS", bulk = FALSE), "HS")
-  expect_equal(check_clCode("C", "H5", bulk = TRUE), "H5")
-  expect_equal(check_clCode("C", "B4", bulk = FALSE), "B4")
-  expect_error(check_clCode("C", "ISIC", bulk = FALSE),
+  expect_equal(comtradr:::check_clCode("C", "HS", bulk = FALSE), "HS")
+  expect_equal(comtradr:::check_clCode("C", "H5", bulk = TRUE), "H5")
+  expect_equal(comtradr:::check_clCode("C", "B4", bulk = FALSE), "B4")
+  expect_error(comtradr:::check_clCode("C", "ISIC", bulk = FALSE),
                "`commodity_classification` must be one of")
-  expect_error(check_clCode("S", "HS", bulk = FALSE),
+  expect_error(comtradr:::check_clCode("S", "HS", bulk = FALSE),
                "`commodity_classification` must be one of")
 })
 
@@ -107,42 +107,42 @@ test_that("check_reporterCode function works correctly", {
       verbose = FALSE
     )
   ) > 0)
-  expect_error(check_reporterCode("INVALID"),
+  expect_error(comtradr:::check_reporterCode("INVALID"),
                regexp = "The following reporter")
-  expect_error(check_reporterCode(c("all_countries","USA")),
+  expect_error(comtradr:::check_reporterCode(c("all_countries","USA")),
                "can only be provided")
 
 })
 
 test_that("check_partnerCode works correctly", {
-  expect_equal(check_partnerCode("CAN"), "124")
-  expect_equal(check_partnerCode(c("CAN", "MEX")), "124,484")
-  expect_equal(check_partnerCode(c("everything", "MEX")), NULL)
-  expect_error(check_partnerCode(c("CAN", "all")))
-  expect_error(check_partnerCode("INVALID"))
+  expect_equal(comtradr:::check_partnerCode("CAN"), "124")
+  expect_equal(comtradr:::check_partnerCode(c("CAN", "MEX")), "124,484")
+  expect_equal(comtradr:::check_partnerCode(c("everything", "MEX")), NULL)
+  expect_error(comtradr:::check_partnerCode(c("CAN", "all")))
+  expect_error(comtradr:::check_partnerCode("INVALID"))
   expect_error(comtradr:::check_partnerCode(c("all_countries","USA")),
                "can only be provided")
-  expect_match(check_partnerCode("all_countries"), "^\\d+(,\\d+)*$")
+  expect_match(comtradr:::check_partnerCode("all_countries"), "^\\d+(,\\d+)*$")
 })
 
 test_that("check_partner2Code works correctly", {
-  expect_equal(check_partner2Code("CAN"), "124")
-  expect_equal(check_partner2Code(c("CAN", "MEX")), "124,484")
-  expect_equal(check_partner2Code(c("everything", "MEX")), NULL)
-  expect_error(check_partner2Code(c("CAN", "all")))
-  expect_error(check_partner2Code("INVALID"))
-  expect_error(check_partner2Code(c("all_countries","USA")),
+  expect_equal(comtradr:::check_partner2Code("CAN"), "124")
+  expect_equal(comtradr:::check_partner2Code(c("CAN", "MEX")), "124,484")
+  expect_equal(comtradr:::check_partner2Code(c("everything", "MEX")), NULL)
+  expect_error(comtradr:::check_partner2Code(c("CAN", "all")))
+  expect_error(comtradr:::check_partner2Code("INVALID"))
+  expect_error(comtradr:::check_partner2Code(c("all_countries","USA")),
                "can only be provided")
-  expect_match(check_partner2Code("all_countries"), "^\\d+(,\\d+)*$")
+  expect_match(comtradr:::check_partner2Code("all_countries"), "^\\d+(,\\d+)*$")
 })
 
 test_that("check_motCode works correctly", {
-  expect_equal(check_motCode("TOTAL modes of transport"), "0")
-  expect_equal(check_motCode("everything"), NULL)
-  expect_equal(check_motCode("everything","Air"), NULL)
-  expect_equal(check_motCode(c("Air", "Water")), "1000,2000")
-  expect_error(check_motCode("INVALID"))
-  expect_error(check_motCode("INVALID"),
+  expect_equal(comtradr:::check_motCode("TOTAL modes of transport"), "0")
+  expect_equal(comtradr:::check_motCode("everything"), NULL)
+  expect_equal(comtradr:::check_motCode("everything","Air"), NULL)
+  expect_equal(comtradr:::check_motCode(c("Air", "Water")), "1000,2000")
+  expect_error(comtradr:::check_motCode("INVALID"))
+  expect_error(comtradr:::check_motCode("INVALID"),
                "The following mode_of_transport codes you")
   expect_equal(
     comtradr:::check_motCode("everything")
@@ -150,12 +150,12 @@ test_that("check_motCode works correctly", {
 })
 
 test_that("check_customsCode works correctly", {
-  expect_equal(check_customsCode("C00"), "C00")
-  expect_equal(check_customsCode("everything"), NULL)
-  expect_equal(check_customsCode("everything",'C00'), NULL)
-  expect_equal(check_customsCode(c("C01", "C00")), "C01,C00")
-  expect_error(check_customsCode("INVALID"))
-  expect_error(check_customsCode("INVALID"),
+  expect_equal(comtradr:::check_customsCode("C00"), "C00")
+  expect_equal(comtradr:::check_customsCode("everything"), NULL)
+  expect_equal(comtradr:::check_customsCode("everything",'C00'), NULL)
+  expect_equal(comtradr:::check_customsCode(c("C01", "C00")), "C01,C00")
+  expect_error(comtradr:::check_customsCode("INVALID"))
+  expect_error(comtradr:::check_customsCode("INVALID"),
                "The following customs_code codes you")
 })
 

@@ -5,7 +5,8 @@ testthat::test_that("ct_perform_request is cached", {
   testthat::expect_equal(comtradr:::cache$info()$max_size, 1073741824)
   testthat::expect_equal(comtradr:::cache$info()$max_age, Inf)
   testthat::expect_equal(comtradr:::cache$info()$max_n, Inf)
-  testthat::expect_true(dir.exists(rappdirs::user_cache_dir('comtradr')))
+  testthat::expect_true(dir.exists(tools::R_user_dir('comtradr',
+                                                     which = 'cache')))
 })
 
 
@@ -50,6 +51,7 @@ testthat::test_that("ct_perform_request cache parameters are set correctly", {
   testthat::expect_equal(cache_values[1], 1) # max_size
   testthat::expect_equal(cache_values[2], 1) # max_age
   testthat::expect_equal(cache_values[3], 1) # max_n
+
 })
 
 
