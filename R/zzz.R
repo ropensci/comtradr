@@ -23,8 +23,8 @@ assign(
   max_age <- ifelse(nzchar(max_age_env), eval(parse(text = max_age_env)), Inf)
   max_n <- ifelse(nzchar(max_n_env), eval(parse(text = max_n_env)), Inf)
 
-  cache <- cachem::cache_disk(dir = rappdirs::user_cache_dir(
-    appname = 'comtradr'),
+  cache <- cachem::cache_disk(dir = tools::R_user_dir('comtradr',
+                                                      which = 'cache'),
                               max_size = max_size,
                               max_age = max_age,
                               max_n = max_n)
@@ -46,6 +46,22 @@ assign(
   assign(x = "cache",
          value = cache,
          envir = rlang::ns_env("comtradr"))
+
+  if(
+    (rappdirs::user_cache_dir('comtradr')!=
+     tools::R_user_dir('comtradr', which = 'cache')) &&
+    (length(list.files(rappdirs::user_cache_dir('comtradr')))>0|
+     length(list.files(rappdirs::user_cache_dir('comtradr_bulk')))>0)){
+    cli::cli_bullets(c("In the last version of comtradr the cache location has been changed, because it was not CRAN compliant. You can:",
+                     '*' = 'Migrate the cache with {.run ct_migrate_cache()}',
+                     '*' = 'Ignore this warning, a new cache is created automatically.',
+                     '*' = "Delete your old cache manually with:",
+                     '*' = "{.run rappdirs::user_cache_dir('comtradr') |> list.files(full.names = T) |>   file.remove()}",
+                     ' ' = "and",
+                     '*' = "{.run rappdirs::user_cache_dir('comtradr_bulk') |> list.files(full.names = T) |>   file.remove()}")
+                     )
+  }
+
 }
 
 # Initialize placeholders for package data within ct_env.
