@@ -41,6 +41,48 @@ get_primary_comtrade_key <- function() {
   }
 }
 
+#' Migrate cache to new location
+#'
+#' Comtradr versions previous to version 1.0.1 have used a cache
+#' location that was not CRAN compliant. You can migrate any remaining files to
+#' the new cache location using this function. It will delete the old cache.
+#'
+#'
+#' @returns Nothing
+#' @export
+#' @examplesIf interactive()
+#' ## set API key
+#' ct_migrate_cache()
+#'
+ct_migrate_cache <- function(){
+  if((rappdirs::user_cache_dir('comtradr')!=
+     tools::R_user_dir('comtradr', which = 'cache')) &&
+    (length(list.files(rappdirs::user_cache_dir('comtradr')))>0)){
+    fs::dir_copy(rappdirs::user_cache_dir('comtradr'),
+                 tools::R_user_dir('comtradr', which = 'cache'), overwrite = TRUE)
+  }
+
+  if(!all(list.files(rappdirs::user_cache_dir('comtradr')) %in%
+         list.files(tools::R_user_dir('comtradr', which = 'cache')))){
+    cli::cli_abort('x' = 'Something went wrong while copying.')
+  }
+
+  fs::dir_delete(rappdirs::user_cache_dir('comtradr'))
+
+  if((rappdirs::user_cache_dir('comtradr_bulk')!=
+      tools::R_user_dir('comtradr_bulk', which = 'cache')) &&
+     (length(list.files(rappdirs::user_cache_dir('comtradr_bulk')))>0)){
+    fs::dir_copy(rappdirs::user_cache_dir('comtradr_bulk'),
+                 tools::R_user_dir('comtradr_bulk', which = 'cache'), overwrite = TRUE)
+  }
+
+  if(!all(list.files(rappdirs::user_cache_dir('comtradr_bulk')) %in%
+          list.files(tools::R_user_dir('comtradr_bulk', which = 'cache')))){
+    cli::cli_abort('x' = 'Something went wrong while copying.')
+  }
+  fs::dir_delete(rappdirs::user_cache_dir('comtradr_bulk'))
+}
+
 #' Get reference table from package data
 #'
 #' The first time, the function will read from disk, the second time from the
