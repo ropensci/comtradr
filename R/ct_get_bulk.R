@@ -53,7 +53,7 @@
 #' usually specified as a fraction, e.g. 10/60 for 10 requests per minute,
 #' see `req_throttle()` for details.
 #' @param cache A logical value to determine, whether requests should be cached
-#' or not. If set to True, `rappdirs::user_cache_dir()` is used
+#' or not. If set to True, `tools::R_user_dir(which = 'cache')` is used
 #' to determine the location of the cache. Use the .Renviron file to set the
 #' R_USER_CACHE_DIR in order to change this location. Default: False.
 #' @param download_bulk_files If TRUE downloads all files that are returned
@@ -112,7 +112,7 @@ ct_get_bulk <- function(type = "goods",
                                verbose = verbose, bulk = bulk)
   }
 
-    ## this will parse the response to return necessary parameters for actually
+  ## this will parse the response to return necessary parameters for actually
   ## downloading the file list
   reporterCode <- fileSize <- rowKey <- NULL
 
@@ -158,14 +158,26 @@ ct_get_bulk <- function(type = "goods",
         "Performing request, which can take a few seconds, depending on the amount of data queried.") # nolint
     }
 
-    resps <- purrr::map(reqs,
-                        ~ ct_perform_request(
-                          .x,
-                          requests_per_second = 60 /
-                            10,
-                          verbose = verbose,
-                          bulk = bulk
-                        ), .progress = verbose)
+    if(cache){
+      resps <- purrr::map(reqs,
+                          ~ ct_perform_request_cache(
+                            .x,
+                            requests_per_second = 60 /
+                              10,
+                            verbose = verbose,
+                            bulk = bulk
+                          ), .progress = verbose)
+    } else {
+      resps <- purrr::map(reqs,
+                          ~ ct_perform_request(
+                            .x,
+                            requests_per_second = 60 /
+                              10,
+                            verbose = verbose,
+                            bulk = bulk
+                          ), .progress = verbose)
+    }
+
     if (verbose) {
       cli::cli_progress_step("Processing bulk file, this writes to your cache directory.") #nolint
     }
@@ -173,7 +185,7 @@ ct_get_bulk <- function(type = "goods",
     if (cache) {
       result <- purrr::map_dfr(
         resps,
-        ~ ct_process_response(
+        ~ ct_process_response_cache(
           .x,
           verbose = verbose,
           tidy_cols = tidy_cols,
@@ -184,7 +196,7 @@ ct_get_bulk <- function(type = "goods",
     } else{
       result <- purrr::map_dfr(
         resps,
-        ~ ct_process_response_cache(
+        ~ ct_process_response(
           .x,
           verbose = verbose,
           tidy_cols = tidy_cols,
