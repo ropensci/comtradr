@@ -51,6 +51,7 @@ Imports:
     poorman,
     lubridate,
     purrr,
+    tools,
     rappdirs,
     memoise,
     cachem
@@ -67,7 +68,7 @@ Suggests:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://docs.ropensci.org/comtradr/, https://github.com/ropensci/comtradr
 BugReports: https://github.com/ropensci/comtradr/issues
 NeedsCompilation: no
