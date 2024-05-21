@@ -134,6 +134,7 @@ ct_get_bulk <- function(type = "goods",
 
     file_size <- parsed_response |>
       poorman::pull(fileSize) |>
+      stringr::str_remove_all(",") |>
       convert_file_size() |>
       sum() |>
       format_file_size()
