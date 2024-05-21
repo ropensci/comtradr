@@ -47,18 +47,21 @@ assign(
          value = cache,
          envir = rlang::ns_env("comtradr"))
 
+  ## throw a warning, if a cache in the non-compliant directory is detected
+  ## but only if there is actually any files in this directory
+  ## pointing to the migrating function
   if(
     (rappdirs::user_cache_dir('comtradr')!=
      tools::R_user_dir('comtradr', which = 'cache')) &&
     (length(list.files(rappdirs::user_cache_dir('comtradr')))>0|
      length(list.files(rappdirs::user_cache_dir('comtradr_bulk')))>0)){
-    cli::cli_bullets(c("In the last version of comtradr the cache location has been changed, because it was not CRAN compliant. You can:",
-                     '*' = 'Migrate the cache with {.run ct_migrate_cache()}',
-                     '*' = 'Ignore this warning, a new cache is created automatically.',
-                     '*' = "Delete your old cache manually with:",
-                     '*' = "{.run rappdirs::user_cache_dir('comtradr') |> list.files(full.names = T) |>   file.remove()}",
-                     ' ' = "and",
-                     '*' = "{.run rappdirs::user_cache_dir('comtradr_bulk') |> list.files(full.names = T) |>   file.remove()}")
+    cli::cli_bullets(c("In the last version of comtradr the cache location has been changed, because it was not CRAN compliant. You can:", #nolint
+  '*' = 'Migrate the cache and clean old files with {.run ct_migrate_cache()}',
+  '*' = 'Ignore this warning, a new cache is created automatically.',
+  '*' = "Delete your old cache manually with:",
+  '*' = "{.run rappdirs::user_cache_dir('comtradr') |> list.files(full.names = T) |>   file.remove()}", #nolint
+  ' ' = "and",
+  '*' = "{.run rappdirs::user_cache_dir('comtradr_bulk') |> list.files(full.names = T) |>   file.remove()}") #nolint
                      )
   }
 

@@ -51,10 +51,13 @@ get_primary_comtrade_key <- function() {
 #' @returns Nothing
 #' @export
 #' @examplesIf interactive()
-#' ## set API key
 #' ct_migrate_cache()
 #'
 ct_migrate_cache <- function(){
+  ## check that the user has not set a cache manually in R_USER_CACHE_DIR
+  ## and hence tools and rappdirs would return the same
+
+  ## also checking that there is actually any files in it
   if((rappdirs::user_cache_dir('comtradr')!=
      tools::R_user_dir('comtradr', which = 'cache')) &&
     (length(list.files(rappdirs::user_cache_dir('comtradr')))>0)){
@@ -62,6 +65,7 @@ ct_migrate_cache <- function(){
                  tools::R_user_dir('comtradr', which = 'cache'), overwrite = TRUE)
   }
 
+  ## if not all files are copied over, abort and throw error
   if(!all(list.files(rappdirs::user_cache_dir('comtradr')) %in%
          list.files(tools::R_user_dir('comtradr', which = 'cache')))){
     cli::cli_abort('x' = 'Something went wrong while copying.')
@@ -69,6 +73,7 @@ ct_migrate_cache <- function(){
 
   fs::dir_delete(rappdirs::user_cache_dir('comtradr'))
 
+  ## as above but for the bulk cache directory
   if((rappdirs::user_cache_dir('comtradr_bulk')!=
       tools::R_user_dir('comtradr_bulk', which = 'cache')) &&
      (length(list.files(rappdirs::user_cache_dir('comtradr_bulk')))>0)){
