@@ -16,7 +16,6 @@ the new cache location using this function. It will delete the old cache.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-## set API key
 ct_migrate_cache()
 \dontshow{\}) # examplesIf}
 }
