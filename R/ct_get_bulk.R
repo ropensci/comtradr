@@ -142,6 +142,9 @@ ct_get_bulk <- function(type = "goods",
     if (verbose) {
       cli::cli_progress_step(paste0("Will download files size of: ",
                                      file_size))
+      ## the progress bar from map overrides the progress step, so i am
+      ## including another line here....
+      cli::cli_bullets("") # nolint
     }
 
 
@@ -157,6 +160,9 @@ ct_get_bulk <- function(type = "goods",
     if (verbose) {
       cli::cli_progress_step(
         "Performing request, which can take a few seconds, depending on the amount of data queried.") # nolint
+      ## the progress bar from map overrides the progress step, so i am
+      ## including another line here....
+      cli::cli_bullets("") # nolint
     }
 
     if(cache){
@@ -181,7 +187,11 @@ ct_get_bulk <- function(type = "goods",
 
     if (verbose) {
       cli::cli_progress_step("Processing bulk file, this writes to your cache directory.") #nolint
-    }
+      ## the progress bar from map overrides the progress step, so i am
+      ## including another line here....
+      cli::cli_bullets("") # nolint
+
+      }
 
     if (cache) {
       result <- purrr::map_dfr(
