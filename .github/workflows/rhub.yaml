@@ -64,7 +64,8 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-
+        env:
+          _R_CHECK_THINGS_IN_OTHER_DIRS_: true
   other-platforms:
     needs: setup
     if: ${{ needs.setup.outputs.platforms != '[]' }}
@@ -93,3 +94,5 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+        env:
+          _R_CHECK_THINGS_IN_OTHER_DIRS_: true
