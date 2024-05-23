@@ -16,8 +16,8 @@ ct_process_response <-
   function(resp, verbose = FALSE, tidy_cols, bulk) {
     if (bulk) {
 
-      if (!dir.exists(rappdirs::user_cache_dir("comtradr_bulk"))) {
-        dir.create(rappdirs::user_cache_dir("comtradr_bulk"), recursive = TRUE)
+      if (!dir.exists(tools::R_user_dir('comtradr_bulk',which = 'cache'))) {
+        dir.create(tools::R_user_dir('comtradr_bulk',which = 'cache'), recursive = TRUE)
       }
       filename <- httr2::resp_header(resp, "Content-Disposition") |>
         stringr::str_remove('.*filename="') |>
@@ -26,18 +26,21 @@ ct_process_response <-
 
       resp |>
         httr2::resp_body_raw() |>
-        writeBin(con = file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+        writeBin(con = file.path(tools::R_user_dir('comtradr_bulk',
+                                                   which = 'cache'),
                                  filename))
 
 
       processed <- readr::read_delim(file.path(
-        rappdirs::user_cache_dir("comtradr_bulk"),
+        tools::R_user_dir('comtradr_bulk',
+                          which = 'cache'),
                                                filename),
                                      delim = "\t",
                                      show_col_types = FALSE,progress = FALSE,
                                      guess_max = 99999,
         col_types = readr::cols(.default = "c"))
-      file.remove(file.path(rappdirs::user_cache_dir("comtradr_bulk"),
+      file.remove(file.path(tools::R_user_dir('comtradr_bulk',
+                                              which = 'cache'),
                             filename))
     } else {
       result <- resp |>

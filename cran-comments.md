@@ -1,7 +1,29 @@
-## New feature for bulk download
-This is an upgrade to version 1.0.0 because the suite is now a complete wrapper of all functions in the API. In this version I have:
+## Patch for policy violation
 
-* added `ct_get_bulk`, which allows for downloading bulk files from comtradr
+* The package used rappdirs::user_cache_dir for determining the correct cache development. This 
+has now been replaced with tools::R_user_dir('comtradr', which = 'cache'). 
+
+* The package left a file that resulted from a faulty test in the cache directory.
+This is not happening anymore. 
+
+#### Further comments
+
+* I understand that the previous version created some additional files that were annoying to the
+CRAN team. Sorry about that. However, I would like to make a few comments that I think might 
+enhance the process for future submitters. Please take these comments in the light of my relative ignorance concerning the underlying processes.
+
+1) The documentation of `tools` is wrong. In the help page for the package it specifies `rappdirs` as a valid 
+tool to specify cache directories. See: https://stat.ethz.ch/R-manual/R-patched/library/tools/html/userdir.html 
+This almost certainly will lead others astray. 
+
+--> Maybe you could use your authority as CRAN to let the R-Core Developers know that this is in fact wrong. I have already done the same for the people maintaining `rappdirs` and they have changed their documentation. 
+
+2) I do not understand why the package was accepted previously. It adds to the mystery of CRAN that seemingly not all tests that could lead to the removal of a package are done all the time, but just sometimes. Now people have already adopted the package in a previous iteration (version 0.4.0) which also includes the "wrong" cache directory.
+
+--> Is there a possibility to run tests that would trigger a removal **consistently** for all submissions? 
+
+3) Would it be advisable to restrict write-permissions for users on the CRAN servers? If packages are not allowed to write to the cache directory specified by rappdirs, maybe write-permissions could be restricted so that packages error out instead of creating clutter that the CRAN team has to sweep up after. 
+
 
 ## Test environments
 
@@ -24,7 +46,6 @@ This is an upgrade to version 1.0.0 because the suite is now a complete wrapper 
 * 17 🐋 ubuntu-gcc12   R-devel (2024-05-12 r86534)           Ubuntu 22.04.4 LTS
 * 18 🐋 ubuntu-next    R-4.4.0 (patched) (2024-05-12 r86534) Ubuntu 22.04.4 LTS
 * 19 🐋 ubuntu-release R-4.4.0 (2024-04-24)                  Ubuntu 22.04.4 LTS
-* 20 🐋 valgrind       R-devel (2024-05-12 r86534)           Fedora Linux 38 (Container Image)
 * Windows Server 2022, R-devel, 64 bit
 
 ## R CMD check results

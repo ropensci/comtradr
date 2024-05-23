@@ -28,12 +28,12 @@ The package offers a caching option, that is fairly easy to use.
 
 When you set the respective argument to `TRUE`, a directory named
 `comtradr` will be set up in your cache directory. This is determined by
-the `rappdirs::user_cache_dir` function. It has the default values for a
+the `tools::R_user_dir(which = 'cache')` function. It has the default values for a
 cache as used by `cachem::cache_disk`.
 
 See here: <https://cachem.r-lib.org/reference/cache_disk.html>
 
-and here: <https://rappdirs.r-lib.org/reference/user_cache_dir.html>
+and here:<https://stat.ethz.ch/R-manual/R-devel/library/tools/html/userdir.html>
 
 ```{r, eval = FALSE}
 library(comtradr)
@@ -87,7 +87,18 @@ To find your cache and empty it by yourself, you can do:
 
 ``` {r, eval = FALSE}
 ## to delete all files in your cache
-rappdirs::user_cache_dir('comtradr') |> 
-  list.files(full.names = T) |> 
-  file.remove()
+tools::R_user_dir('comtradr', which = 'cache') |> 
+  fs::dir_delete()
 ``` 
+
+
+and 
+
+``` {r, eval = FALSE}
+## to delete all files in your cache
+tools::R_user_dir('comtradr_bulk', which = 'cache') |> 
+  fs::dir_delete()
+``` 
+
+You will have to restart `comtradr` to re-create the cache and be able to use
+the package. 

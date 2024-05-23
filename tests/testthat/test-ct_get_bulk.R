@@ -43,6 +43,7 @@ httptest2::with_mock_dir('../goods_bulk',{
                                           start_date = '1962',
                                           end_date = "1962",
                                           primary_token = 'test',
+                                          cache = FALSE,
                                           verbose = T), 'data.frame')
 })
 

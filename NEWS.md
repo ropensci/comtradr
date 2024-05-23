@@ -1,3 +1,9 @@
+# comtradr 1.0.1
+
+* this is a patch to fix a CRAN policy violation, namely that the cache was written in the wrong directory due to using rappdirs.
+
+* If you have used comtradr prior to version 1.0.1 I recommend running `ct_migrate_cache()` to copy files to the new cache and remove the old cache
+
 # comtradr 1.0.0
 
 * with this update comtradr has reached full functionality, including bulk files

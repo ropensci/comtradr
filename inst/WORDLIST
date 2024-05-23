@@ -17,6 +17,7 @@ comtrade
 dev
 env
 eu
+flowCode
 frac
 fst
 func
@@ -29,6 +30,7 @@ json
 natively
 onboarding
 rOpenSci
+rappdirs
 relevante
 ropensci
 se

@@ -18,6 +18,11 @@ reference:
   - ct_commodity_lookup
   - ct_get_ref_table
 
+- title: Migrating cache
+  desc: This function migrates your cache (comtradr version 1.0.0 and earlier) to the CRAN compliant place.
+  contents:
+  - ct_migrate_cache
+
 - title: Deprecated functions
   desc: These functions were part of the previous iteration of the package and are now deprecated.
   contents:
