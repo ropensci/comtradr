@@ -71,8 +71,9 @@ ct_migrate_cache <- function(){
     cli::cli_abort('x' = 'Something went wrong while copying.')
   }
 
-  fs::dir_delete(rappdirs::user_cache_dir('comtradr'))
-
+  if(fs::dir_exists(rappdirs::user_cache_dir('comtradr'))){
+    fs::dir_delete(rappdirs::user_cache_dir('comtradr'))
+  }
   ## as above but for the bulk cache directory
   if((rappdirs::user_cache_dir('comtradr_bulk')!=
       tools::R_user_dir('comtradr_bulk', which = 'cache')) &&
@@ -85,7 +86,9 @@ ct_migrate_cache <- function(){
           list.files(tools::R_user_dir('comtradr_bulk', which = 'cache')))){
     cli::cli_abort('x' = 'Something went wrong while copying.')
   }
-  fs::dir_delete(rappdirs::user_cache_dir('comtradr_bulk'))
+  if(fs::dir_exists(rappdirs::user_cache_dir('comtradr_bulk'))){
+    fs::dir_delete(rappdirs::user_cache_dir('comtradr_bulk'))
+  }
 }
 
 #' Get reference table from package data
