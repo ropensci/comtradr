@@ -25,6 +25,8 @@ This almost certainly will lead others astray.
 3) Would it be advisable to restrict write-permissions for users on the CRAN servers? If packages are not allowed to write to the cache directory specified by rappdirs, maybe write-permissions could be restricted so that packages error out instead of creating clutter that the CRAN team has to sweep up after. 
 
 
+As per usual: Thanks for your work! 
+
 ## Test environments
 
 * local OS X x86_64-apple-darwin23.2.0(64-bit), R 4.3.3
