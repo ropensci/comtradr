@@ -59,6 +59,8 @@ ct_process_response <-
 
         processed <- result$data
 
+        return(processed)
+
       } else {
         return(data.frame(count = 0))
       }
