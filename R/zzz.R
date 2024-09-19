@@ -17,7 +17,7 @@ check_old_cache_message <- function() {
   cli::cli_inform(
     c(
       "In the last version of comtradr the cache location has been changed, because it was not CRAN compliant. You can:", #nolint
-      'v' = 'Migrate the cache and clean old files with {.run ct_migrate_cache()}',
+      'v' = 'Migrate the cache and clean old files with {.run ct_migrate_cache()}', #nolint
       'x' = 'Ignore this warning, a new cache is created automatically.',
       'i' = "Delete your old cache manually with:",
       '*' = "{.run rappdirs::user_cache_dir('comtradr') |> list.files(full.names = T) |>   file.remove()}",  #nolint

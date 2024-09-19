@@ -62,7 +62,8 @@ ct_migrate_cache <- function(){
      tools::R_user_dir('comtradr', which = 'cache')) &&
     (length(list.files(rappdirs::user_cache_dir('comtradr')))>0)){
     fs::dir_copy(rappdirs::user_cache_dir('comtradr'),
-                 tools::R_user_dir('comtradr', which = 'cache'), overwrite = TRUE)
+                 tools::R_user_dir('comtradr', which = 'cache'),
+                 overwrite = TRUE)
   }
 
   ## if not all files are copied over, abort and throw error
@@ -79,7 +80,8 @@ ct_migrate_cache <- function(){
       tools::R_user_dir('comtradr_bulk', which = 'cache')) &&
      (length(list.files(rappdirs::user_cache_dir('comtradr_bulk')))>0)){
     fs::dir_copy(rappdirs::user_cache_dir('comtradr_bulk'),
-                 tools::R_user_dir('comtradr_bulk', which = 'cache'), overwrite = TRUE)
+                 tools::R_user_dir('comtradr_bulk', which = 'cache'),
+                 overwrite = TRUE)
   }
 
   if(!all(list.files(rappdirs::user_cache_dir('comtradr_bulk')) %in%
