@@ -1,3 +1,5 @@
+# comtradr 1.0.2
+
 # comtradr 1.0.1
 
 * this is a patch to fix a CRAN policy violation, namely that the cache was written in the wrong directory due to using rappdirs.
