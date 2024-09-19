@@ -1,7 +1,7 @@
 # comtradr 1.0.2
 
 * this is a patch to fix two bugs in the package: 
-    * a missing return in the fcall to tidy_cols did not allow users to set this argument to false, see https://github.com/ropensci/comtradr/issues/88 (thanks @FATelarico)
+    * a missing return in the fcall to tidy_cols did not allow users to set this argument to false, see https://github.com/ropensci/comtradr/issues/88 and commit 6f34592 (thanks @FATelarico)
     * a missing parameter in the file size conversion function did not allow the bulk facility to download small files. This has been fixed. 
 
 # comtradr 1.0.1
