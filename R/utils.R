@@ -467,7 +467,7 @@ replace_month <- function(date_str) {
 #'
 #' @noRd
 convert_file_size <- function(file_sizes) {
-  units <- c(KB = 1024, MB = 1024^2, GB = 1024^3, TB = 1024^4)
+  units <- c(B = 1, KB = 1024, MB = 1024^2, GB = 1024^3, TB = 1024^4)
   sapply(file_sizes, function(x) {
     parts <- strsplit(x, " ")[[1]]
     number <- as.numeric(parts[1])

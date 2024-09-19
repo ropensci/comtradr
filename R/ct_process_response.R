@@ -17,7 +17,8 @@ ct_process_response <-
     if (bulk) {
 
       if (!dir.exists(tools::R_user_dir('comtradr_bulk',which = 'cache'))) {
-        dir.create(tools::R_user_dir('comtradr_bulk',which = 'cache'), recursive = TRUE)
+        dir.create(tools::R_user_dir('comtradr_bulk',which = 'cache'),
+                   recursive = TRUE)
       }
       filename <- httr2::resp_header(resp, "Content-Disposition") |>
         stringr::str_remove('.*filename="') |>
