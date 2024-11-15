@@ -1,4 +1,4 @@
-# comtradr (development version)
+# comtradr 1.0.3
 
 # comtradr 1.0.2
 
