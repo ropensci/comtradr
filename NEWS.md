@@ -1,3 +1,8 @@
+# comtradr 1.0.3
+
+* this is a patch to fix a bug that was introduced when fixing the bug about tidy cols. Now tidy cols are returned again. 
+* testing for this error was introduced in the test environment to avoid this in the future.
+
 # comtradr 1.0.2
 
 * this is a patch to fix two bugs in the package: 

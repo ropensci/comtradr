@@ -60,8 +60,6 @@ ct_process_response <-
 
         processed <- result$data
 
-        return(processed)
-
       } else {
         return(data.frame(count = 0))
       }
@@ -91,6 +89,8 @@ ct_process_response <-
       })
     attributes(processed)$url <- resp$url
     attributes(processed)$time <- Sys.time()
+    return(processed)
+    } else {
     return(processed)
   }
 }

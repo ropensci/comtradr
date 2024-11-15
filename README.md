@@ -165,18 +165,4 @@ See [here for an
 overview](https://uncomtrade.org/docs/why-are-some-converted-datasets-not-accessible-in-the-ui/)
 of available commodity classifications.
 
-## Comtradr has relaunched recently 🚧
-
-The Comtrade API has been undergoing extensive updates. At this point
-the legacy API has been taken offline (see
-[here](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+FAQ+for+Advanced+Users#NewComtradeFAQforAdvancedUsers-WhatisthelegacyoftheUNComtrade?UntilwhencanIuseit?)).
-
-In order to accommodate the new syntax, as well as adding the new
-functionality, the `comtradr` package has been undergoing an extensive
-re-write. Additionally, it is not possible anymore to query the API
-without an API token. There still is a free version, but unlike before
-you need to be a registered user to obtain the token. See the
-[FAQ](https://unstats.un.org/wiki/display/comtrade/New+Comtrade+User+Guide#NewComtradeUserGuide-UNComtradeAPIManagement)
-for details on how to obtain the new access tokens.
-
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

@@ -135,9 +135,10 @@ ct_get_bulk <- function(type = "goods",
     file_size <- parsed_response |>
       poorman::pull(fileSize) |>
       stringr::str_remove_all(",") |>
-      convert_file_size() |>
-      sum() |>
-      format_file_size()
+      fs::as_fs_bytes() |>
+      sum() |>  # Sum the total size
+      fs::fs_bytes()
+
 
     if (verbose) {
       cli::cli_progress_step(paste0("Will download files size of: ",
