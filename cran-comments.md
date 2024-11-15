@@ -1,8 +1,7 @@
 ## Patch for policy violation
 
-* this is a patch to fix two bugs in the package: 
-    * a missing return in the call to tidy_cols did not allow users to set this argument to false, see https://github.com/ropensci/comtradr/issues/88 
-    * a missing parameter in the file size conversion function did not allow the bulk facility to download small files. This has been fixed. 
+* this is a patch to fix a bug that was introduced when fixing the bug about tidy cols. Now tidy cols are returned again. 
+* testing for this error was introduced in the test environment to avoid this in the future.
 
 ## Test environments
 
@@ -29,8 +28,6 @@
 23 🐋 ubuntu-release R-4.4.1 (2024-06-14)                  Ubuntu 22.04.5 LTS
 
 ## R CMD check results
-
-
 There were no ERRORs or WARNINGs. 
 
 There is 1 NOTE.
