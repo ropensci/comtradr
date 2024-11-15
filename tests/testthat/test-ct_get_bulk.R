@@ -2,6 +2,7 @@ library(comtradr)
 library(httptest2)
 library(testthat)
 
+
 httptest2::with_mock_dir("goods_bulk_error", {
   test_that("test that error works for params that have no values", {
     expect_error(
@@ -34,8 +35,6 @@ httptest2::set_redactor(function(x) {
   httptest2::gsub_response(x, "https\\://comtradeapi.un.org/bulk/v1/file/32/",
                            "")
 })
-
-options(httptest2.verbose = TRUE)
 
 httptest2::with_mock_dir('../goods_bulk', {
   test_that('returns a data.frame',
@@ -76,4 +75,27 @@ httptest2::with_mock_dir('../goods_bulk', {
                 "Will download files", captured_messages
               )))
              })
+})
+
+
+test_that("tidy cols are returned for bulk",{
+  test <- try(get_primary_comtrade_key(), silent = TRUE)
+  skip_if(any(class(test) %in% c("rlang_error", "error", "try-error")))
+  tidy <- comtradr::ct_get_bulk(
+    reporter = 'ARG',
+    start_date = '1962',
+    end_date = "1962",
+    primary_token = get_primary_comtrade_key(),
+    cache = FALSE
+  )
+  not_tidy <- comtradr::ct_get_bulk(
+    reporter = 'ARG',
+    start_date = '1962',
+    end_date = "1962",
+    tidy_cols = F,
+    primary_token = get_primary_comtrade_key(),
+    cache = FALSE
+  )
+  expect_true(all(names(tidy) %in% comtradr::ct_pretty_cols$to))
+  expect_true(!all(names(not_tidy) %in% comtradr::ct_pretty_cols$to))
 })

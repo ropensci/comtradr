@@ -88,3 +88,39 @@ httptest2::with_mock_dir("data", {
     expect_true(any(grepl("Got a response object from UN Comtrade. Use `process = F` if there is an error", captured_messages))) # nolint
   })
 })
+
+
+
+test_that("tidy cols are returned",{
+  test <- try(get_primary_comtrade_key(), silent = TRUE)
+  skip_if(any(class(test) %in% c("rlang_error", "error", "try-error")))
+  tidy <- comtradr::ct_get_data(
+    type = 'goods',
+    commodity_classification = 'HS',
+    commodity_code = 'TOTAL',
+    reporter = 'CHN',
+    partner = 'DEU',
+    start_date = '2010',
+    end_date = '2010',
+    primary_token = get_primary_comtrade_key(),
+    partner_2 = 'World'
+  )
+  not_tidy <- comtradr::ct_get_data(
+    type = 'goods',
+    commodity_classification = 'HS',
+    commodity_code = 'TOTAL',
+    reporter = 'CHN',
+    partner =  'DEU',
+    start_date = '2010',
+    end_date = '2010',
+    tidy_cols = FALSE,
+    primary_token = get_primary_comtrade_key(),
+    partner_2 = 'World'
+  )
+  expect_true(all(names(tidy) %in% comtradr::ct_pretty_cols$to))
+  expect_true(!all(names(not_tidy) %in% comtradr::ct_pretty_cols$to))
+})
+
+
+
+
