@@ -165,4 +165,4 @@ See [here for an
 overview](https://uncomtrade.org/docs/why-are-some-converted-datasets-not-accessible-in-the-ui/)
 of available commodity classifications.
 
-[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+# I follow this for the CRM project 
