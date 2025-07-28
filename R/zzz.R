@@ -86,7 +86,7 @@ check_old_cache_message <- function() {
 # Initialize placeholders for package data within ct_env.
 assign("B4", NULL, envir = ct_env)
 assign("B5", NULL, envir = ct_env)
-assign("EB0", NULL, envir = ct_env)
+assign("EB02", NULL, envir = ct_env)
 assign("EB10", NULL, envir = ct_env)
 assign("EB10s", NULL, envir = ct_env)
 assign("EB", NULL, envir = ct_env)
