@@ -1,7 +1,6 @@
 ## Patch for policy violation
 
-* this is a patch to fix a bug that was introduced when fixing the bug about tidy cols. Now tidy cols are returned again. 
-* testing for this error was introduced in the test environment to avoid this in the future.
+* this is a patch to fix a small bug in one returned parameter and a new column being returned for one reference table
 
 ## Test environments
 
@@ -28,7 +27,6 @@
 23 🐋 ubuntu-gcc12   R-devel (2024-11-14 r87333)           Ubuntu 22.04.5 LTS
 24 🐋 ubuntu-next    R-4.4.2 (patched) (2024-11-13 r87333) Ubuntu 22.04.5 LTS
 25 🐋 ubuntu-release R-4.4.2 (2024-10-31)                  Ubuntu 22.04.5 LTS
-26 🐋 valgrind       R-devel (2024-11-14 r87333)           Fedora Linux 38 (Container Image)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
