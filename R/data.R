@@ -9,6 +9,8 @@
 #'  \item{id}{Unique country code.}
 #'  \item{country}{Name of the country (in English).}
 #'  \item{iso_3}{The country's ISO 3 code.}
+#'  \item{iso_2}{The country's ISO 2 code.}
+#'  \item{note}{Notes about the country.}
 #'  \item{entry_year}{The country's entry into
 #'  the international system or 1900 (whichever is largest).}
 #'  \item{exit_year}{The country's exit from the

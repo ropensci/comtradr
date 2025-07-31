@@ -11,6 +11,8 @@ reporter_codes <- reporter_codes_raw |>
     id,
     country = text,
     iso_3 = reporterCodeIsoAlpha3,
+    iso_2 = reporterCodeIsoAlpha2,
+    note = reporterNote,
     entry_year = lubridate::year(entryEffectiveDate),
     exit_year = lubridate::year(entryExpiredDate),
     group = isGroup,

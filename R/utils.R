@@ -258,9 +258,10 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #'
 #' @noRd
 ct_download_ref_table <- function(ref_table_id) {
-  iso_3 <- id <- group <- category <-
+  iso_3 <- id <- group <- category <- reporterCodeIsoAlpha2 <-
+    partnerCodeIsoAlpha2 <- partnerNote <- reporterNote <-
     text <- reporterCodeIsoAlpha3 <- entryEffectiveDate <- NULL
-  entryExpiredDate <- isGroup <- PartnerCodeIsoAlpha3 <- country <- NULL
+  entryExpiredDate <- isGroup <- partnerCodeIsoAlpha3 <- country <- NULL
 
   ## attempt to get list of datasets of the UN from the env
   datasets <- get("list_of_datasets", envir = ct_env)
@@ -305,6 +306,8 @@ ct_download_ref_table <- function(ref_table_id) {
           id,
           country = text,
           iso_3 = reporterCodeIsoAlpha3,
+          iso_2 = reporterCodeIsoAlpha2,
+          note = reporterNote,
           entry_year = lubridate::year(entryEffectiveDate),
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup,
@@ -315,7 +318,9 @@ ct_download_ref_table <- function(ref_table_id) {
         poorman::transmute(
           id,
           country = text,
-          iso_3 = PartnerCodeIsoAlpha3,
+          iso_3 = partnerCodeIsoAlpha3,
+          iso_2 = partnerCodeIsoAlpha2,
+          note = partnerNote,
           entry_year = lubridate::year(entryEffectiveDate),
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup,

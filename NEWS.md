@@ -1,3 +1,12 @@
+# comtradr 
+
+# comtradr 1.0.4
+
+* patched ct_get_ref_table to also return reporterCodeIsoAlpha2 and partnerCodeIsoAlpha2, see: https://github.com/ropensci/comtradr/issues/94
+* patched an error, where the wrong object was initialised for EB02 for querying services, see: https://github.com/ropensci/comtradr/issues/96 
+* thanks to luifrancgom and possakorn for pointing and fixing errors
+
+
 # comtradr 1.0.3
 
 * this is a patch to fix a bug that was introduced when fixing the bug about tidy cols. Now tidy cols are returned again. 

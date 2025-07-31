@@ -102,6 +102,8 @@ for(i in seq_along(list_of_datasets$category)){
           id,
           country = text,
           iso_3 = reporterCodeIsoAlpha3,
+          iso_2 = reporterCodeIsoAlpha2,
+          note = reporterNote,
           entry_year = lubridate::year(entryEffectiveDate),
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup
@@ -112,6 +114,8 @@ for(i in seq_along(list_of_datasets$category)){
           id,
           country = text,
           iso_3 = PartnerCodeIsoAlpha3,
+          iso_2 = PartnerCodeIsoAlpha2,
+          note = partnerNote,
           entry_year = lubridate::year(entryEffectiveDate),
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup
