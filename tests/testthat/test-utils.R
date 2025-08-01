@@ -87,9 +87,8 @@ with_mock_dir("ref_table",simplify= F,{
   })
 })
 
-if(length(list.files(tools::R_user_dir('comtradr', which = 'cache')))==0){
-  fs::dir_delete(tools::R_user_dir('comtradr', which = 'cache'))
-}
-if(length(list.files(tools::R_user_dir('comtradr_bulk', which = 'cache')))==0){
-  fs::dir_delete(tools::R_user_dir('comtradr_bulk', which = 'cache'))
-}
+path <- tools::R_user_dir("comtradr", which = "cache")
+if (fs::dir_exists(path) && length(fs::dir_ls(path)) == 0) fs::dir_delete(path)
+
+path <- tools::R_user_dir("comtradr_bulk", which = "cache")
+if (fs::dir_exists(path) && length(fs::dir_ls(path)) == 0) fs::dir_delete(path)

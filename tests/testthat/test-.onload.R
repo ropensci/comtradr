@@ -52,6 +52,9 @@ testthat::test_that("ct_perform_request cache parameters are set correctly", {
   testthat::expect_equal(cache_values[2], 1) # max_age
   testthat::expect_equal(cache_values[3], 1) # max_n
 
+  unlink(tools::R_user_dir('comtradr',
+                           which = 'cache'), recursive = T)
+  unlink("cache_test", recursive = TRUE)
 })
 
 
