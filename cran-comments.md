@@ -1,4 +1,4 @@
-## Patch for policy violation
+## Patch for small bugs
 
 * this is a patch to fix a small bug in one returned parameter and a new column being returned for one reference table
 
