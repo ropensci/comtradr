@@ -1,3 +1,5 @@
+# comtradr (development version)
+
 # comtradr 1.0.4
 
 * patched ct_get_ref_table to also return reporterCodeIsoAlpha2 and partnerCodeIsoAlpha2, see: https://github.com/ropensci/comtradr/issues/94
