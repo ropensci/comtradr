@@ -10,3 +10,5 @@ test_package.R
 inst/doc
 /doc/
 /Meta/
+
+/.quarto/
