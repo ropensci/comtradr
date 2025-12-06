@@ -1,4 +1,21 @@
-# comtradr (development version)
+# comtradr 1.0.5 (or your next version number)
+
+## New Features
+
+* Added `available_variables` to `ct_get_ref_table()` to query comprehensive 
+  metadata about all Comtrade API variables. Returns variable descriptions,
+  original API field names, and tidy column names in a single table. This makes
+  it easy to:
+  - Understand what each column in trade data represents
+  - Create data dictionaries for documentation
+  - Map between original and tidy column names
+  - Build visualizations with proper variable labels
+  Example: `ct_get_ref_table("available_variables")` (#XXX).
+
+## Minor improvements
+
+* Enhanced documentation for reference tables
+* Added comprehensive tests for variable metadata functionality
 
 # comtradr 1.0.4
 
