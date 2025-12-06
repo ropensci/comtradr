@@ -53,10 +53,14 @@ the same as you would provide under \code{commodity_classification}.
 \item 'mode_of_transport'
 \item 'customs_code'
 \item 'flow_direction'
+\item 'frequency'
+\item 'mode_of_supply'
+\item 'units_of_quantity'
+\item 'available_variables'
 }
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 ## get HS commodity table
 ct_get_ref_table("HS")
 

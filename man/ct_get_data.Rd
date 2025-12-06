@@ -138,7 +138,7 @@ will retrieve data for all commodity codes.
 This can be useful for broad queries but may result in large datasets.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Query goods data for China's trade with Argentina and Germany in 2019
 ct_get_data(
   type = "goods",
