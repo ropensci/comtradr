@@ -10,7 +10,7 @@
 Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
+coverage](https://codecov.io/gh/ropensci/comtradr/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr)
 <!-- badges: end --> Interface with and extract data from the United
 Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides
 country level shipping data for a variety of commodities, these
