@@ -1,0 +1,10 @@
+pandoc: 3.1.11
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  bulk_files: bulk_files.html
+  caching: caching.html
+  comtradr: comtradr.html
+  large_data: large_data.html
+  transition: transition.html
+last_built: 2025-12-07T15:38Z
