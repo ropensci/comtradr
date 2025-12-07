@@ -159,6 +159,7 @@ test_that("ct_perform_request integrates with ct_get_data workflow", {
 
 test_that("ct_perform_request accepts different throttle rates", {
   skip_on_cran()
+  skip_on_os("linux") # Skip on Linux due to issues in r_cmd_check bad gateway
   skip_if_offline()
   
   req <- httr2::request("https://httpbin.org/get")
