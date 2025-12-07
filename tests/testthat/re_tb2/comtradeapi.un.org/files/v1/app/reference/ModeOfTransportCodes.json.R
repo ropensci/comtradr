@@ -1,9 +1,9 @@
 structure(list(method = "GET", url = "https://comtradeapi.un.org/files/v1/app/reference/ModeOfTransportCodes.json", 
     status_code = 200L, headers = structure(list(`Cache-Control` = "public, max-age=604800", 
         `Content-Length` = "1205", `Content-Type` = "application/json", 
-        `Content-MD5` = "ATUqrIeJV9dAFI/s5ztAnA==", Expires = "Sat, 13 Dec 2025 23:36:44 GMT", 
+        `Content-MD5` = "ATUqrIeJV9dAFI/s5ztAnA==", Expires = "Sun, 14 Dec 2025 15:35:58 GMT", 
         `Last-Modified` = "Fri, 08 Mar 2024 02:32:41 GMT", ETag = "0x8DC3F180733BEE1", 
-        `x-ms-request-id` = "38d61012-a01e-0013-6d09-67b9d6000000", 
+        `x-ms-request-id` = "28e17f57-001e-0025-788f-6734a6000000", 
         `x-ms-version` = "2009-09-19", `x-ms-lease-status` = "unlocked", 
         `x-ms-blob-type` = "BlockBlob", `x-frame-options` = "deny", 
         `X-Content-Type-Options` = "nosniff", `X-XSS-Protection` = "1;mode=block", 
@@ -11,7 +11,7 @@ structure(list(method = "GET", url = "https://comtradeapi.un.org/files/v1/app/re
         `content-security-policy` = "frame-src 'self'", `x-permitted-cross-domain-policies` = "none", 
         `Referrer-Policy` = "no-referrer-when-downgrade", `Permissions-Policy` = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()", 
         `Request-Context` = "appId=cid-v1:9b6e1d5a-3728-46ff-b743-6d33d23e54a6", 
-        Date = "Sat, 06 Dec 2025 23:36:43 GMT"), class = "httr2_headers"), 
+        Date = "Sun, 07 Dec 2025 15:35:57 GMT"), class = "httr2_headers"), 
     body = charToRaw("{\n  \"results\": [\n    {\n      \"id\": \"0\",\n      \"text\": \"TOTAL modes of transport\"\n    },\n    {\n      \"id\": \"1000\",\n      \"text\": \"Air\"\n    },\n    {\n      \"id\": \"2000\",\n      \"text\": \"Water\"\n    },\n    {\n      \"id\": \"2100\",\n      \"text\": \"Sea\"\n    },\n    {\n      \"id\": \"2200\",\n      \"text\": \"Inland waterway\"\n    },\n    {\n      \"id\": \"2900\",\n      \"text\": \"Water, not else classified\"\n    },\n    {\n      \"id\": \"3000\",\n      \"text\": \"Land\"\n    },\n    {\n      \"id\": \"3100\",\n      \"text\": \"Railway\"\n    },\n    {\n      \"id\": \"3200\",\n      \"text\": \"Road\"\n    },\n    {\n      \"id\": \"3900\",\n      \"text\": \"Land, not else classified\"\n    },\n    {\n      \"id\": \"9000\",\n      \"text\": \"Not elsewhere classified\"\n    },\n    {\n      \"id\": \"9100\",\n      \"text\": \"Pipelines and cables\"\n    },\n    {\n      \"id\": \"9110\",\n      \"text\": \"Pipelines\"\n    },\n    {\n      \"id\": \"9120\",\n      \"text\": \"Cables\"\n    },\n    {\n      \"id\": \"9190\",\n      \"text\": \"Pipelines and cables, not else classified\"\n    },\n    {\n      \"id\": \"9200\",\n      \"text\": \"Postal consignments, mail or courier shipment\"\n    },\n    {\n      \"id\": \"9300\",\n      \"text\": \"Self propelled goods\"\n    },\n    {\n      \"id\": \"9900\",\n      \"text\": \"Other\"\n    }\n  ]\n}\n"), 
-    timing = c(redirect = 0, namelookup = 0, connect = 0, pretransfer = 0.000107, 
-    starttransfer = 0.289727, total = 0.289833), cache = new.env(parent = emptyenv())), class = "httr2_response")
+    timing = c(redirect = 0, namelookup = 0, connect = 0, pretransfer = 9.1e-05, 
+    starttransfer = 0.249055, total = 0.24916), cache = new.env(parent = emptyenv())), class = "httr2_response")

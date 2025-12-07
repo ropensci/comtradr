@@ -40,20 +40,7 @@ test_that("ct_commodity_lookup returns empty result for non-matching search term
 
 
 
-# with_mock_dir("ref_table",{
-#     test_that("We can get goods data", {
-#       # Test 3: Valid dataset_id, update = TRUE, not previously updated
-#       test_data_updated <- ct_get_ref_table("HS", update = TRUE)
-#       test_data_updated_again <- ct_get_ref_table("HS", update = TRUE)
-#       expect_equal(test_data_updated, test_data_updated_again)
-#       expect_message(
-#         ct_get_ref_table("HS", update = TRUE, verbose = T),
-#         'Already checked for updates for HS in this session.'
-#       )
-# })
-#   })
-
-with_mock_dir("ref_table",simplify= F,{
+with_mock_dir("re_tb1",simplify= F,{
   test_that("ct_get_ref_table works correctly", {
     ct_env <- new.env()
     assign('updated', 'init', envir = ct_env)
@@ -262,7 +249,7 @@ test_that("ct_get_ref_table works for units_of_quantity", {
 # Tests for Update Functionality Across Different Tables
 # ==============================================================================
 
-with_mock_dir("ref_table_updates", simplify = FALSE, {
+with_mock_dir("re_tb2", simplify = FALSE, {
   test_that("update works for different reference table types", {
     # Reset environment
     ct_env <- new.env()
@@ -549,7 +536,7 @@ test_that("available_variables has last_modified date", {
   expect_s3_class(variables$last_modified, "Date")
 })
 
-with_mock_dir("ref_table_available_vars", simplify = FALSE, {
+with_mock_dir("re_tb3", simplify = FALSE, {
   test_that("ct_get_ref_table update works for available_variables", {
     # Reset the updated tracking
     ct_env <- new.env()
