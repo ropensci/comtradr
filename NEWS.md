@@ -9,13 +9,12 @@
   - Understand what each column in trade data represents
   - Create data dictionaries for documentation
   - Map between original and tidy column names
-  - Build visualizations with proper variable labels
-  Example: `ct_get_ref_table("available_variables")` (#XXX).
+  Example: `ct_get_ref_table("available_variables")`
 
 ## Minor improvements
 
 * Enhanced documentation for reference tables
-* Added comprehensive tests for variable metadata functionality
+* Added comprehensive tests for variable metadata functionality and `ct_perform_request()`
 
 # comtradr 1.0.4
 
