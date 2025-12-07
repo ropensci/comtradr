@@ -4,7 +4,8 @@ on:
   push:
     branches: [main, dev]
   pull_request:
-
+    branches: [main, dev]
+    
 name: test-coverage.yaml
 
 permissions: read-all
