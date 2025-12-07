@@ -62,7 +62,7 @@ for(i in seq_along(list_of_datasets$category)){
     )
 
   valid_country_datasets <- c('reporter','partner')
-  valid_other_datasets <- c('mot','customs','flow')
+  valid_other_datasets <- c('mot','customs','flow', 'freq','mos','qtyunit','dataitem')
 
   ## if it is a valid dataset that we need, download it
   if(list_of_datasets$category[i] %in% valid_cmd_datasets){
@@ -179,6 +179,7 @@ ct_pretty_cols <- data.frame(
     'reporter_desc',
     'flow_code',
     'flow_desc',
+    'flow_category',
     'partner_code',
     'partner_iso',
     'partner_desc',
@@ -195,6 +196,7 @@ ct_pretty_cols <- data.frame(
     'customs_code',
     'customs_desc',
     'mos_code',
+    'mos_desc',
     'mot_code',
     'mot_desc',
     'qty_unit_code',
@@ -207,9 +209,13 @@ ct_pretty_cols <- data.frame(
     'is_alt_qty_estimated',
     'net_wgt',
     'is_net_wgt_estimated',
+    'is_net_wgt_estimated',
     'gross_wgt',
     'is_gross_wgt_estimated',
+    'is_gross_wgt_estimated',
     'cifvalue',
+    'cifvalue',
+    'fobvalue',
     'fobvalue',
     'primary_value',
     'legacy_estimation_flag',
@@ -230,6 +236,7 @@ ct_pretty_cols <- data.frame(
     "reporterDesc",
     "flowCode",
     "flowDesc",
+    "flowCategory",
     "partnerCode",
     "partnerISO",
     "partnerDesc",
@@ -246,6 +253,7 @@ ct_pretty_cols <- data.frame(
     "customsCode",
     "customsDesc",
     "mosCode",
+    "mosDesc",
     "motCode",
     "motDesc",
     "qtyUnitCode",
@@ -258,10 +266,14 @@ ct_pretty_cols <- data.frame(
     "isAltQtyEstimated",
     "netWgt",
     "isNetWgtEstimated",
+    "isnetWgtEstimated",
     "grossWgt",
     "isGrossWgtEstimated",
+    "isgrossWgtEstimated",
     "cifvalue",
+    "cifValue",
     "fobvalue",
+    "fobValue",
     "primaryValue",
     "legacyEstimationFlag",
     "isReported",

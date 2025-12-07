@@ -70,7 +70,7 @@ within R, see
 \url{https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html}
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 comtradr::ct_commodity_lookup("wine")
 \dontshow{\}) # examplesIf}
 }

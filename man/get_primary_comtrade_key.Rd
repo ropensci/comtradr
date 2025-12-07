@@ -16,7 +16,7 @@ use \code{usethis::edit_r_environ()} to add the env variable COMTRADE_PRIMARY
 to your environment file.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 ## get API key
 get_primary_comtrade_key()
 \dontshow{\}) # examplesIf}

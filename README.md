@@ -10,7 +10,7 @@
 Review](https://badges.ropensci.org/613_status.svg)](https://github.com/ropensci/software-review/issues/613)
 [![R-CMD-check](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/ropensci/comtradr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr?branch=main)
+coverage](https://codecov.io/gh/ropensci/comtradr/graph/badge.svg)](https://app.codecov.io/gh/ropensci/comtradr)
 <!-- badges: end --> Interface with and extract data from the United
 Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides
 country level shipping data for a variety of commodities, these
@@ -157,6 +157,28 @@ hs0_all <- comtradr::ct_get_bulk(
   verbose = T,
   start_date = 2020, # only one year here
   end_date = 2020)
+```
+
+## Querying Metadata
+
+The Comtrade API returns many variables. To understand what each
+variable means, you can query the variable metadata:
+
+``` r
+# Get all available variables with descriptions for the main trade dataset
+trade_variables <- ct_get_ref_table("available_variables")
+```
+
+You can also query each possible reference table for the arguments that
+can be passed to the `ct_get_data` function like this:
+
+``` r
+# Get the description for different possible values for the frequency code
+frequency <- ct_get_ref_table("frequency")
+
+# You can merge this back to our example
+example2 <- example2 |> 
+  dplyr::left_join(frequency, by = c("freq_code" = "id"))
 ```
 
 ## Data availability

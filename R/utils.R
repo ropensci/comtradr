@@ -125,6 +125,10 @@ ct_migrate_cache <- function(){
 #' * 'mode_of_transport'
 #' * 'customs_code'
 #' * 'flow_direction'
+#' * 'frequency'
+#' * 'mode_of_supply'
+#' * 'units_of_quantity'
+#' * 'available_variables'
 #'
 #' @param dataset_id The dataset ID, which is either partner,
 #' reporter or a valid classification scheme.
@@ -166,7 +170,11 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     "partner" = "partner",
     "mode_of_transport" = "mot",
     "flow_direction" = "flow",
-    "customs_code" = "customs"
+    "customs_code" = "customs",
+    "frequency" = "freq",
+    "mode_of_supply" = "mos",
+    "units_of_quantity" = "qtyunit",
+    "available_variables" = "dataitem"
   )
 
   ## check dataset id for valid values
@@ -188,6 +196,14 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     assign(dataset_id, data, envir = ct_env)
   }
 
+  ## add pretty cols
+  if (dataset_id == "available_variables") {
+    data <- data |>
+      poorman::left_join(
+        comtradr::ct_pretty_cols,
+        by = c("dataItem" = "from")
+      )
+  }
   if (update & any(dataset_id %in% ct_env$updated)) {
     ## if update is true, but dataset_id has already been updated once
     ## only return message
@@ -209,7 +225,14 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     }
 
     ## download new reference table from the UN
-    data_new <- ct_download_ref_table(ref_table_id = ref_table_id)
+    data_new <- ct_download_ref_table(ref_table_id = ref_table_id) 
+    if(dataset_id == "available_variables"){
+      data_new <- data_new |> 
+      poorman::left_join(
+        comtradr::ct_pretty_cols, 
+        by = c("dataItem" = "from"))
+    }
+
 
     if (unique(data_new$last_modified) > unique(data$last_modified)) {
       ## if the date last modified, returned in
