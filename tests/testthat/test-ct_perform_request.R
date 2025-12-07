@@ -159,7 +159,7 @@ test_that("ct_perform_request integrates with ct_get_data workflow", {
 
 test_that("ct_perform_request accepts different throttle rates", {
   skip_on_cran()
-  skip_on_os("linux") # Skip on Linux due to issues in r_cmd_check bad gateway
+  skip_on_ci()  # Skip on CI entirely if httpbin is problematic
   skip_if_offline()
   
   req <- httr2::request("https://httpbin.org/get")
@@ -191,7 +191,8 @@ test_that("ct_perform_request accepts different throttle rates", {
 test_that("ct_perform_request behaves differently for bulk requests", {
   skip_on_cran()
   skip_if_offline()
-  
+  skip_on_ci()  # Skip on CI entirely if httpbin is problematic
+
   req <- httr2::request("https://httpbin.org/get")
   
   # Non-bulk with verbose should show message
@@ -222,7 +223,8 @@ test_that("ct_perform_request behaves differently for bulk requests", {
 test_that("ct_perform_request handles empty response bodies", {
   skip_on_cran()
   skip_if_offline()
-  
+  skip_on_ci()  # Skip on CI entirely if httpbin is problematic
+
   # Some endpoints return empty bodies with 200 OK
   req <- httr2::request("https://httpbin.org/status/200")
   
@@ -261,7 +263,8 @@ test_that("comtrade_error_body is documented as internal", {
 test_that("ct_perform_request maintains backward compatibility", {
   skip_on_cran()
   skip_if_offline()
-  
+  skip_on_ci()  # Skip on CI entirely if httpbin is problematic
+ 
   # Should still work with basic parameters
   req <- httr2::request("https://httpbin.org/get")
   
