@@ -48,6 +48,11 @@ Found the following (possibly) invalid URLs:
     From: man/country_codes.Rd
     Status: 404
     Message: Not Found
+Found the following (possibly) invalid URLs:
+  URL: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R1115&qid=1687867231461
+    From: inst/doc/large_data.html
+    Status: 202
+    Message: Accepted
 ```
 These URLs are online and working, I am not sure what causes this issue. 
 I can not see any redirects that may cause this. This is the URL provided by the 
