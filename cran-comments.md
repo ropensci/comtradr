@@ -1,32 +1,35 @@
-## Patch for small bugs
+## Update with more metadata access
 
-* this is a patch to fix a small bug in one returned parameter and a new column being returned for one reference table
+* this includes an update to return all metadata tables
 
 ## Test environments
 
  1 🖥  linux          R-* (any version)                     ubuntu-latest on GitHub
- 2 🖥  macos          R-* (any version)                     macos-13 on GitHub
- 3 🖥  macos-arm64    R-* (any version)                     macos-latest on GitHub
- 4 🖥  windows        R-* (any version)                     windows-latest on GitHub
- 5 🐋 atlas          R-devel (2024-11-14 r87333)           Fedora Linux 38 (Container Image)
- 6 🐋 c23            R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
- 7 🐋 clang-asan     R-devel (2024-11-14 r87333)           Ubuntu 22.04.5 LTS
- 8 🐋 clang16        R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
- 9 🐋 clang17        R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
-10 🐋 clang18        R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
-11 🐋 clang19        R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
-12 🐋 clang20        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
-13 🐋 donttest       R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
-14 🐋 gcc13          R-devel (2024-11-14 r87333)           Fedora Linux 38 (Container Image)
-15 🐋 gcc14          R-devel (2024-11-14 r87333)           Fedora Linux 40 (Container Image)
-16 🐋 intel          R-devel (2024-11-14 r87333)           Fedora Linux 38 (Container Image)
-17 🐋 mkl            R-devel (2024-11-14 r87333)           Fedora Linux 38 (Container Image)
-18 🐋 nold           R-devel (2024-11-14 r87333)           Ubuntu 22.04.5 LTS
-19 🐋 noremap        R-devel (2024-11-13 r87330)           Ubuntu 22.04.5 LTS
-22 🐋 ubuntu-clang   R-devel (2024-11-14 r87333)           Ubuntu 22.04.5 LTS
-23 🐋 ubuntu-gcc12   R-devel (2024-11-14 r87333)           Ubuntu 22.04.5 LTS
-24 🐋 ubuntu-next    R-4.4.2 (patched) (2024-11-13 r87333) Ubuntu 22.04.5 LTS
-25 🐋 ubuntu-release R-4.4.2 (2024-10-31)                  Ubuntu 22.04.5 LTS
+ 2 🖥  m1-san         R-* (any version)                     macos-15 on GitHub, ASAN + UBSAN on macOS
+ 4 🖥  macos-arm64    R-* (any version)                     macos-latest on GitHub
+ 5 🖥  windows        R-* (any version)                     windows-latest on GitHub
+ 6 🐋 atlas          R-devel (2025-12-09 r89129)           Fedora Linux 38 (Container Image)
+ 7 🐋 c23            R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+ 8 🐋 clang-asan     R-devel (2025-12-09 r89129)           Ubuntu 22.04.5 LTS
+ 9 🐋 clang-ubsan    R-devel (2025-12-09 r89129)           Ubuntu 22.04.5 LTS
+10 🐋 clang16        R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+11 🐋 clang17        R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+12 🐋 clang18        R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+13 🐋 clang19        R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+15 🐋 donttest       R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+16 🐋 gcc-asan       R-devel (2025-12-09 r89129)           Fedora Linux 40 (Container Image)
+17 🐋 gcc13          R-devel (2025-12-09 r89129)           Fedora Linux 38 (Container Image)
+18 🐋 gcc14          R-devel (2025-12-09 r89129)           Fedora Linux 40 (Container Image)
+19 🐋 gcc15          R-devel (2025-12-09 r89129)           Fedora Linux 42 (Container Image)
+20 🐋 intel          R-devel (2025-12-09 r89129)           Fedora Linux 38 (Container Image)
+21 🐋 lto            R-4.5.2 (2025-10-31)                  Ubuntu 24.04.3 LTS
+22 🐋 mkl            R-devel (2025-12-09 r89129)           Fedora Linux 38 (Container Image)
+23 🐋 nold           R-devel (2025-12-09 r89129)           Ubuntu 22.04.5 LTS
+24 🐋 noremap        R-devel (2025-12-08 r89124)           Ubuntu 22.04.5 LTS
+27 🐋 ubuntu-clang   R-devel (2025-12-09 r89129)           Ubuntu 22.04.5 LTS
+28 🐋 ubuntu-gcc12   R-devel (2025-12-09 r89129)           Ubuntu 22.04.5 LTS
+29 🐋 ubuntu-next    R-4.5.2 (patched) (2025-12-06 r89124) Ubuntu 24.04.3 LTS
+30 🐋 ubuntu-release R-4.5.2 (2025-10-31)                  Ubuntu 24.04.3 LTS
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
