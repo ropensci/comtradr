@@ -1,4 +1,4 @@
-# comtradr 1.0.5 (or your next version number)
+# comtradr 1.0.5
 
 ## New Features
 
