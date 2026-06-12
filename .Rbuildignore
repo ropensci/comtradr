@@ -16,3 +16,6 @@
 ^_pkgdown.yml$
 ^Meta$
 ^CRAN-SUBMISSION$
+^\.agent$
+^\.claude$
+^\.devcontainer$
