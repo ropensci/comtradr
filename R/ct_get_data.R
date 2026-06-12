@@ -22,6 +22,12 @@
 #' will retrieve data for all commodity codes.
 #' This can be useful for broad queries but may result in large datasets.
 #'
+#' The Comtrade API rejects requests whose URL is too long. If long lists of
+#' partner or reporter codes (e.g. `partner = 'all_countries'`) would exceed
+#' this limit, the query is automatically split into several requests and the
+#' results are combined into a single data.frame. This is not possible with
+#' `process = FALSE`, because a single response object is returned.
+#'
 #' @param frequency The frequency of returned trade data.
 #' Possible values: 'A' for annual data, 'M' for monthly data. Default: 'A'.
 #' @param type The type of returned trade data.
@@ -169,40 +175,72 @@ ct_get_data <- function(type = "goods",
     bulk = bulk
   )
 
-  req <-
-    ct_build_request(params,
-      verbose = verbose,
-      primary_token = primary_token,
-      bulk = bulk
-    )
+  ## the API rejects URLs longer than ~2048 characters with HTTP 414, so
+  ## requests with long partner/reporter code lists (e.g. `all_countries`)
+  ## are split into multiple requests and combined afterwards (issue #103)
+  params_list <- ct_split_params(params, primary_token = primary_token)
+
+  if (length(params_list) > 1) {
+    if (!process) {
+      cli::cli_warn(c("!" = "The request URL exceeds the API's length limit, but it cannot be split into multiple requests with `process = FALSE`, because a single response object must be returned. The request will most likely fail with HTTP error 414; set `process = TRUE` to enable automatic splitting.")) # nolint
+      params_list <- list(params)
+    } else if (verbose) {
+      cli::cli_inform(c("i" = "The request URL exceeds the API's length limit. Splitting into {length(params_list)} requests whose results will be combined.")) # nolint
+    }
+  }
+
+  reqs <- purrr::map(params_list,
+    ct_build_request,
+    verbose = verbose,
+    primary_token = primary_token,
+    bulk = bulk
+  )
 
   if (verbose) {
     cli::cli_inform(c("i" = "Performing request, which can take a few seconds, depending on the amount of data queried.")) # nolint
   }
 
   if(cache){
-    resp <- ct_perform_request_cache(req,
-                               requests_per_second = requests_per_second,
-                               verbose = verbose,
-                               bulk = bulk
+    resps <- purrr::map(reqs,
+                        ct_perform_request_cache,
+                        requests_per_second = requests_per_second,
+                        verbose = verbose,
+                        bulk = bulk
     )
   } else{
-    resp <- ct_perform_request(req,
-                               requests_per_second = requests_per_second,
-                               verbose = verbose,
-                               bulk = bulk
+    resps <- purrr::map(reqs,
+                        ct_perform_request,
+                        requests_per_second = requests_per_second,
+                        verbose = verbose,
+                        bulk = bulk
     )
   }
 
   if (process) {
-    result <- ct_process_response(resp,
+    results <- purrr::map(resps,
+      ct_process_response,
       verbose = verbose,
       tidy_cols = tidy_cols,
       bulk = bulk
     )
+
+    if (length(results) == 1) {
+      return(results[[1]])
+    }
+
+    ## chunks without data return the placeholder data.frame(count = 0)
+    has_data <- !purrr::map_lgl(results, ~ identical(names(.x), "count"))
+
+    if (!any(has_data)) {
+      return(data.frame(count = 0))
+    }
+
+    result <- poorman::bind_rows(results[has_data])
+    attributes(result)$url <- purrr::map_chr(resps[has_data], ~ .x$url)
+    attributes(result)$time <- Sys.time()
     return(result)
   } else {
-    return(resp)
+    return(resps[[1]])
   }
 }
 

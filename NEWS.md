@@ -1,3 +1,15 @@
+# comtradr (development version)
+
+## Bug fixes
+
+* Fixed HTTP 414 "URI Too Long" errors when querying long code lists, e.g.
+  `partner = "all_countries"` (#103). The Comtrade API rejects URLs whose
+  query string exceeds about 2048 characters. `ct_get_data()` now detects
+  this before performing the request, transparently splits the partner and/or
+  reporter codes into multiple requests and combines the results into a
+  single data.frame. With `process = FALSE` splitting is not possible (a
+  single response object is returned) and a warning is issued instead.
+
 # comtradr 1.0.5
 
 ## New Features

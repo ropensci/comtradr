@@ -136,6 +136,12 @@ Parameters that accept \code{everything} will query all possible values.
 For example, setting \code{commodity_code = 'everything'}
 will retrieve data for all commodity codes.
 This can be useful for broad queries but may result in large datasets.
+
+The Comtrade API rejects requests whose URL is too long. If long lists of
+partner or reporter codes (e.g. \code{partner = 'all_countries'}) would exceed
+this limit, the query is automatically split into several requests and the
+results are combined into a single data.frame. This is not possible with
+\code{process = FALSE}, because a single response object is returned.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

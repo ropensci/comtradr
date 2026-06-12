@@ -69,7 +69,7 @@ comtrade_error_body <- function(resp) {
 
       if (stringr::str_detect(body, "Request URL Too Long")) {
         message <-
-          c("You might have provided too many parameters and the URL got too long.") # nolint
+          c("The request URL is too long for the Comtrade API, even though requests with many partner or reporter codes are split automatically. Try reducing the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
         return(message)
       } else if (stringr::str_detect(
         body,
