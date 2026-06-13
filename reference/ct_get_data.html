@@ -75,7 +75,7 @@ for you and is more than a pure wrapper around the API."><meta property="og:imag
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get trade data from the UN Comtrade API</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/v1.0.5/R/ct_get_data.R" class="external-link"><code>R/ct_get_data.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/dev/R/ct_get_data.R" class="external-link"><code>R/ct_get_data.R</code></a></small>
     <div class="hidden name"><code>ct_get_data.Rd</code></div>
     </div>
 
@@ -258,6 +258,11 @@ and monthly trade statistics since 2000 for goods data</p>
 For example, setting <code>commodity_code = 'everything'</code>
 will retrieve data for all commodity codes.
 This can be useful for broad queries but may result in large datasets.</p>
+<p>The Comtrade API rejects requests whose URL is too long. If long lists of
+partner or reporter codes (e.g. <code>partner = 'all_countries'</code>) would exceed
+this limit, the query is automatically split into several requests and the
+results are combined into a single data.frame. This is not possible with
+<code>process = FALSE</code>, because a single response object is returned.</p>
     </div>
 
     <div id="ref-examples">

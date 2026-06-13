@@ -66,9 +66,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/v1.0.5/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/dev/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="development version" id="comtradr-development-version">comtradr (development version)<a class="anchor" aria-label="anchor" href="#comtradr-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>Fixed HTTP 414 “URI Too Long” errors when querying long code lists, e.g. <code>partner = "all_countries"</code> (<a href="https://github.com/ropensci/comtradr/issues/103" class="external-link">#103</a>). The Comtrade API rejects URLs longer than about 2000 characters. <code><a href="../reference/ct_get_data.html">ct_get_data()</a></code> now detects this before performing the request, transparently splits the partner and/or reporter codes into multiple requests and combines the results into a single data.frame. With <code>process = FALSE</code> splitting is not possible (a single response object is returned) and a warning is issued instead.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.5" id="comtradr-105">comtradr 1.0.5<small>2025-12-15</small><a class="anchor" aria-label="anchor" href="#comtradr-105"></a></h2>
 <div class="section level3">

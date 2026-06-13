@@ -75,7 +75,7 @@ for you and is more than a pure wrapper around the API."><meta property="og:imag
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get trade data from the UN Comtrade API</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/v1.0.5/R/ct_get_bulk.R" class="external-link"><code>R/ct_get_bulk.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/dev/R/ct_get_bulk.R" class="external-link"><code>R/ct_get_bulk.R</code></a></small>
     <div class="hidden name"><code>ct_get_bulk.Rd</code></div>
     </div>
 
@@ -192,8 +192,8 @@ result in large writing and reading operations from your file system.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with trade data or,
-if <code>process = FALSE</code>, a httr2 response object.</p>
+    <p>A data.frame with trade data or, if <code>download_bulk_files = FALSE</code>,
+a data.frame listing the available bulk files for the given parameters.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
