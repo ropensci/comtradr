@@ -63,6 +63,70 @@ without_internet({
                   partner_2 = 'World')
               ,'https://comtradeapi.un.org/data/v1/get/S/A/EB?cmdCode=200&flowCode=M%2CX%2CRM%2CRX&partnerCode=32%2C280%2C276&reporterCode=156&period=2010&motCode=0&partner2Code=0&customsCode=C00&includeDesc=TRUE') # nolint
             })
+
+  test_that('long partner lists are split into URL-safe requests (#103)',
+            {
+              err <- tryCatch(
+                comtradr::ct_get_data(
+                  reporter = 'DEU',
+                  flow_direction = 'import',
+                  partner = 'all_countries',
+                  start_date = 2012,
+                  end_date = 2012,
+                  frequency = 'M',
+                  commodity_code = '847010',
+                  primary_token = 'test'
+                ),
+                error = function(e) conditionMessage(e)
+              )
+              url <- stringr::str_extract(err, 'GET \\S+') |>
+                stringr::str_remove('^GET ')
+              expect_match(url,
+                           'https://comtradeapi.un.org/data/v1/get/C/M/HS')
+              expect_lte(nchar(url), 2048)
+            })
+
+  test_that('verbose reports the number of split requests',
+            {
+              expect_message(
+                tryCatch(
+                  comtradr::ct_get_data(
+                    reporter = 'DEU',
+                    flow_direction = 'import',
+                    partner = 'all_countries',
+                    start_date = 2012,
+                    end_date = 2012,
+                    frequency = 'M',
+                    commodity_code = '847010',
+                    primary_token = 'test',
+                    verbose = TRUE
+                  ),
+                  error = function(e) NULL
+                ),
+                'Splitting into 2 requests'
+              )
+            })
+
+  test_that('splitting is skipped with a warning when process = FALSE',
+            {
+              expect_warning(
+                tryCatch(
+                  comtradr::ct_get_data(
+                    reporter = 'DEU',
+                    flow_direction = 'import',
+                    partner = 'all_countries',
+                    start_date = 2012,
+                    end_date = 2012,
+                    frequency = 'M',
+                    commodity_code = '847010',
+                    primary_token = 'test',
+                    process = FALSE
+                  ),
+                  error = function(e) NULL
+                ),
+                'cannot be split'
+              )
+            })
 })
 
 

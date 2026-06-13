@@ -12,3 +12,8 @@ inst/doc
 /Meta/
 
 /.quarto/
+.devcontainer/
+/.agent/
+/.claude/*
+settings.local.json
+.env
