@@ -47,8 +47,8 @@ ct_build_request <- function(params,
       httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token) |>
       httr2::req_url_query(!!!query_params)
 
-    if (stringr::str_length(req$url) > 2048) {
-      rlang::abort("Your request URL exceeds 2048 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
+    if (stringr::str_length(req$url) > 2000) {
+      rlang::abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
     }
 
     if (verbose) {
@@ -62,8 +62,8 @@ ct_build_request <- function(params,
       httr2::req_url_query(format = "json") |>
       httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token)
 
-    if (stringr::str_length(req$url) > 2048) {
-      rlang::abort("Your request URL exceeds 2048 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
+    if (stringr::str_length(req$url) > 2000) {
+      rlang::abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
     }
   }
 
@@ -73,12 +73,15 @@ ct_build_request <- function(params,
 
 #' Split request parameters into batches with URL-size-safe code lists
 #'
-#' The Comtrade API rejects requests whose query string exceeds about 2048
+#' The Comtrade API rejects requests whose full URL exceeds about 2000
 #' characters with HTTP 414, well below the documented 4096-character URL
-#' limit (see issue #103). This helper checks the length the final URL would
-#' have and, if it is too long, splits the `partnerCode` and `reporterCode`
-#' values into chunks. It returns a list of params objects, one per request;
-#' in the common case of a short URL the list contains the unchanged params.
+#' limit (see issue #103; the cutoff was confirmed empirically against the
+#' API: a 1981-character URL succeeds while a 2011-character one returns
+#' 414). This helper checks the length the final URL would have and, if it
+#' is too long, splits the `partnerCode` and `reporterCode` values into
+#' chunks. It returns a list of params objects, one per request; in the
+#' common case of a short URL the list contains the unchanged params. The
+#' default `max_url_chars` keeps a safety margin below the ~2000 cutoff.
 #'
 #' @param params checked parameters, result of `ct_check_params()`.
 #' @param max_url_chars maximum length of the request URL.
@@ -88,7 +91,7 @@ ct_build_request <- function(params,
 #' @inheritParams ct_get_data
 ct_split_params <- function(params,
                             primary_token = NULL,
-                            max_url_chars = 2048L) {
+                            max_url_chars = 1900L) {
   partner <- params$query_params$partnerCode
   reporter <- params$query_params$reporterCode
 

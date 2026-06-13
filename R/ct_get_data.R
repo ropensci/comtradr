@@ -175,7 +175,7 @@ ct_get_data <- function(type = "goods",
     bulk = bulk
   )
 
-  ## the API rejects URLs longer than ~2048 characters with HTTP 414, so
+  ## the API rejects URLs longer than ~2000 characters with HTTP 414, so
   ## requests with long partner/reporter code lists (e.g. `all_countries`)
   ## are split into multiple requests and combined afterwards (issue #103)
   params_list <- ct_split_params(params, primary_token = primary_token)

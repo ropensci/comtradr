@@ -46,7 +46,7 @@ test_that('test that build returns a httr2 request',{
     extra_params = NULL, bulk = FALSE
   ) |>
     comtradr:::ct_build_request(primary_token = 'test_token', bulk = FALSE),
-  'Your request URL exceeds 2048 characters')
+  'Your request URL exceeds 2000 characters')
 
 })
 
@@ -93,7 +93,7 @@ test_that('ct_split_params splits long partner code lists into URL-safe chunks',
   urls <- sapply(params_list, function(p) {
     comtradr:::ct_build_request(p, primary_token = 'test', bulk = FALSE)$url
   })
-  expect_true(all(nchar(urls) <= 2048))
+  expect_true(all(nchar(urls) <= 2000))
 
   ## all partner codes are preserved across the chunks
   partner_codes <- sapply(params_list,
@@ -165,7 +165,7 @@ test_that('ct_split_params covers all reporter x partner combinations', {
   urls <- sapply(params_list, function(p) {
     comtradr:::ct_build_request(p, primary_token = 'test', bulk = FALSE)$url
   })
-  expect_true(all(nchar(urls) <= 2048))
+  expect_true(all(nchar(urls) <= 2000))
 })
 
 test_that('ct_split_params leaves short requests unchanged', {
