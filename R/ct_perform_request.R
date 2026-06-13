@@ -19,15 +19,22 @@ ct_perform_request <- function(req,
 
 
   comtrade_is_transient <- function(resp) {
-    (httr2::resp_status(resp) == 403 &&
-      httr2::resp_header(resp, "Retry-After") != "0") ||
-      (httr2::resp_status(resp) == 429 &&
-        httr2::resp_header(resp, "Retry-After") != "0")
+    retry_after <- httr2::resp_header(resp, "Retry-After")
+    ## a missing or "0" Retry-After header means the response is not transient;
+    ## guarding here also avoids length-0 errors with `&&` on R >= 4.3
+    if (is.null(retry_after) || retry_after == "0") {
+      return(FALSE)
+    }
+    httr2::resp_status(resp) %in% c(403, 429)
   }
 
   comtrade_after <- function(resp) {
-    time <- as.numeric(httr2::resp_header(resp, "Retry-After"))
-    time
+    retry_after <- httr2::resp_header(resp, "Retry-After")
+    ## fall back to httr2's default backoff if the header is absent
+    if (is.null(retry_after)) {
+      return(NA_real_)
+    }
+    as.numeric(retry_after)
   }
 
   resp <- req |>

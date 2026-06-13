@@ -72,8 +72,8 @@ from the Comtrade API as a list for the specified parameters. This can
 result in large writing and reading operations from your file system.}
 }
 \value{
-A data.frame with trade data or,
-if \code{process = FALSE}, a httr2 response object.
+A data.frame with trade data or, if \code{download_bulk_files = FALSE},
+a data.frame listing the available bulk files for the given parameters.
 }
 \description{
 This function queries the UN Comtrade API to retrieve

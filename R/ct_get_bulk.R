@@ -60,8 +60,8 @@
 #' from the Comtrade API as a list for the specified parameters. This can
 #' result in large writing and reading operations from your file system.
 #' @export
-#' @returns A data.frame with trade data or,
-#' if `process = FALSE`, a httr2 response object.
+#' @returns A data.frame with trade data or, if `download_bulk_files = FALSE`,
+#' a data.frame listing the available bulk files for the given parameters.
 
 ct_get_bulk <- function(type = "goods",
                         frequency = "A",
@@ -170,8 +170,7 @@ ct_get_bulk <- function(type = "goods",
       resps <- purrr::map(reqs,
                           ~ ct_perform_request_cache(
                             .x,
-                            requests_per_second = 60 /
-                              10,
+                            requests_per_second = requests_per_second,
                             verbose = verbose,
                             bulk = bulk
                           ), .progress = verbose)
@@ -179,8 +178,7 @@ ct_get_bulk <- function(type = "goods",
       resps <- purrr::map(reqs,
                           ~ ct_perform_request(
                             .x,
-                            requests_per_second = 60 /
-                              10,
+                            requests_per_second = requests_per_second,
                             verbose = verbose,
                             bulk = bulk
                           ), .progress = verbose)
