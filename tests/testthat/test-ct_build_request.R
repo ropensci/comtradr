@@ -46,7 +46,7 @@ test_that('test that build returns a httr2 request',{
     extra_params = NULL, bulk = FALSE
   ) |>
     comtradr:::ct_build_request(primary_token = 'test_token', bulk = FALSE),
-  'Your request exceeds 4KB or 4096 characters')
+  'Your request URL exceeds 2048 characters')
 
 })
 

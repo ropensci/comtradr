@@ -87,10 +87,9 @@ ct_process_response <-
       colnames(processed) <- purrr::map_chr(curr_cols, function(x) {
         new_cols$to[which(new_cols$from == x)]
       })
+    }
+
     attributes(processed)$url <- resp$url
     attributes(processed)$time <- Sys.time()
     return(processed)
-    } else {
-    return(processed)
-  }
 }
