@@ -14,3 +14,5 @@ inst/doc
 /.quarto/
 .devcontainer/
 /.agent/
+/.claude/*
+settings.local.json
