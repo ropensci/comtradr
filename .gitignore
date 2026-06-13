@@ -16,3 +16,4 @@ inst/doc
 /.agent/
 /.claude/*
 settings.local.json
+.env
