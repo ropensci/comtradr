@@ -35,6 +35,9 @@ ct_build_request <- function(params,
 
     if(bulk){
       base_url <- "https://comtradeapi.un.org/bulk/v1/get/"
+    } else if (!is.null(params$url_params$endpoint) &&
+               params$url_params$endpoint == "getTradeMatrix") {
+      base_url <- "https://comtradeapi.un.org/data/v1/getTradeMatrix/"
     } else {
       base_url <- "https://comtradeapi.un.org/data/v1/get/"
     }
