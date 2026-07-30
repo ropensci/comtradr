@@ -8,6 +8,13 @@
 
 ## Bug fixes
 
+* `ct_get_bulk()` now validates the `frequency` argument instead of failing
+  with an obscure `object 'date_range' not found` error.
+* Invalid `partner` / `partner_2` values now produce a readable error message
+  that lists each invalid code once, instead of repeating the message for
+  every code.
+* `ct_migrate_cache()` no longer fails with `argument "message" is missing`
+  when reporting a failed copy.
 * Fixed HTTP 414 "URI Too Long" errors when querying long code lists, e.g.
   `partner = "all_countries"` (#103). The Comtrade API rejects URLs longer
   than about 2000 characters. `ct_get_data()` now detects

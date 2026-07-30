@@ -69,7 +69,7 @@ ct_migrate_cache <- function(){
   ## if not all files are copied over, abort and throw error
   if(!all(list.files(rappdirs::user_cache_dir('comtradr')) %in%
          list.files(tools::R_user_dir('comtradr', which = 'cache')))){
-    cli::cli_abort('x' = 'Something went wrong while copying.')
+    cli::cli_abort(c("x" = "Something went wrong while copying."))
   }
 
   if(fs::dir_exists(rappdirs::user_cache_dir('comtradr'))){
@@ -86,7 +86,7 @@ ct_migrate_cache <- function(){
 
   if(!all(list.files(rappdirs::user_cache_dir('comtradr_bulk')) %in%
           list.files(tools::R_user_dir('comtradr_bulk', which = 'cache')))){
-    cli::cli_abort('x' = 'Something went wrong while copying.')
+    cli::cli_abort(c("x" = "Something went wrong while copying."))
   }
   if(fs::dir_exists(rappdirs::user_cache_dir('comtradr_bulk'))){
     fs::dir_delete(rappdirs::user_cache_dir('comtradr_bulk'))

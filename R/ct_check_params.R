@@ -35,13 +35,12 @@ ct_check_params <- function(type,
     cli::cli_inform(c("v" = "Checked validity of commodity_classification."))
   }
 
+  frequency <- check_freq(type, frequency)
+  if (verbose) {
+    cli::cli_inform(c("v" = "Checked validity of frequency."))
+  }
+
   if(!bulk){
-    frequency <- check_freq(type, frequency)
-    if (verbose) {
-      cli::cli_inform(c("v" = "Checked validity of frequency."))
-    }
-
-
     flow_direction <- check_flowCode(flow_direction, update, verbose)
     if (verbose) {
       cli::cli_inform(c("v" = "Checked validity of flow_direction."))
@@ -401,10 +400,9 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
       # if one of the partnerCodes is not in the list of valid partnerCodes
       # send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
-        rlang::abort(paste(
-          "The following partner you provided are invalid: ",
-          setdiff(partner, partner_codes$iso_3),
-          collapse = ", "
+        rlang::abort(paste0(
+          "The following partner(s) you provided are invalid: ",
+          paste0(setdiff(partner, partner_codes$iso_3), collapse = ", ")
         ))
       }
     }
@@ -463,10 +461,9 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
       # if one of the partnerCodes is not in the list
       #of valid partnerCodes send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
-        rlang::abort(paste(
-          "The following partner_2 you provided are invalid: ",
-          setdiff(partner, partner_codes$iso_3),
-          collapse = ", "
+        rlang::abort(paste0(
+          "The following partner_2(s) you provided are invalid: ",
+          paste0(setdiff(partner, partner_codes$iso_3), collapse = ", ")
         ))
       }
     }

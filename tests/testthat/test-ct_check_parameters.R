@@ -184,3 +184,34 @@ test_that("convert_to_date works correctly", {
   expect_equal(convert_to_date("2010-01-01"), as.Date("2010-01-01"))
   expect_error(convert_to_date("INVALID"))
 })
+
+test_that("invalid partner errors list each code only once", {
+  expect_error(comtradr:::check_partnerCode(c("XXX", "YYY")),
+               "The following partner\\(s\\) you provided are invalid: XXX, YYY") # nolint
+  expect_error(comtradr:::check_partner2Code(c("XXX", "YYY")),
+               "The following partner_2\\(s\\) you provided are invalid: XXX, YYY") # nolint
+})
+
+test_that("frequency is validated for bulk requests", {
+  expect_error(
+    comtradr:::ct_check_params(
+      type = "goods",
+      frequency = "X",
+      commodity_classification = "HS",
+      commodity_code = "TOTAL",
+      flow_direction = "import",
+      reporter = "USA",
+      partner = "World",
+      start_date = "2019",
+      end_date = "2019",
+      mode_of_transport = "TOTAL modes of transport",
+      partner_2 = "World",
+      customs_code = "C00",
+      update = FALSE,
+      verbose = FALSE,
+      extra_params = NULL,
+      bulk = TRUE
+    ),
+    "`frequency` must be one of"
+  )
+})
