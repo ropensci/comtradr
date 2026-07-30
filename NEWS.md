@@ -1,3 +1,13 @@
+# comtradr (development version)
+
+## New Features
+
+* Added `ct_get_trade_matrix()` to query the UN Comtrade estimated trade
+  matrix endpoint. Commodities are classified by one-digit SITC sections, and
+  the returned reporter x partner matrix includes estimates for non-reporting
+  countries, flagged via the `is_reported` column. The endpoint provides
+  annual goods data only.
+
 # comtradr 1.0.6
 
 ## Minor improvements

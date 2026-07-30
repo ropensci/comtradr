@@ -127,6 +127,9 @@
 #'   flow_direction = "import"
 #' )
 #'
+#' @seealso [ct_get_trade_matrix()] for the estimated trade matrix endpoint,
+#' which includes estimates for non-reporting countries.
+#'
 #' @export
 #' @returns A data.frame with trade data or,
 #' if `process = F`, a httr2 response object.
@@ -155,6 +158,16 @@ ct_get_data <- function(type = "goods",
                         extra_params = NULL,
                         cache = FALSE) {
   bulk <- FALSE
+
+  if (any(commodity_classification %in% "TM")) {
+    cli::cli_abort(c(
+      "The trade matrix classification {.val TM} is not available through \\
+      {.fn ct_get_data}.",
+      "i" = "The trade matrix classification is queried via \\
+      {.fn ct_get_trade_matrix}."
+    ))
+  }
+
   ## compile codes
   params <- ct_check_params(
     type = type,

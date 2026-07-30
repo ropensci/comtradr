@@ -12,7 +12,9 @@
 #' @details
 #' Rows with `is_reported == FALSE` (tidy column name) contain estimated
 #' values, `is_aggregate` marks aggregated rows. The classification code
-#' returned is "TM".
+#' returned is "TM". When `tidy_cols = TRUE`, you can, for example, filter
+#' `is_reported == FALSE` to inspect the estimated rows or `is_aggregate ==
+#' FALSE` to drop aggregates.
 #'
 #' @param commodity_code One-digit SITC section code(s) ("0" to "9"),
 #' "TOTAL" for the sum of all sections or `everything` for all sections.
@@ -27,10 +29,14 @@
 #' trade matrix including estimates for non-reporting countries.
 #' @param partner Partner ISO3 code(s), `everything` or `all_countries`.
 #' See `comtradr::country_codes` for possible values. Default: 'everything'.
-#' @param start_date The start date of the query, `yyyy`.
-#' @param end_date The end date of the query, `yyyy`.
+#' @param start_date The start date of the query. The trade matrix endpoint
+#' only provides annual data, so this must be a plain year (`yyyy`).
+#' @param end_date The end date of the query. Must be a plain year (`yyyy`).
 #' Max: 12 years after start date.
 #' @inheritParams ct_get_data
+#'
+#' @seealso [ct_get_data()] for the standard trade data endpoint, which
+#' returns only reported (non-estimated) values.
 #'
 #' @examplesIf interactive()
 #' ## World export matrix for food and live animals (SITC section 0) in 2023,
@@ -81,7 +87,20 @@ ct_get_trade_matrix <- function(commodity_code = "TOTAL",
     cli::cli_inform(c("v" = "Checked validity of partner."))
   }
 
-  ## the trade matrix endpoint only provides annual data
+  ## the trade matrix endpoint only provides annual data, so only plain years
+  ## are accepted. check_date() would silently coerce "yyyy-mm" inputs to the
+  ## containing year, which we reject explicitly here.
+  for (date in c(start_date, end_date)) {
+    if (!is.null(date) && !is_year(as.character(date))) {
+      cli::cli_abort(c(
+        "Invalid date {.val {date}}.",
+        "i" = "The trade matrix endpoint only provides annual data, so \\
+        {.arg start_date} and {.arg end_date} must be a plain year \\
+        ({.val yyyy})."
+      ))
+    }
+  }
+
   period <- check_date(start_date, end_date, frequency = "A", bulk = bulk)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of start and end dates."))

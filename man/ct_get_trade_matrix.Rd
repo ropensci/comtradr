@@ -39,9 +39,10 @@ trade matrix including estimates for non-reporting countries.}
 \item{partner}{Partner ISO3 code(s), \code{everything} or \code{all_countries}.
 See \code{comtradr::country_codes} for possible values. Default: 'everything'.}
 
-\item{start_date}{The start date of the query, \code{yyyy}.}
+\item{start_date}{The start date of the query. The trade matrix endpoint
+only provides annual data, so this must be a plain year (\code{yyyy}).}
 
-\item{end_date}{The end date of the query, \code{yyyy}.
+\item{end_date}{The end date of the query. Must be a plain year (\code{yyyy}).
 Max: 12 years after start date.}
 
 \item{process}{If TRUE, returns a data.frame with results.
@@ -89,7 +90,8 @@ Commodities are classified by one-digit SITC sections ("0" to "9") or
 
 Rows with \code{is_reported == FALSE} (tidy column name) contain estimated
 values, \code{is_aggregate} marks aggregated rows. The classification code
-returned is "TM".
+returned is "TM". When \code{tidy_cols = TRUE}, you can, for example, filter
+\code{is_reported == FALSE} to inspect the estimated rows or \code{is_aggregate == FALSE} to drop aggregates.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
@@ -102,4 +104,8 @@ ct_get_trade_matrix(
   end_date = 2023
 )
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=ct_get_data]{ct_get_data()}} for the standard trade data endpoint, which
+returns only reported (non-estimated) values.
 }

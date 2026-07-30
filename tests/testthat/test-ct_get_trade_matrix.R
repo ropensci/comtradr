@@ -50,12 +50,26 @@ httptest2::with_mock_dir("trade_matrix", simplify = FALSE, {
 
 
 # Date validation: frequency is hardcoded annual --------------------------
-test_that("monthly-style dates are coerced to the year under annual frequency", {
-  # The trade matrix endpoint hardcodes frequency = "A". check_date() does not
-  # reject a monthly-style "yyyy-mm" input; it coerces it to the containing
-  # year rather than raising an error. Document that actual behaviour here.
+test_that("monthly-style dates are rejected under annual frequency", {
+  # The trade matrix endpoint hardcodes frequency = "A". At the low level,
+  # check_date() does not reject a monthly-style "yyyy-mm" input; it coerces it
+  # to the containing year rather than raising an error. Document that actual
+  # behaviour here.
   expect_equal(
     comtradr:::check_date("2023-01", "2023-01", frequency = "A", bulk = FALSE),
     "2023"
+  )
+
+  # ct_get_trade_matrix() guards against this coercion and aborts with a clear
+  # message when the user passes anything other than a plain year.
+  expect_error(
+    comtradr::ct_get_trade_matrix(
+      commodity_code = "0",
+      flow_direction = "export",
+      start_date = "2023-01",
+      end_date = "2023-01",
+      primary_token = "test"
+    ),
+    "only provides annual data"
   )
 })

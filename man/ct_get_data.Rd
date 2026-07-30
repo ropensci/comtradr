@@ -181,3 +181,7 @@ ct_get_data(
 )
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+\code{\link[=ct_get_trade_matrix]{ct_get_trade_matrix()}} for the estimated trade matrix endpoint,
+which includes estimates for non-reporting countries.
+}
