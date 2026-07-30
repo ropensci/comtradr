@@ -92,7 +92,7 @@
       <h1 data-toc-skip>Transition from old comtradr</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/main/vignettes/transition.Rmd" class="external-link"><code>vignettes/transition.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/dev/vignettes/transition.Rmd" class="external-link"><code>vignettes/transition.Rmd</code></a></small>
       <div class="hidden name"><code>transition.Rmd</code></div>
 
     </div>
@@ -198,8 +198,8 @@ you can extract them from a myriad of other packages, e.g. 
 <code>giscoR</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">asia</span> <span class="op">&lt;-</span> <span class="fu">countrycode</span><span class="fu">::</span><span class="va">codelist</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">poorman</span><span class="fu">::</span><span class="fu"><a href="https://nathaneastwood.github.io/poorman/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">un.region.name</span> <span class="op">==</span> <span class="st">"Asia"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">poorman</span><span class="fu">::</span><span class="fu"><a href="https://nathaneastwood.github.io/poorman/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">iso3c</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">un.region.name</span> <span class="op">==</span> <span class="st">"Asia"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">iso3c</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ct_get_data.html">ct_get_data</a></span><span class="op">(</span>reporter <span class="op">=</span> <span class="va">asia</span>, </span>
 <span>               partner <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DEU"</span>, <span class="st">"FRA"</span>, <span class="st">"JPN"</span>, <span class="st">"MEX"</span><span class="op">)</span>, </span>
@@ -319,7 +319,7 @@ included functionality.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

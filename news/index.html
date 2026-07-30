@@ -66,14 +66,23 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/dev/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="comtradr-development-version">comtradr (development version)<a class="anchor" aria-label="anchor" href="#comtradr-development-version"></a></h2>
 <div class="section level3">
+<h3 id="minor-improvements-development-version">Minor improvements<a class="anchor" aria-label="anchor" href="#minor-improvements-development-version"></a></h3>
+<ul><li>Replaced the <code>poorman</code> dependency (scheduled for archival on CRAN) with <code>dplyr</code>. This does not add any new transitive dependencies, as all of <code>dplyr</code>’s dependencies were already required through other imports.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Fixed HTTP 414 “URI Too Long” errors when querying long code lists, e.g. <code>partner = "all_countries"</code> (<a href="https://github.com/ropensci/comtradr/issues/103" class="external-link">#103</a>). The Comtrade API rejects URLs longer than about 2000 characters. <code><a href="../reference/ct_get_data.html">ct_get_data()</a></code> now detects this before performing the request, transparently splits the partner and/or reporter codes into multiple requests and combines the results into a single data.frame. With <code>process = FALSE</code> splitting is not possible (a single response object is returned) and a warning is issued instead.</li>
+<ul><li>
+<code><a href="../reference/ct_get_bulk.html">ct_get_bulk()</a></code> now validates the <code>frequency</code> argument instead of failing with an obscure <code>object 'date_range' not found</code> error.</li>
+<li>Invalid <code>partner</code> / <code>partner_2</code> values now produce a readable error message that lists each invalid code once, instead of repeating the message for every code.</li>
+<li>
+<code><a href="../reference/ct_migrate_cache.html">ct_migrate_cache()</a></code> no longer fails with <code>argument "message" is missing</code> when reporting a failed copy.</li>
+<li>Fixed HTTP 414 “URI Too Long” errors when querying long code lists, e.g. <code>partner = "all_countries"</code> (<a href="https://github.com/ropensci/comtradr/issues/103" class="external-link">#103</a>). The Comtrade API rejects URLs longer than about 2000 characters. <code><a href="../reference/ct_get_data.html">ct_get_data()</a></code> now detects this before performing the request, transparently splits the partner and/or reporter codes into multiple requests and combines the results into a single data.frame. With <code>process = FALSE</code> splitting is not possible (a single response object is returned) and a warning is issued instead.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -281,7 +290,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
