@@ -1,4 +1,4 @@
-# comtradr (development version)
+# comtradr 1.0.6
 
 ## Minor improvements
 
