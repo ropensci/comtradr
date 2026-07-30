@@ -48,16 +48,15 @@ Imports:
     httr2,
     rlang,
     stringr,
-    poorman,
+    dplyr,
     lubridate,
     purrr,
     tools,
     rappdirs,
     memoise,
     cachem
-Suggests: 
+Suggests:
     covr,
-    dplyr,
     ggplot2,
     httptest2,
     knitr,

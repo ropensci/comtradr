@@ -239,7 +239,7 @@ check_flowCode <- function(flow_direction, update, verbose) {
         update = update,
         verbose = verbose
       ) |>
-      poorman::mutate(text = tolower(text))
+      dplyr::mutate(text = tolower(text))
 
     rlang::arg_match(flow_direction,
                      values = c(valid_codes$text,"everything"),
@@ -247,8 +247,8 @@ check_flowCode <- function(flow_direction, update, verbose) {
 
 
       flow_direction <- valid_codes |>
-        poorman::filter(text %in% flow_direction) |>
-        poorman::pull(id) |>
+        dplyr::filter(text %in% flow_direction) |>
+        dplyr::pull(id) |>
         paste0(collapse = ",")
 
   } else {
@@ -350,13 +350,13 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
     # create proper ids for reporter Code
     if (length(reporter) > 1 | !any(reporter %in% "all_countries")) {
       reporter <- reporter_codes |>
-        poorman::filter(iso_3 %in% reporter) |>
-        poorman::pull(id) |>
+        dplyr::filter(iso_3 %in% reporter) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     } else if (reporter == "all_countries") {
       reporter <- reporter_codes |>
-        poorman::filter(group == FALSE) |>
-        poorman::pull(id) |>
+        dplyr::filter(group == FALSE) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     }
   } else {
@@ -412,13 +412,13 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     # create proper ids for partner
     if (length(partner) > 1 | !any(partner %in% "all_countries")) {
       partner <- partner_codes |>
-        poorman::filter(iso_3 %in% partner) |>
-        poorman::pull(id) |>
+        dplyr::filter(iso_3 %in% partner) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     } else if (partner == "all_countries") {
       partner <- partner_codes |>
-        poorman::filter(group == FALSE) |>
-        poorman::pull(id) |>
+        dplyr::filter(group == FALSE) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     }
   } else {
@@ -474,13 +474,13 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
     # create proper ids for partner
     if (length(partner) > 1 | !any(partner == "all_countries")) {
       partner <- partner_codes |>
-        poorman::filter(iso_3 %in% partner) |>
-        poorman::pull(id) |>
+        dplyr::filter(iso_3 %in% partner) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     } else if (partner == "all_countries") {
       partner <- partner_codes |>
-        poorman::filter(group == FALSE) |>
-        poorman::pull(id) |>
+        dplyr::filter(group == FALSE) |>
+        dplyr::pull(id) |>
         paste(collapse = ",")
     }
   } else {
@@ -536,8 +536,8 @@ check_motCode <-
           )
         } else {
           mode_of_transport <- valid_codes |>
-            poorman::filter(text %in% mode_of_transport) |>
-            poorman::summarise(id = paste0(id, collapse = ","))
+            dplyr::filter(text %in% mode_of_transport) |>
+            dplyr::summarise(id = paste0(id, collapse = ","))
         }
       mode_of_transport <- mode_of_transport$id
     } else {

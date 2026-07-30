@@ -199,7 +199,7 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
   ## add pretty cols
   if (dataset_id == "available_variables") {
     data <- data |>
-      poorman::left_join(
+      dplyr::left_join(
         comtradr::ct_pretty_cols,
         by = c("dataItem" = "from")
       )
@@ -228,7 +228,7 @@ ct_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
     data_new <- ct_download_ref_table(ref_table_id = ref_table_id) 
     if(dataset_id == "available_variables"){
       data_new <- data_new |> 
-      poorman::left_join(
+      dplyr::left_join(
         comtradr::ct_pretty_cols, 
         by = c("dataItem" = "from"))
     }
@@ -297,7 +297,7 @@ ct_download_ref_table <- function(ref_table_id) {
 
   ## filter to queried ref_table
   datasets <- get("list_of_datasets", envir = ct_env) |>
-    poorman::filter(category == ref_table_id)
+    dplyr::filter(category == ref_table_id)
 
   ## download reference table from UN
   response <- httr2::request(datasets$fileuri) |>
@@ -325,7 +325,7 @@ ct_download_ref_table <- function(ref_table_id) {
   if (ref_table_id %in% c("reporter", "partner")) {
     if (ref_table_id == "reporter") {
       data <- data |>
-        poorman::transmute(
+        dplyr::transmute(
           id,
           country = text,
           iso_3 = reporterCodeIsoAlpha3,
@@ -338,7 +338,7 @@ ct_download_ref_table <- function(ref_table_id) {
         )
     } else {
       data <- data |>
-        poorman::transmute(
+        dplyr::transmute(
           id,
           country = text,
           iso_3 = partnerCodeIsoAlpha3,
@@ -349,7 +349,7 @@ ct_download_ref_table <- function(ref_table_id) {
           group = isGroup,
           last_modified
         ) |>
-        poorman::mutate(iso_3 = ifelse(country == "World", "World", iso_3))
+        dplyr::mutate(iso_3 = ifelse(country == "World", "World", iso_3))
     }
     return(data)
   } else {

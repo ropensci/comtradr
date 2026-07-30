@@ -1,5 +1,11 @@
 # comtradr (development version)
 
+## Minor improvements
+
+* Replaced the `poorman` dependency (scheduled for archival on CRAN) with
+  `dplyr`. This does not add any new transitive dependencies, as all of
+  `dplyr`'s dependencies were already required through other imports.
+
 ## Bug fixes
 
 * Fixed HTTP 414 "URI Too Long" errors when querying long code lists, e.g.

@@ -125,15 +125,15 @@ ct_get_bulk <- function(type = "goods",
   }
 
   file_hash <- parsed_response |>
-    poorman::pull(rowKey)
+    dplyr::pull(rowKey)
 
   reporter_code <- parsed_response |>
-    poorman::pull(reporterCode)
+    dplyr::pull(reporterCode)
 
   if (download_bulk_files) {
 
     file_size <- parsed_response |>
-      poorman::pull(fileSize) |>
+      dplyr::pull(fileSize) |>
       stringr::str_remove_all(",") |>
       fs::as_fs_bytes() |>
       sum() |>  # Sum the total size

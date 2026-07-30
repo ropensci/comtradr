@@ -2,19 +2,25 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "comtradr",
-  "description": "Interface with and extract data from the United Nations Comtrade API <https://comtradeplus.un.org/>. Comtrade provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame.",
+  "description": "Interface with and extract data from the United Nations 'Comtrade' API <https://comtradeplus.un.org/>. 'Comtrade' provides country level shipping data for a variety of commodities, these functions allow for easy API query and data returned as a tidy data frame.",
   "name": "comtradr: Interface with the United Nations Comtrade API",
-  "relatedLink": "https://docs.ropensci.org/comtradr/",
+  "relatedLink": ["https://docs.ropensci.org/comtradr/", "https://CRAN.R-project.org/package=comtradr"],
   "codeRepository": "https://github.com/ropensci/comtradr",
   "issueTracker": "https://github.com/ropensci/comtradr/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.4.0.0",
+  "version": "1.0.5",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.1 (2023-06-16)",
+  "runtimePlatform": "R version 4.5.3 (2026-03-11)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -76,18 +82,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "dplyr",
-      "name": "dplyr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=dplyr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
       "provider": {
@@ -136,6 +130,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "spelling",
+      "name": "spelling",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spelling"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "version": ">= 3.0.0",
@@ -146,6 +152,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "callr",
+      "name": "callr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=callr"
     }
   ],
   "softwareRequirements": {
@@ -253,15 +271,15 @@
     },
     "10": {
       "@type": "SoftwareApplication",
-      "identifier": "poorman",
-      "name": "poorman",
+      "identifier": "dplyr",
+      "name": "dplyr",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=poorman"
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
     "11": {
       "@type": "SoftwareApplication",
@@ -287,15 +305,56 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
+    "13": {
+      "@type": "SoftwareApplication",
+      "identifier": "tools",
+      "name": "tools"
+    },
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "rappdirs",
+      "name": "rappdirs",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rappdirs"
+    },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "memoise",
+      "name": "memoise",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=memoise"
+    },
+    "16": {
+      "@type": "SoftwareApplication",
+      "identifier": "cachem",
+      "name": "cachem",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cachem"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "714.17KB",
-  "releaseNotes": "https://github.com/ropensci/comtradr/blob/master/NEWS.md",
+  "fileSize": "5826.613KB",
+  "releaseNotes": "https://github.com/ropensci/comtradr/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/comtradr/blob/main/README.md",
-  "contIntegration": ["https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/ropensci/comtradr?branch=api-update"],
+  "contIntegration": ["https://github.com/ropensci/comtradr/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/ropensci/comtradr"],
   "review": {
     "@type": "Review",
-    "url": "https://github.com/ropensci/software-review/issues/141",
+    "url": "https://github.com/ropensci/software-review/issues/613",
     "provider": "https://ropensci.org"
   },
   "keywords": ["comtrade", "api", "supply-chain", "r", "rstats", "r-package", "peer-reviewed"]

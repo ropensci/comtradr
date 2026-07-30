@@ -1,5 +1,5 @@
 library(httr2)
-library(poorman)
+library(dplyr)
 library(stringr)
 library(readr)
 library(lubridate)
@@ -98,7 +98,7 @@ for(i in seq_along(list_of_datasets$category)){
 
     if(list_of_datasets$category[i]=='reporter'){
       result <- data$results |>
-        poorman::transmute(
+        dplyr::transmute(
           id,
           country = text,
           iso_3 = reporterCodeIsoAlpha3,
@@ -110,7 +110,7 @@ for(i in seq_along(list_of_datasets$category)){
         )
     } else {
       result <- data$results |>
-        poorman::transmute(
+        dplyr::transmute(
           id,
           country = text,
           iso_3 = PartnerCodeIsoAlpha3,
@@ -120,7 +120,7 @@ for(i in seq_along(list_of_datasets$category)){
           exit_year = lubridate::year(entryExpiredDate),
           group = isGroup
         ) |>
-        poorman::mutate(iso_3 = ifelse(country=='World','World',iso_3))
+        dplyr::mutate(iso_3 = ifelse(country=='World','World',iso_3))
 
     }
 
@@ -155,10 +155,10 @@ for(i in seq_along(list_of_datasets$category)){
 
 # Consolidate datasets ----------------------------------------------------
 reporter_codes <- readr::read_rds(paste0('inst/extdata/','reporter','.rds')) |>
-  poorman::mutate(reporter =T)
+  dplyr::mutate(reporter =T)
 partner_codes <- readr::read_rds(paste0('inst/extdata/','partner','.rds'))|>
-  poorman::mutate(partner =T)
-country_codes <- poorman::full_join(reporter_codes, partner_codes)
+  dplyr::mutate(partner =T)
+country_codes <- dplyr::full_join(reporter_codes, partner_codes)
 
 # Save external datasets --------------------------------------------------
 
@@ -431,7 +431,7 @@ hs0_all <- comtradr::ct_get_bulk(
   verbose = T,
   start_date = 2000, # only one year here
   end_date = 2000) |>
-  poorman::slice(1:100)
+  dplyr::slice(1:100)
 
 save(hs0_all, file = 'inst/extdata/vignette_data_10.rda')
 

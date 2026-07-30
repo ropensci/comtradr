@@ -19,3 +19,4 @@
 ^\.agent$
 ^\.claude$
 ^\.devcontainer$
+^\.env$

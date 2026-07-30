@@ -235,7 +235,7 @@ ct_get_data <- function(type = "goods",
       return(data.frame(count = 0))
     }
 
-    result <- poorman::bind_rows(results[has_data])
+    result <- dplyr::bind_rows(results[has_data])
     attributes(result)$url <- purrr::map_chr(resps[has_data], ~ .x$url)
     attributes(result)$time <- Sys.time()
     return(result)

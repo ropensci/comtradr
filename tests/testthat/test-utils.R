@@ -520,7 +520,7 @@ test_that("available_variables merge with ct_pretty_cols works correctly", {
   
   # Filter to rows that should have been merged
   merged_rows <- variables |> 
-    poorman::filter(!is.na(to))
+    dplyr::filter(!is.na(to))
   
   # For merged rows, from should equal dataItem
   expect_true(all(merged_rows$from == merged_rows$dataItem, na.rm = TRUE))
@@ -596,7 +596,7 @@ test_that("available_variables matches ct_pretty_cols mapping", {
   
   # Get merged subset
   merged_subset <- variables |> 
-    poorman::filter(dataItem %in% ct_pretty_cols$from)
+    dplyr::filter(dataItem %in% ct_pretty_cols$from)
   
   # The 'to' values should match for the same 'from'/'dataItem' values
   for (i in 1:min(5, nrow(merged_subset))) {  # Test first 5 rows

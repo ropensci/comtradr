@@ -109,8 +109,8 @@ as you can extract them from a myriad of other packages, e.g.
 ```{r, eval = F}
 
 asia <- countrycode::codelist |> 
-  poorman::filter(un.region.name == "Asia") |> 
-  poorman::pull(iso3c)
+  dplyr::filter(un.region.name == "Asia") |> 
+  dplyr::pull(iso3c)
 
 q <- ct_get_data(reporter = asia, 
                partner = c("DEU", "FRA", "JPN", "MEX"), 
