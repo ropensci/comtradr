@@ -4,6 +4,7 @@ reference:
   contents:
   - ct_get_data
   - ct_get_bulk
+  - ct_get_trade_matrix
 
 - title: Internal functions
   desc: These functions are called internally by `ct_get_data` and set the comtrade keys.

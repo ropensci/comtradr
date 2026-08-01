@@ -11,6 +11,7 @@ ct_get_trade_matrix(
   partner = "everything",
   start_date = NULL,
   end_date = NULL,
+  include_world = FALSE,
   process = TRUE,
   tidy_cols = TRUE,
   verbose = FALSE,
@@ -22,14 +23,19 @@ ct_get_trade_matrix(
 )
 }
 \arguments{
-\item{commodity_code}{One-digit SITC section code(s) ("0" to "9"),
-"TOTAL" for the sum of all sections or \code{everything} for all sections.
-Default: 'TOTAL'.}
+\item{commodity_code}{SITC commodity code(s). Accepts \code{"TOTAL"}, one-,
+two- and three-digit SITC codes, the five four-/five-digit codes the
+UN estimates in addition (\code{"7812"}, \code{"7841"}, \code{"7851"}, \code{"7852"},
+\code{"78531"}), and the level selectors \code{"ag1"} to \code{"ag5"}, which return
+every code at that number of digits. \code{everything} is a synonym for
+\code{"ag1"} (all ten one-digit sections). Use \code{"all_levels"} to request the
+entire hierarchy at once — note that levels are nested, so such a result
+must not be summed. Default: \code{'TOTAL'}.}
 
-\item{flow_direction}{The direction of trade flows or \code{everything}.
-Possible values can be found in \code{ct_get_ref_table('flow_direction')}. These
-are implemented case-insensitive, 'import' and 'Import' are equivalent.
-Default: c('import','export').}
+\item{flow_direction}{The direction of trade flows: \code{'import'},
+\code{'export'} or \code{everything} for both. These are the only flows the trade
+matrix carries. Implemented case-insensitively, so \code{'import'} and
+\code{'Import'} are equivalent. Default: c('import','export').}
 
 \item{reporter}{Reporter ISO3 code(s), \code{everything} or \code{all_countries}.
 See \code{comtradr::country_codes} or \code{comtradr::ct_get_ref_table('reporter')}
@@ -43,7 +49,15 @@ See \code{comtradr::country_codes} for possible values. Default: 'everything'.}
 only provides annual data, so this must be a plain year (\code{yyyy}).}
 
 \item{end_date}{The end date of the query. Must be a plain year (\code{yyyy}).
-Max: 12 years after start date.}
+The API accepts at most 12 periods per query, so \code{end_date} may be at
+most 11 years after \code{start_date}.}
+
+\item{include_world}{Keep the aggregate World rows (reporter or partner
+code \code{0})? These are the margins and grand total of the matrix and must
+not be summed together with the bilateral rows. Default: \code{FALSE}.
+One exception: if you ask for \code{partner = "World"} explicitly, that margin
+is what you requested and is kept, while the reporter margin and grand
+total are still dropped.}
 
 \item{process}{If TRUE, returns a data.frame with results.
 If FALSE, returns the raw httr2 request. Default: TRUE.}
@@ -78,20 +92,79 @@ A data.frame with trade matrix data or,
 if \code{process = F}, a httr2 response object.
 }
 \description{
+This function queries the Trade Matrix endpoint of the UN Comtrade API,
+an analytical dataset maintained by the UN Statistics Division (UNSD).
+In contrast to
+\code{ct_get_data()}, which returns only what countries have reported, the
+trade matrix complements reported figures with UNSD estimates, so that
+the resulting reporter x partner matrix covers world trade completely.
+
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Commodities are classified by SITC (\code{classification_code} is \code{"SS"}, the
+combined SITC used across revisions). The endpoint provides annual data
+for trade in goods only.
 }
 \details{
-This function queries the Trade Matrix endpoint of the UN Comtrade API.
-In contrast to \code{ct_get_data()}, the returned data includes estimates for
-countries that have not (yet) reported their trade data, so that the
-resulting reporter x partner matrix covers world trade completely.
-Commodities are classified by one-digit SITC sections ("0" to "9") or
-"TOTAL". The endpoint only provides annual data for trade in goods.
+\subsection{World rows and double counting}{
 
-Rows with \code{is_reported == FALSE} (tidy column name) contain estimated
-values, \code{is_aggregate} marks aggregated rows. The classification code
-returned is "TM". When \code{tidy_cols = TRUE}, you can, for example, filter
-\code{is_reported == FALSE} to inspect the estimated rows or \code{is_aggregate == FALSE} to drop aggregates.
+The endpoint returns aggregate "World" rows (reporter code \code{0} and/or
+partner code \code{0}, ISO \code{W00}) interleaved with bilateral flows. These are
+row and column margins of the matrix, plus a grand total. On a full
+query the bilateral rows, the reporter margins, the partner margins and
+the grand total each sum to the same world total, so summing the raw
+response over-counts fourfold.
+
+By default \code{include_world = FALSE} drops these rows, so the result is
+safe to aggregate. Set \code{include_world = TRUE} to obtain the margins and
+the grand total, but do not then sum across the whole frame.
+
+Note that \code{is_aggregate} does \strong{not} identify these rows: the trade
+matrix endpoint leaves that column unpopulated (\code{FALSE} on every row,
+including World rows). It cannot be used to filter aggregates here.
+}
+
+\subsection{What \code{is_reported} means}{
+
+\code{is_reported} is a \strong{per-cell provenance flag}, not a statement about
+whether a country reported:
+\itemize{
+\item \code{TRUE} — the value is the reporting country's own figure.
+\item \code{FALSE} — the cell was produced or adjusted by the UNSD estimation
+pipeline: extrapolation from a nearby reported year, mirror inversion
+from partner data, manual adjustment of under-reported or confidential
+trade, or redistribution of non-specified partners.
+}
+
+A country that reports fully can still have many \code{FALSE} cells, and a
+\code{FALSE} value often agrees with the reported figure to within rounding —
+the flag marks passage through the estimation pipeline, not necessarily a
+changed number. Commodity aggregates inherit \code{FALSE} if any constituent
+detail cell was estimated, so a \code{TOTAL} row is flagged \code{FALSE} whenever
+any underlying section was.
+
+A reporter with no \code{TRUE} cell anywhere is one whose figures here are
+entirely estimated. To find them, group by reporter and test whether any
+row is \code{TRUE}, rather than reading the flag row by row. Note this is not
+quite the same as "did not report": a country can file with Comtrade and
+still be estimated throughout this matrix, so check individual cases
+against \code{ct_get_data()} when it matters.
+}
+
+\subsection{Values}{
+
+Only \code{primary_value} is populated, in current US dollars, following the
+usual Comtrade convention (CIF-type for imports, FOB-type for exports).
+\code{cifvalue}, \code{fobvalue}, \code{qty} and \code{net_wgt} are always \code{NA}: the
+estimation is applied to trade value only, and quantity information is
+removed from the source data.
+}
+
+\subsection{Stability}{
+
+This endpoint is not part of the UN Comtrade public API documentation,
+and its field semantics may change without notice.
+}
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
@@ -105,7 +178,18 @@ ct_get_trade_matrix(
 )
 \dontshow{\}) # examplesIf}
 }
+\references{
+UN Statistics Division, "Note on the Trade Estimation" (2026 update):
+\url{https://uncomtrade.org/wp-content/uploads/2026/04/Note-on-Trade-Estimation-26-July-2010-2026-Edit-Public.pdf}
+
+Product overview, "Trade Matrix - IMTS Analytical Data":
+\url{https://uncomtrade.org/docs/trade-matrix/}
+
+Cite the data source as "UN Comtrade".
+}
 \seealso{
 \code{\link[=ct_get_data]{ct_get_data()}} for the standard trade data endpoint, which
-returns only reported (non-estimated) values.
+returns only reported (non-estimated) values. The two are not
+interchangeable: figures from the trade matrix should not be presented
+as reported statistics.
 }

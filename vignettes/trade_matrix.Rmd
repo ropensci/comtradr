@@ -1,0 +1,304 @@
+---
+title: "The estimated trade matrix"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{trade_matrix}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(comtradr)
+```
+
+## What is the estimated trade matrix?
+
+`ct_get_data()` gives you exactly what countries have *reported* to the UN
+Comtrade Database, and nothing else. The main database
+[contains no estimates](https://uncomtrade.org/docs/read-me-first-disclaimer/).
+That is usually what you want — but it means a country that filed nothing
+simply is not there, and a world total built from reported data is silently
+short by however much that country trades.
+
+The **Trade Matrix** endpoint is a separate analytical product that fills
+those gaps. It is maintained by the UN Statistics Division, which
+complements reported figures with estimates so that the reporter × partner
+matrix covers world trade completely. `ct_get_trade_matrix()` queries it.
+
+How much difference does that make? For food and live animals (SITC section
+`"0"`) in 2022:
+
+```{r, echo = FALSE}
+v_data_tm <- system.file(
+  "extdata", "vignette_data_trade_matrix.rda",
+  package = "comtradr"
+)
+if (!file.exists(v_data_tm)) {
+  stop(
+    "internal vignette data set ",
+    "'~/extdata/vignette_data_trade_matrix.rda' not found",
+    call. = FALSE
+  )
+}
+load(v_data_tm)
+```
+
+```{r}
+trade_matrix_coverage
+```
+
+43 of those 209 reporters have no reported figure anywhere in this matrix —
+every one of their flows is a UN estimate. They account for only about 3% of
+world section-`"0"` exports by value, but that is not the point. The point is
+*which* countries they are (the ten largest are shown here):
+
+```{r}
+trade_matrix_nonreporters
+```
+
+If your analysis involves Russia, Belarus or Honduras in 2022, `ct_get_data()`
+will not tell you they are missing. It will just return a smaller matrix. That
+is the case for reaching for this endpoint.
+
+One caution, which the next-but-one section explains: "no reported figure in
+this matrix" is not quite the same as "filed nothing". Iraq also appears on
+the full list, yet it *did* file 2022 data with Comtrade — the matrix
+estimated its food exports regardless. Read the list as *countries whose
+figures here are entirely estimated*, and check individual cases against
+`ct_get_data()` when the distinction matters.
+
+The rest of this vignette covers the things about it that are easy to get
+wrong.
+
+## Authentication
+
+Just like `ct_get_data()`, this function needs a Comtrade API token. If you
+have not set one up yet, head over to the main
+[`comtradr` vignette](comtradr.html), which walks through obtaining and
+storing your key.
+
+## A basic call
+
+Let's build the world **export** matrix for food and live animals in 2022.
+Leaving `reporter` and `partner` at their default `"everything"` returns the
+full matrix, estimates included.
+
+```{r, eval = FALSE}
+matrix_0 <- ct_get_trade_matrix(
+  commodity_code = "0",
+  flow_direction = "export",
+  start_date = 2022,
+  end_date = 2022
+)
+```
+
+To keep this vignette fast and network-free, we do not call the API when it
+is built. The objects shown throughout were computed from that same query —
+`data-raw/DATASET.R` runs it once with `include_world = TRUE`, so that the
+World rows are available for the next section, and derives everything else
+from the bilateral rows.
+
+`trade_matrix_sample` is a small illustrative slice — Montenegro's exports in
+2022, a single reporter whose partner flows mix reported values with UN
+estimates. It keeps only a handful of display columns:
+
+```{r}
+str(trade_matrix_sample)
+```
+
+```{r}
+head(trade_matrix_sample)
+```
+
+## The World rows, and why they will ruin your totals
+
+This is the one that bites hardest, so it comes first.
+
+The endpoint returns aggregate **World** rows — reporter code `0`, partner
+code `0`, ISO `W00` — interleaved with the bilateral flows. They are the row
+margins, the column margins and the grand total of the matrix. They are
+labeled `World` in `reporter_desc` / `partner_desc`, but no *flag* column
+marks them as aggregates, so nothing stops you summing straight over them.
+
+Here is what the full 2022 section-`"0"` export response actually contains:
+
+```{r}
+trade_matrix_blocks
+```
+
+Four blocks, each summing to the *same* world total. Add up
+`primary_value` over the response as it arrives from the API and you get
+four times the right answer.
+
+`ct_get_trade_matrix()` therefore drops these rows by default. If you want
+the margins or the grand total, ask for them explicitly. (One exception: if
+you request `partner = "World"`, that margin is the thing you asked for and
+is kept — the reporter margin and grand total are still dropped, so the
+result is still safe to sum.)
+
+```{r, eval = FALSE}
+# bilateral flows only -- safe to aggregate (the default)
+bilateral <- ct_get_trade_matrix(
+  commodity_code = "0", flow_direction = "export",
+  start_date = 2022, end_date = 2022
+)
+
+# margins and grand total included -- do NOT sum across the whole frame
+with_margins <- ct_get_trade_matrix(
+  commodity_code = "0", flow_direction = "export",
+  start_date = 2022, end_date = 2022,
+  include_world = TRUE
+)
+```
+
+**Do not try to filter these rows using `is_aggregate`.** The column exists
+in the response, but this endpoint never populates it: it is `FALSE` on every
+row, World rows included. Reporter or partner code `0` is the only reliable
+marker.
+
+## What `is_reported` actually means
+
+The obvious reading of `is_reported` is "TRUE if the country reported this,
+FALSE if the UN estimated it because the country did not report". That
+reading is wrong, and it will lead you astray.
+
+`is_reported` is a **per-cell provenance flag**:
+
+- `TRUE` — the value is the reporting country's own figure.
+- `FALSE` — the cell was produced or adjusted by the UNSD estimation
+  pipeline: extrapolated from a nearby reported year, derived by mirror
+  inversion from partner data, manually adjusted for under-reported or
+  confidential trade, or produced by redistributing non-specified partners.
+
+Three consequences worth internalizing:
+
+**A country that reports fully still has `FALSE` cells.** Germany reported
+2022 in full, yet 77 of its 233 partner cells are flagged `FALSE` — and 63 of
+those agree with the reported figure to within rounding (a median difference
+of about \$16,000 on values in the millions). Only 14 are revised materially,
+all upward. The flag marks passage through the estimation pipeline, not
+necessarily a changed number.
+
+**Aggregates inherit the flag.** A `TOTAL` row is `FALSE` if *any* underlying
+section was estimated, even where every other section was reported as filed.
+
+**So the reported/estimated split is not "extra coverage".** Over the
+bilateral rows of our 2022 section-`"0"` matrix:
+
+```{r}
+trade_matrix_totals
+```
+
+That `FALSE` bucket — about 7% of the total — is not "trade the UN estimated
+for countries that had not reported". It is every cell that passed through
+the pipeline for any reason. Do not present it as the coverage gap; the
+coverage gap is the 43 countries shown at the top of this vignette.
+
+To find those countries, group by reporter and ask whether *any* row is
+reported, rather than reading the flag row by row:
+
+```{r, eval = FALSE}
+library(dplyr)
+
+non_reporters <- matrix_0 |>
+  group_by(reporter_iso, reporter_desc) |>
+  summarise(any_reported = any(is_reported), .groups = "drop") |>
+  filter(!any_reported)
+```
+
+## Commodities
+
+Commodities are classified by SITC, and `classification_code` is `"SS"` on
+every row — the "combined" SITC list that spans revisions. (The `TM` you see
+in the request URL is the endpoint's dataset selector, not a classification.)
+The estimation itself is done on SITC Rev.3.
+
+`commodity_code` accepts:
+
+- `"TOTAL"` — all commodities combined.
+- One-, two- and three-digit SITC codes, e.g. `"0"`, `"01"`, `"011"`.
+- The five four-/five-digit codes the UN estimates in addition: `"7812"`,
+  `"7841"`, `"7851"`, `"7852"`, `"78531"`.
+- The level selectors `"ag1"` through `"ag5"`, which return every code with
+  that many digits. `everything` is a synonym for `"ag1"`.
+- `"all_levels"`, which returns the entire hierarchy at once.
+
+The one-digit sections are:
+
+| Code | SITC section |
+|:----:|:-------------|
+| 0 | Food and live animals |
+| 1 | Beverages and tobacco |
+| 2 | Crude materials, inedible, except fuels |
+| 3 | Mineral fuels, lubricants and related materials |
+| 4 | Animal and vegetable oils, fats and waxes |
+| 5 | Chemicals and related products |
+| 6 | Manufactured goods classified chiefly by material |
+| 7 | Machinery and transport equipment |
+| 8 | Miscellaneous manufactured articles |
+| 9 | Commodities not classified elsewhere |
+
+A second double-counting trap lurks here. `"all_levels"` returns `TOTAL`, the
+sections, *and* the two- and three-digit codes nested inside them — so
+summing across that result over-counts just as the World rows do. The
+function warns you when you ask for it. If you want "all ten sections", use
+`everything` or `"ag1"`, which return one level only.
+
+## Values, dates and flows
+
+**Only `primary_value` is populated**, in current US dollars, following the
+usual Comtrade convention: CIF-type for imports, FOB-type for exports. The
+`cifvalue`, `fobvalue`, `qty` and `net_wgt` columns are always `NA` here.
+That is by design — the estimation is applied to trade value only, and
+quantity information is stripped from the source data.
+
+**Annual goods only.** `start_date` and `end_date` must be plain years
+(`yyyy`), as a number or a string; `2022` and `"2022"` both work. Passing
+`"2022-01"` is rejected rather than quietly interpreted as a year. The API
+accepts at most 12 periods per query.
+
+**Imports and exports only.** The trade matrix carries no re-exports or other
+flows, so `flow_direction` accepts `"import"`, `"export"` or `everything`.
+Other values from `ct_get_ref_table('flow_direction')` are rejected up front,
+rather than returning a confusingly empty result.
+
+## Caveats worth carrying into your analysis
+
+These come from the UN's own
+[Note on the Trade Estimation](https://uncomtrade.org/wp-content/uploads/2026/04/Note-on-Trade-Estimation-26-July-2010-2026-Edit-Public.pdf):
+
+- Mirror-derived estimates "may not fully reflect the data collected and
+  compiled by the countries", because trade flows reported by partners do not
+  match those reported by the compiling country.
+- The manual adjustment of under-reported and confidential trade "is based on
+  the best judgment of the staff" at UNSD's Business and Trade Statistics
+  Section.
+- Aggregate totals from this matrix usually run slightly higher than the
+  reported series.
+- Because the main database holds no estimates, `ct_get_data()` and
+  `ct_get_trade_matrix()` are **not interchangeable**. Figures from the trade
+  matrix should not be presented as reported statistics.
+
+Finally, note that this endpoint is not part of the UN Comtrade public API
+documentation, which is why `ct_get_trade_matrix()` is marked experimental.
+Its field semantics may change without notice.
+
+When publishing, cite the data source as "UN Comtrade".
+
+## See also
+
+- `ct_get_data()` — the standard endpoint, which returns only reported
+  values. Reach for it when you want exactly what countries filed, and for
+  `ct_get_trade_matrix()` when a missing country would distort your answer.
+- The main [`comtradr` vignette](comtradr.html) for token setup, lookup
+  helpers and general usage.

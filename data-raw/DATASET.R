@@ -435,6 +435,142 @@ hs0_all <- comtradr::ct_get_bulk(
 
 save(hs0_all, file = 'inst/extdata/vignette_data_10.rda')
 
+
+# Data for trade matrix vignette ------------------------------------------
+
+## The trade matrix vignette displays REAL output from the estimated trade
+## matrix endpoint. The full 2022 world section-0 export matrix is ~18,690
+## rows (~5 MB), which is far too large to ship. Instead we bake a handful of
+## small objects computed over the full response. This file is documentation
+## only; it is not run on package build.
+##
+## The API token lives in the project `.env` file under the variable name
+## `key` (NOT the usual `COMTRADE_PRIMARY`). Load it locally and pass it
+## explicitly. Never print, log or commit the key value.
+readRenviron(".env")
+
+## One live pull: the complete world export matrix for SITC section "0"
+## (food and live animals), 2022, reporter/partner both "everything" so the
+## response includes UN estimates for non-reporting countries.
+##
+## `include_world = TRUE` keeps the aggregate World rows so we can measure the
+## double-counting hazard below. Everything else is computed on the bilateral
+## rows only. See .agent/trade_matrix_api_ground_truth.md.
+res_all <- ct_get_trade_matrix(
+  commodity_code = "0",
+  flow_direction = "export",
+  reporter = "everything",
+  partner = "everything",
+  start_date = 2022,
+  end_date = 2022,
+  include_world = TRUE,
+  primary_token = Sys.getenv("key")
+)
+
+## The bilateral matrix: what `include_world = FALSE` (the default) returns.
+res <- res_all |>
+  dplyr::filter(reporter_code != 0, partner_code != 0)
+
+## `trade_matrix_blocks`: why the World rows matter. The bilateral flows, the
+## reporter margins, the partner margins and the grand total each sum to the
+## same world total, so summing the raw response over-counts fourfold.
+trade_matrix_blocks <- res_all |>
+  dplyr::mutate(
+    block = dplyr::case_when(
+      reporter_code == 0 & partner_code == 0 ~ "World / World (grand total)",
+      reporter_code == 0 ~ "reporter = World (column margin)",
+      partner_code == 0 ~ "partner = World (row margin)",
+      .default = "bilateral flows"
+    )
+  ) |>
+  dplyr::group_by(block) |>
+  dplyr::summarise(
+    n_rows = dplyr::n(),
+    total_value = sum(primary_value, na.rm = TRUE)
+  ) |>
+  as.data.frame()
+
+## `trade_matrix_sample`: a small illustrative slice for showing structure.
+## We keep only display columns and take one coherent reporter's exports
+## (Montenegro) that mixes reported and estimated partner flows, so the
+## sample contains BOTH is_reported == TRUE and is_reported == FALSE rows.
+## Bilateral rows only -- the World margin row is excluded by `res`.
+display_cols <- c(
+  "reporter_iso", "reporter_desc", "partner_iso", "partner_desc",
+  "flow_desc", "cmd_code", "cmd_desc", "primary_value", "ref_year",
+  "classification_code", "is_reported"
+)
+
+trade_matrix_sample <- res |>
+  dplyr::filter(reporter_iso == "MNE") |>
+  dplyr::select(dplyr::all_of(display_cols)) |>
+  dplyr::arrange(reporter_iso, dplyr::desc(primary_value)) |>
+  as.data.frame()
+
+## `trade_matrix_totals`: the reported-vs-estimated split of world section-0
+## exports for 2022, computed on the BILATERAL rows of the full response.
+## Note this is a split by cell provenance, not "extra coverage": a cell is
+## flagged FALSE whenever it passed through the UNSD estimation pipeline,
+## which happens to full reporters too.
+trade_matrix_totals <- res |>
+  dplyr::group_by(is_reported) |>
+  dplyr::summarise(
+    total_value = sum(primary_value, na.rm = TRUE),
+    n_flows = dplyr::n()
+  ) |>
+  as.data.frame()
+
+## `trade_matrix_coverage`: the coverage story, which is the real reason to
+## reach for this endpoint. A country that did not report at all in a given
+## year has is_reported == FALSE on every one of its rows.
+reporter_coverage <- res |>
+  dplyr::group_by(reporter_iso, reporter_desc) |>
+  dplyr::summarise(
+    any_reported = any(is_reported),
+    total_value = sum(primary_value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+trade_matrix_coverage <- data.frame(
+  reporters_total = nrow(reporter_coverage),
+  reporters_not_reporting = sum(!reporter_coverage$any_reported),
+  value_share_not_reporting = sum(
+    reporter_coverage$total_value[!reporter_coverage$any_reported]
+  ) / sum(reporter_coverage$total_value)
+)
+
+## `trade_matrix_nonreporters`: the ten largest exporters that filed nothing
+## for 2022, i.e. the countries `ct_get_data()` would silently omit.
+trade_matrix_nonreporters <- reporter_coverage |>
+  dplyr::filter(!any_reported) |>
+  dplyr::arrange(dplyr::desc(total_value)) |>
+  dplyr::slice(1:10) |>
+  dplyr::select(reporter_iso, reporter_desc, total_value) |>
+  as.data.frame()
+
+## Drop the httr2 response metadata (`url`/`time`) that the dplyr pipeline
+## inherits from the API result, so the shipped objects are clean data frames
+## and `str()` in the vignette stays tidy.
+tm_objects <- c(
+  "trade_matrix_sample", "trade_matrix_totals", "trade_matrix_blocks",
+  "trade_matrix_coverage", "trade_matrix_nonreporters"
+)
+for (obj in tm_objects) {
+  x <- get(obj)
+  for (a in c("url", "time")) {
+    attr(x, a) <- NULL
+  }
+  assign(obj, x)
+}
+
+## Save all of them into one file with xz compression (well under 50 KB).
+save(
+  list = tm_objects,
+  file = "inst/extdata/vignette_data_trade_matrix.rda",
+  compress = "xz"
+)
+
+
 #
 # #
 # example_2 <- comtradr::ct_get_data(
