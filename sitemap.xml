@@ -7,6 +7,7 @@
 <url><loc>/articles/comtradr.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/articles/large_data.html</loc></url>
+<url><loc>/articles/trade_matrix.html</loc></url>
 <url><loc>/articles/transition.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
@@ -21,6 +22,7 @@
 <url><loc>/reference/ct_get_ref_table.html</loc></url>
 <url><loc>/reference/ct_get_remaining_hourly_queries.html</loc></url>
 <url><loc>/reference/ct_get_reset_time.html</loc></url>
+<url><loc>/reference/ct_get_trade_matrix.html</loc></url>
 <url><loc>/reference/ct_migrate_cache.html</loc></url>
 <url><loc>/reference/ct_pretty_cols.html</loc></url>
 <url><loc>/reference/ct_register_token.html</loc></url>

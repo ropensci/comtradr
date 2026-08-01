@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">comtradr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -44,6 +44,9 @@
       <a href="../articles/large_data.html">Querying large amounts of data</a>
     </li>
     <li>
+      <a href="../articles/trade_matrix.html">The estimated trade matrix</a>
+    </li>
+    <li>
       <a href="../articles/transition.html">Transition from old comtradr</a>
     </li>
   </ul></li>
@@ -66,9 +69,23 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/v1.0.6/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/ropensci/comtradr/blob/dev/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1.0" id="comtradr-110">comtradr 1.1.0<a class="anchor" aria-label="anchor" href="#comtradr-110"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li>
+<p>Added <code><a href="../reference/ct_get_trade_matrix.html">ct_get_trade_matrix()</a></code> to query the UN Comtrade estimated trade matrix endpoint. The returned reporter x partner matrix complements reported figures with UNSD estimates, so it also covers countries whose figures are otherwise absent. Commodities are classified by SITC and the endpoint provides annual goods data only.</p>
+<p>Two behaviors are worth knowing about, both documented in the new <code><a href="../articles/trade_matrix.html">vignette("trade_matrix")</a></code>:</p>
+<ul><li>The endpoint returns aggregate “World” rows alongside the bilateral flows. Summing the raw response over-counts fourfold, so <code>include_world = FALSE</code> (the default) drops them. The <code>is_aggregate</code> column cannot be used to identify them: this endpoint never populates it.</li>
+<li>
+<code>is_reported</code> is a per-cell provenance flag, not a statement that a country failed to report. Countries that reported in full still carry <code>FALSE</code> cells, and commodity aggregates inherit the flag from any estimated component.</li>
+</ul></li>
+<li><p><code><a href="../reference/ct_get_data.html">ct_get_data()</a></code> now aborts with a pointer to <code><a href="../reference/ct_get_trade_matrix.html">ct_get_trade_matrix()</a></code> when called with <code>commodity_classification = "TM"</code>, instead of the generic “must be one of” message.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.6" id="comtradr-106">comtradr 1.0.6<small>2026-07-30</small><a class="anchor" aria-label="anchor" href="#comtradr-106"></a></h2>
 <div class="section level3">

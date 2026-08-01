@@ -26,7 +26,7 @@ for you and is more than a pure wrapper around the API."><meta property="og:imag
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">comtradr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -53,6 +53,9 @@ for you and is more than a pure wrapper around the API."><meta property="og:imag
       <a href="../articles/large_data.html">Querying large amounts of data</a>
     </li>
     <li>
+      <a href="../articles/trade_matrix.html">The estimated trade matrix</a>
+    </li>
+    <li>
       <a href="../articles/transition.html">Transition from old comtradr</a>
     </li>
   </ul></li>
@@ -75,7 +78,7 @@ for you and is more than a pure wrapper around the API."><meta property="og:imag
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get trade data from the UN Comtrade API</h1>
-    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/v1.0.6/R/ct_get_data.R" class="external-link"><code>R/ct_get_data.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ropensci/comtradr/blob/dev/R/ct_get_data.R" class="external-link"><code>R/ct_get_data.R</code></a></small>
     <div class="hidden name"><code>ct_get_data.Rd</code></div>
     </div>
 
@@ -263,6 +266,11 @@ partner or reporter codes (e.g. <code>partner = 'all_countries'</code>) would ex
 this limit, the query is automatically split into several requests and the
 results are combined into a single data.frame. This is not possible with
 <code>process = FALSE</code>, because a single response object is returned.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><code><a href="ct_get_trade_matrix.html">ct_get_trade_matrix()</a></code> for the estimated trade matrix endpoint,
+which includes estimates for non-reporting countries.</p></div>
     </div>
 
     <div id="ref-examples">
