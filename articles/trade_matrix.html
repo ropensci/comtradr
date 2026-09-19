@@ -417,9 +417,10 @@ Passing <code>"2022-01"</code> is rejected rather than quietly
 interpreted as a year. The API accepts at most 12 periods per query.</p>
 <p><strong>Imports and exports only.</strong> The trade matrix carries
 no re-exports or other flows, so <code>flow_direction</code> accepts
-<code>"import"</code>, <code>"export"</code> or <code>everything</code>.
-Other values from <code>ct_get_ref_table('flow_direction')</code> are
-rejected up front, rather than returning a confusingly empty result.</p>
+<code>"import"</code>, <code>"export"</code> or
+<code>"everything"</code>. Other values from
+<code>ct_get_ref_table('flow_direction')</code> are rejected up front,
+rather than returning a confusingly empty result.</p>
 </div>
 <div class="section level2">
 <h2 id="caveats-worth-carrying-into-your-analysis">Caveats worth carrying into your analysis<a class="anchor" aria-label="anchor" href="#caveats-worth-carrying-into-your-analysis"></a>
