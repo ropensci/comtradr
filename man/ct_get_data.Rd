@@ -112,7 +112,7 @@ R_USER_CACHE_DIR in order to change this location. Default: False.}
 }
 \value{
 A data.frame with trade data or,
-if \code{process = F}, a httr2 response object.
+if \code{process = FALSE}, a httr2 response object.
 }
 \description{
 This function queries the UN Comtrade API to retrieve
