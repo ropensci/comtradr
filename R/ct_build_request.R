@@ -51,7 +51,7 @@ ct_build_request <- function(params,
       httr2::req_url_query(!!!query_params)
 
     if (stringr::str_length(req$url) > 2000) {
-      rlang::abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
+      cli::cli_abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use {.fn ct_get_bulk}.")
     }
 
     if (verbose) {
@@ -66,7 +66,7 @@ ct_build_request <- function(params,
       httr2::req_headers(`Ocp-Apim-Subscription-Key` = primary_token)
 
     if (stringr::str_length(req$url) > 2000) {
-      rlang::abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use `ct_get_bulk()`.") # nolint
+      cli::cli_abort("Your request URL exceeds 2000 characters, the upper limit of the Comtrade API. Reduce the number of parameters (e.g. commodity codes) or use {.fn ct_get_bulk}.")
     }
   }
 

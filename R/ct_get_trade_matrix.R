@@ -127,7 +127,7 @@
 #'
 #' @export
 #' @returns A data.frame with trade matrix data or,
-#' if `process = F`, a httr2 response object.
+#' if `process = FALSE`, a httr2 response object.
 ct_get_trade_matrix <- function(commodity_code = "TOTAL",
                                 flow_direction = c("import", "export"),
                                 reporter = "everything",
@@ -224,16 +224,7 @@ ct_get_trade_matrix <- function(commodity_code = "TOTAL",
   result
 }
 
-#' Did the user explicitly ask for the World aggregate on this dimension?
-#'
-#' `check_reporterCode()` / `check_partnerCode()` return `NULL` for
-#' `everything` and a comma-separated string of M49 codes otherwise. World is
-#' code `0`.
-#'
-#' @param codes The checked reporter or partner parameter.
-#'
-#' @returns `TRUE` if code `0` was requested.
-#'
+#' Returns TRUE if the user explicitly requested the World aggregate (code 0).
 #' @noRd
 requests_world <- function(codes) {
   if (is.null(codes) || !length(codes)) {
@@ -256,9 +247,7 @@ requests_world <- function(codes) {
 #'
 #' @noRd
 check_matrix_cmdCode <- function(commodity_code) {
-  ## `all_levels` omits cmdCode entirely, which returns TOTAL plus every
-  ## 1-, 2- and 3-digit code at once. Those levels are nested, so the result
-  ## must not be summed -- warn rather than let it pass silently.
+  ## "all_levels" omits cmdCode (returns nested levels) — warn, don't fail.
   if (any(commodity_code %in% "all_levels")) {
     cli::cli_warn(c(
       "{.arg commodity_code} {.val all_levels} returns every level of the \\
@@ -271,9 +260,8 @@ check_matrix_cmdCode <- function(commodity_code) {
     return(NULL)
   }
 
-  ## `everything` historically meant "all sections". Omitting cmdCode does
-  ## NOT do that -- it returns the whole nested hierarchy -- so map it to the
-  ## level selector that actually means all ten one-digit sections.
+  ## "everything" → ag1 (all 1-digit sections); omitting cmdCode returns the
+  ## whole nested hierarchy, which is NOT what "everything" should mean.
   if (any(commodity_code %in% "everything")) {
     return("ag1")
   }
@@ -288,16 +276,12 @@ check_matrix_cmdCode <- function(commodity_code) {
 
   commodity_code <- stringr::str_squish(as.character(commodity_code))
 
-  ## `agN` selectors return every code with N digits.
-  is_level_selector <- grepl("^ag[1-5]$", commodity_code, ignore.case = TRUE)
-  commodity_code[is_level_selector] <-
-    tolower(commodity_code[is_level_selector])
+  sel <- grepl("^ag[1-5]$", commodity_code, ignore.case = TRUE)
+  commodity_code[sel] <- tolower(commodity_code[sel])
 
-  ## Estimation runs at 1-, 2- and 3-digit SITC, plus these five codes.
-  ## See the UN "Note on the Trade Estimation".
   extra_codes <- c("7812", "7841", "7851", "7852", "78531")
 
-  valid <- is_level_selector |
+  valid <- sel |
     commodity_code == "TOTAL" |
     grepl("^[0-9]{1,3}$", commodity_code) |
     commodity_code %in% extra_codes
@@ -403,21 +387,8 @@ check_matrix_dates <- function(start_date, end_date) {
   invisible(NULL)
 }
 
-#' Drop the aggregate World rows from a trade matrix result.
-#'
-#' The endpoint interleaves reporter/partner margins and a grand total with
-#' the bilateral flows, and flags none of them (`isAggregate` is `FALSE`
-#' throughout). Reporter or partner code `0` is the only reliable marker.
-#'
-#' @param x A processed trade matrix data.frame.
-#' @param tidy_cols Were column names tidied?
-#' @param drop_reporter Drop rows whose reporter is World?
-#' @param drop_partner Drop rows whose partner is World?
-#' @param verbose Report how many rows were dropped?
-#'
-#' @returns `x` without World rows, preserving the `url` and `time`
-#' attributes.
-#'
+#' Drop aggregate World rows (reporter/partner code 0) from a trade matrix result.
+#' `isAggregate` is unreliable here (always FALSE), so code 0 is the only marker.
 #' @noRd
 drop_world_rows <- function(x, tidy_cols, drop_reporter = TRUE,
                             drop_partner = TRUE, verbose = FALSE) {

@@ -37,7 +37,7 @@ get_primary_comtrade_key <- function() {
   if (!identical(key, "")) {
     return(key)
   } else {
-    rlang::abort("No API key found, please supply with `set_primary_comtrade_key` function or set COMTRADE_PRIMARY env var") #nolint
+    cli::cli_abort("No API key found. Supply it with {.fn set_primary_comtrade_key} or set the {.envvar COMTRADE_PRIMARY} environment variable.")
   }
 }
 

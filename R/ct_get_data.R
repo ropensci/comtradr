@@ -132,7 +132,7 @@
 #'
 #' @export
 #' @returns A data.frame with trade data or,
-#' if `process = F`, a httr2 response object.
+#' if `process = FALSE`, a httr2 response object.
 
 ct_get_data <- function(type = "goods",
                         frequency = "A",

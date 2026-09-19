@@ -2,7 +2,7 @@
 title: "The estimated trade matrix"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{trade_matrix}
+  %\VignetteIndexEntry{The estimated trade matrix}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 editor_options:
@@ -268,7 +268,7 @@ quantity information is stripped from the source data.
 accepts at most 12 periods per query.
 
 **Imports and exports only.** The trade matrix carries no re-exports or other
-flows, so `flow_direction` accepts `"import"`, `"export"` or `everything`.
+flows, so `flow_direction` accepts `"import"`, `"export"` or `"everything"`.
 Other values from `ct_get_ref_table('flow_direction')` are rejected up front,
 rather than returning a confusingly empty result.
 

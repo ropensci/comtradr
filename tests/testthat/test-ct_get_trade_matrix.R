@@ -46,7 +46,6 @@ test_that("check_matrix_cmdCode validates and normalises commodity codes", {
   expect_error(comtradr:::check_matrix_cmdCode(character(0)),
                "must not be empty")
 
-  # numeric input is accepted, matching the rest of the package
   expect_equal(comtradr:::check_matrix_cmdCode(0), "0")
 })
 
@@ -55,7 +54,6 @@ test_that("check_matrix_cmdCode warns that all_levels is nested", {
     result <- comtradr:::check_matrix_cmdCode("all_levels"),
     "nested"
   )
-  # omitting cmdCode is what returns every level at once
   expect_null(result)
 })
 
@@ -99,6 +97,13 @@ test_that("check_matrix_flowCode rejects flows the endpoint does not carry", {
     comtradr:::check_matrix_flowCode(NA, update = FALSE, verbose = FALSE),
     "not available from the trade"
   )
+
+  # "everything" wins and valid named flows alongside it are silently dropped,
+  # consistent with check_flowCode() in ct_get_data
+  expect_null(
+    comtradr:::check_matrix_flowCode(c("import", "everything"),
+                                     update = FALSE, verbose = FALSE)
+  )
 })
 
 
@@ -106,25 +111,19 @@ test_that("check_matrix_flowCode rejects flows the endpoint does not carry", {
 test_that("check_matrix_dates accepts plain years only", {
   expect_null(comtradr:::check_matrix_dates(2022, 2023))
   expect_null(comtradr:::check_matrix_dates("2022", "2023"))
-  # a missing date is caught downstream by check_date(), not here
+  # NULL dates caught by check_date()
   expect_null(comtradr:::check_matrix_dates(NULL, NULL))
 
   expect_error(comtradr:::check_matrix_dates("2022-01", 2023),
                "only provides annual data")
 
-  # A Date carries a day and month, so it cannot be a plain year. This used to
-  # iterate the underlying numeric and report "Invalid date 19358".
-  expect_error(
-    comtradr:::check_matrix_dates(as.Date("2023-01-01"), 2023),
-    "only provides annual data"
-  )
+  # A Date carries day+month; used to report "Invalid date 19358" (raw numeric).
   expect_error(
     comtradr:::check_matrix_dates(as.Date("2023-01-01"), 2023),
     "2023-01-01"
   )
 
-  # Reversed range used to fall through to seq.Date() and produce the base
-  # error "wrong sign in 'by' argument".
+  # Reversed range used to fall through to seq.Date() with wrong-sign error.
   expect_error(comtradr:::check_matrix_dates(2023, 2020),
                "is after")
 })

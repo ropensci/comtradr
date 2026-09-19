@@ -59,6 +59,7 @@
 #' @param download_bulk_files If TRUE downloads all files that are returned
 #' from the Comtrade API as a list for the specified parameters. This can
 #' result in large writing and reading operations from your file system.
+#' @seealso [ct_get_data()] for the standard non-bulk endpoint.
 #' @export
 #' @returns A data.frame with trade data or, if `download_bulk_files = FALSE`,
 #' a data.frame listing the available bulk files for the given parameters.

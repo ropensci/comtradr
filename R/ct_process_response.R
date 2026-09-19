@@ -74,13 +74,8 @@ ct_process_response <-
       if (!all(curr_cols %in% new_cols$from)) {
         err <- paste(curr_cols[!curr_cols %in% new_cols$from],
                      collapse = ", ")
-        rlang::abort(
-          paste(
-            "The following col headers within input df are not found in",
-            # nolint
-            "the pkg data obj 'ct_pretty_cols':",
-            err
-          )
+        cli::cli_abort(
+          "The following col headers are not in {.val ct_pretty_cols}: {err}."
         )
       }
 
