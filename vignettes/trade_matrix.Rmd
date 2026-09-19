@@ -183,10 +183,10 @@ reading is wrong, and it will lead you astray.
 Three consequences worth internalizing:
 
 **A country that reports fully still has `FALSE` cells.** Germany reported
-2022 in full, yet 77 of its 233 partner cells are flagged `FALSE` — and 63 of
+2022 in full, yet 77 of its 233 partner cells are flagged `FALSE` — and 60 of
 those agree with the reported figure to within rounding (a median difference
-of about \$16,000 on values in the millions). Only 14 are revised materially,
-all upward. The flag marks passage through the estimation pipeline, not
+of about \$31,000 on values in the millions). Only 17 are revised materially,
+almost all upward. The flag marks passage through the estimation pipeline, not
 necessarily a changed number.
 
 **Aggregates inherit the flag.** A `TOTAL` row is `FALSE` if *any* underlying

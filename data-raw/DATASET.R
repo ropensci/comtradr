@@ -464,7 +464,7 @@ res_all <- ct_get_trade_matrix(
   start_date = 2022,
   end_date = 2022,
   include_world = TRUE,
-  primary_token = Sys.getenv("key")
+  primary_token = Sys.getenv("COMTRADE_PRIMARY")
 )
 
 ## The bilateral matrix: what `include_world = FALSE` (the default) returns.
