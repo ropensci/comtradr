@@ -188,3 +188,42 @@ test_that("tidy cols are returned",{
 
 
 
+
+
+# The trade matrix classification is not reachable through ct_get_data() ---
+test_that("ct_get_data() rejects the trade matrix classification", {
+  expect_error(
+    comtradr::ct_get_data(
+      commodity_classification = "TM",
+      start_date = 2022,
+      end_date = 2022,
+      primary_token = "test"
+    ),
+    "not available through"
+  )
+
+  # the message points at the right function
+  expect_error(
+    comtradr::ct_get_data(
+      commodity_classification = "TM",
+      start_date = 2022,
+      end_date = 2022,
+      primary_token = "test"
+    ),
+    "ct_get_trade_matrix"
+  )
+
+  # a valid SITC classification must still get past this guard -- it fails
+  # later, at the network layer, not with the trade matrix message
+  without_internet({
+    expect_error(
+      comtradr::ct_get_data(
+        commodity_classification = "SS",
+        start_date = 2022,
+        end_date = 2022,
+        primary_token = "test"
+      ),
+      "GET"
+    )
+  })
+})

@@ -289,10 +289,10 @@ check_cmdCode <-
       # if one of the codes is not in the list of valid codes
       # send stop signal and list problems
       if (!all(commodity_code %in% valid_codes)) {
-        rlang::abort(paste0(
-          "The following services/commodity codes you provided are invalid: ",
-          paste0(setdiff(commodity_code, valid_codes), collapse = ", ")
-        ))
+        invalid <- setdiff(commodity_code, valid_codes)
+        cli::cli_abort(
+          "The following services/commodity codes you provided are invalid: {paste0(invalid, collapse = ', ')}."
+        )
       } else {
         commodity_code <- paste0(commodity_code, collapse = ",")
       }
@@ -334,15 +334,15 @@ check_reporterCode <- function(reporter, update = FALSE, verbose = FALSE) {
     ## get multiple values or single values that are not 'all_countries'
     if (length(reporter) > 1 | !any(reporter %in% "all_countries")) {
       if (any(reporter == "all_countries")) {
-    rlang::abort('"all_countries" can only be provided as a single argument.')
+        cli::cli_abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the reporter codes is not in the list of valid reporter codes
       # send stop signal and list problems
       if (!all(reporter %in% reporter_codes$iso_3)) {
-        rlang::abort(paste0(
-          "The following reporter(s) you provided are invalid: ",
-          paste0(setdiff(reporter, reporter_codes$iso_3), collapse = ", ")
-        ))
+        invalid <- setdiff(reporter, reporter_codes$iso_3)
+        cli::cli_abort(
+          "The following reporter(s) you provided are invalid: {paste0(invalid, collapse = ', ')}."
+        )
       }
     }
 
@@ -395,15 +395,15 @@ check_partnerCode <- function(partner, update = FALSE, verbose = FALSE) {
     if (length(partner) > 1 | !any(partner %in% "all_countries")) {
       partner <- stringr::str_squish(partner)
       if (any(partner %in% "all_countries")) {
-      rlang::abort('"all_countries" can only be provided as a single argument.')
+        cli::cli_abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the partnerCodes is not in the list of valid partnerCodes
       # send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
-        rlang::abort(paste0(
-          "The following partner(s) you provided are invalid: ",
-          paste0(setdiff(partner, partner_codes$iso_3), collapse = ", ")
-        ))
+        invalid <- setdiff(partner, partner_codes$iso_3)
+        cli::cli_abort(
+          "The following partner(s) you provided are invalid: {paste0(invalid, collapse = ', ')}."
+        )
       }
     }
 
@@ -456,15 +456,15 @@ check_partner2Code <- function(partner, update = FALSE, verbose = FALSE) {
     if (length(partner) > 1 | !any(partner == "all_countries")) {
       partner <- stringr::str_squish(partner)
       if (any(partner == "all_countries")) {
-      rlang::abort('"all_countries" can only be provided as a single argument.')
+        cli::cli_abort('"all_countries" can only be provided as a single argument.')
       }
       # if one of the partnerCodes is not in the list
       #of valid partnerCodes send stop signal and list problems
       if (!all(partner %in% partner_codes$iso_3)) {
-        rlang::abort(paste0(
-          "The following partner_2(s) you provided are invalid: ",
-          paste0(setdiff(partner, partner_codes$iso_3), collapse = ", ")
-        ))
+        invalid <- setdiff(partner, partner_codes$iso_3)
+        cli::cli_abort(
+          "The following partner_2(s) you provided are invalid: {paste0(invalid, collapse = ', ')}."
+        )
       }
     }
 
@@ -522,14 +522,9 @@ check_motCode <-
         # if one of the codes is not in the list of valid codes
         # send stop signal and list problems
         if (!all(mode_of_transport %in% valid_codes$text)) {
-          rlang::abort(
-            paste0(
-            "The following mode_of_transport codes you provided are invalid: ",
-              paste0(
-                setdiff(mode_of_transport, valid_codes$text),
-                collapse = ", "
-              )
-            )
+          invalid <- setdiff(mode_of_transport, valid_codes$text)
+          cli::cli_abort(
+            "The following mode_of_transport codes you provided are invalid: {paste0(invalid, collapse = ', ')}."
           )
         } else {
           mode_of_transport <- valid_codes |>
@@ -570,10 +565,10 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
     # if one of the codes is not in the list of valid codes
     # send stop signal and list problems
     if (!all(customs_code %in% valid_codes)) {
-      rlang::abort(paste0(
-        "The following customs_code codes you provided are invalid: ",
-        paste0(setdiff(customs_code, valid_codes), collapse = ", ")
-      ))
+      invalid <- setdiff(customs_code, valid_codes)
+      cli::cli_abort(
+        "The following customs_code codes you provided are invalid: {paste0(invalid, collapse = ', ')}."
+      )
     } else {
       customs_code <- paste0(customs_code, collapse = ",")
     }
@@ -601,7 +596,7 @@ check_customsCode <- function(customs_code, update = FALSE, verbose = FALSE) {
 #' @noRd
 check_date <- function(start_date, end_date, frequency, bulk) {
   if (is.null(start_date) | is.null(end_date)) {
-rlang::abort("Please provide a start and end date for the period of interest.")
+    cli::cli_abort("Please provide a start and end date for the period of interest.")
   }
 
   start_date <- as.character(start_date)
@@ -629,7 +624,7 @@ rlang::abort("Please provide a start and end date for the period of interest.")
             seq.Date(start_date, by = "month", length.out = 12) |>
             format(format = "%Y%m")
         } else {
-          rlang::abort("Cannot get more than a single year's worth of monthly data in a single query.") # nolint
+          cli::cli_abort("Cannot get more than a single year's worth of monthly data in a single query.")
         }
       } else {
         date_range <-
@@ -646,13 +641,13 @@ rlang::abort("Please provide a start and end date for the period of interest.")
     } else {
       # Between start_date and end_date, if one is a year and the other isn't,
       # throw an error.
-      rlang::abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.") # nolint
+      cli::cli_abort("If arg 'frequency' is 'monthly', 'start_date' and 'end_date' must have the same format.")
     }
   }
 
   # If the derived date range is longer than five elements, throw an error.
   if (!bulk && length(date_range) > 12) {
-    rlang::abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.") # nolint
+    cli::cli_abort("If specifying years/months, cannot search more than twelve consecutive years/months in a single query.")
   }
 
   return(paste(date_range, collapse = ","))
@@ -674,15 +669,10 @@ convert_to_date <- function(date_obj) {
   }
   # If conversion to Date failed, throw error.
   if (is.na(date_obj)) {
-    rlang::abort(
-      paste(
-        "arg must be a date with one of these formats:\n",
-        "int: yyyy\n",
-        "char: 'yyyy'\n",
-        "char: 'yyyy-mm'\n",
-        "char: 'yyyy-mm-dd'"
-      )
-    )
+    cli::cli_abort(c(
+      "Invalid date format.",
+      "i" = "Must be one of: {.val yyyy}, {.val yyyy-mm}, or {.val yyyy-mm-dd}."
+    ))
   }
 
   return(date_obj)

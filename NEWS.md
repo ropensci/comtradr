@@ -1,3 +1,29 @@
+# comtradr 1.1.0
+
+## New Features
+
+* Added `ct_get_trade_matrix()` to query the UN Comtrade estimated trade
+  matrix endpoint. The returned reporter x partner matrix complements
+  reported figures with UNSD estimates, so it also covers countries whose
+  figures are otherwise absent. Commodities are classified by SITC and the
+  endpoint provides annual goods data only.
+
+  Two behaviors are worth knowing about, both documented in the new
+  `vignette("trade_matrix")`:
+
+  - The endpoint returns aggregate "World" rows alongside the bilateral
+    flows. Summing the raw response over-counts fourfold, so
+    `include_world = FALSE` (the default) drops them. The `is_aggregate`
+    column cannot be used to identify them: this endpoint never populates it.
+  - `is_reported` is a per-cell provenance flag, not a statement that a
+    country failed to report. Countries that reported in full still carry
+    `FALSE` cells, and commodity aggregates inherit the flag from any
+    estimated component.
+
+* `ct_get_data()` now aborts with a pointer to `ct_get_trade_matrix()` when
+  called with `commodity_classification = "TM"`, instead of the generic
+  "must be one of" message.
+
 # comtradr 1.0.6
 
 ## Minor improvements

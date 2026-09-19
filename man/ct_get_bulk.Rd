@@ -98,3 +98,6 @@ For example, setting \code{commodity_code = 'everything'}
 will retrieve data for all commodity codes.
 This can be useful for broad queries but may result in large datasets.
 }
+\seealso{
+\code{\link[=ct_get_data]{ct_get_data()}} for the standard non-bulk endpoint.
+}
